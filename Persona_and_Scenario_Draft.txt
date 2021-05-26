@@ -1,0 +1,52 @@
+Entwurf für Persona und Szenario, Umfang 1-2 Seiten.
+
+Sprache Englisch oder Deutsch?
+
+(Primary) Persona:
+ Name: 
+Ort:
+Geburtsort:
+Alter:
+Bildung:
+Bio/CV:
+            Familiäres:
+                 Verheiratet?
+                 Kinder?
+	              --> Evtl. Gewohnheiten, Einstellungen, Einschränkungen (z.B. bzgl. Freizeit), ... die daraus resultieren?
+                 Umgebung? (Lebt in Haus/Wohnung, Stadt/Land, ...)
+
+            Berufliches:
+                 Arbeitet in welchem Unternehmen?
+                 Arbeitet in welcher Position?
+                 Arbeitet in dem Unternehmen schon wie lange?
+                 Berufserfahrung?
+		 Da wir ein Mitarbeitermanagement entwickeln, ist dieser Punkt wichtig --> In diesem Kontext wird unser System eingesetzt
+
+            Bezug zu Technik:
+                 Nutzt bestimmte Software/Kann mit bestimmter Software umgehen?
+                 Technikaffin?
+                 Nutzt welche Geräte?
+                 Nutzt diese Software/Hardware rein beruflich oder auch privat? Wenn ja, für welche Zwecke (z.B. Freizeitgestaltung)
+            
+            Persönliches:
+                 Werte?
+                 Lifestyle?
+                 Ziele?
+                 Einschränkungen?
+                 Einstellungen?
+                 Typischer Alltag?
+                 Wünsche?
+                 Interessen/Hobbys? (Evtl. auch Begründung, falls vorhanden, z.B. Einfluss des Elternhauses)
+	         Persönlichkeit (Introvert - Extrovert, Analytisch - Kreativ, ...)
+	         Motivationen?
+	         Begabungen/Eigenschaften (praktisch veranlagt, ...)
+
+--> Warum macht es Sinn, für unsere Persona zu entwickeln?
+	
+Ziel unserer Szenarien: 
+                 (Situationen, Interaktionen, Ziele der Persona —> In Szenarien beschreiben)
+                 In welchem Szenario ist unser System für diese Person relevant?
+                 Szenarien starten i.d.R. mit einem Kontext, in dem die Persona ein Problem lösen möchte
+                 Aufgaben der Persona sollen direkt ersichtlich sein
+Szenario:
+
