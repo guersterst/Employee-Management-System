@@ -2,6 +2,12 @@ Entwurf für Persona und Szenario, Umfang 1-2 Seiten.
 
 Kommentare habe ich (guerster) mit # makiert.
 
+Wie lange ist unsere Persona schon im Unternehmen?
+Unser typischer User ist vermutlich ein "einfacher" Mitarbeiter, keine gehobene Position. --> Nutzt unser System taeglich.
+
+Technikaffinitaet abhaengig vom Unternehmenstyp. IT-Unternehmen: Vermutlich hoch, ansonsten vermutlich eher weniger.
+--> Welche Art von Unternehmen nutzt typischerweise unser System?
+
 Sprache Englisch oder Deutsch?
 
 (Primary) Persona:
@@ -24,14 +30,15 @@ Bio/CV:
             Berufliches:
                  Arbeitet in welchem Unternehmen?
                  Arbeitet in welcher Position? Abteilungsleiterin
-                 Arbeitet in dem Unternehmen schon wie lange? 9 Jahre
+                 Arbeitet in dem Unternehmen schon wie lange? 6 Jahre
                  Berufserfahrung?
 		 Da wir ein Mitarbeitermanagementsystem entwickeln, ist dieser Punkt wichtig --> In diesem Kontext wird unser System eingesetzt
 		 
 		 #Ist nach der Elternzeit vor 3 Jahren wieder in den Beruf eingestiegen. Hat aber zuvor schon 			  
-           bereits 6 Jahre für das Unternehmen gearbeitet.
+           bereits 3 Jahre für das Unternehmen gearbeitet.
 		 #Es ist ein großes Unternehmen mit mehr als 200 Mitarbeiter.
-           #Leitet als Abteilungsleiterin ein Projekt im Unternehmen --> Wichtig zu wissen, wer verfuegbar ist
+           #Mitarbeitering in einer Abteilung
+           #Nutzt unser System als Employee
 
             Bezug zu Technik:
                  Nutzt bestimmte Software/Kann mit bestimmter Software umgehen?
