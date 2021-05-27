@@ -23,13 +23,15 @@ Bio/CV:
 
             Berufliches:
                  Arbeitet in welchem Unternehmen?
-                 Arbeitet in welcher Position?
-                 Arbeitet in dem Unternehmen schon wie lange?
+                 Arbeitet in welcher Position? Abteilungsleiterin
+                 Arbeitet in dem Unternehmen schon wie lange? 9 Jahre
                  Berufserfahrung?
-		 Da wir ein Mitarbeitermanagement entwickeln, ist dieser Punkt wichtig --> In diesem Kontext wird unser System eingesetzt
+		 Da wir ein Mitarbeitermanagementsystem entwickeln, ist dieser Punkt wichtig --> In diesem Kontext wird unser System eingesetzt
 		 
-		 #Ist nach der Elternzeit wieder in den Beruf eingestiegen. Hat aber zuvor schon 			  bereits 6 Jahre für das Unternehmen gearbeitet.
+		 #Ist nach der Elternzeit vor 3 Jahren wieder in den Beruf eingestiegen. Hat aber zuvor schon 			  
+           bereits 6 Jahre für das Unternehmen gearbeitet.
 		 #Es ist ein großes Unternehmen mit mehr als 200 Mitarbeiter.
+           #Leitet als Abteilungsleiterin ein Projekt im Unternehmen --> Wichtig zu wissen, wer verfuegbar ist
 
             Bezug zu Technik:
                  Nutzt bestimmte Software/Kann mit bestimmter Software umgehen?
@@ -38,7 +40,8 @@ Bio/CV:
                  Nutzt diese Software/Hardware rein beruflich oder auch privat? Wenn ja, für welche Zwecke (z.B. Freizeitgestaltung)
                  
                  #Durch die Pandemie ist sie Techniken für Homeoffice näher gekommen.
-                 #Sie verwendet Smartphone sowie Laptop gleichermaßen? (Kommt darauf an wie wir das 		  Szenario beschreieben wollen)
+                 #Sie verwendet Smartphone sowie Laptop gleichermaßen? (Kommt darauf an wie wir das 		  
+                 Szenario beschreieben wollen)
                  #Nutzt diese Software rein beruflich, da dies ein Mitarbeitermanagementsystem ist.
                  #Ist nur auf Grund der Arbeit in Kontakt mit Technik.
             
@@ -55,15 +58,19 @@ Bio/CV:
 	         Motivationen?
 	         Begabungen/Eigenschaften (praktisch veranlagt, ...)
 	         
-	         #Sie ist sehr Familien bezogen. Ihr ist es jedoch wichtig ihr Kind offen zu 		  erziehen. Daher ist sie selbst offen für Neuerungen und Entwicklungen auch wenn 			  ihr dies im Bezug auf die Technik dies nicht immer leicht fällt, da sie damit auch 	    	  nicht aufgewachsen ist.
-	         #Abgesehen davon will sie diesen NAchteil jedoch immer damit ausgleichen indem sie 		  sich das Wissen immer wieder aneignet und somit Nachteile wieder aufholt.
+	         #Sie ist sehr Familien bezogen. Ihr ist es jedoch wichtig ihr Kind offen zu 		  
+              erziehen. Daher ist sie selbst offen für Neuerungen und Entwicklungen auch wenn 			  
+              ihr dies im Bezug auf die Technik dies nicht immer leicht fällt, da sie damit auch 	    	  
+              nicht aufgewachsen ist.
+	         #Abgesehen davon will sie diesen Nachteil jedoch immer damit ausgleichen indem sie 		  
+              sich das Wissen immer wieder aneignet und somit Nachteile wieder aufholt.
 	         #Sie kommuniziert gerne mit anderen Leuten und ist stets hilfsbereit.
 	         #Sie wünscht sich eine bessere Einbindung von Mitarbeitern im Homeoffice.
 
 --> Warum macht es Sinn, für unsere Persona zu entwickeln?
 		
 		 #Zeit sparen
-		 #Bessere Arbeitsverteilung, da man weis wer verfügbar ist. Auch wenn man nicht vor 		  Ort ist.
+		 #Bessere Arbeitsverteilung, da man weiß wer verfügbar ist.
 	
 Ziel unserer Szenarien: 
                  (Situationen, Interaktionen, Ziele der Persona —> In Szenarien beschreiben)
@@ -73,4 +80,5 @@ Ziel unserer Szenarien:
 Szenario:
 
 	#Relevantes Szenario immer bei Arbeitsbeginn und Ende.
+     #Als Abteilungsleiterin moechte unsere Persona wissen, wer zur Arbeit erschienen ist.
 
