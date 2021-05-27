@@ -46,7 +46,8 @@ Bio/CV:
                  Nutzt diese Software/Hardware rein beruflich oder auch privat? Wenn ja, für welche Zwecke (z.B. Freizeitgestaltung)
                  
                  #Durch die Pandemie ist sie Techniken für Homeoffice näher gekommen.
-                 #Sie verwendet Smartphone sowie Laptop gleichermaßen? (Kommt darauf an wie wir das 		  Szenario beschreiben wollen)
+                 #Sie verwendet Smartphone sowie Laptop gleichermaßen? (Kommt darauf an wie wir das 		  
+                 Szenario beschreiben wollen)
 
                  #Nutzt diese Software rein beruflich, da dies ein Mitarbeitermanagementsystem ist.
                  #Ist nur auf Grund der Arbeit in Kontakt mit Technik.
@@ -64,8 +65,12 @@ Bio/CV:
 	         Motivationen?
 	         Begabungen/Eigenschaften (praktisch veranlagt, ...)
 	         
-	         #Sie ist sehr Familien bezogen. Ihr ist es jedoch wichtig ihr Kind offen zu 		  erziehen. Daher ist sie selbst offen für Neuerungen und Entwicklungen auch wenn 			  ihr dies im Bezug auf die Technik dies nicht immer leicht fällt, da sie damit auch 	    	  nicht aufgewachsen ist.
-	         #Abgesehen davon will sie diesen Nachteil jedoch immer damit ausgleichen indem sie 		  sich das Wissen immer wieder aneignet und somit Nachteile wieder aufholt.
+	         #Sie ist sehr Familien bezogen. Ihr ist es jedoch wichtig ihr Kind offen zu 		 
+               erziehen. Daher ist sie selbst offen für Neuerungen und Entwicklungen auch wenn 			  
+               ihr dies im Bezug auf die Technik dies nicht immer leicht fällt, da sie damit auch 	    	  
+               nicht aufgewachsen ist.
+	         #Abgesehen davon will sie diesen Nachteil jedoch immer damit ausgleichen indem sie 		  
+              sich das Wissen immer wieder aneignet und somit Nachteile wieder aufholt.
 
 	         #Sie kommuniziert gerne mit anderen Leuten und ist stets hilfsbereit.
 	         #Sie wünscht sich eine bessere Einbindung von Mitarbeitern im Homeoffice.
@@ -92,7 +97,27 @@ Geburtsort: Passau
 Bildung: BWL Studium
 Alter: 30
 Bio/CV: 
-Annalena Bräuer ist in Passau aufgewachsen und lebt heute zusammen mit ihrem Mann und ihrem Kind in einem Reihenhaus etwa eine halbe Stunde von ihrem Geburtsort entfernt. Nach ihrem Abitur studierte sie BWL in Passau, bevor sie im Alter von 23 ihr Studium abschloss und als Mitarbeiterin eines Industrieunternehmen mit mehr als 200 Mitarbeitern angestellt wurde. Dort ist sie seit nun in etwa sechs Jahren tätig. Zwischenzeitlich ging Annalena für ein Jahr in die Elternzeit, damit sie sich um ihren nun dreijährigen Sohn kümmern konnte. Um alsbald wieder zurück in ihren Beruf zukehren, meldete sie ihr Kind für eine Kita an. Jeden Morgen bringt Annalena Bräuer ihren Sohn deshalb in eine Kita nahe ihres Arbeitsplatzes und holt es dort nach ihrem Arbeitstag wieder ab. Da sie beruflich und familiär eingespannt ist, bleibt ihr nur am Wochenende Zeit für Hobbys. Dazu zählt, dass sie sich mit Freunden trifft oder mit ihrer Familie kleinere Ausflüge unternimmt. Weiterhin liest sie gerne, wobei ihr dafür oft wenig Zeit bleibt, und nutzt Netflix für entspannte Abende. Abgesehen von ihrem Smartphone, das sie vornehmlich für Social Media nutzt, besitzt sie einen Laptop für Office-Arbeiten. Sie hat sie keine tiefergehenden Kenntnisse über weitere Soft- oder Hardware. Mit Office-Programmen wie Excel, Power Point oder Word kann sie dagegen sehr gut umgehen. Annalena ist offen für neue Entwicklungen und interessiert an neuen Apps, z.B. bzgl. Social Media. Diese müssen jedoch einfach zu bedienen sein, da sie ansonsten Schwierigkeiten hat, sich einzuarbeiten und lieber auf bereits bekannte Alternativen zurückgreift. Als Mitglied eines 20-köpfigen Teams ist sie in ihrer Abteilung als kommunikativ und hilfsbereit bekannt, möchte sich jedoch auch durch besonderes Engagement hervortun. Dies ist in ihren Ambitionen begründet, in nicht allzu ferner Zukunft zur Abteilungsleiterin aufzusteigen oder zumindest ein hohes Ansehen bei ihren Kollegen zu genießen.
+Annalena Bräuer ist in Passau aufgewachsen und lebt heute zusammen mit ihrem Mann und ihrem Kind 
+in einem Reihenhaus etwa eine halbe Stunde von ihrem Geburtsort entfernt. Nach ihrem Abitur 
+studierte sie BWL in Passau, bevor sie im Alter von 23 ihr Studium abschloss und als Mitarbeiterin 
+eines Industrieunternehmen mit mehr als 200 Mitarbeitern angestellt wurde. Dort ist sie seit 
+nun in etwa sechs Jahren tätig. Zwischenzeitlich ging Annalena für ein Jahr in die Elternzeit, 
+damit sie sich um ihren nun dreijährigen Sohn kümmern konnte. Um alsbald wieder zurück in ihren Beruf zukehren,
+meldete sie ihr Kind für eine Kita an. 
+Jeden Morgen bringt Annalena Bräuer ihren Sohn deshalb in eine Kita nahe ihres Arbeitsplatzes 
+und holt es dort nach ihrem Arbeitstag wieder ab. Da sie beruflich und familiär eingespannt ist, 
+bleibt ihr nur am Wochenende Zeit für Hobbys. Dazu zählt, dass sie sich mit Freunden trifft 
+oder mit ihrer Familie kleinere Ausflüge unternimmt. Weiterhin liest sie gerne, wobei ihr dafür oft wenig Zeit bleibt, 
+und nutzt Netflix für entspannte Abende. Abgesehen von ihrem Smartphone, das sie vornehmlich für Social Media nutzt, 
+besitzt sie einen Laptop für Office-Arbeiten. Sie hat sie keine tiefergehenden Kenntnisse über weitere Soft- oder Hardware. 
+Mit Office-Programmen wie Excel, Power Point oder Word kann sie dagegen sehr gut umgehen. 
+Annalena ist offen für neue Entwicklungen und interessiert an neuen Apps, z.B. bzgl. Social Media. 
+Diese müssen jedoch einfach zu bedienen sein, da sie ansonsten Schwierigkeiten hat, sich einzuarbeiten 
+und lieber auf bereits bekannte Alternativen zurückgreift. 
+Als Mitglied eines 20-köpfigen Teams ist sie in ihrer Abteilung als kommunikativ und hilfsbereit bekannt, 
+möchte sich jedoch auch durch besonderes Engagement hervortun. 
+Dies ist in ihren Ambitionen begründet, in nicht allzu ferner Zukunft zur Abteilungsleiterin aufzusteigen 
+oder zumindest ein hohes Ansehen bei ihren Kollegen zu genießen.
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
