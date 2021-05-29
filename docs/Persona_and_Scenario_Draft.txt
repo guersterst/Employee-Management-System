@@ -134,4 +134,11 @@ Szenario:
 	#Nach Feierabend vergisst sie oftmals sich aus dem Terminal auszuloggen. Dies wird aber dann durch das automatische ausloggen nach 2 Minuten übernommen.
      #Als Abteilungsleiterin moechte unsere Persona wissen, wer zur Arbeit erschienen ist.
 
+-----------------------------------------------------------------------------------------------------
+Entwurf Szenario:
+
+Am Morgen um 8:00 Uhr beginnt für Annalena der Arbeitstag. Daher loggt sie sich gleich am Terminal in der Nähe ihres Arbeitsplatzes ein. Beim Login gibt sie ihre persönliche ID in das erster Textfeld ein, ihr festgelegtes Passwort in das zweite Feld. Über den Login-Button gelangt sie nun auf die Hauptseite der Anwendung. Gleichzeitig mit dem Login wurde ihr Status auf verfügbar gestellt.
+
+Einmal wöchentlich kontrolliert Annalena ihre Historie, um einen Überblick ihrer Arbeitszeiten zu erhalten und diese auch zu kontrollieren. Sie will sicher gehen, dass diese auch wirklich stimmen und keine Fehler auftreten.
+
 
