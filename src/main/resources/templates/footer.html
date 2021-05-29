@@ -5,9 +5,19 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <title>Title</title>
 </head>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
 <body>
-  <div class="text-center">
+  <div class="text-center" id="footer">
     <p>@ 2021 Copyright: Group 9</p>
   </div>
 </body>
+
+<script>
+  // Not(!) a good way to check whether the user uses a mobile Browser
+  if (/iPhone|iPod|iPad|Android/i.test(navigator.userAgent)) {
+    $('#footer').fadeOut(0); //Hide Footer on mobile devices (displayed in navbar instead)
+  }
+</script>
+
 </html>
