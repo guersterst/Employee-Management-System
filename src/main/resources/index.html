@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <title>Title</title>
+</head>
+<body>
+
+  <form>
+    <div class = "row">
+      <div class="form-group col-sm-5">
+        <label>User Name</label>
+        <input id="userName" class="form-control" placeholder="Enter your User Name">
+      </div>
+    </div>
+
+    <div class = "row">
+      <div class="form-group col-sm-5">
+        <label>Password</label>
+        <input type="password" class="form-control" placeholder="Enter your User Name">
+      </div>
+    </div>
+  </form>
+
+  <div class="row">
+    <input class="btn btn-primary btn-lg btn-block" type="submit" value="Login" id="loginButton">
+    <input class="btn btn-primary btn-lg btn-block" type="submit" value="Signup" id="signupButton">
+  </div>
+</body>
+
+<footer>
+  <div th:insert="'footer'"></div>
+</footer>
+</html>
