@@ -67,6 +67,7 @@
     // Get the password and username-input fields to check for empty texts
     var passwordField = document.getElementById("password");
     var userNameField = document.getElementById("userName");
+    var errorMessage = $('#errorMessage');
 
     // The login button
     var loginButton = document.getElementById("loginButton");
@@ -79,39 +80,39 @@
     // First approach:
     // On keyup, we check whether the inputted text is empty (--> all characters removed) --> display error
     userNameField.onkeyup = function() {
-    if (userNameField.value === null || userNameField.value === "") {
-        $('#userNameEmpty').fadeIn(200);
-    } else {
-        $('#userNameEmpty').fadeOut(100);
-    }}
+         errorMessage.fadeOut(200); // Remove error message (from failed login submit) when user starts typing
+         if (userNameField.value === null || userNameField.value === "") {
+            $('#userNameEmpty').fadeIn(200);
+         } else {
+             $('#userNameEmpty').fadeOut(100);
+         }
+    }
 
     // On keyup, we check whether the inputted text is empty (--> all characters removed) --> display error
     passwordField.onkeyup = function() {
+        errorMessage.fadeOut(200); // Remove error message (from failed login submit) when user starts typing
         if (passwordField.value === null || passwordField.value === "") {
             $('#passwordEmpty').fadeIn(200);
         } else {
             $('#passwordEmpty').fadeOut(100);
-        }}
+        }
+    }
 
     // When clicking the login button, we check whether user name and password were entered
     loginButton.onclick = function() {
         if ((passwordField.value === null || passwordField.value === "")
             &&  (userNameField.value !== null && userNameField.value !== ""))  { // Only password is missing
-            var errorMessage = $('#errorMessage');
             errorMessage.fadeIn(200);
             errorMessage.text("Please enter a password");
         } else if ((userNameField.value === null || userNameField.value === "")
             &&  (passwordField.value !== null && passwordField.value !== ""))  { // Only user name is missing
-            var errorMessage = $('#errorMessage');
             errorMessage.fadeIn(200);
             errorMessage.text("Please enter a user name");
         } else if (userNameField.value === null || userNameField.value === ""
             || passwordField.value === null || passwordField.value === "") { // User name and password are missing
-            var errorMessage = $('#errorMessage');
             errorMessage.fadeIn(200);
             errorMessage.text("Please enter a user name and a password.");
         } else { // User name and password were entered
-            var errorMessage = $('#errorMessage');
             errorMessage.fadeOut(200);
         }
     }
