@@ -1,10 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>EmployeeManagement</title>
 </head>
+
+<nav>
+    <div class="row">
+        <div th:insert="'menubar'"></div>
+    </div>
+</nav>
+
 <body>
-$END$
+<form>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Notification</span>
+        </div>
+        <textarea class="form-control" aria-label="With textarea"></textarea>
+    </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-lg-5">
+            <label>Availability</label>
+            <input class="btn btn-primary btn-lg center-block " type="submit" value="#" id="available">
+        </div>
+        <div class="form-group col-lg-5">
+            <label>Location</label>
+            <input class="btn btn-primary btn-lg center-block " type="submit" value="#" id="place">
+        </div>
+    </div>
+</form>
 </body>
+
+<footer>
+    <div th:insert="'footer'"></div>
+</footer>
+
 </html>
