@@ -7,6 +7,8 @@
     <title>Login</title>
 </head>
 
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
 <nav>
   <div class="row">
     <div th:insert="'menubar'"></div>
@@ -14,7 +16,6 @@
 </nav>
 
 <body>
-
  <div>
    <h1>Login</h1>
  </div>
@@ -22,28 +23,69 @@
 <!--Here, our input-forms for the login are specified-->
   <form>
     <div class="row"> <!--But each input field into their own row-->
-      <div class="form-group col-sm-5"> <!--manipulates the width of the elements-->
-        <label>User Name</label>
-        <input id="userName" class="form-control" placeholder="Enter your User Name">
+      <p class="form-group col-sm-5"> <!--manipulates the width of the elements-->
+          <form id="userNameForm">
+              <label>User Name</label>
+              <input id="userName" class="form-control" placeholder="Enter your User Name" required>
+          </form>
       </div>
     </div>
+
+      <div class="text-danger" id="userNameEmpty">Please enter a User Name.</div>
 
     <div class = "row"> <!--But each input field into their own row-->
       <div class="form-group col-sm-5"> <!--manipulates the width of the elements-->
         <label>Password</label>
-        <input type="password" class="form-control" placeholder="Enter your Password">
+        <input id="password" type="password" class="form-control" placeholder="Enter your Password" required>
       </div>
     </div>
   </form>
+
+ <div class="text-danger" id="passwordEmpty">Please enter a password.</div>
 
   <div class="row"> <!--Put the login and signup buttons into their own row-->
     <input class="btn btn-primary btn-lg center-block " type="submit" value="Login" id="loginButton">
     <input class="btn btn-primary btn-lg center-block" type="submit" value="Signup" id="signupButton">
   </div>
+
+
+ <!--Use a real error message here instead-->
+ <div class="text-danger" id="errorMessage">Please enter a password.</div>
 </body>
 
 <!--Include the footer that contains the copyright info-->
 <footer>
   <div th:insert="'footer'"></div>
 </footer>
+
+<script>
+    // Get the password and username-input fields to check for empty texts
+    var passwordField = document.getElementById("password");
+    var userNameField = document.getElementById("userName");
+
+    // The login button
+    var loginButton = document.getElementById("loginButton");
+
+    // At the start, no username/password has been entered so we shouldn't display the error
+    $('#userNameEmpty').fadeOut(0);
+    $('#passwordEmpty').fadeOut(0);
+    $('#errorMessage').fadeOut(0);
+
+    // First approach:
+    // On keyup, we check whether the inputted text is empty (--> all characters removed) --> display error
+    userNameField.onkeyup = function() {
+    if (userNameField.value === null || userNameField.value === "") {
+        $('#userNameEmpty').fadeIn(200);
+    } else {
+        $('#userNameEmpty').fadeOut(100);
+    }}
+
+    // On keyup, we check whether the inputted text is empty (--> all characters removed) --> display error
+    passwordField.onkeyup = function() {
+        if (passwordField.value === null || passwordField.value === "") {
+            $('#passwordEmpty').fadeIn(200);
+        } else {
+            $('#passwordEmpty').fadeOut(100);
+        }}
+</script>
 </html>
