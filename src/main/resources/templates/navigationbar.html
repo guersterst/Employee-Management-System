@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <title>Title</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+<body>
+  <nav class="navbar navbar-expand-sm">
+
+    <!--This is the navbar "title" -->
+    <a class="navbar-brand">Our Navbar</a>
+
+    <!--This is the button to toggle opening and closing the navbar-->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!--This is the button to toggle opening and closing the navbar-->
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <div class="navbar-nav">
+        <div class="nav-item" id="footer" th:insert="'footer'">...</div>
+      </div>
+    </div>
+  </nav>
+</body>
+
+
+<script>
+  //Not(!) a good way to check whether the user is using a mobile browser
+  if(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+    $('#footer').fadeIn(0); // Put Copyright note in Navbar if user uses mobile device
+  } else {
+    $('#footer').fadeOut(0); // Otherwise, fade it out
+  }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</html>
