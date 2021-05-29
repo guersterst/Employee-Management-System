@@ -31,7 +31,9 @@
       </div>
     </div>
 
-      <div class="text-danger" id="userNameEmpty">Please enter a User Name.</div>
+      <div class="alert alert-danger" id="userNameEmpty">
+          <strong>Please enter a User Name.</strong>
+      </div>
 
     <div class = "row"> <!--But each input field into their own row-->
       <div class="form-group col-sm-5"> <!--manipulates the width of the elements-->
@@ -41,16 +43,19 @@
     </div>
   </form>
 
- <div class="text-danger" id="passwordEmpty">Please enter a password.</div>
+ <div class="alert alert-danger" id="passwordEmpty">
+     <strong>Please enter a password.</strong>
+ </div>
 
-  <div class="row"> <!--Put the login and signup buttons into their own row-->
+ <div class="row"> <!--Put the login and signup buttons into their own row-->
     <input class="btn btn-primary btn-lg center-block " type="submit" value="Login" id="loginButton">
     <input class="btn btn-primary btn-lg center-block" type="submit" value="Signup" id="signupButton">
   </div>
 
-
- <!--Use a real error message here instead-->
- <div class="text-danger" id="errorMessage">Please enter a password.</div>
+ <!--Alert, displayed when login button is clicked but username/password is missing-->
+ <div class="alert alert-danger" id="errorMessage">
+     <strong>Password or user name are missing</strong>
+ </div>
 </body>
 
 <!--Include the footer that contains the copyright info-->
@@ -87,5 +92,28 @@
         } else {
             $('#passwordEmpty').fadeOut(100);
         }}
+
+    // When clicking the login button, we check whether user name and password were entered
+    loginButton.onclick = function() {
+        if ((passwordField.value === null || passwordField.value === "")
+            &&  (userNameField.value !== null && userNameField.value !== ""))  { // Only password is missing
+            var errorMessage = $('#errorMessage');
+            errorMessage.fadeIn(200);
+            errorMessage.text("Please enter a password");
+        } else if ((userNameField.value === null || userNameField.value === "")
+            &&  (passwordField.value !== null && passwordField.value !== ""))  { // Only user name is missing
+            var errorMessage = $('#errorMessage');
+            errorMessage.fadeIn(200);
+            errorMessage.text("Please enter a user name");
+        } else if (userNameField.value === null || userNameField.value === ""
+            || passwordField.value === null || passwordField.value === "") { // User name and password are missing
+            var errorMessage = $('#errorMessage');
+            errorMessage.fadeIn(200);
+            errorMessage.text("Please enter a user name and a password.");
+        } else { // User name and password were entered
+            var errorMessage = $('#errorMessage');
+            errorMessage.fadeOut(200);
+        }
+    }
 </script>
 </html>
