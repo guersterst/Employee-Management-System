@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</head>
     <title>Login</title>
 </head>
 
@@ -29,7 +34,7 @@
               <input id="userName" class="form-control" placeholder="Enter your User Name" required>
           </form>
       </div>
-    </div>
+    </form>
 
       <div class="alert alert-danger" id="userNameEmpty">
           <strong>Please enter a User Name.</strong>
@@ -60,7 +65,7 @@
 
 <!--Include the footer that contains the copyright info-->
 <footer>
-  <div th:insert="'footer'"></div>
+        <div th:insert="'footer'" class="embeddedFooter"></div>
 </footer>
 
 <script>
@@ -68,53 +73,53 @@
     var passwordField = document.getElementById("password");
     var userNameField = document.getElementById("userName");
     var errorMessage = $('#errorMessage');
+    var userNameEmpty = $('#userNameEmpty')
+    var passwordEmpty = $('#passwordEmpty')
 
     // The login button
     var loginButton = document.getElementById("loginButton");
 
     // At the start, no username/password has been entered so we shouldn't display the error
-    $('#userNameEmpty').fadeOut(0);
-    $('#passwordEmpty').fadeOut(0);
-    $('#errorMessage').fadeOut(0);
+    userNameEmpty.fadeOut(0);
+    passwordEmpty.fadeOut(0);
+    errorMessage.fadeOut(0);
 
-    // First approach:
-    // On keyup, we check whether the inputted text is empty (--> all characters removed) --> display error
-    userNameField.onkeyup = function() {
-         errorMessage.fadeOut(200); // Remove error message (from failed login submit) when user starts typing
-         if (userNameField.value === null || userNameField.value === "") {
-            $('#userNameEmpty').fadeIn(200);
-         } else {
-             $('#userNameEmpty').fadeOut(100);
-         }
-    }
-
-    // On keyup, we check whether the inputted text is empty (--> all characters removed) --> display error
-    passwordField.onkeyup = function() {
-        errorMessage.fadeOut(200); // Remove error message (from failed login submit) when user starts typing
-        if (passwordField.value === null || passwordField.value === "") {
-            $('#passwordEmpty').fadeIn(200);
-        } else {
-            $('#passwordEmpty').fadeOut(100);
-        }
-    }
+    // Fade in/out a warning beneath the password / user name fields whenever
+    // the last letter in the respective field was deleted
+    fadeOutIfEmpty('password', '#passwordEmpty');
+    fadeOutIfEmpty('userName', '#userNameEmpty');
 
     // When clicking the login button, we check whether user name and password were entered
     loginButton.onclick = function() {
-        if ((passwordField.value === null || passwordField.value === "")
-            &&  (userNameField.value !== null && userNameField.value !== ""))  { // Only password is missing
+        if (!checkIfEmpty(userNameField) && checkIfEmpty(passwordField)) {// Only password is missing
             errorMessage.fadeIn(200);
             errorMessage.text("Please enter a password");
-        } else if ((userNameField.value === null || userNameField.value === "")
-            &&  (passwordField.value !== null && passwordField.value !== ""))  { // Only user name is missing
+        } else if (checkIfEmpty(userNameField) && !checkIfEmpty(passwordField)) { // Only user name is missing
             errorMessage.fadeIn(200);
             errorMessage.text("Please enter a user name");
-        } else if (userNameField.value === null || userNameField.value === ""
-            || passwordField.value === null || passwordField.value === "") { // User name and password are missing
+        } else if (checkIfEmpty(userNameField) || checkIfEmpty(passwordField)) { // User name and password are missing
             errorMessage.fadeIn(200);
             errorMessage.text("Please enter a user name and a password.");
         } else { // User name and password were entered
             errorMessage.fadeOut(200);
         }
+    }
+
+    function fadeOutIfEmpty(elementToCheckForBeingEmpty, elementToFindInOrOut) {
+        var elementToCheckForBeingEmptyInHtml = document.getElementById(elementToCheckForBeingEmpty);
+        var elementToFindInOrOutInHtml = $(elementToFindInOrOut)
+        elementToCheckForBeingEmptyInHtml.onkeyup = function () {
+            elementToFindInOrOutInHtml.fadeOut(200); // Remove error message (from failed login submit) when user starts typing
+            if (checkIfEmpty(elementToCheckForBeingEmptyInHtml)) {
+                elementToFindInOrOutInHtml.fadeIn(200);
+            } else {
+                elementToFindInOrOutInHtml.fadeOut(100);
+            }
+        }
+    }
+
+    function checkIfEmpty(elementToCheck) {
+        return (elementToCheck.value === null || elementToCheck.value === "");
     }
 </script>
 </html>
