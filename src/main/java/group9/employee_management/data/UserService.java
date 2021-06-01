@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 @Service
 public class UserService {
 
-    @Autowired
+    @Autowired(required = false)
     private UserRepository userRepository;
 
     public User getUser(String id) //throws NoSuchElementException
