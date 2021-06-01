@@ -25,4 +25,22 @@ public class UserService {
     public void deleteTopic(String id) {
         userRepository.deleteById(id);
     }
+
+
+    /*
+    Login getters.
+     */
+
+    public String getName(String id) {
+        return userRepository.findNameById(id);
+    }
+
+    public String getPassword(String id) {
+        return userRepository.findPasswordById(id);
+    }
+
+    public boolean isAdmin(String id) {
+        return userRepository.findIsAdminById(id);
+    }
+
 }
