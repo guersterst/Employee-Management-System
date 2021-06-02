@@ -10,7 +10,6 @@ public class LoginController {
     @Autowired
     UserService userService;
 
-
     //TODO secure
     @RequestMapping("")
     public String index() {
