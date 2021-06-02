@@ -5,7 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class}) // Quick fix to get things running non the
+@SpringBootApplication
+		//(exclude = {DataSourceAutoConfiguration.class}) // Quick fix to get things running non the
 // front-end side
 public class EmployeeManagementApplication {
 

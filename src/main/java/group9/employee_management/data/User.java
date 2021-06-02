@@ -1,6 +1,8 @@
 package group9.employee_management.data;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.sql.Date;
 
@@ -11,6 +13,7 @@ import java.sql.Date;
 public class User {
 
     @Id
+    //@GeneratedValue(strategy = GenerationType.AUTO) //Best practice?
     private String id;
 
     // Employee or admin name.
@@ -20,7 +23,7 @@ public class User {
     private String password;
 
     // One-time password for the initial login.
-    // TODO initial login mechanism. -> replace token with NULL after that in order to invalidate it?
+    // TODO initial login mechanism. -> replace token with NULL after that in  order to invalidate it?
     private String token;
     private boolean isAdmin;
 

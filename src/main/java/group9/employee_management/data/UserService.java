@@ -12,9 +12,8 @@ import java.sql.Date;
 @Service
 public class UserService implements CommandLineRunner {
 
-    @Autowired(required = false) //TODO quick-fix
+    @Autowired
     private UserRepository userRepository;
-
     /**
      * Fill database with sample users.
      */
@@ -39,7 +38,7 @@ public class UserService implements CommandLineRunner {
     public User getUser(String id) //throws NoSuchElementException
     {
         return userRepository.findById(id).get(); //.orElseThrow();
-                                                    //.orElse(null);
+                                                     //.orElse(null);
     }
 
     public void addUser(User user) {
