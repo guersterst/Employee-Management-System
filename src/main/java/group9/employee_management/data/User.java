@@ -1,10 +1,8 @@
 package group9.employee_management.data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Date;
+import java.util.Set;
 
 /**
  * An Entity describing a user of the terminal.
@@ -36,6 +34,9 @@ public class User {
     // Describes how long this account is valid;
     // TODO not sure about datatype. Has too many deprecated methods.
     private Date validity;
+
+    @OneToMany
+    private Set<WorkSession> workSessions;
 
     public User(){}
 
