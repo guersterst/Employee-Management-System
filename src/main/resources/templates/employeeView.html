@@ -16,26 +16,41 @@
     <form>
         <div class="row">
             <div class="message col-sm-8">
+                <!--Show saved message-->
+                <div class="form-group">
+                    <label class="form-control">Here should appear a message.</label>
+                </div>
+                <!--Text field to leave a message-->
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Notification</span>
                     </div>
-                    <textarea class="form-control" aria-label="With textarea"></textarea>
+                    <textarea class="form-control" aria-label="With textarea" placeholder="Leave a message..."></textarea>
+                </div>
+                <!--Options for message-->
+                <div class="message-util form-group">
+                    <button class=" btn btn-primary btn-lg center-block" type="submit" id="save-message">
+                        Save
+                    </button>
+                    <button class="btn btn-primary btn-lg center-block" type="reset" id="delete-message">
+                        Delete
+                    </button>
                 </div>
             </div>
 
-            <div class="col-sm-4">
-                <div class="available form-group">
-                    <label>Availability</label>
-                    <input class="btn btn-primary btn-lg center-block " type="submit" value="#" id="availableBut">
+            <div class="state col-sm-4">
+                <div class="available form-check form-switch" >
+                    <input class="form-check-input" type="checkbox" id="availableCheck">
+                    <label class="availLabel form-check-label" for="availableCheck">Availability</label>
                 </div>
-                <div class="location form-group">
-                    <label>Location</label>
-                    <input class="btn btn-primary btn-lg center-block " type="submit" value="#" id="place">
+                <div class="location from-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="onSite">
+                    <label class="form-check-label" for="onSite">On Site</label>
                 </div>
+                <!--Button leads to history-->
                 <div class="history form-group">
+                    <button class="btn btn-primary btn-lg center-block " type="submit" id="historyBut"></button>
                     <label>History</label>
-                    <input class="btn btn-primary btn-lg center-block " type="submit" value="#" id="historyBut">
                 </div>
             </div>
         </div>
@@ -54,10 +69,13 @@
         margin: 20px;
         text-align: center;
     }
-
     .message {
         display: grid;
-        grid-row: auto;
+    }
+
+    .state {
+        display: flow;
+        font-size: larger;
     }
 
 </style>
