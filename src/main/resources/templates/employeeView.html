@@ -8,33 +8,58 @@
     <title>EmployeeManagement</title>
 </head>
 <nav>
-    <div th:replace="'navbar'"></div>
+    <div th:insert="'menubar'"></div>
 </nav>
 
 <body>
-<form>
-    <div class="input-group">
-        <div class="input-group-prepend">
-            <span class="input-group-text">Notification</span>
-        </div>
-        <textarea class="form-control" aria-label="With textarea"></textarea>
-    </div>
+<div class="contain container-fluid">
+    <form>
+        <div class="row">
+            <div class="message col-sm-8">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Notification</span>
+                    </div>
+                    <textarea class="form-control" aria-label="With textarea"></textarea>
+                </div>
+            </div>
 
-    <div class="row">
-        <div class="form-group col-lg-5">
-            <label>Availability</label>
-            <input class="btn btn-primary btn-lg center-block " type="submit" value="#" id="available">
+            <div class="col-sm-4">
+                <div class="available form-group">
+                    <label>Availability</label>
+                    <input class="btn btn-primary btn-lg center-block " type="submit" value="#" id="availableBut">
+                </div>
+                <div class="location form-group">
+                    <label>Location</label>
+                    <input class="btn btn-primary btn-lg center-block " type="submit" value="#" id="place">
+                </div>
+                <div class="history form-group">
+                    <label>History</label>
+                    <input class="btn btn-primary btn-lg center-block " type="submit" value="#" id="historyBut">
+                </div>
+            </div>
         </div>
-        <div class="form-group col-lg-5">
-            <label>Location</label>
-            <input class="btn btn-primary btn-lg center-block " type="submit" value="#" id="place">
-        </div>
-    </div>
-</form>
+    </form>
+</div>
 </body>
 
 <footer>
     <div th:insert="'footer'"></div>
 </footer>
+
+<style>
+    .contain {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        margin: 20px;
+        text-align: center;
+    }
+
+    .message {
+        display: grid;
+        grid-row: auto;
+    }
+
+</style>
 
 </html>
