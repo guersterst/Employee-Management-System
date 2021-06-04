@@ -24,35 +24,31 @@
    <h1>Login</h1>
  </div>
  <i class="bi bi-person-circle" id="icon"></i>
-<!--Here, our input-forms for the login are specified-->
+  <!--Here, our input-forms for the login are specified-->
   <form id="inputFieldsForm">
-    <div class="row"> <!--But each input field into their own row-->
-      <div class="form-group col-sm-5 mx-auto d-block"> <!--manipulates the width of the elements-->
-          <form id="userNameForm"  class ="form-foating">
-              <label class="labelForInputField" for="userName">User Name</label>
-              <input id="userName" class="form-control" placeholder="Enter your User Name" required>
-          </form>
+      <div class = "row"> <!--But each input field into their own row-->
+          <div class="form-group col-sm-5 mx-auto"> <!--manipulates the width of the elements-->
+              <input id="userName" type="password" class="form-control" placeholder="User Name" required>
+          </div>
       </div>
-    </div>
 
-      <div class="alert alert-danger" id="userNameEmpty">
+      <div class="alert alert-danger mx-auto" id="userNameEmpty">
           <strong>Please enter a User Name.</strong>
       </div>
 
-    <div class = "row"> <!--But each input field into their own row-->
-      <div class="form-group col-sm-5 mx-auto d-block"> <!--manipulates the width of the elements-->
-        <label class="labelForInputField">Password</label>
-        <input id="password" type="password" class="form-control" placeholder="Enter your Password" required>
+      <div class = "row"> <!--But each input field into their own row-->
+        <div class="form-group col-sm-5 mx-auto"> <!--manipulates the width of the elements-->
+          <input id="password" type="password" class="form-control" placeholder="Password" required>
+        </div>
       </div>
-    </div>
+
+      <div class="alert alert-danger mx-auto" id="passwordEmpty">
+          <strong>Please enter a password.</strong>
+      </div>
   </form>
 
- <div class="alert alert-danger" id="passwordEmpty">
-     <strong>Please enter a password.</strong>
- </div>
-
- <div class="row"> <!--Put the login and signup buttons into their own row-->
-     <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="loginButton"><i class="bi bi-key-fill"></i>Login</button>
+ <div class="d-grid col-5 mx-auto">
+     <input class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="loginButton" value="Login">
   </div>
 
  <!--Alert, displayed when login button is clicked but username/password is missing-->
@@ -132,10 +128,14 @@
     }
 
     .form-control {
-        width: 70%;
-        height: 80%;
-        margin: 0 auto;
+        margin-bottom: 10px;
+        margin-top: 5px;
         font-size: 14px;
+    }
+
+    .alert-danger {
+        width: 30%;
+        position: center;
     }
 
     #inputFieldsForm {
@@ -145,7 +145,8 @@
     #loginButton {
         margin-bottom: 5px;
         margin-top: 10px;
-        width: 10%;
+        width: 18%;
+        position: center;
     }
 
     #userName {
