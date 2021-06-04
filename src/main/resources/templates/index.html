@@ -25,34 +25,28 @@
  </div>
  <i class="bi bi-person-circle" id="icon"></i>
   <!--Here, our input-forms for the login are specified-->
-  <form id="inputFieldsForm">
+  <form id="inputFieldsForm" class="needs-validation" novalidate onsubmit="return validate(event);">
       <div class = "row"> <!--But each input field into their own row-->
           <div class="form-group col-sm-5 mx-auto"> <!--manipulates the width of the elements-->
               <input id="userName" type="password" class="form-control" placeholder="User Name" required>
+              <div class="invalid-feedback">Please enter a user name</div>
           </div>
-      </div>
-
-      <div class="alert alert-danger mx-auto" id="userNameEmpty">
-          <strong>Please enter a User Name.</strong>
       </div>
 
       <div class = "row"> <!--But each input field into their own row-->
         <div class="form-group col-sm-5 mx-auto"> <!--manipulates the width of the elements-->
-          <input id="password" type="password" class="form-control" placeholder="Password" required>
+            <input id="password" type="password" class="form-control" placeholder="Password" required>
+            <div class="invalid-feedback">Please enter a password</div>
         </div>
       </div>
 
-      <div class="alert alert-danger mx-auto" id="passwordEmpty">
-          <strong>Please enter a password.</strong>
+      <div class="d-grid col-5 mx-auto">
+          <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="loginButton">Login</button>
       </div>
   </form>
 
- <div class="d-grid col-5 mx-auto">
-     <input class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="loginButton" value="Login">
-  </div>
-
  <!--Alert, displayed when login button is clicked but username/password is missing-->
- <div class="alert alert-danger" id="errorMessage">
+ <div class="alert alert-danger mx-auto" id="errorMessage">
      <strong>Password or user name are missing</strong>
  </div>
 </body>
@@ -67,24 +61,16 @@
     var passwordField = document.getElementById("password");
     var userNameField = document.getElementById("userName");
     var errorMessage = $('#errorMessage');
-    var userNameEmpty = $('#userNameEmpty')
-    var passwordEmpty = $('#passwordEmpty')
 
     // The login button
     var loginButton = document.getElementById("loginButton");
-
     // At the start, no username/password has been entered so we shouldn't display the error
-    userNameEmpty.fadeOut(0);
-    passwordEmpty.fadeOut(0);
     errorMessage.fadeOut(0);
 
-    // Fade in/out a warning beneath the password / user name fields whenever
-    // the last letter in the respective field was deleted
-    fadeOutIfEmpty('password', '#passwordEmpty');
-    fadeOutIfEmpty('userName', '#userNameEmpty');
+
 
     // When clicking the login button, we check whether user name and password were entered
-    loginButton.onclick = function() {
+    function validate() {
         if (!checkIfEmpty(userNameField) && checkIfEmpty(passwordField)) {// Only password is missing
             errorMessage.fadeIn(200);
             errorMessage.text("Please enter a password");
@@ -96,7 +82,13 @@
             errorMessage.text("Please enter a user name and a password.");
         } else { // User name and password were entered
             errorMessage.fadeOut(200);
+            return true;
         }
+
+        event.preventDefault();
+        var formToValidate = document.querySelector('#inputFieldsForm');
+        formToValidate.add('was-validated');
+        return false;
     }
 
     function fadeOutIfEmpty(elementToCheckForBeingEmpty, elementToFindInOrOut) {
@@ -128,9 +120,12 @@
     }
 
     .form-control {
+        font-size: 14px;
+    }
+
+    .form-group {
         margin-bottom: 10px;
         margin-top: 5px;
-        font-size: 14px;
     }
 
     .alert-danger {
