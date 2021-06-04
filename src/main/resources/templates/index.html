@@ -21,14 +21,14 @@
 
 <body>
  <div>
-   <h1>Login</h1>
+   <h1 class="text-center">Login</h1>
  </div>
  <i class="bi bi-person-circle" id="icon"></i>
   <!--Here, our input-forms for the login are specified-->
-  <form id="inputFieldsForm" class="needs-validation" novalidate onsubmit="return validate(event);">
+  <form id="inputFieldsForm" class="needs-validation"  onsubmit="return validate(event);">
       <div class = "row"> <!--But each input field into their own row-->
           <div class="form-group col-sm-5 mx-auto"> <!--manipulates the width of the elements-->
-              <input id="userName" type="password" class="form-control" placeholder="User Name" required>
+              <input id="userName" class="form-control" placeholder="User Name" required>
               <div class="invalid-feedback">Please enter a user name</div>
           </div>
       </div>
@@ -86,8 +86,9 @@
         }
 
         event.preventDefault();
-        var formToValidate = document.querySelector('#inputFieldsForm');
-        formToValidate.add('was-validated');
+        var formToValidate = document.querySelector('#userName');
+        var selection = document.querySelector('#userName') !== null;
+        formToValidate.add('is-invalid');
         return false;
     }
 
@@ -141,6 +142,7 @@
         margin-bottom: 5px;
         margin-top: 10px;
         width: 18%;
+        min-width: 70px;
         position: center;
     }
 
@@ -162,6 +164,10 @@
 
     input {
         padding: 10px 30px;
+    }
+
+    h1 {
+        margin-top: 20px;
     }
 </style>
 </html>
