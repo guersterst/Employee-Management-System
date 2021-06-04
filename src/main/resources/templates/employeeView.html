@@ -7,21 +7,40 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <title>EmployeeManagement</title>
 </head>
-<nav>
-    <div th:insert="'menubar'"></div>
+
+<!--Navbar has to be replaced. Only to get first view-->
+<nav class="navbar navbar-expand-lg badge-dark">
+    <!--Logo-->
+    <a class="navbar-brand" href="#">EmployeeManager</a>
+
+    <!--NavigationBar-->
+    <div class="collapse navbar-collapse" id="main-navigation">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="employeeView.html" th:href="@{/employeeView}">HomePage</a>
+
+                <a class="nav-link" href="#">History</a>
+            </li>
+        </ul>
+    </div>
 </nav>
 
 <body>
-<div class="contain container-fluid">
-    <form>
+<div class="">
+    <h1 class="d-flex badge-secondary">
+        Home Page
+    </h1>
+</div>
+<div class="contain container-fluid d-flex flex-column flex-fill">
+    <form class="justify-content-center">
         <div class="row">
-            <div class="message col-sm-8">
+            <div class="message col-sm-6 vh-100">
                 <!--Show saved message-->
                 <div class="form-group">
                     <label class="form-control">Here should appear a message.</label>
                 </div>
                 <!--Text field to leave a message-->
-                <div class="input-group">
+                <div class="input-group h-50">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Notification</span>
                     </div>
@@ -59,22 +78,29 @@
 </body>
 
 <footer>
-    <div th:insert="'footer'"></div>
+    <div class="footer">
+        <div class="text-center bg-light text-dark p-6" id="footer">
+            <p>© 2021 Copyright: Group 9</p>
+        </div>
+    </div>
 </footer>
 
 <style>
     .contain {
         display: grid;
         grid-template-columns: 2fr 1fr;
-        margin: 20px;
+        margin: 50px 20px 20px;
         text-align: center;
     }
     .message {
-        display: grid;
+        display: flow;
+    }
+
+    .message-util {
+        margin: 20px;
     }
 
     .state {
-        display: flow;
         font-size: larger;
     }
 
