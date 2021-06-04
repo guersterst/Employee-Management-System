@@ -26,7 +26,7 @@
 </nav>
 
 <body>
-<div class="">
+<div class="home">
     <h1 class="d-flex badge-secondary">
         Home Page
     </h1>
@@ -35,8 +35,11 @@
     <form class="justify-content-center">
         <div class="row">
             <div class="message col-sm-6 vh-100">
+                <div class="message-topic d-flex badge-secondary">
+                    <h2>Message</h2>
+                </div>
                 <!--Show saved message-->
-                <div class="form-group">
+                <div class="saved-message form-group">
                     <label class="form-control">Here should appear a message.</label>
                 </div>
                 <!--Text field to leave a message-->
@@ -44,7 +47,8 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Notification</span>
                     </div>
-                    <textarea class="form-control" aria-label="With textarea" placeholder="Leave a message..."></textarea>
+                    <textarea class="form-control" aria-label="With textarea"
+                              placeholder="Leave a message..."></textarea>
                 </div>
                 <!--Options for message-->
                 <div class="message-util form-group">
@@ -57,19 +61,31 @@
                 </div>
             </div>
 
-            <div class="state col-sm-4">
-                <div class="available form-check form-switch" >
-                    <input class="form-check-input" type="checkbox" id="availableCheck">
-                    <label class="availLabel form-check-label" for="availableCheck">Availability</label>
+
+            <div class="state col-sm-auto">
+                <div class="form-text d-flex badge-secondary">
+                    <h2>State</h2>
                 </div>
-                <div class="location from-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="onSite">
-                    <label class="form-check-label" for="onSite">On Site</label>
-                </div>
-                <!--Button leads to history-->
-                <div class="history form-group">
-                    <button class="btn btn-primary btn-lg center-block " type="submit" id="historyBut"></button>
-                    <label>History</label>
+                <div class="options">
+                    <div class="available btn-group btn-group-toggle d-table">
+                        <button class="btn btn-default badge-dark">ON</button>
+                        <button class="btn btn-primary badge-info active">OFF</button>
+                        <label class="availLabel form-check-label">Availability</label>
+                    </div>
+                    <hr>
+                    <div class="location btn-group btn-group-toggle d-table">
+                        <button class="btn btn-default badge-dark">ON</button>
+                        <button class="btn btn-primary badge-info active">OFF</button>
+                        <label class="form-check-label">On Site</label>
+                    </div>
+                    <hr>
+                    <!--Button leads to history-->
+                    <div class="history form-group d-table">
+                        <button class="btn btn-primary btn-lg " type="submit" id="historyBut">
+                            <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                        </button>
+                        <label>History</label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -79,7 +95,7 @@
 
 <footer>
     <div class="footer">
-        <div class="text-center bg-light text-dark p-6" id="footer">
+        <div class="text-center bg-dark text-light p-6" id="footer">
             <p>© 2021 Copyright: Group 9</p>
         </div>
     </div>
@@ -96,12 +112,20 @@
         display: flow;
     }
 
+    .saved-message {
+        margin-top: 20px;
+    }
+
     .message-util {
         margin: 20px;
     }
 
     .state {
-        font-size: larger;
+        display: flow;
+        font-size: x-large;
+    }
+    .options {
+        margin-top: 20px;
     }
 
 </style>
