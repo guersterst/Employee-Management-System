@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,12 +25,12 @@
  </div>
 
   <!--Here, our form for the login are specified-->
-  <form id="inputFieldsForm" class="needs-validation" method="post">
+  <form id="inputFieldsForm" class="needs-validation" th:action="@{/}" th:object="${loginForm}" method="post">
 
       <!--Specifies the input for the user name-->
       <div class = "row">
           <div class="form-group col-sm-5 mx-auto">
-              <input id="userName" class="form-control" type="text" placeholder="User Name" required>
+              <input id="userName" class="form-control" type="text" placeholder="User Name" th:field="*{userName}" required>
               <div class="invalid-feedback">Please enter a user name</div>
           </div>
       </div>
@@ -38,7 +38,7 @@
       <!--Specifies the input for the password-->
       <div class = "row"> <!--But each input field into their own row-->
         <div class="form-group col-sm-5 mx-auto">
-            <input id="password" type="password" class="form-control" placeholder="Password" required>
+            <input id="password" type="password" class="form-control" placeholder="Password" th:field="*{password}" required>
             <div class="invalid-feedback">Please enter a password</div>
         </div>
       </div>
