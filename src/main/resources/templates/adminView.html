@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>Admin</title>
+</head>
+
+<!--Navbar has to be replaced. Only to get first view-->
+<nav class="navbar navbar-expand-lg badge-dark">
+    <!--Logo-->
+    <a class="navbar-brand" href="#">EmployeeManager</a>
+
+    <!--NavigationBar-->
+    <div class="collapse navbar-collapse" id="main-navigation">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="employeeView.html" th:href="@{/employeeView}">HomePage</a>
+
+                <a class="nav-link" href="#">History</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<body>
+<div>
+    <h1 class="d-flex badge-secondary">Employee List</h1>
+</div>
+<div class="container-fluid">
+    <table class="table table-hover table-striped table-bordered">
+        <thead class="table-header">
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Name</th>
+            <th scope="col">Available</th>
+            <th scope="col">On Site</th>
+            <th scope="col">CheckIn</th>
+            <th scope="col">CheckOut</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="">
+            <th scope="row">1</th>
+            <td>Elias Goller</td>
+            <td>available</td>
+            <td>on site</td>
+            <td>05.06.2021-12:00</td>
+            <td>still here</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Stefanie Gürster</td>
+            <td>not available</td>
+            <td>no</td>
+            <td>05.06.2021-9:00</td>
+            <td>5.06.2021-13:00</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Johannes Garstenauer</td>
+            <td>not available</td>
+            <td>on site</td>
+            <td>05.06.2021-12:00</td>
+            <td>still here</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
