@@ -1,5 +1,8 @@
 package group9.employee_management;
 
+/**
+ * Test model to check whether a post request from the login works.
+ */
 public class loginFormSubmission {
     private String userName;
     private String password;
