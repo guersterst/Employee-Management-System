@@ -25,10 +25,10 @@
  </div>
  <i class="bi bi-person-circle" id="icon"></i>
   <!--Here, our input-forms for the login are specified-->
-  <form id="inputFieldsForm" class="needs-validation"  onsubmit="return validate(event);">
+  <form id="inputFieldsForm" class="needs-validation">
       <div class = "row"> <!--But each input field into their own row-->
           <div class="form-group col-sm-5 mx-auto"> <!--manipulates the width of the elements-->
-              <input id="userName" class="form-control" placeholder="User Name" required>
+              <input id="userName" class="form-control" type="text" placeholder="User Name" required>
               <div class="invalid-feedback">Please enter a user name</div>
           </div>
       </div>
@@ -45,10 +45,10 @@
       </div>
   </form>
 
- <!--Alert, displayed when login button is clicked but username/password is missing-->
+ <!--Alert, displayed when login button is clicked but username/password is missing
  <div class="alert alert-danger mx-auto" id="errorMessage">
      <strong>Password or user name are missing</strong>
- </div>
+ </div>-->
 </body>
 
 <!--Include the footer that contains the copyright info-->
@@ -60,17 +60,17 @@
     // Get the password and username-input fields to check for empty texts
     var passwordField = document.getElementById("password");
     var userNameField = document.getElementById("userName");
-    var errorMessage = $('#errorMessage');
+   // var errorMessage = $('#errorMessage');
 
     // The login button
     var loginButton = document.getElementById("loginButton");
     // At the start, no username/password has been entered so we shouldn't display the error
-    errorMessage.fadeOut(0);
+  //  errorMessage.fadeOut(0);
 
 
 
     // When clicking the login button, we check whether user name and password were entered
-    function validate() {
+    /*function validate() {
         if (!checkIfEmpty(userNameField) && checkIfEmpty(passwordField)) {// Only password is missing
             errorMessage.fadeIn(200);
             errorMessage.text("Please enter a password");
@@ -107,7 +107,7 @@
 
     function checkIfEmpty(elementToCheck) {
         return (elementToCheck.value === null || elementToCheck.value === "");
-    }
+    }*/
 </script>
 
 <style>
@@ -129,10 +129,10 @@
         margin-top: 5px;
     }
 
-    .alert-danger {
+    /*.alert-danger {
         width: 30%;
         position: center;
-    }
+    }*/
 
     #inputFieldsForm {
         margin-top: 10%;
@@ -142,7 +142,7 @@
         margin-bottom: 5px;
         margin-top: 10px;
         width: 18%;
-        min-width: 70px;
+        min-width: 90px;
         position: center;
     }
 
