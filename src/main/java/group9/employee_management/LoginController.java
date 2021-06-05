@@ -49,7 +49,7 @@ public class LoginController {
     }
 
     @RequestMapping(
-            value = "users/firstlogin/{id]",
+            value = "users/firstlogin/{id}",
             method = RequestMethod.GET)
     @ResponseBody
     public boolean isFirstLogin(@PathVariable(value = "id") String id) {
@@ -57,7 +57,7 @@ public class LoginController {
     }
 
     @RequestMapping(
-            value = "users/token/{id]",
+            value = "users/token/{id}",
             method = RequestMethod.GET)
     @ResponseBody
     public String getToken(@PathVariable(value = "id") String id) {

@@ -42,8 +42,7 @@ public class User {
     public User(){}
 
     public User (String id, String firstName, String lastName, String password, String token, boolean isAdmin,
-                 boolean isWorking,
-                 String position, Date validity) {
+                 boolean isWorking, String position, Date validity) {
         super();
         this.id = id;
         this.firstName = firstName;

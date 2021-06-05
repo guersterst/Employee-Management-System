@@ -28,7 +28,8 @@ public class WorkSession {
     //TODO
     /*
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user0_.id")
     private User user;
      */
+
 }
