@@ -1,6 +1,6 @@
 package group9.employee_management.data;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 import java.sql.Date;
 
 @Entity
@@ -24,4 +24,11 @@ public class WorkSession {
         this.startTime = startTime;
         this.textStatus = textStatus;
     }
+
+    //TODO
+    /*
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+     */
 }

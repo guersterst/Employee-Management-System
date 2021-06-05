@@ -2,7 +2,6 @@ package group9.employee_management.data;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Set;
 
 /**
  * An Entity describing a user of the terminal.
@@ -11,19 +10,24 @@ import java.util.Set;
 public class User {
 
     @Id
+    //@Column(name = "user_id")
     //@GeneratedValue(strategy = GenerationType.AUTO) //Best practice?
     private String id;
 
     // Employee or admin name.
-    private String name;
+    private String firstName;
+    private String lastName;
 
     //TODO: password security.
     private String password;
 
+    // Initially always true;
+    private boolean isFirstLogin;
+
     // One-time password for the initial login.
-    // TODO initial login mechanism. -> replace token with NULL after that in  order to invalidate it?
     private String token;
     private boolean isAdmin;
+
 
     // True indicates that this user is currently working, while false indicates the opposite.
     private boolean isWorking;
@@ -35,22 +39,30 @@ public class User {
     // TODO not sure about datatype. Has too many deprecated methods.
     private Date validity;
 
-    @OneToMany
-    private Set<WorkSession> workSessions;
-
     public User(){}
 
-    public User (String id, String name, String password, String token, boolean isAdmin, boolean isWorking,
+    public User (String id, String firstName, String lastName, String password, String token, boolean isAdmin,
+                 boolean isWorking,
                  String position, Date validity) {
         super();
         this.id = id;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
         this.token = token;
         this.isAdmin = isAdmin;
         this.isWorking = isWorking;
         this.position = position;
         this.validity = validity;
+        this.isFirstLogin = true;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
 

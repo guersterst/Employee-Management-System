@@ -11,12 +11,21 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
 
-    @Query("SELECT u.name FROM User u WHERE u.id = :id")
-    String findNameById(@Param("id") String id);
+    @Query("SELECT u.firstName FROM User u WHERE u.id = :id")
+    String findFirstNameById(@Param("id") String id);
+
+    @Query("SELECT u.lastName FROM User u WHERE u.id = :id")
+    String findLastNameById(@Param("id") String id);
 
     @Query("SELECT u.password FROM User u WHERE u.id = :id")
     String findPasswordById(@Param("id") String id);
 
     @Query("SELECT u.isAdmin FROM User u WHERE u.id = :id")
     boolean findIsAdminById(@Param("id") String id);
+
+    @Query("SELECT u.isFirstLogin FROM User u WHERE u.id = :id")
+    boolean findIsFirstLoginById(@Param("id") String id);
+
+    @Query("SELECT u.token FROM User u WHERE u.id = :id")
+    String findTokenById(@Param("id") String id);
 }

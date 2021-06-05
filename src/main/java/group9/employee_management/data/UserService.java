@@ -22,11 +22,11 @@ public class UserService implements CommandLineRunner {
 
         // 1.1.2022
         Date validityDate = new Date(1640991600000L);
-        User user1 = new User("1","H.P. Baxxter", "h0wmUchisthef1sh", "13", true,
+        User user1 = new User("1","H.P.", "Baxxter", "h0wmUchisthef1sh", "13", true,
                 false, "Lead singer", validityDate);
-        User user2 = new User("2", "Farin Urlaub", "abc123def","12", false,
+        User user2 = new User("2", "Farin", "Urlaub", "abc123def","12", false,
                 true, "Lead singer", validityDate);
-        User user3 = new User("3", "Kristoffer Jonas Klauß", "überallAnJederWand", "13", false, false, "Rapper",
+        User user3 = new User("3", "Kristoffer Jonas", "Klauß", "überallAnJederWand", "13", false, false, "Rapper",
                 validityDate);
 
         userRepository.save(user1);
@@ -53,10 +53,14 @@ public class UserService implements CommandLineRunner {
     /*
     Login getters.
      */
-
-    public String getName(String id) {
+    public String getFirstName(String id) {
         assert userRepository != null;
-        return userRepository.findNameById(id);
+        return userRepository.findFirstNameById(id);
+    }
+
+    public String getLastName(String id) {
+        assert userRepository != null;
+        return userRepository.findLastNameById(id);
     }
 
     public String getPassword(String id) {
@@ -67,6 +71,16 @@ public class UserService implements CommandLineRunner {
     public boolean isAdmin(String id) {
         assert userRepository != null;
         return userRepository.findIsAdminById(id);
+    }
+
+    public boolean isFirstLogin(String id) {
+        assert userRepository != null;
+        return userRepository.findIsFirstLoginById(id);
+    }
+
+    public String getToken(String id) {
+        assert userRepository != null;
+        return userRepository.findTokenById(id);
     }
 
 }

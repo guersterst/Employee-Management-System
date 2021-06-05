@@ -10,12 +10,12 @@ public class LoginController {
     @Autowired
     UserService userService;
 
-    //TODO secure
     @RequestMapping("")
     public String index() {
         return "index";
     }
 
+    //TODO secure
     @RequestMapping(
             value = "/users/password/{id}",
     method = RequestMethod.GET)
@@ -25,11 +25,19 @@ public class LoginController {
     }
 
     @RequestMapping(
-            value = "/users/name/{id}",
+            value = "/users/firstname/{id}",
             method = RequestMethod.GET)
     @ResponseBody
-    public String getName(@PathVariable(value = "id") String id) {
-        return userService.getName(id);
+    public String getFirstName(@PathVariable(value = "id") String id) {
+        return userService.getFirstName(id);
+    }
+
+    @RequestMapping(
+            value = "/users/lastname/{id}",
+            method = RequestMethod.GET)
+    @ResponseBody
+    public String getLastName(@PathVariable(value = "id") String id) {
+        return userService.getLastName(id);
     }
 
     @RequestMapping(
@@ -40,8 +48,21 @@ public class LoginController {
         return userService.isAdmin(id);
     }
 
+    @RequestMapping(
+            value = "users/firstlogin/{id]",
+            method = RequestMethod.GET)
+    @ResponseBody
+    public boolean isFirstLogin(@PathVariable(value = "id") String id) {
+        return userService.isFirstLogin(id);
+    }
 
-
+    @RequestMapping(
+            value = "users/token/{id]",
+            method = RequestMethod.GET)
+    @ResponseBody
+    public String getToken(@PathVariable(value = "id") String id) {
+        return userService.getToken(id);
+    }
 
 
 }
