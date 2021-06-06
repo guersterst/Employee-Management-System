@@ -10,8 +10,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-<div th:fragment="navbar" class="navbar-static-top">
-    <nav class="navbar navbar-expand-lg">
+<div class="navbar-static-top">
+    <nav class="navbar navbar-expand-lg badge-dark">
         <!--Logo-->
         <a class="navbar-brand" href="#">EmployeeManager</a>
 
@@ -19,7 +19,7 @@
         <div class="collapse navbar-collapse" id="main-navigation">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="btn btn-link" href="employeeView.html">HomePage</a>
+                    <a href="employeeView.html" th:href="@{/employeeView.html}">HomePage</a>
 
                     <a class="nav-link" href="#">History</a>
                 </li>
