@@ -19,6 +19,7 @@
 .alert-danger {
     width: 30%;
     position: center;
+    text-align: center;
 }
 
 #inputFieldsForm {
