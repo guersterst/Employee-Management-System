@@ -69,15 +69,25 @@
 </footer>
 
 <script>
+    // Get the alert (error message) and both input fields for username / password.
     let errorMessage = $('#noPasswordOrUserNameEnteredErrorMessage');
     let userNameInputField = $('#userName');
     let passwordInputField = $('#password');
 
+    // When submitting the form with at least one of the input fields being empty, we
+    // set userNameWasEmpty to true if no user name was entered. We set passwordWasEmpty to true
+    // if no password was empty. This allows us to check onkeypress whether the field(s) that was/were
+    // left empty are now filled out. Then we fadeOut the alert.
     let userNameWasEmpty = false;
     let passwordWasEmpty = false;
 
+    // Fade out the alert when the site is loaded
     errorMessage.fadeOut(0);
 
+    // When submitting the form, we check whether at least one of the fields were left empty and fadeIn
+    // a warning. For this, we check which one of the fields were left empty / if both were left empty.
+    // Depending on the condition specified above, we set the errorMessage and set userNameWasEmpty and
+    // passwordWasEmpty. checkIfInputFieldsAreEmpty() is triggered onsubmit.
     function checkIfInputFieldsAreEmpty() {
         if (userNameInputField.val().length === 0 && passwordInputField.val().length === 0) {
             errorMessage.text("Please enter a user name and a password.");
@@ -97,6 +107,11 @@
         }
     }
 
+    // If one of the input fields were left empty, an alert is show. However, we want to fadeOut that alert
+    // as soon as the field is filled out. Thus, we check if the field that was left empty has received at least
+    // one character as its input. In case both were left empty, both fields need an input. Then, we fadeOut the
+    // alert.
+    // updateAlert() is triggered onkeypress.
     function updateAlert() {
         if (userNameWasEmpty && passwordWasEmpty && !(userNameInputField.val().length === 0
             || passwordInputField.val().length === 0)) {
