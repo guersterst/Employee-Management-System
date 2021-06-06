@@ -59,7 +59,12 @@
 
 <!--If the user presses "Login" without having entered a password or user name, an error is displayed-->
  <div class="alert alert-danger mx-auto" id="noPasswordOrUserNameEnteredErrorMessage">
-     <strong>Password or user name are wrong.</strong>
+     <strong>Input field is empty.</strong>
+ </div>
+
+ <!--If the user enters a forbidden character in the username-input-field, display this alert-->
+ <div class="alert alert-danger mx-auto" id="forbiddenCharacterEntered">
+     <strong>No special characters besides '@, -, _' are allowed in the username.</strong>
  </div>
 </body>
 
@@ -74,6 +79,9 @@
     let userNameInputField = $('#userName');
     let passwordInputField = $('#password');
 
+    // Get the alert that's displayed if the user enters forbidden special characters in userNameInputField
+    let errorMessageForbiddenCharacter = $('#forbiddenCharacterEntered');
+
     // When submitting the form with at least one of the input fields being empty, we
     // set userNameWasEmpty to true if no user name was entered. We set passwordWasEmpty to true
     // if no password was empty. This allows us to check onkeypress whether the field(s) that was/were
@@ -81,8 +89,9 @@
     let userNameWasEmpty = false;
     let passwordWasEmpty = false;
 
-    // Fade out the alert when the site is loaded
+    // Fade out the alerts when the site is loaded
     errorMessage.fadeOut(0);
+    errorMessageForbiddenCharacter.fadeOut(0);
 
     // When submitting the form, we check whether at least one of the fields were left empty and fadeIn
     // a warning. For this, we check which one of the fields were left empty / if both were left empty.
@@ -111,6 +120,8 @@
     // as soon as the field is filled out. Thus, we check if the field that was left empty has received at least
     // one character as its input. In case both were left empty, both fields need an input. Then, we fadeOut the
     // alert.
+    // Also, the username doesn't allow special characters apart from '@, -, _'. Thus, we also check whether
+    // the username includes a forbidden character and if so, we display a warning.
     // updateAlert() is triggered onkeypress.
     function updateAlert() {
         if (userNameWasEmpty && passwordWasEmpty && !(userNameInputField.val().length === 0
@@ -121,6 +132,15 @@
         } else if (!userNameWasEmpty && passwordWasEmpty && passwordInputField.val().length !== 0) {
             errorMessage.fadeOut(200);
         }
+
+        // If the username's input field isn't empty, we check whether a forbidden character is entered and if so,
+        // we display an alert.
+        if (userNameInputField.val().length === 0 || userNameInputField.val().match(/^[a-zA-Z0-9-_@]*$/)) {
+            errorMessageForbiddenCharacter.fadeOut(200);
+        } else {
+            errorMessageForbiddenCharacter.fadeIn(200);
+        }
+
     }
 </script>
 </html>
