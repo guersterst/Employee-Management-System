@@ -8,20 +8,9 @@
     <title>EmployeeManagement</title>
 </head>
 
-<!--Navbar has to be replaced. Only to get first view-->
-<nav class="navbar navbar-expand-lg badge-dark">
-    <!--Logo-->
-    <a class="navbar-brand" href="#">EmployeeManager</a>
-
-    <!--NavigationBar-->
-    <div class="collapse navbar-collapse" id="main-navigation">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a href="employeeView.html" th:href="@{/employeeView}">HomePage</a>
-
-                <a class="nav-link" href="#">History</a>
-            </li>
-        </ul>
+<nav>
+    <div class="row">
+        <div th:insert="'menubar'"></div>
     </div>
 </nav>
 
@@ -94,11 +83,7 @@
 </body>
 
 <footer>
-    <div class="footer">
-        <div class="text-center bg-dark text-light p-6" id="footer">
-            <p>© 2021 Copyright: Group 9</p>
-        </div>
-    </div>
+    <div th:insert="'footer'" class="embeddedFooter"></div>
 </footer>
 
 <style>
