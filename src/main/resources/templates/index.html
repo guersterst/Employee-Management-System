@@ -29,7 +29,8 @@
       <!--Specifies the input for the user name-->
       <div class = "row">
           <div class="form-group col-sm-5 mx-auto">
-              <input id="userName" class="form-control" type="text" placeholder="User Name" th:field="*{userName}" required>
+              <input id="userName" class="form-control" type="text" placeholder="User Name" th:field="*{userName}"
+                     onkeyup="updateAlert()" required>
               <div class="invalid-feedback">Please enter a user name</div>
           </div>
       </div>
@@ -37,7 +38,8 @@
       <!--Specifies the input for the password-->
       <div class = "row"> <!--But each input field into their own row-->
         <div class="form-group col-sm-5 mx-auto">
-            <input id="password" type="password" class="form-control" placeholder="Password" th:field="*{password}" required>
+            <input id="password" type="password" class="form-control" placeholder="Password" th:field="*{password}"
+                   onkeyup="updateAlert()" required>
             <div class="invalid-feedback">Please enter a password</div>
         </div>
       </div>
@@ -71,18 +73,38 @@
     let userNameInputField = $('#userName');
     let passwordInputField = $('#password');
 
+    let userNameWasEmpty = false;
+    let passwordWasEmpty = false;
+
     errorMessage.fadeOut(0);
 
     function checkIfInputFieldsAreEmpty() {
         if (userNameInputField.val().length === 0 && passwordInputField.val().length === 0) {
             errorMessage.text("Please enter a user name and a password.");
             errorMessage.fadeIn(200);
+            userNameWasEmpty = true;
+            passwordWasEmpty = true;
         } else if (userNameInputField.val().length === 0) {
             errorMessage.text("Please enter a user name.");
             errorMessage.fadeIn(200);
+            userNameWasEmpty = true;
+            passwordWasEmpty = false;
         } else if (passwordInputField.val().length === 0) {
             errorMessage.text("Please enter a password.");
             errorMessage.fadeIn(200);
+            userNameWasEmpty = false;
+            passwordWasEmpty = true;
+        }
+    }
+
+    function updateAlert() {
+        if (userNameWasEmpty && passwordWasEmpty && !(userNameInputField.val().length === 0
+            || passwordInputField.val().length === 0)) {
+            errorMessage.fadeOut(200);
+        } else if (userNameWasEmpty && !passwordWasEmpty && userNameInputField.val().length !== 0) {
+            errorMessage.fadeOut(200);
+        } else if (!userNameWasEmpty && passwordWasEmpty && passwordInputField.val().length !== 0) {
+            errorMessage.fadeOut(200);
         }
     }
 </script>
