@@ -20,27 +20,26 @@
 
 <body>
 <div>
-  <h1 class="text-center">Login</h1>
+  <h1 class="text-center">Choose Password</h1>
 </div>
-<i class="bi bi-person-circle" id="icon"></i>
 
 <form id="inputFieldsForm" class="needs-validation" method="post">
-  <div class = "row">
-    <div class="form-group col-sm-5 mx-auto">
-      <input id="userName" class="form-control" type="text" placeholder="User Name" required>
-      <div class="invalid-feedback">Please enter a user name</div>
-    </div>
-  </div>
-
-  <div class = "row">
-    <div class="form-group col-sm-5 mx-auto">
+  <div class = "row"> <!--But each input field into their own row-->
+    <div class="form-group col-sm-5 mx-auto"> <!--manipulates the width of the elements-->
       <input id="password" type="password" class="form-control" placeholder="Password" required>
       <div class="invalid-feedback">Please enter a password</div>
     </div>
   </div>
 
+  <div class = "row"> <!--But each input field into their own row-->
+    <div class="form-group col-sm-5 mx-auto"> <!--manipulates the width of the elements-->
+      <input id="passwordRepeated" type="password" class="form-control" placeholder="Repeat Password" required>
+      <div class="invalid-feedback">Please repeat the password</div>
+    </div>
+  </div>
+
   <div class="d-grid col-5 mx-auto">
-    <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="loginButton">Login</button>
+    <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="submitPassword">Submit Password</button>
   </div>
 </form>
 </body>
@@ -49,4 +48,66 @@
 <footer>
   <div th:insert="'footer'" class="embeddedFooter"></div>
 </footer>
+
+<style>
+  .embeddedFooter {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 16pt;
+    margin-bottom: -10px;
+  }
+
+  .form-control {
+    font-size: 14px;
+  }
+
+  .form-group {
+    margin-bottom: 10px;
+    margin-top: 5px;
+  }
+
+  .alert-danger {
+    width: 30%;
+    position: center;
+  }
+
+  #inputFieldsForm {
+    margin-top: 10%;
+  }
+
+  #submitPassword {
+    margin-bottom: 5px;
+    margin-top: 10px;
+    width: 18%;
+    min-width: 120px;
+    position: center;
+    text-align: center !important;
+  }
+
+  #password {
+    padding: 0 40px;
+    background: url("data:image/svg+xml,<svg viewBox='0 0 16 16' fill='%23333' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z' clip-rule='evenodd'/></svg>");
+    background-size: 16px 16px;
+    background-position: 8px 8px;
+    background-repeat: no-repeat;
+  }
+
+  #passwordRepeated {
+    padding: 0 40px;
+    background: url("data:image/svg+xml,<svg viewBox='0 0 16 16' fill='%23333' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z' clip-rule='evenodd'/></svg>");
+    background-size: 16px 16px;
+    background-position: 8px 8px;
+    background-repeat: no-repeat;
+  }
+
+  input {
+    padding: 10px 30px;
+  }
+
+  h1 {
+    margin-top: 20px;
+  }
+</style>
 </html>
