@@ -39,15 +39,43 @@
   </div>
 
   <div class="d-grid col-5 mx-auto">
-    <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="submitPassword">Submit Password</button>
+    <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="submitPassword" onclick="validate()">Submit Password</button>
   </div>
 </form>
+
+<div class="alert alert-danger mx-auto" id="errorMessage">
+  <strong>Passwords must match</strong>
+</div>
 </body>
 
 <!--Include the footer that contains the copyright info-->
 <footer>
   <div th:insert="'footer'" class="embeddedFooter"></div>
 </footer>
+
+
+<script>
+  let errorMessage = $('#errorMessage');
+  errorMessage.fadeOut(0);
+
+  var passwordInputField = $('#password');
+  var repeatedPasswordInputField = $('#passwordRepeated');
+
+  // When clicking the login button, we check whether both entered passwords are identical
+  function validate() {
+    let password = String(passwordInputField.val());
+    let repeatedPassword = String(repeatedPasswordInputField.val());
+    if (password != repeatedPassword) {
+      event.preventDefault();
+      event.stopPropagation();
+      errorMessage.fadeIn(200);
+      repeatedPasswordInputField.val("");
+
+      return false;
+    }
+    return true;
+  }
+</script>
 
 <style>
   .embeddedFooter {
