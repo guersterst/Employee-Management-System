@@ -24,15 +24,15 @@
 </div>
 
 <form id="inputFieldsForm" class="needs-validation" method="post">
-  <div class = "row"> <!--But each input field into their own row-->
-    <div class="form-group col-sm-5 mx-auto"> <!--manipulates the width of the elements-->
+  <div class = "row">
+    <div class="form-group col-sm-5 mx-auto">
       <input id="password" type="password" class="form-control" placeholder="Password" required>
       <div class="invalid-feedback">Please enter a password</div>
     </div>
   </div>
 
-  <div class = "row"> <!--But each input field into their own row-->
-    <div class="form-group col-sm-5 mx-auto"> <!--manipulates the width of the elements-->
+  <div class = "row">
+    <div class="form-group col-sm-5 mx-auto">
       <input id="passwordRepeated" type="password" class="form-control" placeholder="Repeat Password" required>
       <div class="invalid-feedback">Please repeat the password</div>
     </div>
@@ -55,16 +55,22 @@
 
 
 <script>
+  // The error message (passwords not matching) should not be shown when loading the view
   let errorMessage = $('#errorMessage');
   errorMessage.fadeOut(0);
 
+  // The passwords have to be checked for being identical
   var passwordInputField = $('#password');
   var repeatedPasswordInputField = $('#passwordRepeated');
 
   // When clicking the login button, we check whether both entered passwords are identical
   function validate() {
+    // Get the passwords as Strings
     let password = String(passwordInputField.val());
     let repeatedPassword = String(repeatedPasswordInputField.val());
+
+    // If the passwords don't match, stop the submission process, delete the input in the repeatedPasswordInputField
+    // and fade in the error message.
     if (password != repeatedPassword) {
       event.preventDefault();
       event.stopPropagation();
