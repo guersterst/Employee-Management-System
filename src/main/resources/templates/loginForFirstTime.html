@@ -28,7 +28,7 @@
     <div class="form-group col-sm-5 mx-auto">
       <label for="password">Password</label>
       <input id="password" type="password" class="form-control" placeholder="Password" required>
-      <button class="btn btn-primary" type="button" id="showHidePassword" onclick="showOrHidePassword()">Hide Password</button>
+      <button class="btn btn-light glyphicon glyphicon-eye-open" type="button" id="showHidePassword" onclick="showOrHidePassword()"></button>
     </div>
   </div>
 
@@ -79,10 +79,10 @@
   function showOrHidePassword() {
     if ($('#password').attr("type") === "text") {
       $('#password').attr("type", "password");
-      $('#showHidePassword').text("Show Password");
+      $('#showHidePassword').removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
     } else if ($('#password').attr("type") === "password") {
       $('#password').attr("type", "text");
-      $('#showHidePassword').text("Hide Password");
+      $('#showHidePassword').removeClass('glyphicon-eye-close').addClass('glyphicon-eye-open');
     }
   }
 
@@ -108,8 +108,13 @@
 
 <style>
   #showHidePassword {
-    width: 30%;
-    min-width: 120px;
+    width: 10%;
+    min-width: 27px;
+    max-height: 27px;
+    min-height: 27px;
+    position: relative;
+    left: 89.5%;
+    top: -38%;
   }
   .embeddedFooter {
     position: fixed;
