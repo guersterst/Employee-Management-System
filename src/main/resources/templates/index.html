@@ -29,6 +29,7 @@
       <!--Specifies the input for the user name-->
       <div class = "row">
           <div class="form-group col-sm-5 mx-auto">
+              <label for="userName">Username</label>
               <input id="userName" class="form-control" type="text" placeholder="User Name" th:field="*{userName}"
                      onkeyup="updateAlert()" required>
               <div class="invalid-feedback">Please enter a user name</div>
@@ -38,6 +39,7 @@
       <!--Specifies the input for the password-->
       <div class = "row"> <!--But each input field into their own row-->
         <div class="form-group col-sm-5 mx-auto">
+            <label for="password">Password</label>
             <input id="password" type="password" class="form-control" placeholder="Password" th:field="*{password}"
                    onkeyup="updateAlert()" required>
             <div class="invalid-feedback">Please enter a password</div>
