@@ -27,6 +27,7 @@
   <div class = "row">
     <div class="form-group col-sm-5 mx-auto">
       <input id="password" type="password" class="form-control" placeholder="Password" required>
+      <button class="btn btn-primary" type="button" id="showHidePassword" onclick="showOrHidePassword()">Hide Password</button>
     </div>
   </div>
 
@@ -47,7 +48,7 @@
 </div>
 
 <div class="progress mx-auto" style="height: 20px;" onkeyup="checkPasswordStrength()">
-  <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" id="passwordStrengthBar" style="width: 40%;"></div>
+  <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" id="passwordStrengthBar" style="width: 40px;"></div>
 </div>
 </body>
 
@@ -72,6 +73,17 @@
   // Password strength
   let passwordStrength = 0
 
+  // Shows/Hides password
+  function showOrHidePassword() {
+    if ($('#password').attr("type") === "text") {
+      $('#password').attr("type", "password");
+      $('#showHidePassword').text("Show Password");
+    } else if ($('#password').attr("type") === "password") {
+      $('#password').attr("type", "text");
+      $('#showHidePassword').text("Hide Password");
+    }
+  }
+
   // When clicking the login button, we check whether both entered passwords are identical
   function validate() {
     // Get the passwords as Strings
@@ -93,6 +105,10 @@
 </script>
 
 <style>
+  #showHidePassword {
+    width: 30%;
+    min-width: 120px;
+  }
   .embeddedFooter {
     position: fixed;
     bottom: 0;
