@@ -14,7 +14,7 @@
 <!--Navbar has to be replaced. Only to get first view-->
 <div class="container">
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbarNav" >
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbarNav">
             <span class="bi-menu-button "></span>
         </button>
         <a class="navbar-brand" href="#">EmployeeManager</a>
@@ -34,20 +34,23 @@
 </div>
 
 <body>
-<div>
-    <h1 class="d-flex badge-secondary">
+
+<div class="cont container-fluid">
+    <h1 class="badge-secondary">
         Employee List
-        <div class="clearfix">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <!--Site has to be finished first.-->
-                    <a href="#"><i class="bi-plus-lg"></i> </a>
-                </li>
-            </ul>
-        </div>
     </h1>
-</div>
-<div class="container-fluid">
+    <form>
+        <div class="form-group btn-toolbar mb-3" role="toolbar" aria-label="Toolbar for list">
+            <div class="form-control btn-group mr-2 align-items-center" role="group" aria-label="Buttongroup">
+                <button type="button" class="btn">
+                    <span class="bi-plus-lg"></span>
+                </button>
+                <button type="button" class="btn">
+                    <span class="bi-trash"></span>
+                </button>
+            </div>
+        </div>
+    </form>
     <table class="table table-hover table-striped table-bordered">
         <thead class="table-header">
         <tr>
@@ -55,6 +58,7 @@
             <th scope="col">Name</th>
             <th scope="col">Available</th>
             <th scope="col">On Site</th>
+            <th scope="col">Location</th>
             <th scope="col">CheckIn</th>
             <th scope="col">CheckOut</th>
         </tr>
@@ -65,6 +69,7 @@
             <td>Elias Goller</td>
             <td>available</td>
             <td>on site</td>
+            <td>48,57 13,46</td>
             <td>05.06.2021-12:00</td>
             <td>still here</td>
         </tr>
@@ -73,6 +78,7 @@
             <td>Stefanie Gürster</td>
             <td>not available</td>
             <td>no</td>
+            <td>48,57 12,99</td>
             <td>05.06.2021-9:00</td>
             <td>5.06.2021-13:00</td>
         </tr>
@@ -81,6 +87,7 @@
             <td>Johannes Garstenauer</td>
             <td>not available</td>
             <td>on site</td>
+            <td>48,57 13,46</td>
             <td>05.06.2021-12:00</td>
             <td>still here</td>
         </tr>
@@ -101,4 +108,11 @@
 <script src="js/bootstrap.js"></script>
 <script src="js/ct-navbar.js"></script>
 </body>
+
+<style>
+    .cont {
+        display: flow;
+        margin-top: 50px;
+    }
+</style>
 </html>
