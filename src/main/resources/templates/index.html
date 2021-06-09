@@ -36,15 +36,19 @@
               <div class="invalid-feedback">Please enter a user name</div>
           </div>
       </div>
-
       <!--Specifies the input for the password-->
       <div class = "row"> <!--But each input field into their own row-->
         <div class="form-group col-sm-5 mx-auto">
             <label for="password">Password</label>
-            <input id="password" type="password" class="form-control" placeholder="Password" th:field="*{password}"
+            <div class="input-group mb-3">
+                <input id="password" type="password" class="form-control" placeholder="Password" th:field="*{password}"
                    onkeyup="updateAlert()" required>
-            <div class="invalid-feedback">Please enter a password</div>
-            <button class="btn btn-light" type="button" id="showHidePassword" onclick="showOrHidePassword()"> <i class="bi-eye-slash" id="passwordButtonIcon"></i></button>
+                <div class="invalid-feedback">Please enter a password</div>
+                <div class="input-group-append">
+                    <button class="input-group-btn" type="button" id="showHidePassword" onclick="showOrHidePassword()">
+                        <i class="bi-eye-slash" id="passwordButtonIcon"></i></button>
+                </div>
+            </div>
         </div>
       </div>
 
@@ -146,18 +150,20 @@
         }
     }
 
+    // Determines whether to show or hide the password
     let passwordVisible = false;
 
-    // Show or hide the password
+    // Show or hide the password. Is called 'onclick' and thus only changes whenever the user clicks on the button.
+    // The icon is determined by '#passwordButtonIcon' and as a result we have to change the used class to determine
+    // what the icon should look like. 'bi-eye-slash' is a closed eye and represents that the password is not shown
+    // in text, whereas 'bi-eye' means just that.
     function showOrHidePassword() {
         if (passwordVisible) {
             passwordVisible = false;
-            $('#password').attr("type", "password");
-           // $('#showHidePassword').removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
+            passwordInputField.attr("type", "password");
             $('#passwordButtonIcon').removeClass('bi-eye').addClass('bi-eye-slash');
         } else {
-            $('#password').attr("type", "text");
-            //$('#showHidePassword').removeClass('glyphicon-eye-close').addClass('glyphicon-eye-open');
+            passwordInputField.attr("type", "text");
             $('#passwordButtonIcon').removeClass('bi-eye-slash').addClass('bi-eye');
             passwordVisible = true;
         }
