@@ -24,25 +24,25 @@
 
     <form id="inputFieldsForm" class="needs-validation"  onsubmit="return validate(event);">
         <div class = "row"> <!--But each input field into their own row-->
-            <div class="form-group col-sm-3 col-sm-offset-3"> <!--manipulates the width of the elements-->
+            <div class="form-group col mx-auto"> <!--manipulates the width of the elements-->
                 <label for="firstName">First Name</label>
                 <input id="firstName" type="text" class="form-control" placeholder="First Name" required>
                 <div class="invalid-feedback">Please enter the employee's first name.</div>
             </div>
 
-            <div class="form-group col-sm-3 col-sm-offset-0"> <!--manipulates the width of the elements-->
+            <div class="form-group col mx-auto"> <!--manipulates the width of the elements-->
                 <label for="firstName">Last Name</label>
                 <input id="lastName" type="text" class="form-control" placeholder="Last Name" required>
                 <div class="invalid-feedback">Please enter the employee's last name.</div>
             </div>
         </div>
         <div class = "row"> <!--But each input field into their own row-->
-            <div class="form-group col-sm-3 col-sm-offset-3">
+            <div class="form-group col mx-auto">
                 <label for="firstName">User Name</label>
                 <input id="userName" type="text" class="form-control" placeholder="User Name (optional)">
             </div>
 
-            <div class="form-group col-sm-3 col-sm-offset-0">
+            <div class="form-group col mx-auto">
                 <label for="firstName">Role in Company</label>
                 <input id="role" type="text" class="form-control" placeholder="Role" required>
             </div>
@@ -59,3 +59,20 @@
     <div th:insert="'footer'" class="embeddedFooter"></div>
 </footer>
 </html>
+
+<style>
+    .form-group {
+        margin-top: 4%;
+        margin-bottom: 2%;
+    }
+
+    #createAccountButton {
+        width: 30%;
+    }
+
+    #inputFieldsForm {
+        position: relative;
+        left: 10%;
+        width: 80%;
+    }
+</style>
