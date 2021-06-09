@@ -76,3 +76,21 @@
         width: 80%;
     }
 </style>
+
+<script>
+    // Test for what an automatic generation of user names could look like.
+    // Note: In the final version, this requires checking the database to find out
+    // how many employees have the username and concatenate the number at the end.
+    // This ensures the username's uniqueness.
+    function validate(event) {
+        let userNameInput = $('#userName');
+        let firstName = $('#firstName');
+        let lastName = $('#lastName');
+
+        if (userNameInput.val() === "" || userNameInput.val() === null) {
+            userNameInput.val(firstName.val() +  lastName.val() + "01");
+
+            alert(userNameInput.val());
+        }
+    }
+</script>
