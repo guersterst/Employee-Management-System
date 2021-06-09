@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
   <title>Set Password</title>
 </head>
 
@@ -27,8 +27,13 @@
   <div class = "row">
     <div class="form-group col-sm-5 mx-auto">
       <label for="password">Password</label>
+      <div class="input-group">
       <input id="password" type="password" class="form-control" placeholder="Password" required>
-      <button class="btn btn-light glyphicon glyphicon-eye-open" type="button" id="showHidePassword" onclick="showOrHidePassword()"></button>
+        <div class="input-group-append">
+          <button class="input-group-btn" type="button" id="showHidePassword" onclick="showOrHidePassword()">
+            <i class="bi-eye-slash" id="passwordButtonIcon"></i></button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -75,18 +80,31 @@
   // Password strength
   let passwordStrength = 0
 
-  // Shows/Hides password
+  // Determines whether to show or hide the password
+  let passwordVisible = false;
+
+  // Show or hide the password. Is called 'onclick' and thus only changes whenever the user clicks on the button.
+  // The icon is determined by '#passwordButtonIcon' and as a result we have to change the used class to determine
+  // what the icon should look like. 'bi-eye-slash' is a closed eye and represents that the password is not shown
+  // in text, whereas 'bi-eye' means just that.
   function showOrHidePassword() {
-    if ($('#password').attr("type") === "text") {
+    if (passwordVisible) {
+      passwordVisible = false;
       $('#password').attr("type", "password");
-      $('#showHidePassword').removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
-    } else if ($('#password').attr("type") === "password") {
+      // $('#showHidePassword').removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
+      passwordInputField.attr("type", "password");
+      $('#passwordButtonIcon').removeClass('bi-eye').addClass('bi-eye-slash');
+    } else {
       $('#password').attr("type", "text");
-      $('#showHidePassword').removeClass('glyphicon-eye-close').addClass('glyphicon-eye-open');
+      //$('#showHidePassword').removeClass('glyphicon-eye-close').addClass('glyphicon-eye-open');
+      passwordInputField.attr("type", "text");
+      $('#passwordButtonIcon').removeClass('bi-eye-slash').addClass('bi-eye');
+      passwordVisible = true;
     }
   }
 
-  // When clicking the login button, we check whether both entered passwords are identical
+
+    // When clicking the login button, we check whether both entered passwords are identical
   function validate() {
     // Get the passwords as Strings
     let password = String(passwordInputField.val());
@@ -160,13 +178,6 @@
     background-repeat: no-repeat;
   }
 
-  #passwordRepeated {
-    padding: 0 40px;
-    background: url("data:image/svg+xml,<svg viewBox='0 0 16 16' fill='%23333' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z' clip-rule='evenodd'/></svg>");
-    background-size: 16px 16px;
-    background-position: 8px 8px;
-    background-repeat: no-repeat;
-  }
 
   input {
     padding: 10px 30px;
