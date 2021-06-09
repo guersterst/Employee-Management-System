@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link href="../../static/css/login.css" th:href="@{/css/login.css}" rel="stylesheet"/>
     <title>Login</title>
 </head>
@@ -43,7 +44,7 @@
             <input id="password" type="password" class="form-control" placeholder="Password" th:field="*{password}"
                    onkeyup="updateAlert()" required>
             <div class="invalid-feedback">Please enter a password</div>
-            <button class="btn btn-light glyphicon glyphicon-eye-open" type="button" id="showHidePassword" onclick="showOrHidePassword()"></button>
+            <button class="btn btn-light" type="button" id="showHidePassword" onclick="showOrHidePassword()"> <i class="bi-eye-slash" id="passwordButtonIcon"></i></button>
         </div>
       </div>
 
@@ -145,14 +146,20 @@
         }
     }
 
+    let passwordVisible = false;
+
     // Show or hide the password
     function showOrHidePassword() {
-        if ($('#password').attr("type") === "text") {
+        if (passwordVisible) {
+            passwordVisible = false;
             $('#password').attr("type", "password");
-            $('#showHidePassword').removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
-        } else if ($('#password').attr("type") === "password") {
+           // $('#showHidePassword').removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
+            $('#passwordButtonIcon').removeClass('bi-eye').addClass('bi-eye-slash');
+        } else {
             $('#password').attr("type", "text");
-            $('#showHidePassword').removeClass('glyphicon-eye-close').addClass('glyphicon-eye-open');
+            //$('#showHidePassword').removeClass('glyphicon-eye-close').addClass('glyphicon-eye-open');
+            $('#passwordButtonIcon').removeClass('bi-eye-slash').addClass('bi-eye');
+            passwordVisible = true;
         }
     }
 </script>
