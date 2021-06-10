@@ -1,4 +1,4 @@
-package group9.employee_management.data;
+package group9.employee_management.persistence.entities;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -15,8 +15,7 @@ public class User {
     private String id;
 
     // Employee or admin name.
-    private String firstName;
-    private String lastName;
+    private String name;
 
     //TODO: password security.
     private String password;
@@ -41,12 +40,11 @@ public class User {
 
     public User(){}
 
-    public User (String id, String firstName, String lastName, String password, String token, boolean isAdmin,
+    public User (String id, String name, String password, String token, boolean isAdmin,
                  boolean isWorking, String position, Date validity) {
         super();
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.name = name;
         this.password = password;
         this.token = token;
         this.isAdmin = isAdmin;

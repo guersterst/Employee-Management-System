@@ -1,4 +1,4 @@
-package group9.employee_management.data;
+package group9.employee_management.persistence.entities;
 import javax.persistence.*;
 
 import java.sql.Date;
