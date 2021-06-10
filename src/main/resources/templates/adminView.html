@@ -36,21 +36,25 @@
 <body>
 
 <div class="cont container-fluid">
-    <h1 class="badge-secondary">
-        Employee List
-    </h1>
-    <form>
-        <div class="form-group btn-toolbar mb-3" role="toolbar" aria-label="Toolbar for list">
-            <div class="form-control btn-group mr-2 align-items-center" role="group" aria-label="Buttongroup">
+
+    <!--Toolbar for the employee list-->
+    <div class="card btn-toolbar mb-3" role="toolbar" aria-label="Toolbar for list">
+        <div class="card-header badge-secondary">
+            <h1>
+                <strong>Employee List</strong>
+            </h1>
+            <div class="btn-group mr-2 badge-secondary" role="group" aria-label="Buttongroup">
                 <button type="button" class="btn">
-                    <span class="bi-plus-lg"></span>
+                    <a class="float-right" href="#"><i class="bi-plus-lg"></i></a>
                 </button>
                 <button type="button" class="btn">
-                    <span class="bi-trash"></span>
+                    <a class="float-right" href="#"><i class="bi-trash"></i></a>
                 </button>
             </div>
         </div>
-    </form>
+    </div>
+
+    <!--List of all employees-->
     <table class="table table-hover table-striped table-bordered">
         <thead class="table-header">
         <tr>
@@ -94,6 +98,9 @@
         </tbody>
     </table>
 </div>
+
+
+
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
