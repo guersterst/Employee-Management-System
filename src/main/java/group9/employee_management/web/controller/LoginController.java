@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/users/")
 public class LoginController {
 
     @Autowired
@@ -28,7 +29,7 @@ public class LoginController {
      */
 
     @PostMapping(
-            value = "/users/authentication/{name}/{password}")
+            value = "/users/authentication/{name}/{password}") //TODO change path
     @ResponseBody
     public HttpStatus authorize(@PathVariable(value = "name") String name,
                                           @PathVariable(value = "password") String password){
@@ -38,30 +39,4 @@ public class LoginController {
             return HttpStatus.BAD_REQUEST;
         }
     }
-
-    @GetMapping(
-            value = "/users/name/{id}")
-    public String getFirstName(@PathVariable(value = "id") String id) {
-        return userService.getName(id);
-    }
-
-    @GetMapping(
-            value = "/users/admin-rights/{id}")
-    public boolean isAdmin(@PathVariable(value = "id") String id) {
-        return userService.isAdmin(id);
-    }
-
-    @GetMapping(
-            value = "users/first-login/{id}")
-    public boolean isFirstLogin(@PathVariable(value = "id") String id) {
-        return userService.isFirstLogin(id);
-    }
-
-    @GetMapping(
-            value = "users/token/{id}")
-    public String getToken(@PathVariable(value = "id") String id) {
-        return userService.getToken(id);
-    }
-
-
 }
