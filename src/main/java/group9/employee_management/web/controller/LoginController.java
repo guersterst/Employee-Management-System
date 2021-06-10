@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users/")
+@RequestMapping("/login/")
 public class LoginController {
 
     @Autowired
@@ -29,9 +29,9 @@ public class LoginController {
      */
 
     @PostMapping(
-            value = "/users/authentication/{name}/{password}") //TODO change path
+            value = "/{name}/{password}")
     @ResponseBody
-    public HttpStatus authorize(@PathVariable(value = "name") String name,
+    public HttpStatus login(@PathVariable(value = "name") String name,
                                           @PathVariable(value = "password") String password){
         if (userService.match(password, name)) {
             return HttpStatus.OK;

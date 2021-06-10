@@ -11,7 +11,7 @@ public class User {
 
     @Id
     //@Column(name = "user_id")
-    //@GeneratedValue(strategy = GenerationType.AUTO) //Best practice?
+    @GeneratedValue(strategy = GenerationType.AUTO) //Best practice?
     private String id;
 
     // Employee or admin name.
@@ -40,10 +40,9 @@ public class User {
 
     public User(){}
 
-    public User (String id, String name, String password, String token, boolean isAdmin,
+    public User (String name, String password, String token, boolean isAdmin,
                  boolean isWorking, String position, Date validity) {
         super();
-        this.id = id;
         this.name = name;
         this.password = password;
         this.token = token;
