@@ -14,40 +14,14 @@ import java.sql.Date;
  * A service to interact with the user tables.
  */
 @Service
-public class UserService implements CommandLineRunner {
+public class UserService {
 
     @Autowired
     private UserRepository userRepository;
 
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+    @Autowired
+    BCryptPasswordEncoder encoder;
 
-    /**
-     * Fill database with sample users.
-     */
-    @Override
-    public void run(String... strings) throws IOException {
-
-        // 1.1.2022
-        Date validityDate = new Date(1640991600000L);
-        //TODO hashToken
-        //TODO first and lastName
-        User user1 = new User("1", "H.P.Baxxter", hashPassword("h0wmUchisthef1sh"), "13",
-                true, false, "Lead singer", validityDate);
-
-        User user2 = new User("2", "Farin Urlaub", hashPassword("abc123def"), "12",
-                false, true, "Lead singer", validityDate);
-
-        User user3 = new User("3", "Kristoffer Jonas Klauß", hashPassword("überallAnJederWand"),
-                "13", false, false, "Rapper", validityDate);
-
-        userRepository.save(user1);
-        userRepository.save(user2);
-        userRepository.save(user3);
-    }
-
-    private String hashPassword(String password) {
-        return encoder.encode(password);
-    }
 
     //TODO clearer error messages than just false
     public boolean match(String password, String name) {
@@ -58,7 +32,6 @@ public class UserService implements CommandLineRunner {
             return false;
         }
     }
-
 
     /*
     Login getters.
