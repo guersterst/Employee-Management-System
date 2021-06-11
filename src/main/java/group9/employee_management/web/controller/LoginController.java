@@ -39,4 +39,9 @@ public class LoginController {
             return HttpStatus.BAD_REQUEST;
         }
     }
+
+    // GET Redirect after login attempt
+
+    //
+
 }

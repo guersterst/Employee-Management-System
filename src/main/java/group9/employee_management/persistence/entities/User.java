@@ -17,6 +17,8 @@ public class User {
     // Employee or admin name.
     private String name;
 
+    //TODO userName? z.B. goeller01 -> auto generate siehe studip
+
     //TODO: password security.
     private String password;
 
