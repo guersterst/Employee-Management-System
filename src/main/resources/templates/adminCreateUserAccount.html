@@ -64,7 +64,7 @@
                          <div class="form-group col mx-auto">
                              <label for="firstName">Role in Company</label>
                              <div class="dropdown">
-                                 <button class="btn dropdown-toggle" type="button" id="selectRoleDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="selectRoleDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Select Role
                                  </button>
                                  <!--This is for testing purposes. Later on, we will fill the dropdown-menu with
@@ -76,6 +76,14 @@
                                  </div>
                              </div>
                          </div>
+
+                         <div class="form-check">
+                             <input class="form-check-input" type="checkbox" value="" id="isAdmin">
+                             <label class="form-check-label" for="isAdmin">
+                                 Admin-Privileges
+                             </label>
+                         </div>
+
                          <!--Button to submit the form-->
                          <div class="d-grid col-12">
                              <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="createAccountButton">Create Account</button>
