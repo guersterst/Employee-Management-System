@@ -89,6 +89,11 @@
                              <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="createAccountButton">Create Account</button>
                          </div>
                      </form>
+
+                    <!--show alert if username already exists-->
+                    <div class="alert alert-danger mx-auto" id="userNameExistentAlert">
+                        <strong>This username exists already.</strong>
+                    </div>
                 </div>
 
                 <!--Elements needed to create a role-->
@@ -108,6 +113,11 @@
                             </div>
                         </div>
                     </form>
+
+                    <!--show alert if role already exists-->
+                    <div class="alert alert-danger mx-auto" id="roleAlreadyExistentAlert">
+                        <strong>This role exists already.</strong>
+                    </div>
                 </div>
             </div>
         </div>
@@ -128,6 +138,10 @@
         let firstName = $('#firstName');
         let lastName = $('#lastName');
 
+        // TODO: If username exists, fade out the alert. Implementation depends on how we handle this in the backend
+        // TODO: (in which way does the back-end inform the front-end about the duplicate username?).
+        // userNameExistsAlert.fadeOut(200);
+
         if (userNameInput.val() === "" || userNameInput.val() === null) {
             userNameInput.val(firstName.val() +  lastName.val() + "01");
 
@@ -143,4 +157,11 @@
             $('#selectRoleDropdown').text($(this).text());
         });
     });
+
+    // Don't display alerts at the start
+    let userNameExistsAlert = $('#userNameExistentAlert')
+    userNameExistsAlert.fadeOut();
+
+    let roleAlreadyExistentAlert = $('#roleAlreadyExistentAlert')
+    roleAlreadyExistentAlert.fadeOut();
 </script>
