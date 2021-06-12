@@ -1,5 +1,7 @@
 package group9.employee_management.persistence.entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -11,8 +13,12 @@ public class User {
 
     @Id
     //@Column(name = "user_id")
-    @GeneratedValue(strategy = GenerationType.AUTO) //Best practice?
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2") //Best practice?
+    //TODO replace
     private String id;
+
+    // Replace id with userName -> Auto generate
 
     // Employee or admin name.
     private String name;
@@ -25,8 +31,6 @@ public class User {
     // Initially always true;
     private boolean isFirstLogin;
 
-    // One-time password for the initial login.
-    private String token;
     private boolean isAdmin;
 
 
@@ -42,12 +46,11 @@ public class User {
 
     public User(){}
 
-    public User (String name, String password, String token, boolean isAdmin,
+    public User (String name, String password, boolean isAdmin,
                  boolean isWorking, String position, Date validity) {
         super();
         this.name = name;
         this.password = password;
-        this.token = token;
         this.isAdmin = isAdmin;
         this.isWorking = isWorking;
         this.position = position;

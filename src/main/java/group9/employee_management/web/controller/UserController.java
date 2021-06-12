@@ -15,26 +15,20 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(
-            value = "name/{id:[1-9]+[0-9]*}")
-    public String getFirstName(@PathVariable(value = "id") String id) {
-        return userService.getName(id);
-    }
-
-    @GetMapping(
             value = "admin-rights/{id:[1-9]+[0-9]*}")
     public boolean isAdmin(@PathVariable(value = "id") String id) {
         return userService.isAdmin(id);
     }
 
     @GetMapping(
-            value = "first-login/{id:[1-9]+[0-9]*}")
-    public boolean isFirstLogin(@PathVariable(value = "id") String id) {
-        return userService.isFirstLogin(id);
+            value = "name/{id:[1-9]+[0-9]*}")
+    public String getFirstName(@PathVariable(value = "id") String id) {
+        return userService.getName(id);
     }
 
     @GetMapping(
-            value = "token/{id:[1-9]+[0-9]*}")
-    public String getToken(@PathVariable(value = "id") String id) {
-        return userService.getToken(id);
+            value = "first-login/{id:[1-9]+[0-9]*}")
+    public boolean isFirstLogin(@PathVariable(value = "id") String id) {
+        return userService.isFirstLogin(id);
     }
 }
