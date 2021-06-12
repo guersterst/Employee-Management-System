@@ -22,38 +22,55 @@
 
 <body>
     <h1 class="text-center">Create User-Account</h1>
-
+    <div class="container">
+        <div class="row">
+    <div class="form-group col-md" id="createAccount">
     <form id="inputFieldsForm" class="needs-validation"  onsubmit="return validate(event);">
-        <div class = "row"> <!--But each input field into their own row-->
             <div class="form-group col mx-auto"> <!--manipulates the width of the elements-->
                 <label for="firstName">First Name</label>
-                <input id="firstName" type="text" class="form-control" placeholder="First Name" required>
-                <div class="invalid-feedback">Please enter the employee's first name.</div>
+                <div class="input-group">
+                    <input id="firstName" type="text" class="form-control" placeholder="First Name" required>
+                    <div class="invalid-feedback">Please enter the employee's first name.</div>
+                    <div class="input-group-append">
+                        <span class="input-group-addon bi-file-person" id="addon1"></span>
+                    </div>
+                </div>
             </div>
-
             <div class="form-group col mx-auto"> <!--manipulates the width of the elements-->
                 <label for="firstName">Last Name</label>
-                <input id="lastName" type="text" class="form-control" placeholder="Last Name" required>
-                <div class="invalid-feedback">Please enter the employee's last name.</div>
+                <div class="input-group">
+                    <input id="lastName" type="text" class="form-control" placeholder="Last Name" required>
+                    <div class="invalid-feedback">Please enter the employee's last name.</div>
+                    <div class="input-group-append">
+                        <span class="input-group-addon bi-file-person" id="addon2"></span>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class = "row"> <!--But each input field into their own row-->
             <div class="form-group col mx-auto">
                 <label for="firstName">User Name</label>
                 <input id="userName" type="text" class="form-control" placeholder="User Name (optional)">
             </div>
-
             <div class="form-group col mx-auto">
                 <label for="firstName">Role in Company</label>
-                <input id="role" type="text" class="form-control" placeholder="Role" required>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="selectRoleDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Select Role
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="selectRoleDropdown">
+                        <a class="dropdown-item" href="#">CEO</a>
+                        <a class="dropdown-item" href="#">Clerk</a>
+                        <a class="dropdown-item" href="#">Head of Department</a>
+                    </div>
+                </div>
+                <!--<input id="role" type="text" class="form-control" placeholder="Role" required>-->
             </div>
-        </div>
-
         <div class="d-grid col-12">
             <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="createAccountButton">Create Account</button>
         </div>
     </form>
+    </div>
 
+    <div class="form-group col-md" id="createRole">
     <form id="inputFieldsForRoleForm" class="needs-validation">
         <div class = "row"> <!--But each input field into their own row-->
             <div class="form-group col mx-auto">
@@ -65,6 +82,9 @@
             </div>
         </div>
     </form>
+    </div>
+    </div>
+    </div>
 </body>
 
 <footer>
@@ -88,4 +108,13 @@
             alert(userNameInput.val());
         }
     }
+
+    // Whenever a dropdown-item is selected (clicked on), the dropdown-menu assumes
+    // its text in order to show which role was selected.
+
+    $( ".dropdown-item" ).each(function() {
+        $(this).on("click", function() {
+            $('#selectRoleDropdown').text($(this).text());
+        });
+    });
 </script>

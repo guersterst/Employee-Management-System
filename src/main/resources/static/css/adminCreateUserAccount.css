@@ -36,20 +36,35 @@ h1 {
 
 #createAccountButton {
     width: 30%;
+    min-width: 120px;
+}
+
+#createRoleButton {
+    width: 30%;
+    min-width: 120px;
 }
 
 #inputFieldsForm {
     position: relative;
     left: 10%;
     width: 80%;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 #inputFieldsForRoleForm {
     position: relative;
     left: 10%;
     width: 80%;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 #createRoleButton {
     margin-top: 20px;
+}
+@media (min-width: 768px) {
+    #createRole {
+        border-left: 1px solid lightgray;
+    }
 }
