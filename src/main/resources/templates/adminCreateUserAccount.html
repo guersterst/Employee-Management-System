@@ -84,6 +84,26 @@
                              </label>
                          </div>
 
+
+                         <div class="form-group col mx-auto">
+                             <label for="password">Password</label>
+                             <div class="input-group">
+                                 <input id="password" type="password" class="form-control" placeholder="Password" required>
+                                 <div class="invalid-feedback">Please enter a password</div>
+                                 <div class="input-group-append">
+                                     <button class="input-group-btn" type="button" id="showHidePassword" onclick="showOrHidePassword()">
+                                         <i class="bi-eye-slash" id="passwordButtonIcon"></i></button>
+                                 </div>
+                             </div>
+                         </div>
+
+                         <div class="form-group col mx-auto">
+                             <label for="passwordRepeated">Repeat Password</label>
+                             <input id="passwordRepeated" type="password" class="form-control" placeholder="Repeat Password" required>
+                             <div class="invalid-feedback">Please repeat the password</div>
+                         </div>
+
+
                          <!--Button to submit the form-->
                          <div class="d-grid col-12">
                              <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="createAccountButton">Create Account</button>
@@ -129,6 +149,9 @@
 </html>
 
 <script>
+    let passwordInputField = $('#password');
+    let passwordRepeatedInputField = $('#passwordRepeated');
+
     // Test for what an automatic generation of user names could look like.
     // Note: In the final version, this requires checking the database to find out
     // how many employees have the username and concatenate the number at the end.
@@ -147,6 +170,17 @@
 
             alert(userNameInput.val());
         }
+
+        // Stop submission if passwords don't match
+        if (passwordInputField.val() !== passwordRepeatedInputField.val()) {
+            alert("Passwords don't match");
+            event.preventDefault();
+            event.stopPropagation();
+            repeatedPasswordInputField.val("");
+            return false;
+        }
+
+        return true;
     }
 
     // Whenever a dropdown-item is selected (clicked on), the dropdown-menu assumes
@@ -164,4 +198,24 @@
 
     let roleAlreadyExistentAlert = $('#roleAlreadyExistentAlert')
     roleAlreadyExistentAlert.fadeOut();
+
+    // Determines whether to show or hide the password
+    let passwordVisible = false;
+
+    // Show or hide the password. Is called 'onclick' and thus only changes whenever the user clicks on the button.
+    // The icon is determined by '#passwordButtonIcon' and as a result we have to change the used class to determine
+    // what the icon should look like. 'bi-eye-slash' is a closed eye and represents that the password is not shown
+    // in text, whereas 'bi-eye' means just that.
+    function showOrHidePassword() {
+        if (passwordVisible) {
+            passwordVisible = false;
+            passwordInputField.attr("type", "password");
+            $('#passwordButtonIcon').removeClass('bi-eye').addClass('bi-eye-slash');
+        } else {
+            passwordInputField.attr("type", "text");
+            $('#passwordButtonIcon').removeClass('bi-eye-slash').addClass('bi-eye');
+            passwordVisible = true;
+        }
+    }
+
 </script>
