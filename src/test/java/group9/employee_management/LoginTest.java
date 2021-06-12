@@ -18,29 +18,35 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 /*
 @WebMvcTest(value = LoginController.class)
 @AutoConfigureMockMvc(addFilters = false)
 
  */
 @SpringBootTest
+@AutoConfigureMockMvc
 class LoginTest {
 
 
-	//Aprivate MockMvc mockMvc = new MockMvc();
+    @Autowired
+    private MockMvc mockMvc;
 
 
-	@Autowired
-	UserService userService;
+    @Autowired
+    UserService userService;
 
-	@Autowired
-	UserRepository userRepository;
+    @Autowired
+    UserRepository userRepository;
 
-	@Test
-	void testPassWordMatching() throws Exception {
+    @Test
+    void testPassWordMatching() throws Exception {
+        UserDTO userDTO = new UserDTO();
+        mockMvc.perform(post("/login/authentication").flashAttr("loginForm",))
 /*
 		URL url = new URL("http://localhost:8080/login/authentication/FarinUrlaub/abc123def");
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -55,13 +61,14 @@ class LoginTest {
 		assert con.getResponseCode() == 200;
 
  */
-
-		mockMvc.perform(get("http://localhost:8080/login/authentication/Farin Urlaub/abc123def"))
+        /*
+		mockMvc.perform(post("http://localhost:8080/login/authentication/Farin Urlaub/abc123def"))
 				.andDo(print())
-				.andExpect(status().isOk());
-	}
+			.andExpect(status().isOk());
 
+         */
 
+    }
 
 
 }

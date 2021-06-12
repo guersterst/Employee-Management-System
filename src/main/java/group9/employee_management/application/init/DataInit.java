@@ -35,10 +35,10 @@ public class DataInit implements CommandLineRunner {
         //TODO first and lastName
         User user1 = new User("H.P.Baxxter", hashPassword("h0wmUchisthef1sh"),
                 true, false, "Lead singer", validityDate);
-
+        user1.setFirstLogin(false);
         User user2 = new User("Farin Urlaub", hashPassword("abc123def"),
                 false, true, "Lead singer", validityDate);
-
+        user2.setFirstLogin(false);
         User user3 = new User("Kristoffer Jonas Klauß", hashPassword("überallAnJederWand"),
                 false, false, "Rapper", validityDate);
 

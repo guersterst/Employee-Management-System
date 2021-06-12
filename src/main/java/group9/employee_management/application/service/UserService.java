@@ -71,7 +71,7 @@ public class UserService {
     public void setPassword(String id, String password) {
         assert userRepository != null;
         User user = userRepository.getById(id);
-        user.setPassword(password);
+        user.setPassword(encoder.encode(password));
         userRepository.save(user);
     }
 
