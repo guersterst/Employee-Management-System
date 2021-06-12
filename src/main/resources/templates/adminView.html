@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,74 +34,80 @@
 </div>
 
 <body>
-
 <div class="cont container-fluid">
+    <div class="flex-column flex-fill">
+        <div class="contList container-fluid">
+            <div class="row">
+                <div class="col-sm-auto">
+                    <!--Toolbar for the employee list-->
+                    <div class="card btn-toolbar mb-3" role="toolbar" aria-label="Toolbar for list">
+                        <div class="card-header badge-secondary">
+                            <h1>
+                                <strong>Employee List</strong>
+                            </h1>
+                            <div class="btn-group mr-2 badge-secondary" role="group" aria-label="Buttongroup">
+                                <button type="button" class="btn">
+                                    <a class="float-right" href="#"><i class="bi-plus-lg"></i></a>
+                                </button>
+                                <button type="button" class="btn">
+                                    <a class="float-right" href="#"><i class="bi-trash"></i></a>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
 
-    <!--Toolbar for the employee list-->
-    <div class="card btn-toolbar mb-3" role="toolbar" aria-label="Toolbar for list">
-        <div class="card-header badge-secondary">
-            <h1>
-                <strong>Employee List</strong>
-            </h1>
-            <div class="btn-group mr-2 badge-secondary" role="group" aria-label="Buttongroup">
-                <button type="button" class="btn">
-                    <a class="float-right" href="#"><i class="bi-plus-lg"></i></a>
-                </button>
-                <button type="button" class="btn">
-                    <a class="float-right" href="#"><i class="bi-trash"></i></a>
-                </button>
+                    <!--List of all employees-->
+                    <table class="table table-hover table-striped table-bordered col-sm-auto">
+                        <thead class="table-header">
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Available</th>
+                            <th scope="col">On Site</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">CheckIn</th>
+                            <th scope="col">CheckOut</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="">
+                            <th scope="row">1</th>
+                            <td>Elias Goller</td>
+                            <td>available</td>
+                            <td>on site</td>
+                            <td>48,57 13,46</td>
+                            <td>05.06.2021-12:00</td>
+                            <td>still here</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Stefanie Gürster</td>
+                            <td>not available</td>
+                            <td>no</td>
+                            <td>48,57 12,99</td>
+                            <td>05.06.2021-9:00</td>
+                            <td>5.06.2021-13:00</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Johannes Garstenauer</td>
+                            <td>not available</td>
+                            <td>on site</td>
+                            <td>48,57 13,46</td>
+                            <td>05.06.2021-12:00</td>
+                            <td>still here</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-
-    <!--List of all employees-->
-    <table class="table table-hover table-striped table-bordered">
-        <thead class="table-header">
-        <tr>
-            <th scope="col"></th>
-            <th scope="col">Name</th>
-            <th scope="col">Available</th>
-            <th scope="col">On Site</th>
-            <th scope="col">Location</th>
-            <th scope="col">CheckIn</th>
-            <th scope="col">CheckOut</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="">
-            <th scope="row">1</th>
-            <td>Elias Goller</td>
-            <td>available</td>
-            <td>on site</td>
-            <td>48,57 13,46</td>
-            <td>05.06.2021-12:00</td>
-            <td>still here</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Stefanie Gürster</td>
-            <td>not available</td>
-            <td>no</td>
-            <td>48,57 12,99</td>
-            <td>05.06.2021-9:00</td>
-            <td>5.06.2021-13:00</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Johannes Garstenauer</td>
-            <td>not available</td>
-            <td>on site</td>
-            <td>48,57 13,46</td>
-            <td>05.06.2021-12:00</td>
-            <td>still here</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-<div class="container-fluid">
-    <div id="map-container" class="map-responsive">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d168942.26559602303!2d13.268284140706921!3d48.57685584538658!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4774587943a0a065%3A0x41d25a40937af30!2sPassau!5e0!3m2!1sde!2sde!4v1623391671465!5m2!1sde!2sde" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    <div class="container-fluid">
+        <div id="map-container" class="map-responsive col-sm-auto">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d168942.26559602303!2d13.268284140706921!3d48.57685584538658!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4774587943a0a065%3A0x41d25a40937af30!2sPassau!5e0!3m2!1sde!2sde!4v1623391671465!5m2!1sde!2sde"
+                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
     </div>
 </div>
 
@@ -122,22 +128,27 @@
 
 <style>
     .cont {
-        display: flow;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         margin-top: 50px;
     }
 
-    .map-responsive{
-        overflow:hidden;
-        padding-bottom:56.25%;
-        position:relative;
-        height:0;
+    .map-responsive {
+        display: flow;
+        overflow: hidden;
+        padding-bottom: 56.25%;
+        position: relative;
+        height: 0;
     }
-    .map-responsive iframe{
-        left:0;
-        top:0;
-        height:100%;
-        width:100%;
-        position:absolute;
+
+    .map-responsive iframe {
+        display: flow;
+        left: 0;
+        top: 0;
+        margin: 20px;
+        height: 100%;
+        width: 100%;
+        position: absolute;
     }
 </style>
 </html>
