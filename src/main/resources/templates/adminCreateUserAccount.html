@@ -36,9 +36,9 @@
                              <div class="input-group">
                                  <input id="firstName" type="text" class="form-control" placeholder="First Name" required>
                                  <div class="invalid-feedback">Please enter the employee's first name.</div>
-                                 <div class="input-group-append">
+                                 <!--<div class="input-group-append">
                                      <span class="input-group-addon bi-file-person" id="icon1"></span>
-                                 </div>
+                                 </div>-->
                              </div>
                          </div>
                          <!--form-group for the user's last name-->
@@ -48,9 +48,9 @@
                              <div class="input-group">
                                  <input id="lastName" type="text" class="form-control" placeholder="Last Name" required>
                                  <div class="invalid-feedback">Please enter the employee's last name.</div>
-                                 <div class="input-group-append">
+                                 <!--<div class="input-group-append">
                                      <span class="input-group-addon bi-file-person" id="icon2"></span>
-                                 </div>
+                                 </div>-->
                              </div>
                          </div>
                          <!--Input field for user name. This input field is optional as a user name can be
@@ -83,7 +83,6 @@
                                  Admin-Privileges
                              </label>
                          </div>
-
 
                          <div class="form-group col mx-auto">
                              <label for="password">Password</label>
@@ -249,6 +248,9 @@
         }
     }
 
+    // Called 'onkeyup' for the password input fields. In case the passwords match, the alert is lifted.
+    // This only applies if the alert is currently being display, which in turn only happens if the admin
+    // tried to submit the form but the passwords were different from one another.
     function checkIfPasswordsMatch() {
         if (passwordsDidntMatchOnLastSubmit === true && passwordInputField.val() === passwordRepeatedInputField.val()) {
             passwordsDontMatchAlert.fadeOut(200);
