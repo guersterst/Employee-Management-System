@@ -35,10 +35,12 @@ public class LoginController {
     }
 
     /**
+     * Determine whether a user is allowed to login or has to create his password.
      *
      * @param userCredentials A dto containing the users login information.
      * @return {@code HttpStatus.BAD_REQUEST} if the password is incorrect, {@code HttpStatus.NOT_FOUND} if the
-     * there is no user with that name. Else OK will be returned.
+     * there is no user with that name. {@code HttpStatus.TOO_EARLY} if its a first time login. Else OK will be
+     * returned.
      */
     @PostMapping(
             value = "/authentication")
@@ -48,18 +50,54 @@ public class LoginController {
         //@PathVariable("name") String name, @PathVariable("pw") String pw)
         //TODO if is first login
         //TODO check for necessary dto information
-        try {
-            userService.match(userCredentials.getPassword(), userCredentials.getName());
-        } catch (NoSuchUserException noSuchUserException) {
-            return HttpStatus.NOT_FOUND;
-        } catch (WrongPasswordException ex) {
-            return HttpStatus.BAD_REQUEST;
+
+        if (userService.isFirstLoginByName(userCredentials.getName())) {
+            try {
+                userService.match(userCredentials.getPassword(), userCredentials.getName());
+            } catch (NoSuchUserException noSuchUserException) {
+
+                // Indicate that no user with that name exists.
+                return HttpStatus.NOT_FOUND;
+            } catch (WrongPasswordException ex) {
+
+                // Indicate that password and name do not match.
+                return HttpStatus.BAD_REQUEST;
+            }
+            return HttpStatus.TOO_EARLY;
+        } else {
+            try {
+                userService.match(userCredentials.getPassword(), userCredentials.getName());
+            } catch (NoSuchUserException noSuchUserException) {
+
+                // Indicate that no user with that name exists.
+                return HttpStatus.NOT_FOUND;
+            } catch (WrongPasswordException ex) {
+
+                // Indicate that password and name do not match.
+                return HttpStatus.BAD_REQUEST;
+            }
+            return HttpStatus.OK;
         }
-        return HttpStatus.OK;
+
+
     }
 
-    //?? GET Redirect after login attempt
+    /**
+     * Sets the new password and determines that this user must not set a new password the next
+     * time he logs in.
+     * @param userCredentials A dto containing the users login information including the desired
+     *                        password.
+     */
+    @PutMapping(
+            value = "/password-creation"
+    )
+    @ResponseBody
+    public void setPassword(@ModelAttribute("loginForm") UserDTO userCredentials) {
 
-    // POST password set
+        //TODO improve defensiveness
+        userService.setPassword(userCredentials.getId(), userCredentials.getPassword());
+        userService.setIsFirstLogin(userCredentials.getId(), false);
+    }
 
+//?? GET Redirect after login attempt
 }

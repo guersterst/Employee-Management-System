@@ -29,11 +29,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 class LoginTest {
 
-	/*
-	@Autowired
-	private MockMvc mockMvc;
 
-	 */
+	//Aprivate MockMvc mockMvc = new MockMvc();
+
 
 	@Autowired
 	UserService userService;
@@ -57,16 +55,13 @@ class LoginTest {
 		assert con.getResponseCode() == 200;
 
  */
-/*
+
 		mockMvc.perform(get("http://localhost:8080/login/authentication/Farin Urlaub/abc123def"))
 				.andDo(print())
 				.andExpect(status().isOk());
 	}
 
- */
-
-		assert userService.match("abc123def", "Farin Urlaub");
 
 
-	}
+
 }

@@ -5,13 +5,8 @@ import group9.employee_management.application.exception.WrongPasswordException;
 import group9.employee_management.persistence.entities.User;
 import group9.employee_management.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.sql.Date;
 
 /**
  * A service to interact with the user tables.
@@ -34,15 +29,12 @@ public class UserService {
      * If unsuccessful a descriptive exception will be thrown.
      *
      * @param password The given password.
-     * @param name The given name.
-     * @return True if successful, exception otherwise.
+     * @param name     The given name.
      */
-    public boolean match(String password, String name) throws WrongPasswordException, NoSuchUserException {
+    public void match(String password, String name) throws WrongPasswordException, NoSuchUserException {
         if (userRepository.userExistsByName(name)) {
             String encodedPW = userRepository.findPasswordById(userRepository.findIdByName(name));
-            if (encoder.matches(password, encodedPW)) {
-                return true;
-            } else {
+            if (!encoder.matches(password, encodedPW)) {
                 throw new WrongPasswordException();
             }
         } else {
@@ -58,11 +50,6 @@ public class UserService {
         return userRepository.findNameById(id);
     }
 
-    public String getPassword(String id) {
-        assert userRepository != null;
-        return userRepository.findPasswordById(id);
-    }
-
     public boolean isAdmin(String id) {
         assert userRepository != null;
         return userRepository.findIsAdminById(id);
@@ -76,5 +63,22 @@ public class UserService {
     public boolean isFirstLoginByName(String name) {
         assert userRepository != null;
         return userRepository.findIsFirstLoginById(userRepository.findIdByName(name));
+    }
+
+    /*
+    First login setters.
+     */
+    public void setPassword(String id, String password) {
+        assert userRepository != null;
+        User user = userRepository.getById(id);
+        user.setPassword(password);
+        userRepository.save(user);
+    }
+
+    public void setIsFirstLogin(String id, boolean isFirstLogin) {
+        assert userRepository != null;
+        User user = userRepository.getById(id);
+        user.setFirstLogin(isFirstLogin);
+        userRepository.save(user);
     }
 }
