@@ -22,69 +22,87 @@
 
 <body>
     <h1 class="text-center">Create User-Account</h1>
-    <div class="container">
-        <div class="row">
-    <div class="form-group col-md" id="createAccount">
-    <form id="inputFieldsForm" class="needs-validation"  onsubmit="return validate(event);">
-            <div class="form-group col mx-auto"> <!--manipulates the width of the elements-->
-                <label for="firstName">First Name</label>
-                <div class="input-group">
-                    <input id="firstName" type="text" class="form-control" placeholder="First Name" required>
-                    <div class="invalid-feedback">Please enter the employee's first name.</div>
-                    <div class="input-group-append">
-                        <span class="input-group-addon bi-file-person" id="addon1"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group col mx-auto"> <!--manipulates the width of the elements-->
-                <label for="firstName">Last Name</label>
-                <div class="input-group">
-                    <input id="lastName" type="text" class="form-control" placeholder="Last Name" required>
-                    <div class="invalid-feedback">Please enter the employee's last name.</div>
-                    <div class="input-group-append">
-                        <span class="input-group-addon bi-file-person" id="addon2"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group col mx-auto">
-                <label for="firstName">User Name</label>
-                <input id="userName" type="text" class="form-control" placeholder="User Name (optional)">
-            </div>
-            <div class="form-group col mx-auto">
-                <label for="firstName">Role in Company</label>
-                <div class="dropdown">
-                    <button class="btn dropdown-toggle" type="button" id="selectRoleDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Select Role
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="selectRoleDropdown">
-                        <a class="dropdown-item" href="#">CEO</a>
-                        <a class="dropdown-item" href="#">Clerk</a>
-                        <a class="dropdown-item" href="#">Head of Department</a>
-                    </div>
-                </div>
-                <!--<input id="role" type="text" class="form-control" placeholder="Role" required>-->
-            </div>
-        <div class="d-grid col-12">
-            <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="createAccountButton">Create Account</button>
-        </div>
-    </form>
-    </div>
+        <div class="container">
+            <!--Put both forms in one row-->
+            <div class="row">
+                <!--First form-group for the elements needed to create the account-->
+                <div class="form-group col-md" id="createAccount">
+                    <!--Form, which includes the input fields that will be sent on submit (for creating account)-->
+                     <form id="inputFieldsForm" class="needs-validation"  onsubmit="return validate(event);">
+                         <!--form-group for the user's first name-->
+                         <div class="form-group col mx-auto">
+                             <label for="firstName">First Name</label>
+                             <!--Use an input group so an icon can be added to the input field-->
+                             <div class="input-group">
+                                 <input id="firstName" type="text" class="form-control" placeholder="First Name" required>
+                                 <div class="invalid-feedback">Please enter the employee's first name.</div>
+                                 <div class="input-group-append">
+                                     <span class="input-group-addon bi-file-person" id="icon1"></span>
+                                 </div>
+                             </div>
+                         </div>
+                         <!--form-group for the user's last name-->
+                         <div class="form-group col mx-auto">
+                             <label for="firstName">Last Name</label>
+                             <!--Use an input group so an icon can be added to the input field-->
+                             <div class="input-group">
+                                 <input id="lastName" type="text" class="form-control" placeholder="Last Name" required>
+                                 <div class="invalid-feedback">Please enter the employee's last name.</div>
+                                 <div class="input-group-append">
+                                     <span class="input-group-addon bi-file-person" id="icon2"></span>
+                                 </div>
+                             </div>
+                         </div>
+                         <!--Input field for user name. This input field is optional as a user name can be
+                         generated using JavaScript if the field is left empty-->
+                         <div class="form-group col mx-auto">
+                             <label for="firstName">User Name</label>
+                             <input id="userName" type="text" class="form-control" placeholder="User Name (optional)">
+                         </div>
 
-    <div class="form-group col-md" id="createRole">
-    <form id="inputFieldsForRoleForm" class="needs-validation">
-        <div class = "row"> <!--But each input field into their own row-->
-            <div class="form-group col mx-auto">
-                <label for="roleCreate">User Name</label>
-                <input id="roleCreate" type="text" class="form-control" placeholder="Role Name">
-            </div>
-            <div class="form-group col mx-auto">
-                <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="createRoleButton">Create Role</button>
+                         <!--Selecting the role from a dropdown-menu:-->
+                         <div class="form-group col mx-auto">
+                             <label for="firstName">Role in Company</label>
+                             <div class="dropdown">
+                                 <button class="btn dropdown-toggle" type="button" id="selectRoleDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Select Role
+                                 </button>
+                                 <!--This is for testing purposes. Later on, we will fill the dropdown-menu with
+                                 elements from the database, which have been created by the admin-->
+                                 <div class="dropdown-menu" aria-labelledby="selectRoleDropdown">
+                                     <a class="dropdown-item" href="#">CEO</a>
+                                     <a class="dropdown-item" href="#">Clerk</a>
+                                     <a class="dropdown-item" href="#">Head of Department</a>
+                                 </div>
+                             </div>
+                         </div>
+                         <!--Button to submit the form-->
+                         <div class="d-grid col-12">
+                             <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="createAccountButton">Create Account</button>
+                         </div>
+                     </form>
+                </div>
+
+                <!--Elements needed to create a role-->
+                <div class="form-group col-md" id="createRole">
+                    <!--Form used to submit the content of a single input field,
+                    which is used to describe the name of a role-->
+                    <form id="inputFieldsForRoleForm" class="needs-validation">
+                        <div class = "row">
+                            <div class="form-group col mx-auto">
+                                <label for="roleCreate">Role</label>
+                                <input id="roleCreate" type="text" class="form-control" placeholder="Role Name">
+                            </div>
+
+                            <!--Button to submit content of the form-->
+                            <div class="form-group col mx-auto">
+                                <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="createRoleButton">Create Role</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </form>
-    </div>
-    </div>
-    </div>
 </body>
 
 <footer>
