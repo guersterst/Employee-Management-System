@@ -91,7 +91,7 @@
                                  <input id="password" type="password" class="form-control" placeholder="Password" required>
                                  <div class="invalid-feedback">Please enter a password</div>
                                  <div class="input-group-append">
-                                     <button class="input-group-btn" type="button" id="showHidePassword" onclick="showOrHidePassword()">
+                                     <button class="input-group-btn" type="button" id="showHidePassword" onclick="showOrHidePassword()" onkeyup="checkIfPasswordsMatch()">
                                          <i class="bi-eye-slash" id="passwordButtonIcon"></i></button>
                                  </div>
                              </div>
@@ -99,7 +99,7 @@
 
                          <div class="form-group col mx-auto">
                              <label for="passwordRepeated">Repeat Password</label>
-                             <input id="passwordRepeated" type="password" class="form-control" placeholder="Repeat Password" required>
+                             <input id="passwordRepeated" type="password" class="form-control" placeholder="Repeat Password" onkeyup="checkIfPasswordsMatch()" required>
                              <div class="invalid-feedback">Please repeat the password</div>
                          </div>
 
@@ -113,6 +113,16 @@
                     <!--show alert if username already exists-->
                     <div class="alert alert-danger mx-auto" id="userNameExistentAlert">
                         <strong>This username exists already.</strong>
+                    </div>
+
+                    <!--show alert if passwords don't match-->
+                    <div class="alert alert-danger mx-auto" id="passwordsDontMatchAlert">
+                        <strong>The entered passwords don't match.</strong>
+                    </div>
+
+                    <!--show alert if no role has been selected -->
+                    <div class="alert alert-danger mx-auto" id="noRoleSelectedAlert">
+                        <strong>Please select a role.</strong>
                     </div>
                 </div>
 
@@ -151,6 +161,8 @@
 <script>
     let passwordInputField = $('#password');
     let passwordRepeatedInputField = $('#passwordRepeated');
+    let roleSelected = false;
+    let passwordsDidntMatchOnLastSubmit = false;
 
     // Test for what an automatic generation of user names could look like.
     // Note: In the final version, this requires checking the database to find out
@@ -173,7 +185,17 @@
 
         // Stop submission if passwords don't match
         if (passwordInputField.val() !== passwordRepeatedInputField.val()) {
-            alert("Passwords don't match");
+            passwordsDontMatchAlert.fadeIn(200);
+            event.preventDefault();
+            event.stopPropagation();
+            passwordRepeatedInputField.val("");
+            passwordsDidntMatchOnLastSubmit = true;
+            return false;
+        }
+
+        // Stop submission process if no role has been selected from the dropdown-menu
+        if (!roleSelected) {
+            noRoleSelectedAlert.fadeIn(200);
             event.preventDefault();
             event.stopPropagation();
             repeatedPasswordInputField.val("");
@@ -189,6 +211,8 @@
     $( ".dropdown-item" ).each(function() {
         $(this).on("click", function() {
             $('#selectRoleDropdown').text($(this).text());
+            roleSelected = true;
+            noRoleSelectedAlert.fadeOut();
         });
     });
 
@@ -198,6 +222,13 @@
 
     let roleAlreadyExistentAlert = $('#roleAlreadyExistentAlert')
     roleAlreadyExistentAlert.fadeOut();
+
+    let passwordsDontMatchAlert = $('#passwordsDontMatchAlert')
+    passwordsDontMatchAlert.fadeOut();
+
+    let noRoleSelectedAlert = $('#noRoleSelectedAlert')
+    noRoleSelectedAlert.fadeOut();
+
 
     // Determines whether to show or hide the password
     let passwordVisible = false;
@@ -215,6 +246,12 @@
             passwordInputField.attr("type", "text");
             $('#passwordButtonIcon').removeClass('bi-eye-slash').addClass('bi-eye');
             passwordVisible = true;
+        }
+    }
+
+    function checkIfPasswordsMatch() {
+        if (passwordsDidntMatchOnLastSubmit === true && passwordInputField.val() === passwordRepeatedInputField.val()) {
+            passwordsDontMatchAlert.fadeOut(200);
         }
     }
 
