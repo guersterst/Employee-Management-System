@@ -106,25 +106,43 @@
   // Use RegEx patterns to determine the password strength
   function determinePasswordStrength() {
     let password = $('#password').val();
+    let isLongEnough = false;
+    let containsUppercaseAndLowercase = false;
+    let containsNumbers = false;
+    let containsSpecialCharacters = false;
 
     // Length should be higher than or equal to 8
     if (password.length >= 8) {
-      passwordStrength += 1;
+      isLongEnough = true;
+    } else {
+      passwordStrengthBar.removeClass('bg-warning').addClass('bg-danger');
     }
 
     // The password should contain lowercase and uppercase letters
-    if (password.match(/[a-z]+/) && password.match(/[A-Z]+/)) {
-      passwordStrength += 1;
+    if (password.match(/([a-zA-Z])+/) && (password.match(/[a-z]+/) && password.match(/[A-Z]+/))) {
+      containsUppercaseAndLowercase = true;
     }
 
     // The password should contain at least one number
     if (password.match(/[0-9]+/)) {
-      passwordStrength += 1;
+      containsNumbers = true;
     }
 
     // The password should contain a special character
-    if (password.match(/[#,*!_.@()[]{}+/)) {
-      passwordStrength += 1;
+    if (password.match(/#[!]+/)) {
+      containsSpecialCharacters = true;
+    }
+
+    passwordStrength = isLongEnough + containsUppercaseAndLowercase + containsNumbers + containsSpecialCharacters;
+
+    if (passwordStrength <= 1 || password.length < 8) {
+      passwordStrengthBar.removeClass('bg-warning').removeClass('bg-success').addClass('bg-danger');
+    } else if (passwordStrength >= 2 && passwordStrength < 3) {
+      passwordStrengthBar.removeClass('bg-danger').removeClass('bg-success').addClass('bg-warning');
+    } else if (passwordStrength >= 3 && passwordStrength < 4) {
+      passwordStrengthBar.removeClass('bg-danger').removeClass('bg-success').addClass('bg-warning');
+    } else if (passwordStrength >= 4) {
+      passwordStrengthBar.removeClass('bg-warning').removeClass('bg-danger').addClass('bg-success');
     }
   }
 
