@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <title>EmployeeManagement</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
 </head>
 
 <!--Navbar has to be replaced. Only to get first view-->
@@ -40,19 +49,19 @@
                 </div>
                 <!--Show saved message-->
                 <div class="saved-message form-group">
-                    <label class="form-control">Here should appear a message.</label>
+                    <label class="form-control" id="savedMsg" type="text">Here should appear a message.</label>
                 </div>
                 <!--Text field to leave a message-->
                 <div class="input-group h-50">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Notification</span>
                     </div>
-                    <textarea class="form-control" aria-label="With textarea"
-                              placeholder="Leave a message..."></textarea>
+                    <textarea class="form-control" aria-label="With textarea" placeholder="Leave a message..."
+                              id="message"></textarea>
                 </div>
                 <!--Options for message-->
                 <div class="message-util form-group">
-                    <button class=" btn btn-primary btn-lg center-block" type="submit" id="save-message">
+                    <button class=" btn btn-primary btn-lg center-block" type="submit" id="save-button">
                         Save
                     </button>
                     <button class="btn btn-primary btn-lg center-block" type="reset" id="delete-message">
@@ -62,6 +71,7 @@
             </div>
 
 
+            <!--Option toolbar-->
             <div class="state col-sm-auto">
                 <div class="form-text d-flex badge-secondary">
                     <h2>State</h2>
@@ -93,6 +103,23 @@
 </div>
 </body>
 
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+<script lang="JavaScript" type="text/javascript">
+
+    // Button in order to save the new message.
+    const saveButton = document.getElementById("save-button");
+
+
+    // Exchange the old message to the new one, written in the inputfield.
+    $(saveButton).click(function () {
+        const message = $("#message").val();
+        $("#savedMsg").text(message)
+    });
+    
+</script>
+
 <footer>
     <div class="footer">
         <div class="text-center bg-dark text-light p-6" id="footer">
@@ -108,6 +135,7 @@
         margin: 50px 20px 20px;
         text-align: center;
     }
+
     .message {
         display: flow;
     }
@@ -124,6 +152,7 @@
         display: flow;
         font-size: x-large;
     }
+
     .options {
         margin-top: 20px;
     }
