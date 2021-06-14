@@ -28,7 +28,7 @@
     <div class="form-group col-sm-5 mx-auto">
       <label for="password">Password</label>
       <div class="input-group">
-      <input id="password" type="password" class="form-control" placeholder="Password" required>
+      <input id="password" type="password" class="form-control" placeholder="Password" onkeyup="determinePasswordStrength()" required>
         <div class="input-group-append">
           <button class="input-group-btn" type="button" id="showHidePassword" onclick="showOrHidePassword()">
             <i class="bi-eye-slash" id="passwordButtonIcon"></i></button>
@@ -40,7 +40,7 @@
   <div class = "row">
     <div class="form-group col-sm-5 mx-auto">
       <label for="passwordRepeated">Repeat Password</label>
-      <input id="passwordRepeated" type="password" class="form-control" placeholder="Repeat Password" required>
+      <input id="passwordRepeated" type="password" class="form-control" placeholder="Repeat Password" onkeyup="determinePasswordStrength()" required>
       <div class="invalid-feedback">Please repeat the password</div>
     </div>
   </div>
@@ -77,9 +77,6 @@
   let passwordInputField = $('#password');
   let repeatedPasswordInputField = $('#passwordRepeated');
 
-  // Password strength
-  let passwordStrength = 0
-
   // Determines whether to show or hide the password
   let passwordVisible = false;
 
@@ -100,6 +97,34 @@
       passwordInputField.attr("type", "text");
       $('#passwordButtonIcon').removeClass('bi-eye-slash').addClass('bi-eye');
       passwordVisible = true;
+    }
+  }
+
+  // Password strength
+  let passwordStrength = 0
+
+  // Use RegEx patterns to determine the password strength
+  function determinePasswordStrength() {
+    let password = $('#password').val();
+
+    // Length should be higher than or equal to 8
+    if (password.length >= 8) {
+      passwordStrength += 1;
+    }
+
+    // The password should contain lowercase and uppercase letters
+    if (password.match(/[a-z]+/) && password.match(/[A-Z]+/)) {
+      passwordStrength += 1;
+    }
+
+    // The password should contain at least one number
+    if (password.match(/[0-9]+/)) {
+      passwordStrength += 1;
+    }
+
+    // The password should contain a special character
+    if (password.match(/[#,*!_.@()[]{}+/)) {
+      passwordStrength += 1;
     }
   }
 
@@ -165,7 +190,7 @@
     margin-bottom: 5px;
     margin-top: 10px;
     width: 18%;
-    min-width: 120px;
+    min-width: 220px;
     position: center;
     text-align: center !important;
   }
