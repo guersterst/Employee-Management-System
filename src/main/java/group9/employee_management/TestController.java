@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class TestController {
     @GetMapping("")
     public String index() {
-        return "adminView";
+        return "historyView";
     }
 }
