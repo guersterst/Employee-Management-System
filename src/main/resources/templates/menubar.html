@@ -10,22 +10,25 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-<div th:fragment="navbar" class="navbar-static-top">
-    <nav class="navbar navbar-expand-lg">
-        <!--Logo-->
+<div class="navbar-static-top">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="bi-menu-button "></span>
+        </button>
         <a class="navbar-brand" href="#">EmployeeManager</a>
-
-        <!--NavigationBar-->
-        <div class="collapse navbar-collapse" id="main-navigation">
-            <ul class="navbar-nav">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav nav-fill w-100">
                 <li class="nav-item">
-                    <a class="btn btn-link" href="employeeView.html">HomePage</a>
-
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#">History</a>
                 </li>
             </ul>
         </div>
+        <a class="pull-right" href="#"><i class="bi-arrow-right-circle"></i> Logout</a>
     </nav>
+    <br><br>
 </div>
 </body>
 </html>

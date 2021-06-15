@@ -13,24 +13,7 @@
 
 <!--Navbar has to be replaced. Only to get first view-->
 <div class="container">
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbarNav">
-            <span class="bi-menu-button "></span>
-        </button>
-        <a class="navbar-brand" href="#">EmployeeManager</a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav nav-fill w-100">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">History</a>
-                </li>
-            </ul>
-        </div>
-        <a class="pull-right" href="#"><i class="bi-arrow-right-circle"></i> Logout</a>
-    </nav>
-    <br><br>
+    <div th:insert="'menubar'"></div>
 </div>
 
 <body>
