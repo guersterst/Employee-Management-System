@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+  <link href="../../static/css/adminCreateUserAccount.css" th:href="@{/css/adminCreateUserAccount.css}" rel="stylesheet" media="screen" />
+  <title>User Settings</title>
+</head>
+
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+<nav>
+  <div class="row">
+    <div th:insert="'menubar'"></div>
+  </div>
+</nav>
+
+
+<body>
+<div class="container">
+  <!--Put both forms in one row-->
+  <div class="row">
+    <!--First form-group for the elements needed to create the account-->
+    <div class="form-group col-md" id="userAccount">
+      <h2 class="text-center">Create User-Account</h2>
+      <!--Form, which includes the input fields that will be sent on submit (for creating account)-->
+      <form id="inputFieldsForm" class="needs-validation">
+        <!--form-group for the user's first name-->
+        <div class="form-group col mx-auto">
+          <label for="firstName">First Name</label>
+          <!--Use an input group so an icon can be added to the input field-->
+          <div class="input-group">
+            <input id="firstName" type="text" class="form-control" placeholder="First Name" required readonly>
+            <div class="invalid-feedback">Please enter the employee's first name.</div>
+            <!--<div class="input-group-append">
+                <span class="input-group-addon bi-file-person" id="icon1"></span>
+            </div>-->
+          </div>
+        </div>
+        <!--form-group for the user's last name-->
+        <div class="form-group col mx-auto">
+          <label for="firstName">Last Name</label>
+          <!--Use an input group so an icon can be added to the input field-->
+          <div class="input-group">
+            <input id="lastName" type="text" class="form-control" placeholder="Last Name" required readonly>
+            <div class="invalid-feedback">Please enter the employee's last name.</div>
+            <!--<div class="input-group-append">
+                <span class="input-group-addon bi-file-person" id="icon2"></span>
+            </div>-->
+          </div>
+        </div>
+        <!--Input field for user name. This input field is optional as a user name can be
+        generated using JavaScript if the field is left empty-->
+        <div class="form-group col mx-auto">
+          <label for="firstName">User Name</label>
+          <input id="userName" type="text" class="form-control" placeholder="User Name" readonly>
+        </div>
+
+        <div class="form-group col mx-auto">
+          <label for="password">Password</label>
+          <div class="input-group">
+            <input id="password" type="password" class="form-control" placeholder="Password" required readonly>
+            <div class="invalid-feedback">Please enter a password</div>
+            <div class="input-group-append">
+              <button class="input-group-btn" type="button" id="showHidePassword" onclick="showOrHidePassword()" onkeyup="checkIfPasswordsMatch()">
+                <i class="bi-eye-slash" id="passwordButtonIcon"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group col mx-auto">
+          <label for="passwordRepeated">Repeat Password</label>
+          <input id="passwordRepeated" type="password" class="form-control" placeholder="Repeat Password" required readonly>
+          <div class="invalid-feedback">Please repeat the password</div>
+        </div>
+
+
+        <!--Button to submit the form-->
+        <div class="d-grid col-12">
+          <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="submitButton">Submit Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="d-grid col-12">
+    <button class="btn btn-primary btn-lg center-block mx-auto d-block" id="editButton" onclick="enableOrDisableEditing()">Edit</button>
+  </div>
+</div>
+</body>
+
+<footer>
+  <div th:insert="'footer'" class="embeddedFooter"></div>
+</footer>
+</html>
