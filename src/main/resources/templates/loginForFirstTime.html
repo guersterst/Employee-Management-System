@@ -25,7 +25,7 @@
 
 <div class="container">
   <form id="inputFieldsForm" class="needs-validation" method="post">
-    <row>
+    <div class="row">
       <div class="form-group col-sm-5 mx-auto">
         <label for="password">Password</label>
         <div class="input-group">
@@ -36,9 +36,9 @@
           </div>
         </div>
       </div>
-    </row>
+    </div>
 
-    <row>
+    <div class="row">
       <div class="form-group col-sm-5 mx-auto">
         <label for="passwordRepeated">Repeat Password</label>
         <div class="input-group">
@@ -49,13 +49,13 @@
           </div>
         </div>
       </div>
-    </row>
+    </div>
 
-    <row>
+    <div class="row">
       <div class="progress mx-auto" style="height: 20px;" onkeyup="checkPasswordStrength()">
         <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" id="passwordStrengthBar" style="width: 40px;"></div>
       </div>
-    </row>
+    </div>
 
     <div class="d-grid col-5 mx-auto">
       <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="submitPassword" onclick="validate()">Submit Password</button>
