@@ -14,14 +14,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder encoder;
+
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+        this.encoder = new BCryptPasswordEncoder(10);
     }
-
-    private final UserRepository userRepository;
-
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
 
 
     /**
@@ -80,5 +80,14 @@ public class UserService {
         User user = userRepository.getById(id);
         user.setFirstLogin(isFirstLogin);
         userRepository.save(user);
+    }
+
+    /*
+    Getters for defensive programming/ validation.
+     */
+
+    public boolean userExistsById(String id) {
+        assert userRepository != null;
+        return userRepository.userExistsById(id);
     }
 }

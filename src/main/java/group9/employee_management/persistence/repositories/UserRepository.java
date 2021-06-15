@@ -28,6 +28,9 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query("SELECT CASE WHEN COUNT(u) = 0 THEN false ELSE true END FROM User u WHERE u.name like :name")
     boolean userExistsByName(@Param("name") String name);
 
+    @Query("SELECT CASE WHEN COUNT(u) = 0 THEN false ELSE true END FROM User u WHERE u.id like :id")
+    boolean userExistsById(@Param("id") String id);
+
     @Query("SELECT u.id FROM User u WHERE u.name LIKE :name")
     String findIdByName(@Param("name") String name);
 }

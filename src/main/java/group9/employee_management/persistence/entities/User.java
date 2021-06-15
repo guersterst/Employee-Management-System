@@ -15,24 +15,16 @@ public class User {
     //@Column(name = "user_id")
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2") //Best practice?
-    //TODO replace
+    //TODO Replace id with userName -> Auto generate z.B. goeller01 -> auto generate siehe studip
     private String id;
-
-    // Replace id with userName -> Auto generate
 
     // Employee or admin name.
     private String name;
-
-    //TODO userName? z.B. goeller01 -> auto generate siehe studip
-
-    //TODO: password security.
     private String password;
 
     // Initially always true;
     private boolean isFirstLogin;
-
     private boolean isAdmin;
-
 
     // True indicates that this user is currently working, while false indicates the opposite.
     private boolean isWorking;

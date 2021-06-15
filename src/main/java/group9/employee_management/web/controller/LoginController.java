@@ -20,7 +20,7 @@ public class LoginController {
         this.userService = userService;
     }
 
-    private UserService userService;
+    private final UserService userService;
 
     /**
      * Show the login page.
@@ -39,7 +39,8 @@ public class LoginController {
      *
      * @param userCredentials A dto containing the users login information.
      * @return {@code HttpStatus.BAD_REQUEST} if the password is incorrect, {@code HttpStatus.NOT_FOUND} if the
-     * there is no user with that name. {@code HttpStatus.TOO_EARLY} if its a first time login. Else OK will be
+     * there is no user with that name. {@code HttpStatus.TOO_EARLY} if its a first time login and the initial login
+     * could be performed with the given login credentials. Else OK will be
      * returned.
      */
     @PostMapping(
@@ -63,6 +64,8 @@ public class LoginController {
                 // Indicate that password and name do not match.
                 return HttpStatus.BAD_REQUEST;
             }
+
+            // Indicate that it is a first time login.
             return HttpStatus.TOO_EARLY;
         } else {
             try {
@@ -78,8 +81,6 @@ public class LoginController {
             }
             return HttpStatus.OK;
         }
-
-
     }
 
     /**
@@ -87,17 +88,26 @@ public class LoginController {
      * time he logs in.
      * @param userCredentials A dto containing the users login information including the desired
      *                        password.
+     * @return Returns {@code HttpStatus.OK} if the operation was succesful. Returns {@code HttpStatus.BAD_REQUEST}
+     * otherwise.
      */
     @PutMapping(
             value = "/password-creation"
     )
     @ResponseBody
-    public void setPassword(@ModelAttribute("loginForm") UserDTO userCredentials) {
+    public HttpStatus setPassword(@ModelAttribute("loginForm") UserDTO userCredentials) {
 
-        //TODO improve defensiveness
-        userService.setPassword(userCredentials.getId(), userCredentials.getPassword());
-        userService.setIsFirstLogin(userCredentials.getId(), false);
+        String id = userCredentials.getId();
+        String password = userCredentials.getPassword();
+
+        if (userService.userExistsById(id)) {
+            userService.setPassword(id, password);
+            userService.setIsFirstLogin(id, false);
+            return HttpStatus.OK;
+        } else {
+            return HttpStatus.BAD_REQUEST;
+        }
     }
 
-//?? GET Redirect after login attempt
+    //?? GET Redirect after login attempt
 }

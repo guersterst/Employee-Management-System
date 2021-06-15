@@ -45,8 +45,28 @@ class LoginTest {
 
     @Test
     void testPassWordMatching() throws Exception {
-        UserDTO userDTO = new UserDTO();
-        mockMvc.perform(post("/login/authentication").flashAttr("loginForm",))
+        UserDTO validUser = new UserDTO();
+        validUser.setName("Farin Urlaub");
+        validUser.setPassword("abc123def");
+
+        UserDTO invalidUserPW = new UserDTO();
+        invalidUserPW.setName("Farin Urlaub");
+        invalidUserPW.setPassword("abc13def");
+
+        UserDTO invalidUserName = new UserDTO();
+        invalidUserName.setName("Farin Arlaub");
+        invalidUserName.setPassword("abc123def");
+
+        UserDTO validUserFirstLogin = new UserDTO();
+        validUserFirstLogin.setName("Kristoffer Jonas Klauß");
+        validUserFirstLogin.setPassword("überallAnJederWand");
+
+
+        //TODO am i using modelattribute wrongly?
+
+        mockMvc.perform(post("/login/authentication")
+                .flashAttr("loginForm", validUser))
+                .andDo(print()).andExpect(status().isOk());
 /*
 		URL url = new URL("http://localhost:8080/login/authentication/FarinUrlaub/abc123def");
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();

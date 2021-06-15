@@ -13,10 +13,14 @@ import java.sql.Date;
 @Component
 public class DataInit implements CommandLineRunner {
 
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+    private final BCryptPasswordEncoder encoder;
+    private final UserRepository userRepository;
 
     @Autowired
-    UserRepository userRepository;
+    public DataInit(UserRepository userRepository) {
+        this.userRepository = userRepository;
+        this.encoder = new BCryptPasswordEncoder(10);
+    }
 
 
     private String hashPassword(String password) {
@@ -29,9 +33,8 @@ public class DataInit implements CommandLineRunner {
     @Override
     public void run(String... strings) {
 
-        // 1.1.2022
+        // This date is equivalent to 1.1.2022.
         Date validityDate = new Date(1640991600000L);
-        //TODO hashToken
         //TODO first and lastName
         User user1 = new User("H.P.Baxxter", hashPassword("h0wmUchisthef1sh"),
                 true, false, "Lead singer", validityDate);

@@ -1,7 +1,9 @@
 package group9.employee_management.web.dto;
 
+/**
+ * A container used for communication between the controllers and the client.
+ */
 public class UserDTO {
-
 
     //TODO replace with userName as soon as available
     private String id;
