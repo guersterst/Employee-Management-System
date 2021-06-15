@@ -93,8 +93,4 @@ public class AccountService {
             userRepository.save(user);
         }
     }
-
-    public boolean test(){
-        return userRepository.userExistsByUserName("bax01");
-    }
 }

@@ -25,6 +25,7 @@ public class UserAccountManipulationController {
     /**
      * Sets a new password and determines that this user must not set a new password the next
      * time he logs in.
+     *
      * @param userCredentials A dto containing the users id and new password.
      * @return Returns {@code HttpStatus.OK} if the operation was successful. Returns {@code HttpStatus.BAD_REQUEST}
      * otherwise.
@@ -82,13 +83,4 @@ public class UserAccountManipulationController {
             return HttpStatus.BAD_REQUEST;
         }
     }
-
-    @GetMapping(
-            value = "/get"
-    )
-    @ResponseBody
-    public String testGET() {
-       return Boolean.toString(accountService.test());
-    }
-    // POST smaller userDTO
 }
