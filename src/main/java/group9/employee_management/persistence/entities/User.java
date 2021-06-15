@@ -11,15 +11,14 @@ import java.sql.Date;
 @Entity
 public class User {
 
-    @Id
-    //@Column(name = "user_id")
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2") //Best practice?
-    //TODO Replace id with userName -> Auto generate z.B. goeller01 -> auto generate siehe studip
-    private String id;
+
 
     // Employee or admin name.
-    private String name;
+    private String firstName;
+    private String lastName;
+
+    @Id
+    private String userName;
     private String password;
 
     // Initially always true;
@@ -38,10 +37,12 @@ public class User {
 
     public User(){}
 
-    public User (String name, String password, boolean isAdmin,
+    public User (String userName, String firstName, String lastName, String password, boolean isAdmin,
                  boolean isWorking, String position, Date validity) {
         super();
-        this.name = name;
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
         this.isAdmin = isAdmin;
         this.isWorking = isWorking;
@@ -50,20 +51,40 @@ public class User {
         this.isFirstLogin = true;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
 
     public void setFirstLogin(boolean isFirstLogin) {
         this.isFirstLogin = isFirstLogin;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    public void setWorking(boolean working) {
+        isWorking = working;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public void setValidity(Date validity) {
+        this.validity = validity;
     }
 }
 

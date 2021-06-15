@@ -13,25 +13,29 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    /*
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
     }
-     */
 
-    /*
+
+
     //TODO
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+        http.authorizeRequests().antMatchers("/**").permitAll();
+        /*
         http.authorizeRequests().antMatchers("/register").permitAll().antMatchers("/welcome")
                 .hasAnyRole("USER", "ADMIN").antMatchers("/getEmployees").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/addNewEmployee").hasAnyRole("ADMIN").anyRequest().authenticated().and().formLogin()
                 .loginPage("/login").permitAll().and().logout().permitAll();
 
         http.csrf().disable();
+
+         */
     }
-     */
+
 }
 

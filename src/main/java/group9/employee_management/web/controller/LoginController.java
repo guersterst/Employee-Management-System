@@ -2,7 +2,7 @@ package group9.employee_management.web.controller;
 
 import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.application.exception.WrongPasswordException;
-import group9.employee_management.application.service.UserService;
+import group9.employee_management.application.service.LoginService;
 import group9.employee_management.web.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,11 +16,11 @@ public class LoginController {
     //AUTH none
 
     @Autowired
-    public LoginController(UserService userService) {
-        this.userService = userService;
+    public LoginController(LoginService loginService) {
+        this.loginService = loginService;
     }
 
-    private final UserService userService;
+    private final LoginService loginService;
 
     /**
      * Show the login page.
@@ -29,9 +29,9 @@ public class LoginController {
      * @return The login page ("index.html")
      */
     @GetMapping("")
-    public String index(Model model) {
+    public void index(Model model) {
         model.addAttribute("loginForm", new UserDTO());
-        return "index";
+        //return "index";
     }
 
     /**
@@ -49,12 +49,12 @@ public class LoginController {
     @ResponseBody
     public HttpStatus login(@ModelAttribute("loginForm") UserDTO userCredentials) {
         //@PathVariable("name") String name, @PathVariable("pw") String pw)
-        //TODO if is first login
+        //TODO if is admin
         //TODO check for necessary dto information
 
-        if (userService.isFirstLoginByName(userCredentials.getName())) {
+        if (loginService.isFirstLogin(userCredentials.getUserName())) {
             try {
-                userService.match(userCredentials.getPassword(), userCredentials.getName());
+                loginService.match(userCredentials.getPassword(), userCredentials.getUserName());
             } catch (NoSuchUserException noSuchUserException) {
 
                 // Indicate that no user with that name exists.
@@ -69,7 +69,7 @@ public class LoginController {
             return HttpStatus.TOO_EARLY;
         } else {
             try {
-                userService.match(userCredentials.getPassword(), userCredentials.getName());
+                loginService.match(userCredentials.getPassword(), userCredentials.getUserName());
             } catch (NoSuchUserException noSuchUserException) {
 
                 // Indicate that no user with that name exists.
@@ -80,32 +80,6 @@ public class LoginController {
                 return HttpStatus.BAD_REQUEST;
             }
             return HttpStatus.OK;
-        }
-    }
-
-    /**
-     * Sets the new password and determines that this user must not set a new password the next
-     * time he logs in.
-     * @param userCredentials A dto containing the users login information including the desired
-     *                        password.
-     * @return Returns {@code HttpStatus.OK} if the operation was succesful. Returns {@code HttpStatus.BAD_REQUEST}
-     * otherwise.
-     */
-    @PutMapping(
-            value = "/password-creation"
-    )
-    @ResponseBody
-    public HttpStatus setPassword(@ModelAttribute("loginForm") UserDTO userCredentials) {
-
-        String id = userCredentials.getId();
-        String password = userCredentials.getPassword();
-
-        if (userService.userExistsById(id)) {
-            userService.setPassword(id, password);
-            userService.setIsFirstLogin(id, false);
-            return HttpStatus.OK;
-        } else {
-            return HttpStatus.BAD_REQUEST;
         }
     }
 

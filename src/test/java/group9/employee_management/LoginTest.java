@@ -1,21 +1,13 @@
 package group9.employee_management;
 
-import group9.employee_management.application.service.UserService;
+import group9.employee_management.application.service.LoginService;
 import group9.employee_management.persistence.repositories.UserRepository;
-import group9.employee_management.web.controller.LoginController;
 import group9.employee_management.web.dto.UserDTO;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -38,35 +30,41 @@ class LoginTest {
 
 
     @Autowired
-    UserService userService;
+    LoginService loginService;
 
     @Autowired
     UserRepository userRepository;
 
     @Test
     void testPassWordMatching() throws Exception {
+        /*
         UserDTO validUser = new UserDTO();
-        validUser.setName("Farin Urlaub");
+        validUser.setName("Farin", "Urlaub");
         validUser.setPassword("abc123def");
 
         UserDTO invalidUserPW = new UserDTO();
-        invalidUserPW.setName("Farin Urlaub");
+        invalidUserPW.setName("Farin", "Urlaub");
         invalidUserPW.setPassword("abc13def");
 
         UserDTO invalidUserName = new UserDTO();
-        invalidUserName.setName("Farin Arlaub");
+        invalidUserName.setName("Farin", "Arlaub");
         invalidUserName.setPassword("abc123def");
 
         UserDTO validUserFirstLogin = new UserDTO();
-        validUserFirstLogin.setName("Kristoffer Jonas Klauß");
+        validUserFirstLogin.setName("Kristoffer Jonas", "Klauß");
         validUserFirstLogin.setPassword("überallAnJederWand");
+
+         */
 
 
         //TODO am i using modelattribute wrongly?
-
+/*
         mockMvc.perform(post("/login/authentication")
                 .flashAttr("loginForm", validUser))
+
                 .andDo(print()).andExpect(status().isOk());
+
+ */
 /*
 		URL url = new URL("http://localhost:8080/login/authentication/FarinUrlaub/abc123def");
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
