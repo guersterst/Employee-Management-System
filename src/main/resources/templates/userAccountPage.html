@@ -97,4 +97,37 @@
 <footer>
   <div th:insert="'footer'" class="embeddedFooter"></div>
 </footer>
+
+
+<script>
+  let edit = $('#editButton');
+  let submit = $('#submitButton');
+  let password = $('#password');
+  let repeatedPassword = $('#passwordRepeated');
+  let userName = $('#userName');
+  let firstName = $('#firstName');
+  let lastName = $('#lastName');
+
+  let isEditing = false;
+  function enableOrDisableEditing() {
+    submit.fadeOut(0);
+    if (!isEditing) {
+      isEditing = true;
+      password.attr('readonly', false);
+      repeatedPassword.attr('readonly', false);
+      userName.attr('readonly', false);
+      firstName.attr('readonly', false);
+      lastName.attr('readonly', false);
+      edit.text("Cancel");
+    } else {
+      isEditing = false;
+      password.attr('readonly', true);
+      repeatedPassword.attr('readonly', true);
+      userName.attr('readonly', true);
+      firstName.attr('readonly', true);
+      lastName.attr('readonly', true);
+      edit.text("Edit");
+    }
+  }
+</script>
 </html>
