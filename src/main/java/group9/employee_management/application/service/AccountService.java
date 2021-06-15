@@ -54,15 +54,27 @@ public class AccountService {
     User account manipulation
      */
 
-    public void setName(String id, String firstName, String lastName) throws NoSuchUserException {
+    public void setName(String userName, String firstName, String lastName) throws NoSuchUserException {
         assert userRepository != null;
-        User user = userRepository.getById(id);
+        User user = userRepository.getUserByUserName(userName);
 
         if (user == null) {
-            throw new NoSuchUserException(id);
+            throw new NoSuchUserException(userName);
         } else {
             user.setFirstName(firstName);
             user.setLastName(lastName);
+            userRepository.save(user);
+        }
+    }
+
+    public void setPosition(String userName, String position) throws NoSuchUserException {
+        assert userRepository != null;
+        User user = userRepository.getUserByUserName(userName);
+
+        if (user == null) {
+            throw new NoSuchUserException(userName);
+        } else {
+            user.setPosition(position);
             userRepository.save(user);
         }
     }
@@ -71,23 +83,23 @@ public class AccountService {
             First login setters.
             */
 
-    public void setPassword(String id, String password) throws NoSuchUserException {
+    public void setPassword(String userName, String password) throws NoSuchUserException {
         assert userRepository != null;
-        User user = userRepository.getById(id);
+        User user = userRepository.getUserByUserName(userName);
         if (user == null) {
-            throw new NoSuchUserException(id);
+            throw new NoSuchUserException(userName);
         } else {
             user.setPassword(encoder.encode(password));
             userRepository.save(user);
         }
     }
 
-    public void setIsFirstLogin(String id, boolean isFirstLogin) throws NoSuchUserException {
+    public void setIsFirstLogin(String userName, boolean isFirstLogin) throws NoSuchUserException {
         assert userRepository != null;
-        User user = userRepository.getById(id);
+        User user = userRepository.getUserByUserName(userName);
 
         if (user == null) {
-            throw new NoSuchUserException(id);
+            throw new NoSuchUserException(userName);
         } else {
             user.setFirstLogin(isFirstLogin);
             userRepository.save(user);

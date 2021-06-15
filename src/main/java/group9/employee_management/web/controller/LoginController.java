@@ -29,9 +29,9 @@ public class LoginController {
      * @return The login page ("index.html")
      */
     @GetMapping("")
-    public void index(Model model) {
+    public String index(Model model) {
         model.addAttribute("loginForm", new UserDTO());
-        //return "index";
+        return "index";
     }
 
     /**
@@ -66,6 +66,7 @@ public class LoginController {
             }
 
             // Indicate that it is a first time login.
+            //TODO this is not nice
             return HttpStatus.TOO_EARLY;
         } else {
             try {

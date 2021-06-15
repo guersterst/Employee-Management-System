@@ -16,6 +16,9 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query("SELECT u.password FROM User u WHERE u.userName = :userName")
     String findPasswordByUserName(@Param("userName") String userName);
 
+    @Query("SELECT u FROM User u WHERE u.userName = :userName")
+    User getUserByUserName(@Param("userName") String userName);
+
     @Query("SELECT u.isFirstLogin FROM User u WHERE u.userName = :userName")
     boolean findIsFirstLoginByUserName(@Param("userName") String userName);
 
