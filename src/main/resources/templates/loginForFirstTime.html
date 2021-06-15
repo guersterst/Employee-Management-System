@@ -51,6 +51,12 @@
       </div>
     </row>
 
+    <row>
+      <div class="progress mx-auto" style="height: 20px;" onkeyup="checkPasswordStrength()">
+        <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" id="passwordStrengthBar" style="width: 40px;"></div>
+      </div>
+    </row>
+
     <div class="d-grid col-5 mx-auto">
       <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="submitPassword" onclick="validate()">Submit Password</button>
     </div>
@@ -60,8 +66,8 @@
     <strong>Passwords must match</strong>
   </div>
 
-  <div class="progress mx-auto" style="height: 20px;" onkeyup="checkPasswordStrength()">
-    <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" id="passwordStrengthBar" style="width: 40px;"></div>
+  <div class="alert alert-danger mx-auto" id="passwordTooShort">
+    <strong>Passwords must be at least 8 characters long.</strong>
   </div>
 </div>
 </body>
@@ -94,7 +100,6 @@
   // in text, whereas 'bi-eye' means just that.
   function showOrHidePassword(passwordInputFieldToHide) {
     if (passwordInputFieldToHide === "password") {
-      alert("Normal");
       if (passwordVisible) {
         passwordVisible = false;
         $('#password').attr("type", "password");
@@ -127,6 +132,9 @@
 
   // Password strength
   let passwordStrength = 0
+  let alertIfPasswordIsTooShort = $('#passwordTooShort');
+  alertIfPasswordIsTooShort.fadeOut(0);
+  passwordStrengthBar.css('width', 0+'%').attr('aria-valuenow', 0);
 
   // Use RegEx patterns to determine the password strength
   function determinePasswordStrength() {
@@ -139,8 +147,9 @@
     // Length should be higher than or equal to 8
     if (password.length >= 8) {
       isLongEnough = true;
+      alertIfPasswordIsTooShort.fadeOut(200);
     } else {
-      passwordStrengthBar.removeClass('bg-warning').addClass('bg-danger');
+      alertIfPasswordIsTooShort.fadeIn(200);
     }
 
     // The password should contain lowercase and uppercase letters
@@ -154,20 +163,28 @@
     }
 
     // The password should contain a special character
-    if (password.match(/#[!]+/)) {
+    if (password.match(/[!+*.:,;-_"§$%&/()=?{}]+/)) {
       containsSpecialCharacters = true;
     }
 
     passwordStrength = isLongEnough + containsUppercaseAndLowercase + containsNumbers + containsSpecialCharacters;
 
-    if (passwordStrength <= 1 || password.length < 8) {
+    if (passwordStrength <= 1) {
       passwordStrengthBar.removeClass('bg-warning').removeClass('bg-success').addClass('bg-danger');
+      passwordStrengthBar.css('width', 20 + '%').attr('aria-valuenow', 20);
     } else if (passwordStrength >= 2 && passwordStrength < 3) {
       passwordStrengthBar.removeClass('bg-danger').removeClass('bg-success').addClass('bg-warning');
+      passwordStrengthBar.css('width', 35 + '%').attr('aria-valuenow', 35);
     } else if (passwordStrength >= 3 && passwordStrength < 4) {
       passwordStrengthBar.removeClass('bg-danger').removeClass('bg-success').addClass('bg-warning');
+      passwordStrengthBar.css('width', 65 + '%').attr('aria-valuenow', 65);
     } else if (passwordStrength >= 4) {
       passwordStrengthBar.removeClass('bg-warning').removeClass('bg-danger').addClass('bg-success');
+      passwordStrengthBar.css('width', 100 + '%').attr('aria-valuenow', 100);
+    }
+
+    if (password.length < 8) {
+      passwordStrengthBar.removeClass('bg-warning').removeClass('bg-success').addClass('bg-danger');
     }
   }
 
@@ -185,7 +202,12 @@
       event.stopPropagation();
       errorMessage.fadeIn(200);
       repeatedPasswordInputField.val("");
-
+      return false;
+    } else if (password.length < 8) {
+      event.preventDefault();
+      event.stopPropagation();
+      errorMessage.fadeIn(200);
+      repeatedPasswordInputField.val("");
       return false;
     }
     return true;
@@ -215,6 +237,7 @@
   .alert-danger {
     width: 30%;
     position: center;
+    margin-top: 20px;
   }
 
   #submitPassword {
@@ -224,6 +247,7 @@
     min-width: 220px;
     position: center;
     text-align: center !important;
+    margin-top: 50px;
   }
 
   #password {
@@ -248,6 +272,15 @@
   }
 
   h1 {
+    margin-top: 20px;
+  }
+
+  .progress {
+    width: 50%;
+    min-width: 300px;
+  }
+
+  #passwordTooShort {
     margin-top: 20px;
   }
 </style>
