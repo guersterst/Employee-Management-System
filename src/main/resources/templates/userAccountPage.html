@@ -112,16 +112,31 @@
         </div>
 
         <!--Button to submit the form-->
-        <div class="d-grid col-12">
-          <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="submitButton">Submit Changes</button>
+        <div class="row">
+          <button class="btn btn-primary btn-lg center-block mx-auto" type="submit" id="submitButton">Submit Changes</button>
+        </div>
+
+        <!--Allow the user to edit their settings (default: display forms as readonly)-->
+        <div class="row">
+          <button class="btn btn-primary btn-lg center-block mx-auto" type="button" id="editButton" onclick="enableOrDisableEditing()">Edit</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!--Allow the user to edit their settings (default: display forms as readonly)-->
-  <div class="d-grid col-12">
-    <button class="btn btn-primary btn-lg center-block mx-auto d-block" id="editButton" onclick="enableOrDisableEditing()">Edit</button>
+  <!--show alert if username already exists-->
+  <div class="alert alert-danger mx-auto" id="userNameExistentAlert">
+    <strong>This username exists already.</strong>
+  </div>
+
+  <!--show alert if passwords don't match-->
+  <div class="alert alert-danger mx-auto" id="passwordsDontMatchAlert">
+    <strong>The entered passwords don't match.</strong>
+  </div>
+
+  <!--show alert if no role has been selected -->
+  <div class="alert alert-danger mx-auto" id="noRoleSelectedAlert">
+    <strong>Please select a role.</strong>
   </div>
 </div>
 </body>
@@ -139,11 +154,13 @@
   let userName = $('#userName');
   let firstName = $('#firstName');
   let lastName = $('#lastName');
+  submit.fadeOut();
 
   let isEditing = false;
   function enableOrDisableEditing() {
     submit.fadeOut(0);
     if (!isEditing) {
+      submit.fadeIn(200);
       isEditing = true;
       password.attr('readonly', false);
       repeatedPassword.attr('readonly', false);
@@ -152,6 +169,7 @@
       lastName.attr('readonly', false);
       edit.text("Cancel");
     } else {
+      submit.fadeOut(20);
       isEditing = false;
       password.attr('readonly', true);
       repeatedPassword.attr('readonly', true);
@@ -199,6 +217,19 @@
     }
   }
 
+  // Alerts:
+  // Don't display alerts at the start
+  let userNameExistsAlert = $('#userNameExistentAlert')
+  userNameExistsAlert.fadeOut();
+
+  let roleAlreadyExistentAlert = $('#roleAlreadyExistentAlert')
+  roleAlreadyExistentAlert.fadeOut();
+
+  let passwordsDontMatchAlert = $('#passwordsDontMatchAlert')
+  passwordsDontMatchAlert.fadeOut();
+
+  let noRoleSelectedAlert = $('#noRoleSelectedAlert')
+  noRoleSelectedAlert.fadeOut();
 </script>
 
 <style>
@@ -232,6 +263,10 @@
     width: 30%;
     min-width: 120px;
     margin-top: 20px;
+  }
+
+  #editButton {
+    margin-top:20px;
   }
 
   #inputFieldsForm {
