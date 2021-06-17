@@ -18,26 +18,13 @@ body{
     text-align: left;
 }
 
-
-@media (max-width: 767px) {
-    .timeline {
-        max-width: 98%;
-        padding: 25px;
-    }
-}
-
 .timeline .event {
     border-bottom: 1px dashed #e8ebf1;
-    padding-bottom: 25px;
-    margin-bottom: 25px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
     position: relative;
 }
 
-@media (max-width: 767px) {
-    .timeline .event {
-        padding-top: 30px;
-    }
-}
 
 .timeline .event:last-of-type {
     padding-bottom: 0;
