@@ -35,7 +35,6 @@ public class UserCreationController {
                 && newUser.getFirstName() != null
                 && newUser.getLastName() != null
                 && newUser.getPassword() != null
-                //&& newUser.isAdmin() != null
                 && newUser.getPosition() != null) {
             accountService.createUser(newUser.getUserName(), newUser.getFirstName(), newUser.getLastName(),
                     newUser.getPassword(), newUser.isAdmin(), newUser.getPosition());

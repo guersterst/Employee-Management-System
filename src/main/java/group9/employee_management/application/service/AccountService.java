@@ -79,6 +79,18 @@ public class AccountService {
         }
     }
 
+    public void setAdmin(String userName, boolean admin) throws NoSuchUserException {
+        assert userRepository != null;
+        User user = userRepository.getUserByUserName(userName);
+
+        if (user == null) {
+            throw new NoSuchUserException(userName);
+        } else {
+            user.setAdmin(admin);
+            userRepository.save(user);
+        }
+    }
+
             /*
             First login setters.
             */

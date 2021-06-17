@@ -55,7 +55,7 @@ public class UserAccountManipulationController {
 
 
     /**
-     * Sets a new name.
+     * Sets a new first and last name for the user.
      *
      * @param userCredentials A dto containing the users id and new name.
      * @return Returns {@code HttpStatus.OK} if the operation was successful. Returns {@code HttpStatus.BAD_REQUEST}
@@ -84,6 +84,59 @@ public class UserAccountManipulationController {
         }
     }
 
+    /**
+     * Sets the admin rights for a user.
+     *
+     * @param userCredentials A dto containing the users id and new name.
+     * @return Returns {@code HttpStatus.OK} if the operation was successful. Returns {@code HttpStatus.BAD_REQUEST}
+     * otherwise.
+     */
+    @PutMapping(
+            value = "/admin"
+    )
+    @ResponseBody
+    public HttpStatus setAdmin(@ModelAttribute("accountForm") UserDTO userCredentials) {
 
+        String userName = userCredentials.getUserName();
+        boolean admin = userCredentials.isAdmin();
 
+        if (accountService.userExistsByUserName(userName) && userName != null) {
+            try {
+                accountService.setAdmin(userName, admin);
+            } catch (NoSuchUserException exception) {
+                return HttpStatus.BAD_REQUEST;
+            }
+            return HttpStatus.OK;
+        } else {
+            return HttpStatus.BAD_REQUEST;
+        }
+    }
+
+    /**
+     * Sets the admin rights for a user.
+     *
+     * @param userCredentials A dto containing the users id and new name.
+     * @return Returns {@code HttpStatus.OK} if the operation was successful. Returns {@code HttpStatus.BAD_REQUEST}
+     * otherwise.
+     */
+    @PutMapping(
+            value = "/position"
+    )
+    @ResponseBody
+    public HttpStatus setPosition(@ModelAttribute("accountForm") UserDTO userCredentials) {
+
+        String userName = userCredentials.getUserName();
+        String position = userCredentials.getPosition();
+
+        if (accountService.userExistsByUserName(userName) && position != null) {
+            try {
+                accountService.setPosition(userName, position);
+            } catch (NoSuchUserException exception) {
+                return HttpStatus.BAD_REQUEST;
+            }
+            return HttpStatus.OK;
+        } else {
+            return HttpStatus.BAD_REQUEST;
+        }
+    }
 }
