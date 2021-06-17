@@ -77,16 +77,14 @@
                     <h2>State</h2>
                 </div>
                 <div class="options">
-                    <div class="available btn-group btn-group-toggle d-table">
-                        <button class="btn btn-default badge-dark">ON</button>
-                        <button class="btn btn-primary badge-info active">OFF</button>
-                        <label class="availLabel form-check-label">Availability</label>
+                    <div class="available d-table custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="availableSwitch">
+                        <label class="custom-control-label" for="availableSwitch">Availability</label>
                     </div>
                     <hr>
-                    <div class="location btn-group btn-group-toggle d-table">
-                        <button class="btn btn-default badge-dark">ON</button>
-                        <button class="btn btn-primary badge-info active">OFF</button>
-                        <label class="form-check-label">On Site</label>
+                    <div class="location d-table custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="locationSwitch">
+                        <label class="custom-control-label" for="locationSwitch">On Site</label>
                     </div>
                     <hr>
                     <!--Button leads to history-->
@@ -147,12 +145,7 @@
     .message-util {
         margin: 20px;
     }
-
-    .state {
-        display: flow;
-        font-size: x-large;
-    }
-
+    
     .options {
         margin-top: 20px;
     }
