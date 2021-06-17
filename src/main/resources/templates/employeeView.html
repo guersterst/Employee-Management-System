@@ -44,8 +44,8 @@
 <div class="contain container-fluid d-flex flex-column flex-fill">
     <form class="justify-content-center">
         <div class="row">
-            <div class="message col-sm-6 vh-100">
-                <div class="message-topic d-flex badge-secondary">
+            <div class="message col-sm-5 card shadow vh-100">
+                <div class="message-topic badge-secondary">
                     <h2>Message</h2>
                 </div>
                 <!--Show saved message-->
@@ -73,29 +73,86 @@
 
 
             <!--Option toolbar-->
-            <div class="state col-sm-auto">
-                <div class="form-text d-flex badge-secondary">
-                    <h2>State</h2>
-                </div>
-                <div class="options">
-                    <div class="available d-table custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="availableSwitch">
-                        <label class="custom-control-label" for="availableSwitch">Availability</label>
+            <div class="col-sm-5">
+                <div class="state card shadow">
+                    <div class="badge-secondary">
+                        <h2>State</h2>
                     </div>
-                    <hr>
-                    <div class="location d-table custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="locationSwitch">
-                        <label class="custom-control-label" for="locationSwitch">On Site</label>
-                    </div>
-                    <hr>
-                    <!--Button leads to history-->
-                    <div class="history d-table btn-link">
-                        <button class="btn" type="submit" id="historyBut">
-                            <a href="#"><i class="bi bi-clock-history" id="chronic"></i></a>
-                            <label for="chronic">History</label>
-                        </button>
+                    <div class="options">
+                        <div class="available d-table custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="availableSwitch">
+                            <label class="custom-control-label" for="availableSwitch">Availability</label>
+                        </div>
+                        <hr>
+                        <div class="location d-table custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="locationSwitch">
+                            <label class="custom-control-label" for="locationSwitch">On Site</label>
+                        </div>
                     </div>
                 </div>
+
+                <!--View latest chronic items-->
+                <section class="section">
+                    <div class="container card shadow">
+                        <div class="badge-secondary">
+                            <h2>History</h2>
+                        </div>
+                        <div class="timeline">
+                            <div class="row mt-3">
+                                <div class="col-sm-6 pl-5">
+                                    <div class="card-item card shadow">
+                                        <div class="card-header text-left badge-secondary">
+                                            Login
+                                        </div>
+                                        <div class="card-body text-left">
+                                            First Login
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-6 pl-5">
+                                    <div class="card-item card shadow">
+                                        <div class="card-header text-left badge-secondary">
+                                            Changed Availability
+                                        </div>
+                                        <div class="card-body">
+                                            Is now available.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-6 pl-5">
+                                    <div class="card-item card shadow">
+                                        <div class="card-header text-left badge-secondary">
+                                            Changed Availability
+                                        </div>
+                                        <div class="card-body">
+                                            Is now available.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-6 pl-5">
+                                    <div class="card-item card shadow">
+                                        <div class="card-header text-left badge-secondary">
+                                            Changed Availability
+                                        </div>
+                                        <div class="card-body">
+                                            Is now available.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end timeline-->
+                        <div class="text-right align-text-bottom pt-5">
+                            <a href="#">See more <i class="bi bi-arrow-right-circle"></i></a>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
     </form>
@@ -116,7 +173,7 @@
         const message = $("#message").val();
         $("#savedMsg").text(message)
     });
-    
+
 </script>
 
 <footer>
@@ -131,12 +188,13 @@
     .contain {
         display: grid;
         grid-template-columns: 2fr 1fr;
-        margin: 50px 20px 20px;
+        margin: 20px 20px 20px;
         text-align: center;
     }
 
     .message {
         display: flow;
+        margin: 20px;
     }
 
     .saved-message {
@@ -146,10 +204,49 @@
     .message-util {
         margin: 20px;
     }
-    
-    .options {
-        margin-top: 20px;
+
+    .state {
+        margin: 10px;
     }
+
+    .options {
+        margin: 20px;
+    }
+
+    .section {
+        margin: 10px;
+    }
+
+    .timeline {
+        position: relative;
+        max-width: 1200px;
+        margin: 20px;
+    }
+
+    .timeline::after {
+        content: '';
+        position: absolute;
+        background-color: gray;
+        width: 6px;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        margin-left: -3px;
+    }
+
+    .card-item::after {
+        content: '';
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        right: -17px;
+        left: 0;
+        background-color: #61D4E8;
+        border: 4px solid #2DA1E7;
+        top: 15px;
+        border-radius: 50%;
+    }
+
 
 </style>
 
