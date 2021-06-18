@@ -188,9 +188,16 @@
       containsSpecialCharacters = true;
     }
 
-    // Determine the overall strength
+    //TODO: Here, we will later check whether the entered password contains the username, first name or last name
+    //if (password.match(/[!+*.:,;_"§$%&/()=?{}@a-zA-Z0-9]*(firstName|lastName|userName)+[!+*.:,;_"§$%&/()=?{}@a-zA-Z0-9]*/)) {
+    //  alert("contains User name");
+    //}
+
+    // Determine the overall password-strength
     passwordStrength = isLongEnough + containsUppercaseAndLowercase + containsNumbers + containsSpecialCharacters;
 
+    // Depending on the password strength, the progress bar, which represents the password strength, changes its color
+    // and increases/decreases in width.
     if (passwordStrength === 1) {
       passwordStrengthBar.removeClass('bg-warning').removeClass('bg-success').addClass('bg-danger'); // color: red
       passwordStrengthBar.css('width', 20 + '%').attr('aria-valuenow', 20); // progress bar is almost empty
@@ -232,13 +239,18 @@
       event.stopPropagation();
       repeatedPasswordInputField.val("");
 
-      missingForHigherPasswordStrength.fadeIn(200);
-      if (!containsUppercaseAndLowercase) {
-        missingForHigherPasswordStrength.text("Your password must contain upper- and lowercase letters.");
-      } else if(!containsNumbers) {
-        missingForHigherPasswordStrength.text("Your password must contain numbers.");
-      } else if (!containsSpecialCharacters) {
-        missingForHigherPasswordStrength.text("Your password must contain special characters.");
+      // If the passwordStrength is lower tha 4, which means the progress bar is not colored in green
+      // and filled up entirely, we display an alert. The content of the alert changes, depending on what
+      // component for a secure password needs is still missing.
+      if (passwordStrength < 4) {
+        missingForHigherPasswordStrength.fadeIn(200);
+        if (!containsUppercaseAndLowercase) {
+          missingForHigherPasswordStrength.text("Your password must contain upper- and lowercase letters.");
+        } else if (!containsNumbers) {
+          missingForHigherPasswordStrength.text("Your password must contain numbers.");
+        } else if (!containsSpecialCharacters) {
+          missingForHigherPasswordStrength.text("Your password must contain special characters.");
+        }
       }
 
       return false;
