@@ -69,6 +69,10 @@
   <div class="alert alert-danger mx-auto" id="passwordTooShort">
     <strong>Passwords must be at least 8 characters long.</strong>
   </div>
+
+  <div class="alert alert-danger mx-auto" id="missingForHigherPasswordStrength">
+    <strong>Your password must contain upper- and lowercase letters.</strong>
+  </div>
 </div>
 </body>
 
@@ -93,6 +97,10 @@
   // Determines whether to show or hide the password
   let passwordVisible = false;
   let repeatedPasswordVisible = false;
+
+  //Fade out alert that is shown when the view is loaded
+  let missingForHigherPasswordStrength = $('#missingForHigherPasswordStrength');
+  missingForHigherPasswordStrength.fadeOut();
 
   // Show or hide the password. Is called 'onclick' and thus only changes whenever the user clicks on the button.
   // The icon is determined by '#passwordButtonIcon' and as a result we have to change the used class to determine
@@ -138,6 +146,10 @@
   let alertIfPasswordIsTooShort = $('#passwordTooShort');
   alertIfPasswordIsTooShort.fadeOut(0);
   passwordStrengthBar.css('width', 0+'%').attr('aria-valuenow', 0);
+  let isLongEnough = false;
+  let containsUppercaseAndLowercase = false;
+  let containsNumbers = false;
+  let containsSpecialCharacters = false;
 
   // Use RegEx patterns to determine the password strength
   // We check whether the password is at least 8 characters long, contains uppercase and
@@ -146,10 +158,11 @@
   // color to suggest a safer password.
   function determinePasswordStrength() {
     let password = $('#password').val();
-    let isLongEnough = false;
-    let containsUppercaseAndLowercase = false;
-    let containsNumbers = false;
-    let containsSpecialCharacters = false;
+    isLongEnough = false;
+    containsUppercaseAndLowercase = false;
+    containsNumbers = false;
+    containsSpecialCharacters = false;
+    passwordStrength = 0;
 
     // Length should be higher than or equal to 8
     if (password.length >= 8) {
@@ -170,14 +183,14 @@
     }
 
     // The password should contain a special character
-    if (password.match(/[!+*.:,;-_"§$%&/()=?{}]+/)) {
+    if (password.match(/[!+*.:,;_"§$%&/()=?{}@]+/)) {
       containsSpecialCharacters = true;
     }
 
     // Determine the overall strength
     passwordStrength = isLongEnough + containsUppercaseAndLowercase + containsNumbers + containsSpecialCharacters;
 
-    if (passwordStrength <= 1) {
+    if (passwordStrength === 1) {
       passwordStrengthBar.removeClass('bg-warning').removeClass('bg-success').addClass('bg-danger'); // color: red
       passwordStrengthBar.css('width', 20 + '%').attr('aria-valuenow', 20); // progress bar is almost empty
     } else if (passwordStrength >= 2 && passwordStrength < 3) {
@@ -213,11 +226,20 @@
       errorMessage.fadeIn(200);
       repeatedPasswordInputField.val("");
       return false;
-    } else if (password.length < 8) {
+    } else if (password.length < 8 || passwordStrength < 4) {
       event.preventDefault();
       event.stopPropagation();
-      errorMessage.fadeIn(200);
       repeatedPasswordInputField.val("");
+
+      missingForHigherPasswordStrength.fadeIn(200);
+      if (!containsUppercaseAndLowercase) {
+        missingForHigherPasswordStrength.text("Your password must contain upper- and lowercase letters.");
+      } else if(!containsNumbers) {
+        missingForHigherPasswordStrength.text("Your password must contain numbers.");
+      } else if (!containsSpecialCharacters) {
+        missingForHigherPasswordStrength.text("Your password must contain special characters.");
+      }
+
       return false;
     }
     return true;
@@ -225,7 +247,6 @@
 </script>
 
 <style>
-
   .embeddedFooter {
     position: fixed;
     bottom: 0;
