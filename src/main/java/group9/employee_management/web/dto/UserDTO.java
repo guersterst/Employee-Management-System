@@ -12,6 +12,9 @@ public class UserDTO {
     private boolean isAdmin;
     private String position;
 
+    //TODO availability
+    //TODO onsite
+
     public String getFirstName() {
         return firstName;
     }

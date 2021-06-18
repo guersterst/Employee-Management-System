@@ -1,6 +1,7 @@
 package group9.employee_management.application.init;
 
 import group9.employee_management.persistence.entities.User;
+import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -8,6 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
+import java.util.Collections;
+import java.util.Set;
 
 @Component
 public class DataInit implements CommandLineRunner {
@@ -34,19 +37,21 @@ public class DataInit implements CommandLineRunner {
 
         // This date is equivalent to 1.1.2022.
         Date validityDate = new Date(1640991600000L);
-        //TODO first and lastName
+
+        // An empty set of work-sessions.
+        Set<WorkSession> workSessions = Collections.emptySet();
+
         User user1 = new User("bax01","H.P.","Baxxter", hashPassword("h0wmUchisthef1sh"),
-                true, false, "Lead singer", validityDate);
+                true, false, "Lead singer", validityDate, workSessions);
         user1.setFirstLogin(false);
         User user2 = new User("url01","Farin", "Urlaub", hashPassword("abc123def"),
-                false, true, "Lead singer", validityDate);
+                false, true, "Lead singer", validityDate, workSessions);
         user2.setFirstLogin(false);
         User user3 = new User("kla01","Kristoffer Jonas", "Klauß", hashPassword("überallAnJederWand"),
-                false, false, "Rapper", validityDate);
+                false, false, "Rapper", validityDate, workSessions);
 
         userRepository.save(user1);
         userRepository.save(user2);
         userRepository.save(user3);
     }
-
 }

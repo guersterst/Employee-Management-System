@@ -1,9 +1,11 @@
 package group9.employee_management.persistence.entities;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.jdbc.Work;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Set;
 
 /**
  * An Entity describing a user of the terminal.
@@ -35,10 +37,14 @@ public class User {
     // TODO not sure about datatype. Has too many deprecated methods.
     private Date validity;
 
+    // The work sessions (work days) associated with this user.
+    @OneToMany(mappedBy = "user")
+    private Set<WorkSession> workSessions;
+
     public User(){}
 
     public User (String userName, String firstName, String lastName, String password, boolean isAdmin,
-                 boolean isWorking, String position, Date validity) {
+                 boolean isWorking, String position, Date validity, Set<WorkSession> workSessions){
         super();
         this.userName = userName;
         this.firstName = firstName;
@@ -49,6 +55,7 @@ public class User {
         this.position = position;
         this.validity = validity;
         this.isFirstLogin = true;
+        this.workSessions = workSessions;
     }
 
     public void setPassword(String password) {

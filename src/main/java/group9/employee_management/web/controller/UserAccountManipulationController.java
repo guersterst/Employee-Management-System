@@ -39,6 +39,7 @@ public class UserAccountManipulationController {
         String userName = userCredentials.getUserName();
         String password = userCredentials.getPassword();
 
+        //TODO exception is 'doppelt gemoppelt' since this if condition already checks for that.
         if (accountService.userExistsByUserName(userName)
                 && password != null && userName != null) {
             try {
