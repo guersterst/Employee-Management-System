@@ -17,30 +17,30 @@
 </div>
 
 <body>
-<div class="cont container-fluid">
-    <div class="flex-column flex-fill">
-        <div class="contList container-fluid">
-            <div class="row">
-                <div class="col-sm-auto">
-                    <!--Toolbar for the employee list-->
-                    <div class="card btn-toolbar mb-3" role="toolbar" aria-label="Toolbar for list">
-                        <div class="card-header badge-secondary">
-                            <h1>
-                                <strong>Employee List</strong>
-                            </h1>
-                            <div class="btn-group mr-2 badge-secondary" role="group" aria-label="Buttongroup">
-                                <button type="button" class="btn">
-                                    <a class="float-right" href="#"><i class="bi-plus-lg"></i></a>
-                                </button>
-                                <button type="button" class="btn">
-                                    <a class="float-right" href="#"><i class="bi-trash"></i></a>
-                                </button>
-                            </div>
+<div class="cont container card-group">
+    <div class="row">
+        <div class="col-sm-12 col-md-5">
+            <div class="card shadow mb-4" id="cardList">
+                <!--Toolbar for the employee list-->
+                <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar for list">
+                    <div class="card-header badge-secondary">
+                        <h1>
+                            <strong>Employee List</strong>
+                        </h1>
+                        <div class="btn-group mr-2 badge-secondary" role="group" aria-label="Buttongroup">
+                            <button type="button" class="btn">
+                                <a class="float-right" href="#"><i class="bi-plus-lg"></i></a>
+                            </button>
+                            <button type="button" class="btn">
+                                <a class="float-right" href="#"><i class="bi-trash"></i></a>
+                            </button>
                         </div>
                     </div>
+                </div>
 
-                    <!--List of all employees-->
-                    <table class="table table-hover table-striped table-bordered col-sm-auto">
+                <!--List of all employees-->
+                <div class="card-body">
+                    <table class="table table-striped table-bordered table-condensed table-responsive">
                         <thead class="table-header">
                         <tr>
                             <th scope="col"></th>
@@ -90,10 +90,15 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid">
-        <div id="map-container" class="map-responsive col-sm-auto">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d168942.26559602303!2d13.268284140706921!3d48.57685584538658!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4774587943a0a065%3A0x41d25a40937af30!2sPassau!5e0!3m2!1sde!2sde!4v1623391671465!5m2!1sde!2sde"
-                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    <!--Embedded map-->
+    <div class="container d-flex">
+        <div class="col-sm-12 col-md-5">
+            <div class="card shadow map-card">
+                <div id="map-container" class="map-container" style="height: 500px">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d168942.26559602303!2d13.268284140706921!3d48.57685584538658!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4774587943a0a065%3A0x41d25a40937af30!2sPassau!5e0!3m2!1sde!2sde!4v1623391671465!5m2!1sde!2sde"
+                            style="border:0;" allowfullscreen></iframe>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -120,9 +125,13 @@
 
 <style>
     .cont {
-        display: grid;
+        display: flex;
         grid-template-columns: 1fr 1fr;
         margin-top: 50px;
+    }
+
+    #cardList {
+        margin: 20px;
     }
 
     .map-responsive {
