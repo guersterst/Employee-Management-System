@@ -95,7 +95,6 @@
 <script>
   // The error message (passwords not matching) should not be shown when loading the view
   let errorMessage = $('#errorMessage');
-  errorMessage.fadeOut(0);
 
   let passwordStrengthBar = $('#passwordStrengthBar');
   passwordStrengthBar.addClass('bg-warning');
@@ -110,11 +109,9 @@
 
   //Fade out alert that is shown when the view is loaded
   let missingForHigherPasswordStrength = $('#missingForHigherPasswordStrength');
-  missingForHigherPasswordStrength.fadeOut();
 
 
   let listOfMissingPasswordCharacteristics = $('#missingPasswordCharacteristics');
-  listOfMissingPasswordCharacteristics.fadeOut();
   // When the first letter is entered for the password, we display a list of characteristics the password has to
   // fulfill (length, must contain special characters, must contain numbers, must contain uppercase and lowercase
   // letters).
@@ -323,5 +320,11 @@
     }
     return true;
   }
+
+  window.onload = function() {
+    listOfMissingPasswordCharacteristics.fadeOut(0);
+    missingForHigherPasswordStrength.fadeOut(0);
+    errorMessage.fadeOut(0);
+  };
 </script>
 </html>
