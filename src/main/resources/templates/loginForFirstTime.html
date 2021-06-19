@@ -198,6 +198,19 @@
       }
     } else {
       alertIfPasswordIsTooShort.fadeIn(200);
+      let nodeExists = false;
+      for (i = 0; i < list.childNodes.length; i++) {
+        if (list.childNodes[i].textContent === "Password is too short.") {
+          nodeExists = true;
+        }
+      }
+      if (!nodeExists) {
+        let listElement = document.createElement('li');
+        listElement.setAttribute('class','item');
+        listElement.innerHTML= "Password is too short.";
+        listElement.setAttribute("id", "element1");
+        list.appendChild(listElement);
+      }
     }
 
     // The password should contain lowercase and uppercase letters
@@ -209,6 +222,20 @@
         if (list.childNodes[i].textContent === "Must contain upper- and lowercase letters.") {
           list.removeChild(list.childNodes[i]);
         }
+      }
+    } else {
+      let nodeExists = false;
+      for (i = 0; i < list.childNodes.length; i++) {
+        if (list.childNodes[i].textContent === "Must contain upper- and lowercase letters.") {
+          nodeExists = true;
+        }
+      }
+      if (!nodeExists) {
+        let listElement = document.createElement('li');
+        listElement.setAttribute('class','item');
+        listElement.innerHTML= "Must contain upper- and lowercase letters.";
+        listElement.setAttribute("id", "element2");
+        list.appendChild(listElement);
       }
     }
 
@@ -224,10 +251,19 @@
       }
 
     } else {
-     // var listElement = document.createElement("LI");                 // Create a <li> node
-      //var textElement = document.createTextNode("Water");         // Create a text node
-      //listElement.appendChild(textElement);                              // Append the text to <li>
-      //listOfMissingPasswordCharacteristics.appendChild(listElement);     // Append <li> to <ul> with id="myList"
+      let nodeExists = false;
+      for (i = 0; i < list.childNodes.length; i++) {
+        if (list.childNodes[i].textContent === "Must contain numbers.") {
+          nodeExists = true;
+        }
+      }
+        if (!nodeExists) {
+          let listElement = document.createElement('li');
+          listElement.setAttribute('class','item');
+          listElement.innerHTML= "Must contain numbers.";
+          listElement.setAttribute("id", "element3");
+          list.appendChild(listElement);
+        }
     }
 
     // The password should contain a special character
@@ -240,9 +276,22 @@
           list.removeChild(list.childNodes[i]);
         }
       }
+    }  else {
+      let nodeExists = false;
+      for (i = 0; i < list.childNodes.length; i++) {
+        if (list.childNodes[i].textContent === "Must contain special characters.") {
+          nodeExists = true;
+        }
+      }
+      if (!nodeExists) {
+        let listElement = document.createElement('li');
+        listElement.setAttribute('class','item');
+        listElement.innerHTML= "Must contain special characters.";
+        listElement.setAttribute("id", "element4");
+        list.appendChild(listElement);
+      }
     }
 
-    alert(password.match(/(([a-zA-Z0-9]|[!.:;_&()?@/{}'#*+,^°<>-])*)/) === null);
 
     //TODO: If password doesn't match with [a-zA-Z0-9!.:;_&()?@/{}'#*+,^°<>-], it contains illegal characters.
 
