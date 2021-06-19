@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>EmployeeManagement</title>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
             integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -16,6 +18,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
 </head>
 
 <!--Navbar has to be replaced. Only to get first view-->
@@ -60,6 +63,15 @@
                     <textarea class="form-control" aria-label="With textarea" placeholder="Leave a message..."
                               id="message"></textarea>
                 </div>
+
+                <!--Message has to short. The minimum amount of characters should be 10.-->
+                <div class="alert alert-danger mx-auto" id="alertMessageToShort">
+                    <div class="align-text-bottom">
+                        <i class="bi bi-exclamation-circle"></i>
+                        <strong>Message is to short. Please enter 10 or more characters.</strong>
+                    </div>
+                </div>
+
                 <!--Options for message-->
                 <div class="message-util form-group">
                     <button class=" btn btn-primary btn-lg center-block" type="submit" id="save-button">
@@ -136,7 +148,7 @@
                             </div>
                             <div class="row mt-3">
                                 <div class="col-sm-6 pl-5">
-                                    <div class="card-item card shadow">
+                                    <div class="card-item card shadow ">
                                         <div class="card-header text-left badge-secondary">
                                             Changed Availability
                                         </div>
@@ -165,14 +177,22 @@
 <script lang="JavaScript" type="text/javascript">
 
     // Button in order to save the new message.
-    const saveButton = document.getElementById("save-button");
-
+    var saveButton = document.getElementById("save-button");
+    var message = document.getElementById("message").value;
 
     // Exchange the old message to the new one, written in the inputfield.
-    $(saveButton).click(function () {
-        const message = $("#message").val();
-        $("#savedMsg").text(message)
-    });
+    $("#savedMsg").text(message);
+
+    function validLength() {
+        errorMessage.text("Fehler");
+        let cutMessage = message.trim();
+        var minLength = 10;
+
+        //Message is to short. No message action has to be done by clicking the delete button.
+        if (cutMessage.length < minLength) {
+            document.getElementById('errorMessage').innerHTML = "Message is to short."
+        }
+    };
 
 </script>
 
