@@ -9,8 +9,7 @@ card {
     margin: 10px;
 }
 
-.message {
-    display: flow;
+#messageCard {
     margin: 20px;
 }
 
@@ -18,44 +17,51 @@ card {
     margin: 20px;
 }
 
-.state {
-    margin: 10px;
-}
-
 .options {
     margin: 20px;
 }
 
 .section {
-    margin: 10px;
+    margin-top: 10px;
 }
 
 .timeline {
     position: relative;
-    max-width: 1200px;
-    margin: 20px;
+    padding: 21px 0px 10px;
+    margin-top: 4px;
+    margin-bottom: 30px;
 }
-
-.timeline::after {
-    content: '';
-    position: absolute;
-    background-color: gray;
-    width: 6px;
-    top: 0;
+.timeline:before {
+    top: 50px;
     bottom: 0;
-    left: 0;
-    margin-left: -3px;
+    position: absolute;
+    content: " ";
+    width: 3px;
+    background-color: #d5d5d5;
+    left: 0%;
+    margin-left: -1.5px;
 }
 
-.card-item::after {
-    content: '';
-    position: absolute;
-    width: 25px;
-    height: 25px;
-    right: -17px;
+.icon {
     left: 0;
-    background-color: #61D4E8;
-    border: 4px solid #2DA1E7;
-    top: 15px;
+    margin-left: -25px;
+}
+
+.timeline .panel {
+    position: relative;
+    margin: 10px 0px 21px 70px;
+    clear: both;
+}
+
+.timeline .panel .panel-heading.icon * { font-size: 20px; vertical-align: middle; line-height: 40px; }
+.timeline .panel .panel-heading.icon {
+    position: absolute;
+    left: -59px;
+    display: block;
+    width: 40px;
+    height: 40px;
+    padding: 0px;
     border-radius: 50%;
+    text-align: center;
+    float: left;
 }
