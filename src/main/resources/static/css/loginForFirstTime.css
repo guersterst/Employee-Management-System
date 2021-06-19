@@ -65,3 +65,8 @@ h1 {
 #passwordTooShort {
     margin-top: 20px;
 }
+
+#missingPasswordCharacteristics {
+    margin-top: 20px;
+    color: crimson;
+}
