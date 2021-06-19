@@ -74,7 +74,7 @@
 
                 <!--Options for message-->
                 <div class="message-util form-group">
-                    <button class=" btn btn-primary btn-lg center-block" type="submit" id="save-button">
+                    <button class=" btn btn-primary btn-lg center-block" type="submit" id="save-button" onclick="saveMessage()">
                         Save
                     </button>
                     <button class="btn btn-primary btn-lg center-block" type="reset" id="delete-message">
@@ -176,23 +176,34 @@
 
 <script lang="JavaScript" type="text/javascript">
 
-    // Button in order to save the new message.
-    var saveButton = document.getElementById("save-button");
-    var message = document.getElementById("message").value;
+    let alertMessageToShort = $('#alertMessageToShort');
 
-    // Exchange the old message to the new one, written in the inputfield.
-    $("#savedMsg").text(message);
+    //TODO: Store message.
+    //Saves the written message in the textarea and show it at the top of the field.
+    function saveMessage() {
+        let message = $('#message').value;
+        let minLength = 10;
 
-    function validLength() {
-        errorMessage.text("Fehler");
-        let cutMessage = message.trim();
-        var minLength = 10;
-
-        //Message is to short. No message action has to be done by clicking the delete button.
-        if (cutMessage.length < minLength) {
-            document.getElementById('errorMessage').innerHTML = "Message is to short."
+        let isValid = validateMessage(message, minLength);
+        if (isValid) {
+            $('#savedMsg').text(message);
+        } else {
+            toShortAlert();
         }
-    };
+    }
+
+    //Only messages with a higher amount of characters is valid.
+    function validateMessage(message, minLength) {
+        let trimMessage = message.trim();
+        return trimMessage >= minLength;
+    }
+
+    //Within a non-valid message, an alert is shown.
+    function toShortAlert() {
+        alertMessageToShort.fadeIn(100);
+    }
+
+    alertMessageToShort.fadeOut(100);
 
 </script>
 
