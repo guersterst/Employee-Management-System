@@ -179,6 +179,10 @@
   // color to suggest a safer password.
   function determinePasswordStrength() {
     let password = $('#password').val();
+
+    // Reset these values. Potentially, a character was deleted, which means that even if the variable was previously
+    // true, we have to check again whether this still holds up. Thus, the variables are set to false and are
+    // changed to true, in case it still holds up.
     isLongEnough = false;
     containsUppercaseAndLowercase = false;
     containsNumbers = false;
@@ -189,107 +193,34 @@
     if (password.length >= 8) {
       isLongEnough = true;
       alertIfPasswordIsTooShort.fadeOut(200);
-
-      // Remove the according list-element
-      for (i = 0; i < list.childNodes.length; i++) {
-        if (list.childNodes[i].textContent === "Password is too short.") {
-          list.removeChild(list.childNodes[i]);
-        }
-      }
+      removeElementFromList("Password is too short.");
     } else {
       alertIfPasswordIsTooShort.fadeIn(200);
-      let nodeExists = false;
-      for (i = 0; i < list.childNodes.length; i++) {
-        if (list.childNodes[i].textContent === "Password is too short.") {
-          nodeExists = true;
-        }
-      }
-      if (!nodeExists) {
-        let listElement = document.createElement('li');
-        listElement.setAttribute('class','item');
-        listElement.innerHTML= "Password is too short.";
-        listElement.setAttribute("id", "element1");
-        list.appendChild(listElement);
-      }
+      addElementToList("Password is too short.", 1);
     }
 
     // The password should contain lowercase and uppercase letters
     if (password.match(/(([a-zA-Z0-9]|[!.:;_&()?@/{}'#*+,^°<>-])*)/) && (password.match(/[a-z]+/) && password.match(/[A-Z]+/))) {
       containsUppercaseAndLowercase = true;
-
-      // Remove the according list-element
-      for (i = 0; i < list.childNodes.length; i++) {
-        if (list.childNodes[i].textContent === "Must contain upper- and lowercase letters.") {
-          list.removeChild(list.childNodes[i]);
-        }
-      }
+      removeElementFromList("Must contain upper- and lowercase letters.");
     } else {
-      let nodeExists = false;
-      for (i = 0; i < list.childNodes.length; i++) {
-        if (list.childNodes[i].textContent === "Must contain upper- and lowercase letters.") {
-          nodeExists = true;
-        }
-      }
-      if (!nodeExists) {
-        let listElement = document.createElement('li');
-        listElement.setAttribute('class','item');
-        listElement.innerHTML= "Must contain upper- and lowercase letters.";
-        listElement.setAttribute("id", "element2");
-        list.appendChild(listElement);
-      }
+      addElementToList("Must contain upper- and lowercase letters.", 2);
     }
 
     // The password should contain at least one number
     if (password.match(/(([a-zA-Z0-9]|[!.:;_&()?@/{}'#*+,^°<>-])*)/) && password.match(/[0-9]+/)) {
       containsNumbers = true;
-
-      // Remove the according list-element
-      for (i = 0; i < list.childNodes.length; i++) {
-        if (list.childNodes[i].textContent === "Must contain numbers.") {
-          list.removeChild(list.childNodes[i]);
-        }
-      }
-
+      removeElementFromList("Must contain numbers.");
     } else {
-      let nodeExists = false;
-      for (i = 0; i < list.childNodes.length; i++) {
-        if (list.childNodes[i].textContent === "Must contain numbers.") {
-          nodeExists = true;
-        }
-      }
-        if (!nodeExists) {
-          let listElement = document.createElement('li');
-          listElement.setAttribute('class','item');
-          listElement.innerHTML= "Must contain numbers.";
-          listElement.setAttribute("id", "element3");
-          list.appendChild(listElement);
-        }
+      addElementToList("Must contain numbers.", 3);
     }
 
     // The password should contain a special character
     if (password.match(/(([a-zA-Z0-9]|[!.:;_&()?@/{}'#*+,^°<>-])*)/) && password.match(/[!.:;_&()?@/{}'#*+,^°<>-]+/)) {//(password.match(/[!+*.:,;_"§$%&/()=?{}@]/)) {
       containsSpecialCharacters = true;
-
-      // Remove the according list-element
-      for (i = 0; i < list.childNodes.length; i++) {
-        if (list.childNodes[i].textContent === "Must contain special characters.") {
-          list.removeChild(list.childNodes[i]);
-        }
-      }
+      removeElementFromList("Must contain special characters.");
     }  else {
-      let nodeExists = false;
-      for (i = 0; i < list.childNodes.length; i++) {
-        if (list.childNodes[i].textContent === "Must contain special characters.") {
-          nodeExists = true;
-        }
-      }
-      if (!nodeExists) {
-        let listElement = document.createElement('li');
-        listElement.setAttribute('class','item');
-        listElement.innerHTML= "Must contain special characters.";
-        listElement.setAttribute("id", "element4");
-        list.appendChild(listElement);
-      }
+      addElementToList("Must contain special characters.", 4);
     }
 
 
@@ -302,7 +233,11 @@
 
     // Determine the overall password-strength
     passwordStrength = isLongEnough + containsUppercaseAndLowercase + containsNumbers + containsSpecialCharacters;
+    adjustPasswordStrengthBar();
 
+  }
+
+  function adjustPasswordStrengthBar() {
     // Depending on the password strength, the progress bar, which represents the password strength, changes its color
     // and increases/decreases in width.
     if (passwordStrength === 1) {
@@ -323,6 +258,30 @@
     // the security determined above.
     if (password.length < 8) {
       passwordStrengthBar.removeClass('bg-warning').removeClass('bg-success').addClass('bg-danger');
+    }
+  }
+
+  function addElementToList(elementText, idNr) {
+    let nodeExists = false;
+    for (i = 0; i < list.childNodes.length; i++) {
+      if (list.childNodes[i].textContent === elementText) {
+        nodeExists = true;
+      }
+    }
+    if (!nodeExists) {
+      let listElement = document.createElement('li');
+      listElement.setAttribute('class','item');
+      listElement.innerHTML = elementText;
+      listElement.setAttribute("id", "element" + idNr);
+      list.appendChild(listElement);
+    }
+  }
+
+  function removeElementFromList(elementText) {
+    for (i = 0; i < list.childNodes.length; i++) {
+      if (list.childNodes[i].textContent === elementText) {
+        list.removeChild(list.childNodes[i]);
+      }
     }
   }
 
