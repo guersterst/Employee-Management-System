@@ -52,7 +52,7 @@
                     <h2>Message</h2>
                 </div>
                 <!--Show saved message-->
-                <form onsubmit="return saveMessage(event);">
+                <form onsubmit="saveMessage(event)">
                     <div class="form-group mx-auto">
                         <label class="form-control" id="savedMsg" type="text">Here should appear a message.</label>
                     </div>
@@ -182,6 +182,7 @@
 <script lang="JavaScript" type="text/javascript">
 
     let alertMessageToShort = $('#alertMessageToShort');
+    let savedMessage = document.getElementById("savedMsg").value;
 
     //TODO: Store message.
     //Saves the written message in the textarea and show it at the top of the field.
@@ -191,29 +192,13 @@
 
         let trimMessage = message.trim();
 
-        if (trimMessage >= minLength) {
-            //TODO: Show message correctly. Stopping submission shouldn't be correct here.
-            $('#savedMsg').text(message);
-            return true;
+        if (trimMessage.length >= minLength) {
+            //TODO: Show message correctly.
+            savedMessage.val(message);
         } else {
             alertMessageToShort.fadeIn(100);
             event.preventDefault();
-            event.stopPropagation();
-            return false;
         }
-    }
-
-    //Only messages with a higher amount of characters is valid.
-    function validateMessage(message, minLength) {
-        let trimMessage = message.trim();
-        return trimMessage >= minLength;
-    }
-
-    //Within a non-valid message, an alert is shown.
-    function toShortAlert(event) {
-        alertMessageToShort.fadeIn(100);
-        event.preventDefault();
-        event.stopPropagation();
     }
 
     //Do not show alert.
