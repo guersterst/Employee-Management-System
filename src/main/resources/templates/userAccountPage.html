@@ -61,11 +61,12 @@
 
         <!--The isAdmin form-check is only enabled for admins-->
         <div class="form-check form-switch">
-          <input class="checkbox form-check-input" type="checkbox" value="" id="isAdmin" data-toggle="toggle" disabled>
-          <label class="form-check-label" for="isAdmin">
+          <input class="checkbox form-check-input col mx-auto" type="checkbox" id="isAdmin" disabled>
+          <label class="form-check-label col mx-auto" for="isAdmin" id="isAdminLabel">
             Admin-Privileges
           </label>
         </div>
+
 
         <!--The dropdown for changing a user's role is only enabled for admins-->
         <!--Selecting the role from a dropdown-menu:-->
@@ -169,7 +170,6 @@
   let userName = $('#userName');
   let firstName = $('#firstName');
   let lastName = $('#lastName');
-  submit.fadeOut();
 
   let isEditing = false;
   function enableOrDisableEditing() {
@@ -235,23 +235,13 @@
   }
 
   // Alerts:
-  // Don't display alerts at the start
-  let userNameExistsAlert = $('#userNameExistentAlert')
-  userNameExistsAlert.fadeOut();
-
-  let roleAlreadyExistentAlert = $('#roleAlreadyExistentAlert')
-  roleAlreadyExistentAlert.fadeOut();
-
-  let passwordsDontMatchAlert = $('#passwordsDontMatchAlert')
-  passwordsDontMatchAlert.fadeOut();
-
-  let noRoleSelectedAlert = $('#noRoleSelectedAlert')
-  noRoleSelectedAlert.fadeOut();
-
-
+  // Get all alerts
+  let userNameExistsAlert = $('#userNameExistentAlert');
+  let roleAlreadyExistentAlert = $('#roleAlreadyExistentAlert');
+  let passwordsDontMatchAlert = $('#passwordsDontMatchAlert');
+  let noRoleSelectedAlert = $('#noRoleSelectedAlert');
 
   // Password-Strength-meter:
-
   let missingForHigherPasswordStrength = $('#missingForHigherPasswordStrength');
   let listOfMissingPasswordCharacteristics = $('#missingPasswordCharacteristics');
 
@@ -265,7 +255,6 @@
   let passwordStrengthBar = $('#passwordStrengthBar');
   let passwordStrengthBarContainer = $('.progress');
   passwordStrengthBar.addClass('bg-danger'); // color: red
-  passwordStrengthBarContainer.fadeOut(0);
 
   // Setup variables used to determine the password strength, hide the alert, which is displayed if the password
   // is too shor and set the progress bar's (passwordStrengthBar) width to 0, so that the bar isn't visible.
@@ -395,7 +384,13 @@
   window.onload = function() {
     listOfMissingPasswordCharacteristics.fadeOut(0);
     missingForHigherPasswordStrength.fadeOut(0);
-    errorMessage.fadeOut(0);
+   // errorMessage.fadeOut(0);
+    userNameExistsAlert.fadeOut(0);
+    noRoleSelectedAlert.fadeOut(0);
+    roleAlreadyExistentAlert.fadeOut(0);
+    passwordsDontMatchAlert.fadeOut(0);
+    passwordStrengthBarContainer.fadeOut(0);
+    submit.fadeOut(0);
   };
 
 </script>
@@ -479,5 +474,15 @@
     margin-top: 20px;
     color: crimson;
   }
+
+  #isAdminLabel {
+    margin-left: 200px;
+    padding-left: 50px;
+  }
+
+  #isAdmin {
+    margin-top: 10px;
+  }
+
 </style>
 </html>
