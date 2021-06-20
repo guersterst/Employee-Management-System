@@ -74,6 +74,13 @@
                         </div>
                     </div>
 
+                    <div class="alert alert-danger mx-auto" id="alertInputRequired">
+                        <div class="align-text-bottom">
+                            <i class="bi bi-exclamation-circle"></i>
+                            <strong>Input required.</strong>
+                        </div>
+                    </div>
+
                     <!--Options for message-->
                     <div class="message-util form-group">
                         <!--Message with a minimum length.-->
@@ -173,9 +180,11 @@
 <script lang="JavaScript" type="text/javascript">
 
     let alertMessageToShort = $('#alertMessageToShort');
+    let alertInputReqired = $('#alertInputRequired');
     let savedMessage = document.getElementById("savedMsg").value;
 
     //TODO: Store message.
+    //TODO: Duplicated alert code. Maybe theres a better way.
     //Saves the written message in the textarea and show it at the top of the field.
     function saveMessage(event) {
         let message = document.getElementById("message").value;
@@ -183,18 +192,25 @@
 
         let trimMessage = message.trim();
 
-        if (trimMessage.length >= minLength) {
-            //TODO: Show message correctly.
-            savedMessage.val(message);
-        } else {
+        if (trimMessage.length === 0) {
+            //Input is required.
+            alertMessageToShort.fadeOut(1);
+            alertInputReqired.fadeIn(100);
+            event.preventDefault();
+        } else if (trimMessage.length < minLength) {
             //stops submitting and shows alert.
+            alertInputReqired.fadeOut(1);
             alertMessageToShort.fadeIn(100);
             event.preventDefault();
+        } else {
+            //TODO: Show message correctly.
+            savedMessage.val(message);
         }
     }
 
     //Do not show alert.
     alertMessageToShort.fadeOut(1);
+    alertInputReqired.fadeOut(1);
 
 </script>
 
