@@ -183,6 +183,7 @@
       firstName.attr('readonly', false);
       lastName.attr('readonly', false);
       edit.text("Cancel");
+      passwordStrengthBarContainer.fadeIn(200);
     } else {
       submit.fadeOut(20);
       isEditing = false;
@@ -192,6 +193,7 @@
       firstName.attr('readonly', true);
       lastName.attr('readonly', true);
       edit.text("Edit");
+      passwordStrengthBarContainer.fadeOut(0);
     }
   }
 
@@ -261,7 +263,9 @@
   }
 
   let passwordStrengthBar = $('#passwordStrengthBar');
-  passwordStrengthBar.addClass('bg-warning');
+  let passwordStrengthBarContainer = $('.progress');
+  passwordStrengthBar.addClass('bg-danger'); // color: red
+  passwordStrengthBarContainer.fadeOut(0);
 
   // Setup variables used to determine the password strength, hide the alert, which is displayed if the password
   // is too shor and set the progress bar's (passwordStrengthBar) width to 0, so that the bar isn't visible.
@@ -359,7 +363,7 @@
 
     // In case the password length is shorter than 8 characters, the passwordStrengthBar is covered in red no matter
     // the security determined above.
-    if (password.length < 8) {
+    if (password.val().length < 8) {
       passwordStrengthBar.removeClass('bg-warning').removeClass('bg-success').addClass('bg-danger');
     }
   }
@@ -475,6 +479,5 @@
     margin-top: 20px;
     color: crimson;
   }
-
 </style>
 </html>
