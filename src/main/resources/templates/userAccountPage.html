@@ -43,7 +43,7 @@
         </div>
         <!--form-group for the user's last name-->
         <div class="form-group col mx-auto">
-          <label for="firstName">Last Name</label>
+          <label for="lastName">Last Name</label>
           <!--Use an input group so an icon can be added to the input field-->
           <div class="input-group">
             <input id="lastName" type="text" class="form-control" placeholder="Last Name" required readonly>
@@ -55,7 +55,7 @@
         </div>
         <!--Input field for user name. -->
         <div class="form-group col mx-auto">
-          <label for="firstName">User Name</label>
+          <label for="userName">User Name</label>
           <input id="userName" type="text" class="form-control" placeholder="User Name" readonly>
         </div>
 
@@ -99,7 +99,7 @@
 
         <!--The user needs to confirm their new password-->
         <div class="form-group col mx-auto">
-          <label for="password">Password</label>
+          <label for="passwordRepeated">Password</label>
           <div class="input-group">
             <input id="passwordRepeated" type="password" class="form-control" placeholder="Password" required readonly>
             <div class="invalid-feedback">Please enter a password</div>
@@ -111,7 +111,7 @@
         </div>
 
         <div class="row">
-          <div class="progress mx-auto" style="height: 20px;" onkeyup="checkPasswordStrength()">
+          <div class="progress mx-auto" style="height: 20px;">
             <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" id="passwordStrengthBar" style="width: 40px;"></div>
           </div>
         </div>
@@ -457,8 +457,8 @@
   @media (min-width: 768px) {
     #border {
       margin-top: 100px;
-      margin-left: 0px;
-      margin-right: 0px;
+      margin-left: 0;
+      margin-right: 0;
       border: lightslategray solid 1px;
       width: 100%;
       border-radius: 10px;
