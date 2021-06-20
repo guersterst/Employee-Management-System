@@ -285,37 +285,49 @@
     containsSpecialCharacters = false;
     passwordStrength = 0;
 
-    // Length should be higher than or equal to 8
+    // Length should be at least 8
     if (password.length >= 8) {
       isLongEnough = true;
       //alertIfPasswordIsTooShort.fadeOut(200);
+      // The "list" should no longer contain this bullet point as the criteria is met
       removeElementFromList("Password is too short.");
     } else {
       //alertIfPasswordIsTooShort.fadeIn(200);
+      // Add the element/bullet point back to the list, if it had previously been removed.
+      // If it has not been removed, no new element ist added.
       addElementToList("Password is too short.", 1);
     }
 
     // The password should contain lowercase and uppercase letters
     if (password.match(/(([a-zA-Z0-9]|[!.:;_&()?@/{}'#*+,^°<>-])*)/) && (password.match(/[a-z]+/) && password.match(/[A-Z]+/))) {
       containsUppercaseAndLowercase = true;
+      // The "list" should no longer contain this bullet point as the criteria is met
       removeElementFromList("Must contain upper- and lowercase letters.");
     } else {
+      // Add the element/bullet point back to the list, if it had previously been removed.
+      // If it has not been removed, no new element ist added.
       addElementToList("Must contain upper- and lowercase letters.", 2);
     }
 
     // The password should contain at least one number
     if (password.match(/(([a-zA-Z0-9]|[!.:;_&()?@/{}'#*+,^°<>-])*)/) && password.match(/[0-9]+/)) {
       containsNumbers = true;
+      // The "list" should no longer contain this bullet point as the criteria is met
       removeElementFromList("Must contain numbers.");
     } else {
+      // Add the element/bullet point back to the list, if it had previously been removed.
+      // If it has not been removed, no new element ist added.
       addElementToList("Must contain numbers.", 3);
     }
 
     // The password should contain a special character
     if (password.match(/(([a-zA-Z0-9]|[!.:;_&()?@/{}'#*+,^°<>-])*)/) && password.match(/[!.:;_&()?@/{}'#*+,^°<>-]+/)) {//(password.match(/[!+*.:,;_"§$%&/()=?{}@]/)) {
       containsSpecialCharacters = true;
+      // The "list" should no longer contain this bullet point as the criteria is met
       removeElementFromList("Must contain special characters.");
     }  else {
+      // Add the element/bullet point back to the list, if it had previously been removed.
+      // If it has not been removed, no new element ist added.
       addElementToList("Must contain special characters.", 4);
     }
 
@@ -333,9 +345,9 @@
 
   }
 
+  // Depending on the password strength, the progress bar, which represents the password strength, changes its color
+  // and increases/decreases in width.
   function adjustPasswordStrengthBar() {
-    // Depending on the password strength, the progress bar, which represents the password strength, changes its color
-    // and increases/decreases in width.
     if (passwordStrength === 1) {
       passwordStrengthBar.removeClass('bg-warning').removeClass('bg-success').addClass('bg-danger'); // color: red
       passwordStrengthBar.css('width', 20 + '%').attr('aria-valuenow', 20); // progress bar is almost empty
@@ -357,14 +369,25 @@
     }
   }
 
+  // Adds an element to "list". "list" is the list, which consists of the four bullet points that detail,
+  // what characters the password must contain in order to be secure. Whenever one of those criteria is no longer met(!)
+  // (e.g. a special character was entered), that element is removed from the list. This can happen if the user enters
+  // e.g. a special character, but later removes it again.
+  // The method is called, whenever a RegEx pattern cannot be matched with the password. E.g. the RegEx pattern checks
+  // whether the password contains special characters. If it does not, addElementToList is called and elementText
+  // is set to "Must contain special characters.".
+  // We then go through all current elements of the "list". If one node's/element's textContent is "Must contain special characters.",
+  // no special character had been added before and there is no need to add the element to the list (if we would add it,
+  // it would be a duplicate). If, however, no node/element has that text, the element had previously been removed
+  // but has to be added back again.
   function addElementToList(elementText, idNr) {
-    let nodeExists = false;
+    let elementExists = false;
     for (i = 0; i < list.childNodes.length; i++) {
       if (list.childNodes[i].textContent === elementText) {
-        nodeExists = true;
+        elementExists = true;
       }
     }
-    if (!nodeExists) {
+    if (!elementExists) {
       let listElement = document.createElement('li');
       listElement.setAttribute('class','item');
       listElement.innerHTML = elementText;
@@ -373,6 +396,11 @@
     }
   }
 
+  // Removes an element from "list". "list" is the list, which consists of the four bullet points that detail,
+  // what characters the password must contain in order to be secure. Whenever one of those criteria is met
+  // (e.g. a special character was entered), that element is removed from the list.
+  // The removal happens according to the element's text. This means that we search the "list" for an element
+  // whose textContent is equal to elementText.
   function removeElementFromList(elementText) {
     for (i = 0; i < list.childNodes.length; i++) {
       if (list.childNodes[i].textContent === elementText) {
@@ -381,6 +409,7 @@
     }
   }
 
+  // When the page is loaded, some elements have to be fadedOut as they should not be displayed from the start.
   window.onload = function() {
     listOfMissingPasswordCharacteristics.fadeOut(0);
     missingForHigherPasswordStrength.fadeOut(0);
