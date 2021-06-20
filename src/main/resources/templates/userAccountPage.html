@@ -88,7 +88,7 @@
         <div class="form-group col mx-auto">
           <label for="password">Password</label>
           <div class="input-group">
-            <input id="password" type="password" class="form-control" placeholder="Password" onkeyup="determinePasswordStrength()" required readonly>
+            <input id="password" type="password" class="form-control" placeholder="Password" onkeyup="determinePasswordStrength(); showMissingPasswordCharacteristics();" required readonly>
             <div class="invalid-feedback">Please enter a password</div>
             <div class="input-group-append">
               <button class="input-group-btn" type="button" id="showHidePassword" onclick="showOrHidePassword('password')">
