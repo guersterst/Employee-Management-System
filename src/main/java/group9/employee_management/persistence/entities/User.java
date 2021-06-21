@@ -40,7 +40,6 @@ public class User {
     // The work sessions (work days) associated with this user.
     @OneToMany(mappedBy = "user")
     private Set<WorkSession> workSessions;
-
      */
 
     public User(){}
