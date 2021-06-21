@@ -4,6 +4,7 @@ import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.application.exception.WrongPasswordException;
 import group9.employee_management.application.service.LoginService;
 import group9.employee_management.web.dto.UserDTO;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -43,7 +44,7 @@ public class LoginController {
      * could be performed with the given login credentials. Else OK will be
      * returned.
      */
-    @PostMapping(
+    @GetMapping(
             value = "/authentication")
     //+ "/{name}/{pw}")
     @ResponseBody

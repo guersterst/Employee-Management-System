@@ -13,8 +13,6 @@ import java.util.Set;
 @Entity
 public class User {
 
-
-
     // Employee or admin name.
     private String firstName;
     private String lastName;
@@ -37,9 +35,13 @@ public class User {
     // TODO not sure about datatype. Has too many deprecated methods.
     private Date validity;
 
+    /*
+    //TODO this produces an Error
     // The work sessions (work days) associated with this user.
     @OneToMany(mappedBy = "user")
     private Set<WorkSession> workSessions;
+
+     */
 
     public User(){}
 
@@ -55,7 +57,7 @@ public class User {
         this.position = position;
         this.validity = validity;
         this.isFirstLogin = true;
-        this.workSessions = workSessions;
+        //this.workSessions = workSessions;
     }
 
     public void setPassword(String password) {
