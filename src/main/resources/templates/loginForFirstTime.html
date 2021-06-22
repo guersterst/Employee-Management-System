@@ -55,8 +55,11 @@
     </div>
 
     <div class="row">
-      <div class="progress mx-auto" style="height: 20px;" onkeyup="checkPasswordStrength()">
-        <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" id="passwordStrengthBar" style="width: 40px;"></div>
+      <div class="col">
+        <div class="progress mx-auto" style="height: 20px; background-color: rgba(200,200,200,0.2);" onkeyup="checkPasswordStrength()">
+          <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" id="passwordStrengthBar" style="width: 40px;"></div>
+        </div>
+        <i class="bi-check-circle text-success " style="font-size: 1.2rem; margin-bottom: 64px; margin-left: -16px; padding-left: 30px;" id="icon3"></i>
       </div>
     </div>
 
@@ -74,15 +77,15 @@
     </div>
   </form>
 
-  <div class="alert alert-danger mx-auto" id="errorMessage">
+  <div class="alert alert-danger mx-auto" id="errorMessage" role="alert">
     <strong>Passwords must match</strong>
   </div>
 
-  <div class="alert alert-danger mx-auto" id="passwordTooShort">
+  <div class="alert alert-danger mx-auto" id="passwordTooShort" role="alert">
     <strong>Passwords must be at least 8 characters long.</strong>
   </div>
 
-  <div class="alert alert-danger mx-auto" id="missingForHigherPasswordStrength">
+  <div class="alert alert-danger mx-auto" id="missingForHigherPasswordStrength" role="alert">
     <strong>Your password must contain upper- and lowercase letters.</strong>
   </div>
 </div>
@@ -98,8 +101,14 @@
   // The error message (passwords not matching) should not be shown when loading the view
   let errorMessage = $('#errorMessage');
 
+  // The passwordStrengthBar should be displayed with a warning at first
   let passwordStrengthBar = $('#passwordStrengthBar');
   passwordStrengthBar.addClass('bg-warning');
+
+  //Fade icon out at first as the password is initially empty and
+  // thus doesn't contain any of the necessary components to be safe
+  let iconPasswordIsSafe = $('#icon3');
+  iconPasswordIsSafe.fadeOut(0);
 
   // The passwords have to be checked for being identical
   let passwordInputField = $('#password');
@@ -242,15 +251,19 @@
     if (passwordStrength === 1) {
       passwordStrengthBar.removeClass('bg-warning').removeClass('bg-success').addClass('bg-danger'); // color: red
       passwordStrengthBar.css('width', 20 + '%').attr('aria-valuenow', 20); // progress bar is almost empty
+      iconPasswordIsSafe.fadeOut(100);
     } else if (passwordStrength >= 2 && passwordStrength < 3) {
       passwordStrengthBar.removeClass('bg-danger').removeClass('bg-success').addClass('bg-warning'); // color: orange/yellow
       passwordStrengthBar.css('width', 35 + '%').attr('aria-valuenow', 35);
+      iconPasswordIsSafe.fadeOut(100);
     } else if (passwordStrength >= 3 && passwordStrength < 4) {
       passwordStrengthBar.removeClass('bg-danger').removeClass('bg-success').addClass('bg-warning'); // color: orange/yellow
       passwordStrengthBar.css('width', 65 + '%').attr('aria-valuenow', 65);
+      iconPasswordIsSafe.fadeOut(100);
     } else if (passwordStrength >= 4) {
       passwordStrengthBar.removeClass('bg-warning').removeClass('bg-danger').addClass('bg-success'); // color: green
       passwordStrengthBar.css('width', 100 + '%').attr('aria-valuenow', 100); // progress bar is full
+      iconPasswordIsSafe.fadeIn(200);
     }
 
     // In case the password length is shorter than 8 characters, the passwordStrengthBar is covered in red no matter
