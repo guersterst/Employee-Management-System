@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/webjars/bootstrap/5.0.1/css/bootstrap.css" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
     <link href="../../static/css/adminCreateUserAccount.css" th:href="@{/css/adminCreateUserAccount.css}" rel="stylesheet" media="screen" />
     <title>Create User</title>
 </head>
@@ -155,9 +156,10 @@
         </div>
         </div>
 
-        <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
-        <script src="/webjars/popper.js/1.14.1/popper.min.js"></script>
-        <script src="/webjars/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+        <script src="/webjars/jquery/1.9.1/jquery.js"></script>
+        <script src="/webjars/popper/js/2.9.2/popper.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="/webjars/bootstrap/5.0.1/js/bootstrap.min.js"></script>
 </body>
 
 <footer>
@@ -219,22 +221,16 @@
         $(this).on("click", function() {
             $('#selectRoleDropdown').text($(this).text());
             roleSelected = true;
-            noRoleSelectedAlert.fadeOut();
+            noRoleSelectedAlert.fadeOut(0);
         });
     });
 
     // Don't display alerts at the start
     let userNameExistsAlert = $('#userNameExistentAlert')
-    userNameExistsAlert.fadeOut();
-
     let roleAlreadyExistentAlert = $('#roleAlreadyExistentAlert')
-    roleAlreadyExistentAlert.fadeOut();
-
     let passwordsDontMatchAlert = $('#passwordsDontMatchAlert')
-    passwordsDontMatchAlert.fadeOut();
-
     let noRoleSelectedAlert = $('#noRoleSelectedAlert')
-    noRoleSelectedAlert.fadeOut();
+
 
 
     // Determines whether to show or hide the password
@@ -263,6 +259,13 @@
         if (passwordsDidntMatchOnLastSubmit === true && passwordInputField.val() === passwordRepeatedInputField.val()) {
             passwordsDontMatchAlert.fadeOut(200);
         }
+    }
+
+    window.onload = function() {
+        passwordsDontMatchAlert.fadeOut(0);
+        noRoleSelectedAlert.fadeOut(0);
+        roleAlreadyExistentAlert.fadeOut(0);
+        userNameExistsAlert.fadeOut(0);
     }
 
 </script>
