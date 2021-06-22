@@ -7,10 +7,12 @@ import group9.employee_management.web.dto.UserDTO;
 import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-@RestController
+@Controller
 @RequestMapping("/login")
 public class LoginController {
 
@@ -23,6 +25,7 @@ public class LoginController {
 
     private final LoginService loginService;
 
+
     /**
      * Show the login page.
      *
@@ -31,8 +34,9 @@ public class LoginController {
      */
     @GetMapping("")
     public String index(Model model) {
-        model.addAttribute("loginForm", new UserDTO());
-        return "index";
+        model.addAttribute("userCredentials", new UserDTO());
+
+        return "index.html";
     }
 
     /**
@@ -46,43 +50,39 @@ public class LoginController {
      */
     @GetMapping(
             value = "/authentication")
-    //+ "/{name}/{pw}")
     @ResponseBody
-    public HttpStatus login(@ModelAttribute("loginForm") UserDTO userCredentials) {
-        //@PathVariable("name") String name, @PathVariable("pw") String pw)
-        //TODO if is admin
+    public HttpStatus login(@ModelAttribute("userCredentials") UserDTO userCredentials) {
+        //TODO if is admin -> to admin view else employee view
+        //TODO replace ok status
+
         //TODO check for necessary dto information
+        if (loginService.isUser(userCredentials.getUserName())) {
+            if (loginService.isFirstLogin(userCredentials.getUserName())) {
+                try {
+                    loginService.match(userCredentials.getPassword(), userCredentials.getUserName());
+                } catch (WrongPasswordException ex) {
 
-        if (loginService.isFirstLogin(userCredentials.getUserName())) {
-            try {
-                loginService.match(userCredentials.getPassword(), userCredentials.getUserName());
-            } catch (NoSuchUserException noSuchUserException) {
+                    // Indicate that password and name do not match.
+                    return HttpStatus.BAD_REQUEST;
+                }
 
-                // Indicate that no user with that name exists.
-                return HttpStatus.NOT_FOUND;
-            } catch (WrongPasswordException ex) {
+                // Indicate that it is a first time login.
+                //TODO this is not nice
+                return HttpStatus.TOO_EARLY;
+            } else {
+                try {
+                    loginService.match(userCredentials.getPassword(), userCredentials.getUserName());
+                } catch (WrongPasswordException ex) {
 
-                // Indicate that password and name do not match.
-                return HttpStatus.BAD_REQUEST;
+                    // Indicate that password and name do not match.
+                    return HttpStatus.BAD_REQUEST;
+                }
+                return HttpStatus.OK;
             }
-
-            // Indicate that it is a first time login.
-            //TODO this is not nice
-            return HttpStatus.TOO_EARLY;
         } else {
-            try {
-                loginService.match(userCredentials.getPassword(), userCredentials.getUserName());
-            } catch (NoSuchUserException noSuchUserException) {
-
-                // Indicate that no user with that name exists.
-                return HttpStatus.NOT_FOUND;
-            } catch (WrongPasswordException ex) {
-
-                // Indicate that password and name do not match.
-                return HttpStatus.BAD_REQUEST;
-            }
-            return HttpStatus.OK;
+            return HttpStatus.NOT_FOUND;
         }
+
     }
 
     //?? GET Redirect after login attempt

@@ -11,33 +11,43 @@ import java.util.Set;
  * An Entity describing a user of the terminal.
  */
 @Entity
+@Table
 public class User {
 
     // Employee or admin name.
+    @Column
     private String firstName;
+    @Column
     private String lastName;
 
     @Id
+    @Column(name = "user_username")
     private String userName;
+    @Column
     private String password;
 
     // Initially always true;
+    @Column
     private boolean isFirstLogin;
+    @Column
     private boolean isAdmin;
 
     // True indicates that this user is currently working, while false indicates the opposite.
+    @Column
     private boolean isWorking;
 
     // Describes the corporate title of an user.
+    @Column
     private String position;
 
     // Describes how long this account is valid;
-    // TODO not sure about datatype. Has too many deprecated methods.
+    @Column
     private Date validity;
 
-    /*
+
     //TODO this produces an Error
-    // The work sessions (work days) associated with this user.
+    // The work-sessions (work days) associated with this user.
+    /*
     @OneToMany(mappedBy = "user")
     private Set<WorkSession> workSessions;
      */
@@ -94,5 +104,7 @@ public class User {
     public void setValidity(Date validity) {
         this.validity = validity;
     }
+
+
 }
 

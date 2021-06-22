@@ -1,5 +1,7 @@
 package group9.employee_management.web.dto;
 
+import org.springframework.web.bind.annotation.ModelAttribute;
+
 /**
  * A container used for communication between the controllers and the client.
  */
@@ -51,10 +53,6 @@ public class UserDTO {
         return isAdmin;
     }
 
-    public void setIsAdmin(boolean isAdmin) {
-        this.isAdmin = isAdmin;
-    }
-
     public String getPosition() {
         return position;
     }
@@ -62,4 +60,5 @@ public class UserDTO {
     public void setPosition(String position) {
         this.position = position;
     }
+
 }

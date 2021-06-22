@@ -20,12 +20,16 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
 
-
     //TODO
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests().antMatchers("/**").permitAll();
+        http.authorizeRequests().antMatchers("/**").permitAll()
+                .antMatchers("/h2-console/**").permitAll();
+
+        //TODO not for production
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
         /*
         http.authorizeRequests().antMatchers("/register").permitAll().antMatchers("/welcome")
                 .hasAnyRole("USER", "ADMIN").antMatchers("/getEmployees").hasAnyRole("USER", "ADMIN")

@@ -15,7 +15,6 @@ public class EmployeeListController {
 
     //AUTH admin
 
-
     // TODO as json or set of UserDTOs?
     /**
      * Return all employees and their current work-session.

@@ -45,6 +45,10 @@ public class LoginService {
     /*
     Login getters.
      */
+
+    public boolean isUser(String userName) {
+        return userRepository.userExistsByUserName(userName);
+    }
 /*
     public String getName(String id) {
         assert userRepository != null;
