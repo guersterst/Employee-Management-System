@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -27,24 +27,27 @@
     <div class="container">
         <!--Here, our form for the login are specified-->
         <form id="inputFieldsForm" class="needs-validation" th:action="@{/}" th:object="${loginForm}" method="post">
-
             <!--Specifies the input for the user name-->
             <div class="row">
                 <div class="form-group col-sm-5 mx-auto">
-                    <label for="userName">Username</label>
-                    <input id="userName" class="form-control" type="text" placeholder="User Name" th:field="*{userName}"
-                           onkeyup="updateAlert()" required>
-                    <div class="invalid-feedback">Please enter a user name</div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text bi-file-person" id="icon"></span>
+                        <label for="userName"></label>
+                        <input id="userName" class="form-control" type="text" placeholder="User Name" th:field="*{userName}"
+                                                             onkeyup="updateAlert()" aria-describedby="icon" required>
+                        <div class="invalid-feedback">Please enter a user name</div>
+                    </div>
                 </div>
             </div>
 
             <!--Specifies the input for the password-->
             <div class = "row"> <!--But each input field into their own row-->
                 <div class="form-group col-sm-5 mx-auto">
-                    <label for="password">Password</label>
                     <div class="input-group mb-3">
+                        <span class="input-group-text bi-key" id="icon2"></span>
+                        <label for="password"></label>
                         <input id="password" type="password" class="form-control" placeholder="Password" th:field="*{password}"
-                               onkeyup="updateAlert()" required>
+                                                             onkeyup="updateAlert()" aria-describedby="icon2" required>
                         <div class="invalid-feedback">Please enter a password</div>
                         <div class="input-group-append">
                             <button class="input-group-btn" type="button" id="showHidePassword" onclick="showOrHidePassword()">
@@ -175,18 +178,4 @@
         }
     }
 </script>
-
-<style>
-    #wrongUserNameOrPassword {
-        margin-top: 15px;
-        min-width: 300px;
-        display: flex;
-        flex-direction: row;
-    }
-
-    .bi-exclamation {
-        margin-right: -4px;
-        align-self: center;
-    }
-</style>
 </html>
