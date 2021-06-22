@@ -5,6 +5,7 @@ import group9.employee_management.web.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,16 +22,31 @@ public class UserCreationController {
     }
 
     /**
+     * Get access to the page and get a model-attribute of an user-dto.
+     * @param model The model.
+     * @return The user creation page.
+     */
+    @GetMapping(
+            value = ""
+    )
+    @ResponseBody
+    public String get(Model model) {
+        model.addAttribute("newUser", new UserDTO());
+
+        return "adminCreateUserAccount.html";
+    }
+
+    /**
      * Create a new user in the database
      *
      * @param newUser A dto containing the users account information.
-     * @return {@code HttpStaus.Ok} if successful. {@code HttpStatus.BAD_REQUEST} if the information contained within
+     * @return {@code HttpStatus.Ok} if successful. {@code HttpStatus.BAD_REQUEST} if the information contained within
      * the dto is insufficient.
      */
     @PostMapping(
             value = "/creation")
     @ResponseBody
-    public HttpStatus createUser(@ModelAttribute("createForm") UserDTO newUser) {
+    public HttpStatus createUser(@ModelAttribute("newUser") UserDTO newUser) {
         if (newUser.getUserName() != null
                 && newUser.getFirstName() != null
                 && newUser.getLastName() != null

@@ -45,14 +45,18 @@ public class DataInit implements CommandLineRunner {
         Set<WorkSession> workSessions = Collections.emptySet();
 
         User user1 = new User("bax01","H.P.","Baxxter", hashPassword("h0wmUchisthef1sh"),
-                true, false, "Lead singer", validityDate, workSessions);
+                true, "Lead singer", validityDate, workSessions);
         user1.setFirstLogin(false);
         User user2 = new User("url01","Farin", "Urlaub", hashPassword("abc123def"),
-                false, true, "Lead singer", validityDate, workSessions);
+                false, "Lead singer", validityDate, workSessions);
         user2.setFirstLogin(false);
         User user3 = new User("kla01","Kristoffer Jonas", "Klauß", hashPassword("überallAnJederWand"),
-                false, false, "Rapper", validityDate, workSessions);
+                false, "Rapper", validityDate, workSessions);
 
+
+        userRepository.save(user1);
+        userRepository.save(user2);
+        userRepository.save(user3);
 
         WorkSession session1 = new WorkSession(0, new Date(1624354267000L), new Date(1624354305000L), "First "
                 + "session"

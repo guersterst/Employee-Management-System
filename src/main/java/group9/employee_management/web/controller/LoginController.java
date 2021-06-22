@@ -52,38 +52,24 @@ public class LoginController {
             value = "/authentication")
     @ResponseBody
     public HttpStatus login(@ModelAttribute("userCredentials") UserDTO userCredentials) {
-        //TODO if is admin -> to admin view else employee view
-        //TODO replace ok status
+        String userName = userCredentials.getUserName();
+        String password = userCredentials.getPassword();
 
-        //TODO check for necessary dto information
-        if (loginService.isUser(userCredentials.getUserName())) {
+        if (loginService.isUser(userCredentials.getUserName()) && password != null && userName != null) {
+            loginService.match(userCredentials.getPassword(), userCredentials.getUserName());
             if (loginService.isFirstLogin(userCredentials.getUserName())) {
-                try {
-                    loginService.match(userCredentials.getPassword(), userCredentials.getUserName());
-                } catch (WrongPasswordException ex) {
-
-                    // Indicate that password and name do not match.
-                    return HttpStatus.BAD_REQUEST;
-                }
 
                 // Indicate that it is a first time login.
-                //TODO this is not nice
                 return HttpStatus.TOO_EARLY;
             } else {
-                try {
-                    loginService.match(userCredentials.getPassword(), userCredentials.getUserName());
-                } catch (WrongPasswordException ex) {
 
-                    // Indicate that password and name do not match.
-                    return HttpStatus.BAD_REQUEST;
-                }
+                // Indicate that this is a valid login.
                 return HttpStatus.OK;
             }
         } else {
+
+            // Indicate that this user does not exist.
             return HttpStatus.NOT_FOUND;
         }
-
     }
-
-    //?? GET Redirect after login attempt
 }

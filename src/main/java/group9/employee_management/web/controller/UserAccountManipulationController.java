@@ -6,6 +6,7 @@ import group9.employee_management.application.service.LoginService;
 import group9.employee_management.web.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,8 +14,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserAccountManipulationController {
 
     //TODO PUT OR POST
+    //AUTH own account
 
-    //Auth admin -> not for setPassword
+
     private final AccountService accountService;
 
     @Autowired
@@ -23,12 +25,49 @@ public class UserAccountManipulationController {
     }
 
     /**
+     * Get access to the page and get a model-attribute of an user-dto.
+     *
+     * @param model The model.
+     * @return The user creation page.
+     */
+    @GetMapping(
+            value = ""
+    )
+    @ResponseBody
+    public String get(Model model) {
+        model.addAttribute("userCredentials", new UserDTO());
+
+        return "userAccountPage.html";
+    }
+
+    /**
+     * Returns a users information in JSON format.
+     * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned.
+     *
+     * @param userName
+     * @return
+     */
+    @GetMapping(
+            value = "/{userName}"
+    )
+    @ResponseBody
+    public String getUserData(@PathVariable(value = "userName") String userName) {
+        if (accountService.userExistsByUserName(userName)) {
+            return accountService.getUserAsJSON(userName);
+        } else {
+            throw new NoSuchUserException(userName);
+        }
+    }
+
+    /**
      * Sets a new password and determines that this user must not set a new password the next
      * time he logs in.
+     * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned, if the
+     * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
      *
      * @param userCredentials A dto containing the users id and new password.
      * @return Returns {@code HttpStatus.OK} if the operation was successful. Returns {@code HttpStatus.BAD_REQUEST}
-     * otherwise.
+     * otherwise or {@code HttpStatus.NOT_FOUND}.
      */
     @PutMapping(
             value = "/password"
@@ -39,15 +78,10 @@ public class UserAccountManipulationController {
         String userName = userCredentials.getUserName();
         String password = userCredentials.getPassword();
 
-        //TODO exception is 'doppelt gemoppelt' since this if condition already checks for that.
         if (accountService.userExistsByUserName(userName)
                 && password != null && userName != null) {
-            try {
-                accountService.setPassword(userName, password);
-                accountService.setIsFirstLogin(userName, false);
-            } catch (NoSuchUserException exception) {
-                return HttpStatus.BAD_REQUEST;
-            }
+            accountService.setPassword(userName, password);
+            accountService.setIsFirstLogin(userName, false);
             return HttpStatus.OK;
         } else {
             return HttpStatus.BAD_REQUEST;
@@ -57,10 +91,12 @@ public class UserAccountManipulationController {
 
     /**
      * Sets a new first and last name for the user.
+     * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned, if the
+     * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
      *
      * @param userCredentials A dto containing the users id and new name.
      * @return Returns {@code HttpStatus.OK} if the operation was successful. Returns {@code HttpStatus.BAD_REQUEST}
-     * otherwise.
+     * otherwise or {@code HttpStatus.NOT_FOUND
      */
     @PutMapping(
             value = "/name"
@@ -74,11 +110,7 @@ public class UserAccountManipulationController {
 
         if (accountService.userExistsByUserName(userName)
                 && firstName != null && lastName != null && userName != null) {
-            try {
-                accountService.setName(userName, firstName, lastName);
-            } catch (NoSuchUserException exception) {
-                return HttpStatus.BAD_REQUEST;
-            }
+            accountService.setName(userName, firstName, lastName);
             return HttpStatus.OK;
         } else {
             return HttpStatus.BAD_REQUEST;
@@ -87,10 +119,12 @@ public class UserAccountManipulationController {
 
     /**
      * Sets the admin rights for a user.
+     * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned, if the
+     * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
      *
      * @param userCredentials A dto containing the users id and new name.
      * @return Returns {@code HttpStatus.OK} if the operation was successful. Returns {@code HttpStatus.BAD_REQUEST}
-     * otherwise.
+     * otherwise or {@code HttpStatus.NOT_FOUND
      */
     @PutMapping(
             value = "/admin"
@@ -102,11 +136,7 @@ public class UserAccountManipulationController {
         boolean admin = userCredentials.isAdmin();
 
         if (accountService.userExistsByUserName(userName) && userName != null) {
-            try {
-                accountService.setAdmin(userName, admin);
-            } catch (NoSuchUserException exception) {
-                return HttpStatus.BAD_REQUEST;
-            }
+            accountService.setAdmin(userName, admin);
             return HttpStatus.OK;
         } else {
             return HttpStatus.BAD_REQUEST;
@@ -115,10 +145,12 @@ public class UserAccountManipulationController {
 
     /**
      * Sets the admin rights for a user.
+     * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned, if the
+     * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
      *
      * @param userCredentials A dto containing the users id and new name.
      * @return Returns {@code HttpStatus.OK} if the operation was successful. Returns {@code HttpStatus.BAD_REQUEST}
-     * otherwise.
+     * otherwise or {@code HttpStatus.NOT_FOUND
      */
     @PutMapping(
             value = "/position"
@@ -130,11 +162,7 @@ public class UserAccountManipulationController {
         String position = userCredentials.getPosition();
 
         if (accountService.userExistsByUserName(userName) && position != null) {
-            try {
-                accountService.setPosition(userName, position);
-            } catch (NoSuchUserException exception) {
-                return HttpStatus.BAD_REQUEST;
-            }
+            accountService.setPosition(userName, position);
             return HttpStatus.OK;
         } else {
             return HttpStatus.BAD_REQUEST;

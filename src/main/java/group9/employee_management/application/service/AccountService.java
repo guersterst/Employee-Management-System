@@ -4,6 +4,7 @@ import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.persistence.entities.User;
 import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.persistence.repositories.UserRepository;
+import group9.employee_management.web.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -57,8 +58,7 @@ public class AccountService {
     public void createUser(String userName, String firstName, String lastName, String password, boolean isAdmin,
                            String position) {
         Set<WorkSession> emptySet = Collections.emptySet();
-        userRepository.save(new User(userName, firstName, lastName,password,isAdmin, false, position, validityDate,
-                emptySet));
+        userRepository.save(new User(userName, firstName, lastName,password, isAdmin, position, validityDate, emptySet));
     }
 
     /*
@@ -162,6 +162,23 @@ public class AccountService {
         } else {
             user.setFirstLogin(isFirstLogin);
             userRepository.save(user);
+        }
+    }
+
+    /**
+     * Returns an user as a JSON string.
+     *
+     * @param userName The users user-name.
+     * @return The users information in JSON format, excluding his work-sessions and password.
+     * @throws NoSuchUserException Thrown if no user can be found with the given user name.
+     */
+    public String getUserAsJSON(String userName) throws NoSuchUserException{
+        User user = userRepository.getUserByUserName(userName);
+
+        if (user == null) {
+            throw new NoSuchUserException(userName);
+        } else {
+           return UserDTO.fromEntity(user).toJSON();
         }
     }
 }

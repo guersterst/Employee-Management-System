@@ -32,10 +32,6 @@ public class User {
     @Column
     private boolean isAdmin;
 
-    // True indicates that this user is currently working, while false indicates the opposite.
-    @Column
-    private boolean isWorking;
-
     // Describes the corporate title of an user.
     @Column
     private String position;
@@ -47,26 +43,23 @@ public class User {
 
     //TODO this produces an Error
     // The work-sessions (work days) associated with this user.
-    /*
+
     @OneToMany(mappedBy = "user")
     private Set<WorkSession> workSessions;
-     */
 
     public User(){}
 
-    public User (String userName, String firstName, String lastName, String password, boolean isAdmin,
-                 boolean isWorking, String position, Date validity, Set<WorkSession> workSessions){
+    public User (String userName, String firstName, String lastName, String password, boolean isAdmin, String position, Date validity, Set<WorkSession> workSessions){
         super();
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.isAdmin = isAdmin;
-        this.isWorking = isWorking;
         this.position = position;
         this.validity = validity;
         this.isFirstLogin = true;
-        //this.workSessions = workSessions;
+        this.workSessions = workSessions;
     }
 
     public void setPassword(String password) {
@@ -93,10 +86,6 @@ public class User {
         isAdmin = admin;
     }
 
-    public void setWorking(boolean working) {
-        isWorking = working;
-    }
-
     public void setPosition(String position) {
         this.position = position;
     }
@@ -105,6 +94,32 @@ public class User {
         this.validity = validity;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public boolean isFirstLogin() {
+        return isFirstLogin;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public Date getValidity() {
+        return validity;
+    }
 }
 
