@@ -1,3 +1,7 @@
+.date {
+    margin-left: 10px;
+}
+
 .timeline {
     border-left: 5px solid teal;
     list-style: none;
