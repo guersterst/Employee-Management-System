@@ -49,17 +49,6 @@ public class LoginService {
     public boolean isUser(String userName) {
         return userRepository.userExistsByUserName(userName);
     }
-/*
-    public String getName(String id) {
-        assert userRepository != null;
-        return userRepository.findNameById(id);
-    }
-
-    public boolean isAdmin(String userName) {
-        assert userRepository != null;
-        return userRepository.findIsAdminById(id);
-    }
- */
 
     public boolean isFirstLogin(String userName) {
         assert userRepository != null;

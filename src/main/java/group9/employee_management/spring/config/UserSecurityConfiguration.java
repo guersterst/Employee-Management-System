@@ -1,6 +1,5 @@
 package group9.employee_management.spring.config;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -37,7 +36,6 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage("/login").permitAll().and().logout().permitAll();
 
         http.csrf().disable();
-
          */
     }
 

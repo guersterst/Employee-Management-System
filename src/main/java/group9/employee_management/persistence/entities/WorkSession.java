@@ -2,7 +2,6 @@ package group9.employee_management.persistence.entities;
 import javax.persistence.*;
 
 import java.sql.Date;
-import java.util.List;
 
 @Entity
 @Table

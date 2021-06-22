@@ -124,6 +124,23 @@ public class AccountService {
         }
     }
 
+    /**
+     * Returns an user as a JSON string.
+     *
+     * @param userName The users user-name.
+     * @return The users information in JSON format, excluding his work-sessions and password.
+     * @throws NoSuchUserException Thrown if no user can be found with the given user name.
+     */
+    public String getUserAsJSON(String userName) throws NoSuchUserException{
+        User user = userRepository.getUserByUserName(userName);
+
+        if (user == null) {
+            throw new NoSuchUserException(userName);
+        } else {
+            return UserDTO.fromEntity(user).toJSON();
+        }
+    }
+
             /*
             First login setters.
             */
@@ -162,23 +179,6 @@ public class AccountService {
         } else {
             user.setFirstLogin(isFirstLogin);
             userRepository.save(user);
-        }
-    }
-
-    /**
-     * Returns an user as a JSON string.
-     *
-     * @param userName The users user-name.
-     * @return The users information in JSON format, excluding his work-sessions and password.
-     * @throws NoSuchUserException Thrown if no user can be found with the given user name.
-     */
-    public String getUserAsJSON(String userName) throws NoSuchUserException{
-        User user = userRepository.getUserByUserName(userName);
-
-        if (user == null) {
-            throw new NoSuchUserException(userName);
-        } else {
-           return UserDTO.fromEntity(user).toJSON();
         }
     }
 }

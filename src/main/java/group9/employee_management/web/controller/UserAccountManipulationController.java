@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users/accounts")
 public class UserAccountManipulationController {
 
-    //TODO PUT OR POST
     //AUTH own account
-
 
     private final AccountService accountService;
 
