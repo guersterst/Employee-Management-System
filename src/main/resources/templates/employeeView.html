@@ -89,7 +89,7 @@
                             Save
                         </button>
                         <!--Deletes the saved message above the textarea.-->
-                        <button class="btn btn-primary btn-lg center-block" type="reset" id="delete-message">
+                        <button class="btn btn-primary btn-lg center-block" onclick="deleteMessage()" type="reset" id="delete-message">
                             Delete
                         </button>
                     </div>
@@ -273,6 +273,12 @@
     //Do not show alert.
     alertMessageToShort.fadeOut(1);
     alertInputRequired.fadeOut(1);
+
+    //Deletes the saved message in order to leave the field empty.
+    function deleteMessage() {
+        alert("Message deleted.");
+        savedMessage.text("");
+    }
 
 </script>
 
