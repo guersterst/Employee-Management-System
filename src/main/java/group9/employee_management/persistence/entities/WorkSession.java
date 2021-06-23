@@ -9,7 +9,7 @@ public class WorkSession {
 
     @Id
     @Column
-    private Integer id;
+    private Integer index;
 
     // The timestamps from where the user started working to when he ended working.
     @Column
@@ -37,10 +37,10 @@ public class WorkSession {
 
     public WorkSession(){}
 
-    public WorkSession(Integer id, Date startTime, Date stopTime,  String textStatus, boolean available, boolean onSite,
+    public WorkSession(Integer index, Date startTime, Date stopTime, String textStatus, boolean available, boolean onSite,
                        User user) {
         super();
-        this.id = id;
+        this.index = index;
         this.startTime = startTime;
         this.stopTime = stopTime;
         this.textStatus = textStatus;
@@ -49,8 +49,8 @@ public class WorkSession {
         this.user = user;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getIndex() {
+        return index;
     }
 
     public Date getStartTime() {

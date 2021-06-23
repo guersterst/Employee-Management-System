@@ -1,6 +1,10 @@
 package group9.employee_management.web.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import group9.employee_management.application.service.WorkSessionService;
+import group9.employee_management.persistence.entities.WorkSession;
+import group9.employee_management.web.dto.WorkSessionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,27 +22,27 @@ public class WorkSessionsHistoryController {
     @GetMapping(
             value = ""
     )
-    @ResponseBody
-    public String get(){
+    public String get() {
 
         //TODO
-        return "history.html";
+        return "history";
     }
 
     @GetMapping(
             value = "/latest/{userName}"
     )
     @ResponseBody
-    public String getLatest(@PathVariable(value = "userName") String userName) {
-        return "";
+    public String getLatest(@PathVariable(value = "userName") String userName) throws JsonProcessingException {
+        //TODO exception
+        return WorkSessionDTO.fromEntity(workSessionService.getLatest(userName)).toJSON();
     }
 
     @GetMapping(
             value = "/latest/index/{userName}"
     )
     @ResponseBody
-    public String getIndex(@PathVariable(value = "userName") String userName) {
-        return "";
+    public int getIndex(@PathVariable(value = "userName") String userName) {
+        return workSessionService.getIndex(userName);
     }
 
     @GetMapping(
@@ -46,20 +50,19 @@ public class WorkSessionsHistoryController {
     )
     @ResponseBody
     public String getFive(@PathVariable(value = "userName") String userName,
-                          @PathVariable(value = "index") int index) {
-        return "";
+                          @PathVariable(value = "index") int index) throws JsonProcessingException {
+        StringBuilder jsonArrayResponse = new StringBuilder("{ \"workSessions\": [");
+
+        for (WorkSession workSession :
+                workSessionService.getFiveFromIndex(userName, index)) {
+            jsonArrayResponse.append(WorkSessionDTO.fromEntity(workSession).toJSON());
+            jsonArrayResponse.append(", ");
+        }
+
+        // Remove last comma.
+        String result = jsonArrayResponse.substring(0,jsonArrayResponse.length() - 2);
+        return result + "]}";
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
     //TODO NEW PAGE AND CONTROLLER

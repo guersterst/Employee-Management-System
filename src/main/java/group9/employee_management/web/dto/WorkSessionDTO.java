@@ -3,7 +3,6 @@ package group9.employee_management.web.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import group9.employee_management.persistence.entities.User;
 import group9.employee_management.persistence.entities.WorkSession;
 
 import java.sql.Date;
@@ -28,7 +27,7 @@ public class WorkSessionDTO {
      */
     public static WorkSessionDTO fromEntity(WorkSession workSession) {
         WorkSessionDTO workSessionDTO = new WorkSessionDTO();
-        workSessionDTO.setId(workSession.getId());
+        workSessionDTO.setId(workSession.getIndex());
         workSessionDTO.setStartTime(workSession.getStartTime());
         workSessionDTO.setStopTime(workSession.getStopTime());
         workSessionDTO.setTextStatus(workSession.getTextStatus());

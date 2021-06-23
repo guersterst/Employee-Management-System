@@ -6,10 +6,11 @@ import group9.employee_management.application.service.LoginService;
 import group9.employee_management.web.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping("/users/accounts")
 public class UserAccountManipulationController {
 
@@ -35,7 +36,7 @@ public class UserAccountManipulationController {
     public String get(Model model) {
         model.addAttribute("userCredentials", new UserDTO());
 
-        return "userAccountPage.html";
+        return "userAccountPage";
     }
 
     /**
