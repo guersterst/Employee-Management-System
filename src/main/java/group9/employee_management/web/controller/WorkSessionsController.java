@@ -134,6 +134,7 @@ public class WorkSessionsController {
         }
     }
 
+    //TODO userName as pathvariable because its a get
     //TODO javadoc
     //TODO defensiveness
     @GetMapping(

@@ -132,4 +132,8 @@ public class WorkSessionService {
     public String getOnSite(String userName) {
         return workSessionRepository.getOnSite(userName);
     }
+
+    public User getUser(String userName) {
+        return userRepository.getUserByUserName(userName);
+    }
 }

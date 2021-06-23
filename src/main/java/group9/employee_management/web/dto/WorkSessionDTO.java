@@ -9,7 +9,6 @@ import java.sql.Date;
 
 public class WorkSessionDTO {
 
-    @JsonProperty
     private Integer id;
     private Date startTime;
     private Date stopTime;
