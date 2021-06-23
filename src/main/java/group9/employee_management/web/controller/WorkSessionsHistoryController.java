@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/employees/worksessions")
+@RequestMapping("/employees/worksessions/history")
 public class WorkSessionsHistoryController {
 
     private final WorkSessionService workSessionService;
@@ -46,7 +46,7 @@ public class WorkSessionsHistoryController {
     }
 
     @GetMapping(
-            value = "/{userName}/{index}"
+            value = "/{index}/{userName}"
     )
     @ResponseBody
     public String getFive(@PathVariable(value = "userName") String userName,
@@ -55,12 +55,18 @@ public class WorkSessionsHistoryController {
 
         for (WorkSession workSession :
                 workSessionService.getFiveFromIndex(userName, index)) {
-            jsonArrayResponse.append(WorkSessionDTO.fromEntity(workSession).toJSON());
-            jsonArrayResponse.append(", ");
+            if (workSession != null) {
+                jsonArrayResponse.append(WorkSessionDTO.fromEntity(workSession).toJSON());
+                jsonArrayResponse.append(", ");
+            }
+        }
+        String result = jsonArrayResponse.toString();
+
+        // Remove last comma if there is an element in the json array.
+        if (jsonArrayResponse.length() > 20) {
+            result = jsonArrayResponse.substring(0, jsonArrayResponse.length() - 2);
         }
 
-        // Remove last comma.
-        String result = jsonArrayResponse.substring(0,jsonArrayResponse.length() - 2);
         return result + "]}";
     }
 
