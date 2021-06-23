@@ -1,10 +1,19 @@
 package group9.employee_management.web.controller;
 
+import group9.employee_management.application.service.WorkSessionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/employees/worksessions")
 public class WorkSessionsHistoryController {
+
+    private final WorkSessionService workSessionService;
+
+    @Autowired
+    public WorkSessionsHistoryController(WorkSessionService workSessionService) {
+        this.workSessionService = workSessionService;
+    }
 
     @GetMapping(
             value = ""
@@ -16,17 +25,12 @@ public class WorkSessionsHistoryController {
         return "history.html";
     }
 
-    //GET LATEST
-    //GET INDEX
-    //GET 5 (INDEX)
-
-
     @GetMapping(
             value = "/latest/{userName}"
     )
     @ResponseBody
     public String getLatest(@PathVariable(value = "userName") String userName) {
-
+        return "";
     }
 
     @GetMapping(
@@ -34,7 +38,7 @@ public class WorkSessionsHistoryController {
     )
     @ResponseBody
     public String getIndex(@PathVariable(value = "userName") String userName) {
-
+        return "";
     }
 
     @GetMapping(
@@ -43,7 +47,7 @@ public class WorkSessionsHistoryController {
     @ResponseBody
     public String getFive(@PathVariable(value = "userName") String userName,
                           @PathVariable(value = "index") int index) {
-
+        return "";
     }
 
 

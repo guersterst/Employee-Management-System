@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "There is no user with that user-name.")
 public class NoSuchUserException extends RuntimeException {
+
+    //TODO change from runtime exception
     public NoSuchUserException() {
         super("There is no user.");
     }
