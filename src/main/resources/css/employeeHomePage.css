@@ -8,7 +8,9 @@
     text-align: center;
 }
 
-
+/*
+Changes content to fit in a better way.
+ */
 #messageCard {
     margin: 20px;
 }
@@ -21,6 +23,9 @@
     margin: 20px;
 }
 
+/*
+Large area of history overview.
+ */
 #history {
     margin: 20px;
     grid-row: 2;
