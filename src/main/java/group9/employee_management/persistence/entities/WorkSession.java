@@ -48,4 +48,32 @@ public class WorkSession {
         this.onSite = onSite;
         this.user = user;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public Date getStopTime() {
+        return stopTime;
+    }
+
+    public String getTextStatus() {
+        return textStatus;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public boolean isOnSite() {
+        return onSite;
+    }
+
+    public User getUser() {
+        return user;
+    }
 }
