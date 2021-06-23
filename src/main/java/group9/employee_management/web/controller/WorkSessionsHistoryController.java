@@ -54,22 +54,6 @@ public class WorkSessionsHistoryController {
     @ResponseBody
     public String getThree(@PathVariable(value = "userName") String userName,
                           @PathVariable(value = "index") int index) throws JsonProcessingException {
-        StringBuilder jsonArrayResponse = new StringBuilder("{ \"workSessions\": [");
-
-        for (WorkSession workSession :
-                workSessionService.getThreeFromIndex(userName, index)) {
-            if (workSession != null) {
-                jsonArrayResponse.append(WorkSessionDTO.fromEntity(workSession).toJSON());
-                jsonArrayResponse.append(", ");
-            }
-        }
-        String result = jsonArrayResponse.toString();
-
-        // Remove last comma if there is an element in the json array.
-        if (jsonArrayResponse.length() > 20) {
-            result = jsonArrayResponse.substring(0, jsonArrayResponse.length() - 2);
-        }
-
-        return result + "]}";
+        return workSessionService.workSessionsToJSON(workSessionService.getThreeFromIndex(userName, index));
     }
 }

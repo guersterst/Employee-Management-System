@@ -1,9 +1,11 @@
 package group9.employee_management.application.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import group9.employee_management.persistence.entities.User;
 import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.persistence.repositories.UserRepository;
 import group9.employee_management.persistence.repositories.WorkSessionRepository;
+import group9.employee_management.web.dto.WorkSessionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,25 @@ public class WorkSessionService {
      */
     public WorkSession getLatest(String userName) {
         return workSessionRepository.getWorkSession(userName, getIndex(userName));
+    }
+
+    public String workSessionsToJSON(List<WorkSession> sessions) throws JsonProcessingException {
+        StringBuilder jsonArrayResponse = new StringBuilder("{ \"workSessions\": [");
+
+        for (WorkSession workSession : sessions) {
+            if (workSession != null) {
+                jsonArrayResponse.append(WorkSessionDTO.fromEntity(workSession).toJSON());
+                jsonArrayResponse.append(", ");
+            }
+        }
+        String result = jsonArrayResponse.toString();
+
+        // Remove last comma if there is an element in the json array.
+        if (jsonArrayResponse.length() > 20) {
+            result = jsonArrayResponse.substring(0, jsonArrayResponse.length() - 2);
+        }
+
+        return result + "]}";
     }
 
     /**
@@ -113,9 +134,6 @@ public class WorkSessionService {
         workSessionRepository.save(latestSession);
     }
 
-    /*
-    Getters for the work-session creation.
-     */
 
     public String getTextStatus(String userName) {
         return workSessionRepository.getTextStatus(userName);
@@ -128,6 +146,10 @@ public class WorkSessionService {
     public String getOnSite(String userName) {
         return workSessionRepository.getOnSite(userName);
     }
+
+    /*
+    Getter for session history.
+     */
 
     /*
     Getters for employee-list-view.
