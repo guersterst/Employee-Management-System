@@ -45,9 +45,9 @@ public class WorkSessionService {
         return workSessionRepository.getIndex(userName);
     }
 
-    public List<WorkSession> getFiveFromIndex(String userName, int index) {
+    public List<WorkSession> getThreeFromIndex(String userName, int index) {
         List<WorkSession> workSessions = new ArrayList<>();
-        for (int i = index; i > index - 5 && i >= 0; i--) {
+        for (int i = index; i > index - 3 && i >= 0; i--) {
             WorkSession session = workSessionRepository.getWorkSession(userName, i);
             assert session != null;
             workSessions.add(session);
@@ -79,7 +79,7 @@ public class WorkSessionService {
      * @param available The momentary availabilty of the employee.
      * @param onSite Indication for whether this employee is on- or offsite.
      */
-    public void startSession(String userName,String textStatus, boolean available, boolean onSite) {
+    public void startSession(String userName, String textStatus, boolean available, boolean onSite) {
         Date currentTime = getCurrentTime();
 
         WorkSession newSession = new WorkSession(getIndex(userName) + 1, currentTime, null, textStatus,
@@ -93,9 +93,43 @@ public class WorkSessionService {
      * @param userName The users user-name.
      */
     public void stopSession(String userName) {
-        WorkSession latestSession = workSessionRepository.getWorkSession(userName, getIndex(userName));
+        WorkSession latestSession = getLatest(userName);
         latestSession.setStopTime(getCurrentTime());
+
         workSessionRepository.save(latestSession);
     }
 
+    public void putMessage(String userName, String textStatus) {
+        WorkSession latestSession = getLatest(userName);
+        latestSession.setTextStatus(textStatus);
+        workSessionRepository.save(latestSession);
+    }
+
+    public void putAvailability(String userName, boolean available) {
+        WorkSession latestSession = getLatest(userName);
+        latestSession.setAvailable(available);
+        workSessionRepository.save(latestSession);
+    }
+
+    public void putOnSite(String userName, boolean onSite) {
+        WorkSession latestSession = getLatest(userName);
+        latestSession.setOnSite(onSite);
+        workSessionRepository.save(latestSession);
+    }
+
+    /*
+    Getters for the work-session creation.
+     */
+
+    public String getTextStatus(String userName) {
+        return workSessionRepository.getTextStatus(userName);
+    }
+
+    public String getAvailability(String userName) {
+        return workSessionRepository.getAvailability(userName);
+    }
+
+    public String getOnSite(String userName) {
+        return workSessionRepository.getOnSite(userName);
+    }
 }

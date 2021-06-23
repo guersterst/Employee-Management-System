@@ -14,6 +14,8 @@ public class WorkSessionsHistoryController {
 
     private final WorkSessionService workSessionService;
 
+    //AUTH
+
     @Autowired
     public WorkSessionsHistoryController(WorkSessionService workSessionService) {
         this.workSessionService = workSessionService;
@@ -49,12 +51,12 @@ public class WorkSessionsHistoryController {
             value = "/{index}/{userName}"
     )
     @ResponseBody
-    public String getFive(@PathVariable(value = "userName") String userName,
+    public String getThree(@PathVariable(value = "userName") String userName,
                           @PathVariable(value = "index") int index) throws JsonProcessingException {
         StringBuilder jsonArrayResponse = new StringBuilder("{ \"workSessions\": [");
 
         for (WorkSession workSession :
-                workSessionService.getFiveFromIndex(userName, index)) {
+                workSessionService.getThreeFromIndex(userName, index)) {
             if (workSession != null) {
                 jsonArrayResponse.append(WorkSessionDTO.fromEntity(workSession).toJSON());
                 jsonArrayResponse.append(", ");
@@ -69,56 +71,4 @@ public class WorkSessionsHistoryController {
 
         return result + "]}";
     }
-
-
-    //TODO NEW PAGE AND CONTROLLER
-    //PUT MESSAGETOLATEST
-
-    //POST STARTWORKSESSION
-    //POST ENDWORKSESSION
-    //PUT AVAILABILITY
-    //GET AVAILABILITY
-
-    //AUTH none
-
-    //identification of worksession via username and worksession date
-    //-> meaning one worksession is one day.
-
-    /*
-
-    user:
-
-    ws1 <- id of worksession
-    ws2
-    ws3
-
-     */
-
-    //CREATE worksession
-
-    /*
-
-    GET latest
-
-    Option 2:
-    GET 10 (index) -> GET10 0 (first 10), GET10 3 (sessions 30-40)
-    return json
-
-     */
-
-
-    // LATEST
-
-    //PUT message
-    //GET message
-    //DELETE message
-
-    //PUT startTime
-    //GET startime
-
-    //PUT endTime
-    //GET endtime
-
-    //PUT availability
-    //GET availability
 }

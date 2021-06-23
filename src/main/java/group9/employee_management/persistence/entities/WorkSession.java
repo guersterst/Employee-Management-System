@@ -7,9 +7,14 @@ import java.sql.Date;
 @Table
 public class WorkSession {
 
+    //TODO two keys
     @Id
     @Column
     private Integer index;
+
+    @ManyToOne
+    @JoinColumn(name ="user_username", nullable = false)
+    private User user;
 
     // The timestamps from where the user started working to when he ended working.
     @Column
@@ -30,9 +35,6 @@ public class WorkSession {
     @Column
     private boolean onSite;
 
-    @ManyToOne
-    @JoinColumn(name ="user_username", nullable = false)
-    private User user;
 
 
     public WorkSession(){}
@@ -79,5 +81,17 @@ public class WorkSession {
 
     public void setStopTime(Date stopTime) {
         this.stopTime = stopTime;
+    }
+
+    public void setTextStatus(String textStatus) {
+        this.textStatus = textStatus;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public void setOnSite(boolean onSite) {
+        this.onSite = onSite;
     }
 }

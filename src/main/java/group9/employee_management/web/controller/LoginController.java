@@ -41,6 +41,7 @@ public class LoginController {
      * Determine whether a user is allowed to login or has to create his password.
      *
      * @param userCredentials A dto containing the users login information.
+     *                        //TODO what dtos require
      * @return {@code HttpStatus.BAD_REQUEST} if the password is incorrect, {@code HttpStatus.NOT_FOUND} if the
      * there is no user with that name. {@code HttpStatus.TOO_EARLY} if its a first time login and the initial login
      * could be performed with the given login credentials. Else OK will be

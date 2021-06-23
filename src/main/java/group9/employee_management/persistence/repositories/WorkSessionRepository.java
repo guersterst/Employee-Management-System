@@ -19,4 +19,16 @@ public interface WorkSessionRepository extends JpaRepository<WorkSession, Intege
             + "FROM WorkSession w "
             + "WHERE w.user = (SELECT u FROM User u WHERE u.userName = :userName)")
     Integer getIndex(@Param("userName") String userName);
+
+    @Query("SELECT w.textStatus from"
+            + " WorkSession w WHERE w.user = (SELECT u FROM User u WHERE u.userName = :userName)")
+    String getTextStatus(@Param("userName") String userName);
+
+    @Query("SELECT w.available from"
+            + " WorkSession w WHERE w.user = (SELECT u FROM User u WHERE u.userName = :userName)")
+    String getAvailability(@Param("userName") String userName);
+
+    @Query("SELECT w.onSite from"
+            + " WorkSession w WHERE w.user = (SELECT u FROM User u WHERE u.userName = :userName)")
+    String getOnSite(@Param("userName") String userName);
 }
