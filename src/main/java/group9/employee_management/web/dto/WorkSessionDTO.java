@@ -16,6 +16,7 @@ public class WorkSessionDTO {
     private String textStatus;
     private boolean available;
     private boolean onSite;
+    private String userName;
 
     public WorkSessionDTO(){}
 
@@ -33,6 +34,7 @@ public class WorkSessionDTO {
         workSessionDTO.setTextStatus(workSession.getTextStatus());
         workSessionDTO.setAvailable(workSession.isAvailable());
         workSessionDTO.setOnSite(workSession.isOnSite());
+        workSessionDTO.setUserName(workSession.getUser().getUserName());
         return workSessionDTO;
     }
 
@@ -87,5 +89,13 @@ public class WorkSessionDTO {
 
     public void setOnSite(boolean onSite) {
         this.onSite = onSite;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

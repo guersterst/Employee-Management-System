@@ -76,4 +76,8 @@ public class WorkSession {
     public User getUser() {
         return user;
     }
+
+    public void setStopTime(Date stopTime) {
+        this.stopTime = stopTime;
+    }
 }

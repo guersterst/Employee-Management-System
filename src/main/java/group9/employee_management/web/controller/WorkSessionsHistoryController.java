@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/employees/worksessions/history")
+@RequestMapping("/employees/worksessions")
 public class WorkSessionsHistoryController {
 
     private final WorkSessionService workSessionService;
