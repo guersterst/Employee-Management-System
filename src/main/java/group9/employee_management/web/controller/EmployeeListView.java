@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/admin/employees")
 public class EmployeeListView {
 
+    //TODO defensiveness what if no session
+
     //AUTH ADMIN
     private final WorkSessionService workSessionService;
 
@@ -27,13 +29,21 @@ public class EmployeeListView {
             value = "/{userName}/session"
     )
     @ResponseBody
-    public String getCurrentSession(@PathVariable("userName") String userName) throws JsonProcessingException {
+    public String getLatestSessionAndUser(@PathVariable("userName") String userName) throws JsonProcessingException {
 
         WorkSessionListEntryDTO workSessionListEntryDTO =
                 WorkSessionListEntryDTO.fromEntities(workSessionService.getUser(userName),
                         workSessionService.getLatest(userName));
 
         return workSessionListEntryDTO.toJSON();
+    }
+
+    //TODO test
+    @GetMapping(
+            value = "/working"
+    )
+    public String getUsersWithRunningSessions() {
+        return workSessionService.getUsersWithRunningSessionsAsJSON();
     }
 
     //ÜBUNG: terminals? -> koordinaten, auth, 2 server?

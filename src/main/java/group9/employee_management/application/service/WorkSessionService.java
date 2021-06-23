@@ -4,15 +4,11 @@ import group9.employee_management.persistence.entities.User;
 import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.persistence.repositories.UserRepository;
 import group9.employee_management.persistence.repositories.WorkSessionRepository;
-import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,10 +70,10 @@ public class WorkSessionService {
      * that user. The {@code starTime} is calculated at the moment of the method call. The {@code stopTime} is set to
      * null.
      *
-     * @param userName The user-name of the user with which this session is associated.
+     * @param userName   The user-name of the user with which this session is associated.
      * @param textStatus The text-message describing this session.
-     * @param available The momentary availabilty of the employee.
-     * @param onSite Indication for whether this employee is on- or offsite.
+     * @param available  The momentary availabilty of the employee.
+     * @param onSite     Indication for whether this employee is on- or offsite.
      */
     public void startSession(String userName, String textStatus, boolean available, boolean onSite) {
         Date currentTime = getCurrentTime();
@@ -133,7 +129,27 @@ public class WorkSessionService {
         return workSessionRepository.getOnSite(userName);
     }
 
+    /*
+    Getters for employee-list-view.
+     */
     public User getUser(String userName) {
         return userRepository.getUserByUserName(userName);
+    }
+
+    public String getUsersWithRunningSessionsAsJSON() {
+        List<User> usersWithRunningSessions = workSessionRepository.getUsersWithRunningSessions();
+        StringBuilder jsonResponse = new StringBuilder("[");
+
+        for (User user : usersWithRunningSessions) {
+            jsonResponse.append("\"").append(user.getUserName()).append("\"").append(", ");
+        }
+
+        String result = jsonResponse.toString();
+
+        // Remove following comma if necessary.
+        if (jsonResponse.length() > 2) {
+            result = result.substring(0, result.length() - 2);
+        }
+        return result;
     }
 }

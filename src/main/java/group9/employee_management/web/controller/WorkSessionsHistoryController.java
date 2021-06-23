@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class WorkSessionsHistoryController {
 
     private final WorkSessionService workSessionService;
+    //TODO defensiveness what if no session
 
     //AUTH
 

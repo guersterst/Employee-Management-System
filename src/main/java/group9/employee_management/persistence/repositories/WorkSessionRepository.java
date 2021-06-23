@@ -1,10 +1,13 @@
 package group9.employee_management.persistence.repositories;
 
+import group9.employee_management.persistence.entities.User;
 import group9.employee_management.persistence.entities.WorkSession;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface WorkSessionRepository extends JpaRepository<WorkSession, Integer> {
@@ -31,4 +34,7 @@ public interface WorkSessionRepository extends JpaRepository<WorkSession, Intege
     @Query("SELECT w.onSite from"
             + " WorkSession w WHERE w.user = (SELECT u FROM User u WHERE u.userName = :userName)")
     String getOnSite(@Param("userName") String userName);
+
+    @Query("SELECT w.user FROM WorkSession w WHERE w.stopTime IS NULL")
+    List<User> getUsersWithRunningSessions();
 }

@@ -14,6 +14,8 @@ public class WorkSessionsController {
 
     //AUTH user
 
+    //TODO defensiveness what if no session
+
     private final WorkSessionService workSessionService;
 
     @Autowired
