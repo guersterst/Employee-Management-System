@@ -65,12 +65,15 @@
     </div>
 
     <div class="row">
-      <ul id="missingPasswordCharacteristics">
-        <li id="element1">Password is too short.</li>
-        <li id="element2">Must contain upper- and lowercase letters.</li>
-        <li id="element3">Must contain numbers.</li>
-        <li id="element4">Must contain special characters.</li>
+      <div class="col d-grid justify-content-center">
+        <p id="passwordCharacteristicsText">Your password should match the following criteria:</p>
+        <ul id="missingPasswordCharacteristics">
+          <li id="element1">Password is too short.</li>
+          <li id="element2">Must contain upper- and lowercase letters.</li>
+          <li id="element3">Must contain numbers.</li>
+          <li id="element4">Must contain special characters.</li>
       </ul>
+      </div>
     </div>
 
     <div class="d-grid col-5 mx-auto">
@@ -127,11 +130,10 @@
   let passwordVisible = false;
   let repeatedPasswordVisible = false;
 
-  //Fade out alert that is shown when the view is loaded
   let missingForHigherPasswordStrength = $('#missingForHigherPasswordStrength');
-
-
   let listOfMissingPasswordCharacteristics = $('#missingPasswordCharacteristics');
+  let passwordCharacteristicsText = $('#passwordCharacteristicsText');
+
   // When the first letter is entered for the password, we display a list of characteristics the password has to
   // fulfill (length, must contain special characters, must contain numbers, must contain uppercase and lowercase
   // letters).
@@ -148,12 +150,12 @@
     if (passwordInputFieldToHide === "password") {
       if (passwordVisible) {
         passwordVisible = false;
-        $('#password').attr("type", "password");
+        passwordInputField.attr("type", "password");
         // $('#showHidePassword').removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
         passwordInputField.attr("type", "password");
         $('#passwordButtonIcon').removeClass('bi-eye').addClass('bi-eye-slash');
       } else {
-        $('#password').attr("type", "text");
+        passwordInputField.attr("type", "text");
         //$('#showHidePassword').removeClass('glyphicon-eye-close').addClass('glyphicon-eye-open');
        passwordInputField.attr("type", "text");
         $('#passwordButtonIcon').removeClass('bi-eye-slash').addClass('bi-eye');
@@ -163,13 +165,9 @@
       // We do the same thing for the repeated password:
       if (repeatedPasswordVisible) {
         repeatedPasswordVisible = false;
-        $('#passwordRepeated').attr("type", "password");
-        // $('#showHidePassword').removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
         repeatedPasswordInputField.attr("type", "password");
         $('#repeatedPasswordButtonIcon').removeClass('bi-eye').addClass('bi-eye-slash');
       } else {
-        $('#passwordRepeated').attr("type", "text");
-        //$('#showHidePassword').removeClass('glyphicon-eye-close').addClass('glyphicon-eye-open');
         repeatedPasswordInputField.attr("type", "text");
         $('#repeatedPasswordButtonIcon').removeClass('bi-eye-slash').addClass('bi-eye');
         repeatedPasswordVisible = true;
@@ -195,7 +193,7 @@
   // are fulfilled, the progress bar (passwordStrengthBar) increases in value and changes its
   // color to suggest a safer password.
   function determinePasswordStrength() {
-    let password = $('#password').val();
+    let password = passwordInputField.val();
 
     // Reset these values. Potentially, a character was deleted, which means that even if the variable was previously
     // true, we have to check again whether this still holds up. Thus, the variables are set to false and are
@@ -278,11 +276,18 @@
       iconPasswordIsSafe.fadeIn(200);
 
       // Fade in the second icon if both passwords also match
-      if ($('#password').val() === $('#passwordRepeated').val()) {
+      if (passwordInputField.val() === repeatedPasswordInputField.val()) {
         iconPasswordsMatchAndIsSafe.fadeIn(200);
       } else  {
         iconPasswordsMatchAndIsSafe.fadeOut(100);
       }
+    }
+
+    // Fade in/out the text for the list which describes the missing criteria for a secure password
+    if (passwordStrength < 4) {
+      passwordCharacteristicsText.fadeIn(200);
+    } else {
+      passwordCharacteristicsText.fadeOut(100);
     }
 
     // In case the password length is shorter than 8 characters, the passwordStrengthBar is covered in red no matter
@@ -325,7 +330,7 @@
 
     // If the passwords don't match, stop the submission process, delete the input in the repeatedPasswordInputField
     // and fade in the error message.
-    if (password != repeatedPassword) {
+    if (password !== repeatedPassword) {
       event.preventDefault();
       event.stopPropagation();
       errorMessage.fadeIn(200);
@@ -357,6 +362,7 @@
 
   window.onload = function() {
     listOfMissingPasswordCharacteristics.fadeOut(0);
+    passwordCharacteristicsText.fadeOut(0);
     missingForHigherPasswordStrength.fadeOut(0);
     errorMessage.fadeOut(0);
   };

@@ -59,6 +59,9 @@ h1 {
 }
 
 #missingPasswordCharacteristics {
-    margin-top: 20px;
     color: crimson;
+}
+
+#passwordCharacteristicsText {
+    margin-top: 40px;
 }
