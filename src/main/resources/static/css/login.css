@@ -1,0 +1,65 @@
+.embeddedFooter {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 12pt;
+    margin-bottom: -10px;
+}
+
+.form-control {
+    font-size: 14px;
+}
+
+.form-group {
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+.alert-danger {
+    width: 30%;
+    position: center;
+    text-align: center;
+}
+
+#inputFieldsForm {
+    margin-top: 10%;
+}
+
+#loginButton {
+    margin-bottom: 5px;
+    margin-top: 10px;
+    width: 18%;
+    min-width: 90px;
+    position: center;
+}
+
+#userName {
+    padding: 0 40px;
+    font-size: 16px;
+}
+
+#password {
+    padding: 0 40px;
+    font-size: 16px;
+}
+
+input {
+    padding: 10px 30px;
+}
+
+h1 {
+    margin-top: 20px;
+}
+
+#wrongUserNameOrPassword {
+    margin-top: 15px;
+    min-width: 300px;
+    display: flex;
+    flex-direction: row;
+}
+
+.bi-exclamation {
+    margin-right: -4px;
+    align-self: center;
+}
