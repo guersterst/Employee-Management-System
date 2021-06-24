@@ -226,6 +226,18 @@
                         </div>
                     </div>
                 </li>
+                <template id="newTimelinePanel">
+                    <li>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h3 class="panel-title"></h3>
+                                <p class="text-muted"><i class="bi bi-clock"></i></p>
+                            </div>
+                            <div class="timeline-body" id="timelineInfo">
+                            </div>
+                        </div>
+                    </li>
+                </template>
             </ul>
             <!--Footer with the option to show more details.-->
             <div class="card-footer badge-light text-right">
@@ -244,6 +256,8 @@
     let alertMessageToShort = $('#alertMessageToShort');
     let alertInputRequired = $('#alertInputRequired');
     let savedMessage = document.getElementById("savedMsg").value;
+
+    const numberOfTimelinePanels = 0;
 
     //TODO: Store message.
     //TODO: Duplicated alert code. Maybe theres a better way.
@@ -278,6 +292,27 @@
     function deleteMessage() {
         alert("Message deleted.");
         savedMessage.text("");
+    }
+
+    function turnOffOnSite() {
+        var heading = document.querySelector("h3"),
+            paragraph = document.querySelector("p"),
+            panelMessage = document.querySelector("#timelineInfo div"),
+            temp = document.querySelector("#newTimelinePanel")
+
+        if ('content' in document.createElement('template')
+            && heading && paragraph && panelMessage && temp) {
+            //TODO:do something.
+        }
+    }
+
+    //Only 3 panels should appear at the employees homepage. This should only be an overview.
+    function checkAmountOfTimlinePanels() {
+        if (numberOfTimelinePanels > 3) {
+            //TODO: Don't show the oldest panels.
+            return false;
+        }
+        return true;
     }
 
 </script>
