@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="../css/employeeHomePage.css" rel="stylesheet">
     <title>EmployeeManagement</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
 </head>
 
 <nav>
@@ -14,30 +29,288 @@
 </nav>
 
 <body>
-<form>
-    <div class="input-group">
-        <div class="input-group-prepend">
-            <span class="input-group-text">Notification</span>
-        </div>
-        <textarea class="form-control" aria-label="With textarea"></textarea>
-    </div>
-    </div>
+<div class="home">
+    <h1 class="d-flex badge-secondary">
+        Home Page
+    </h1>
+</div>
+<div class="contain container-fluid d-flex flex-column flex-fill">
+    <div class="row" th:fragment="messageForm">
+        <div class="form-group col-sm-12 col-md-6">
+            <div class="message card shadow">
+                <div class="badge-secondary">
+                    <h2>Message</h2>
+                </div>
+                <!--Show saved message-->
+                <form onsubmit="saveMessage(event)" id="messageCard">
+                    <div class="form-group mx-auto">
+                        <label class="form-control" id="savedMsg" type="text">Here should appear a message.</label>
+                    </div>
+                    <!--Text field to leave a message-->
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Notification</span>
+                        </div>
+                        <textarea class="form-control" aria-label="With textarea" placeholder="Leave a message..."
+                                  id="message"></textarea>
+                    </div>
 
-    <div class="row">
-        <div class="form-group col-lg-5">
-            <label>Availability</label>
-            <input class="btn btn-primary btn-lg center-block " type="submit" value="#" id="available">
+                    <!--Message has to short. The minimum amount of characters should be 10.-->
+                    <div class="alert alert-danger mx-auto" id="alertMessageToShort">
+                        <div class="align-text-bottom">
+                            <i class="bi bi-exclamation-circle"></i>
+                            <strong>Message is to short. Please enter 10 or more characters.</strong>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-danger mx-auto" id="alertInputRequired">
+                        <div class="align-text-bottom">
+                            <i class="bi bi-exclamation-circle"></i>
+                            <strong>Input required.</strong>
+                        </div>
+                    </div>
+
+                    <!--Options for message-->
+                    <div class="message-util form-group">
+                        <!--Message with a minimum length.-->
+                        <button class=" btn btn-primary btn-lg center-block" type="submit" id="save-button"
+                                onclick="saveMessage()">
+                            Save
+                        </button>
+                        <!--Deletes the saved message above the textarea.-->
+                        <button class="btn btn-primary btn-lg center-block" onclick="deleteMessage()" type="reset" id="delete-message">
+                            Delete
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="form-group col-lg-5">
-            <label>Location</label>
-            <input class="btn btn-primary btn-lg center-block " type="submit" value="#" id="place">
+
+
+        <!--Option toolbar-->
+        <div class="col-sm-12 col-md-6">
+            <form th:fragment="state">
+                <div class="state card shadow">
+                    <div class="badge-secondary">
+                        <h2>State</h2>
+                    </div>
+                    <div class="options">
+                        <!--User can change the state of availability.Within the first login this should be enabled.-->
+                        <div class="available d-table custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="availableSwitch">
+                            <label class="custom-control-label" for="availableSwitch">Availability</label>
+                        </div>
+                        <hr>
+                        <!--On Site should be automatically switched on when logged in the first time of a day
+                        and only switched of if you leave work.-->
+                        <div class="location d-table custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="locationSwitch">
+                            <label class="custom-control-label" for="locationSwitch">On Site</label>
+                        </div>
+                        <hr>
+                        <div class="location d-table custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="remote">
+                            <label class="custom-control-label" for="locationSwitch">Remote</label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        <!--TODO:Correct apearence of header.-->
+        <!--View latest chronic items-->
+        <!--
+        <section class="section">
+            <div class="container card shadow">
+                <div class="badge-secondary">
+                    <h2>History</h2>
+                </div>
+                <div class="timeline">
+                    <hr>
+
+                    <div class="line"></div>
+
+                    <div class="text-muted text-left">
+                        <time>Monday</time>
+                    </div>
+
+                    <article class="panel">
+                        <div class="panel-heading icon">
+                            <i class="bi bi-arrow-right-circle"></i>
+                        </div>
+                        <div class="panel-body text-left">
+                            <strong>Login</strong> at 8:00 am.
+                        </div>
+                    </article>
+                    <article class="panel">
+                        <div class="panel-heading icon">
+                            <i class="bi bi-arrow-right-circle"></i>
+                        </div>
+                        <div class="panel-body text-left">
+                            <strong>Login</strong> at 8:00 am.
+                        </div>
+                    </article>
+                    <article class="panel">
+                        <div class="panel-heading icon">
+                            <i class="bi bi-arrow-right-circle"></i>
+                        </div>
+                        <div class="panel-body text-left">
+                            <strong>Available</strong> at 8:00 am.
+                        </div>
+                    </article>
+                </div>
+                -->
+        <!--end timeline-->
+        <!--
+                <div class="text-right align-text-bottom pt-5">
+                    <a href="#">See more <i class="bi bi-arrow-right-circle"></i></a>
+                </div>
+            </div>
+        </section>
+        -->
+
+        <div class="card shadow w-100" id="history">
+            <div class="card-header badge-secondary">
+                <h2 id="timeline">History</h2>
+            </div>
+            <!--Timeline vertically shows every event that is happening during using the web application.-->
+            <ul class="timeline">
+                <div class="text-muted date">
+                    <hr>
+                    <strong>Monday 22.06.2021</strong>
+                </div>
+                <li>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h3 class="panel-title">Login</h3>
+                            <!--shows stored time.-->
+                            <p class="text-muted"><i class="bi bi-clock"></i> 8:00 am</p>
+                        </div>
+                        <!--Message is different depending to the topic.-->
+                        <div class="timeline-body">
+                            <p>Logged in as guerster</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h3 class="panel-title">Availability</h3>
+                            <p class="text-muted"><i class="bi bi-clock"></i> 8:06 am</p>
+                        </div>
+                        <div class="timeline-body">
+                            <p>Changed availability to not available.</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h3 class="panel-title">Changed Message</h3>
+                            <p class="text-muted"><i class="bi bi-clock"></i> 8:30 am</p>
+                        </div>
+                        <div class="timeline-body">
+                            <p>New message: "In a meeting until 10:00 am."</p>
+                        </div>
+                    </div>
+                </li>
+                <template id="newTimelinePanel">
+                    <li>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h3 class="panel-title"></h3>
+                                <p class="text-muted"><i class="bi bi-clock"></i></p>
+                            </div>
+                            <div class="timeline-body" id="timelineInfo">
+                            </div>
+                        </div>
+                    </li>
+                </template>
+            </ul>
+            <!--Footer with the option to show more details.-->
+            <div class="card-footer badge-light text-right">
+                <a href="#">See more <i class="bi bi-arrow-right-circle"></i></a>
+            </div>
         </div>
     </div>
-</form>
+</div>
 </body>
 
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+<script lang="JavaScript" type="text/javascript">
+
+    let alertMessageToShort = $('#alertMessageToShort');
+    let alertInputRequired = $('#alertInputRequired');
+    let savedMessage = document.getElementById("savedMsg").value;
+
+    const numberOfTimelinePanels = 0;
+
+    //TODO: Store message.
+    //TODO: Duplicated alert code. Maybe theres a better way.
+    //Saves the written message in the textarea and show it at the top of the field.
+    function saveMessage(event) {
+        let message = document.getElementById("message").value;
+        let minLength = 10;
+
+        let trimMessage = message.trim();
+
+        if (trimMessage.length === 0) {
+            //Input is required.
+            alertMessageToShort.fadeOut(1);
+            alertInputRequired.fadeIn(100);
+            event.preventDefault();
+        } else if (trimMessage.length < minLength) {
+            //stops submitting and shows alert.
+            alertInputRequired.fadeOut(1);
+            alertMessageToShort.fadeIn(100);
+            event.preventDefault();
+        } else {
+            //TODO: Show message correctly.
+            savedMessage.val(message);
+        }
+    }
+
+    //Do not show alert.
+    alertMessageToShort.fadeOut(1);
+    alertInputRequired.fadeOut(1);
+
+    //Deletes the saved message in order to leave the field empty.
+    function deleteMessage() {
+        alert("Message deleted.");
+        savedMessage.text("");
+    }
+
+    function turnOffOnSite() {
+        var heading = document.querySelector("h3"),
+            paragraph = document.querySelector("p"),
+            panelMessage = document.querySelector("#timelineInfo div"),
+            temp = document.querySelector("#newTimelinePanel")
+
+        if ('content' in document.createElement('template')
+            && heading && paragraph && panelMessage && temp) {
+            //TODO:do something.
+        }
+    }
+
+    //Only 3 panels should appear at the employees homepage. This should only be an overview.
+    function checkAmountOfTimlinePanels() {
+        if (numberOfTimelinePanels > 3) {
+            //TODO: Don't show the oldest panels.
+            return false;
+        }
+        return true;
+    }
+
+</script>
+
 <footer>
-    <div th:insert="'footer'"></div>
+    <div class="footer">
+        <div class="text-center bg-dark text-light p-6" id="footer">
+            <p>© 2021 Copyright: Group 9</p>
+        </div>
+    </div>
 </footer>
 
 </html>
