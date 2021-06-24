@@ -4,7 +4,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
-import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
@@ -20,7 +19,7 @@ public class WorkSession {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name ="user_username", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private User user;
+    private Employee employee;
 
     // The timestamps from where the user started working to when he ended working.
     @Column
@@ -46,7 +45,7 @@ public class WorkSession {
     public WorkSession(){}
 
     public WorkSession(Integer index, Date startTime, Date stopTime, String textStatus, boolean available, boolean onSite,
-                       User user) {
+                       Employee employee) {
         super();
         this.index = index;
         this.startTime = startTime;
@@ -54,7 +53,7 @@ public class WorkSession {
         this.textStatus = textStatus;
         this.available = available;
         this.onSite = onSite;
-        this.user = user;
+        this.employee = employee;
     }
 
     public Integer getIndex() {
@@ -81,8 +80,8 @@ public class WorkSession {
         return onSite;
     }
 
-    public User getUser() {
-        return user;
+    public Employee getUser() {
+        return employee;
     }
 
     public void setStopTime(Date stopTime) {

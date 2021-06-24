@@ -1,8 +1,7 @@
 package group9.employee_management;
 
 import group9.employee_management.application.service.LoginService;
-import group9.employee_management.persistence.repositories.UserRepository;
-import group9.employee_management.web.dto.UserDTO;
+import group9.employee_management.persistence.repositories.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,7 +12,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /*
 @WebMvcTest(value = LoginController.class)
@@ -33,7 +31,7 @@ class LoginTest {
     LoginService loginService;
 
     @Autowired
-    UserRepository userRepository;
+    EmployeeRepository employeeRepository;
 
     @Test
     void testPassWordMatching() throws Exception {

@@ -1,8 +1,7 @@
 package group9.employee_management.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import group9.employee_management.persistence.entities.User;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import group9.employee_management.persistence.entities.Employee;
 
 import java.sql.Date;
 
@@ -30,17 +29,17 @@ public class UserDTO {
     /**
      * Converts an User entity into an UserDTO.
      *
-     * @param user The entity to be converted.
+     * @param employee The entity to be converted.
      * @return The DTO created from the entity
      */
-    public static UserDTO fromEntity(User user) {
+    public static UserDTO fromEntity(Employee employee) {
         UserDTO userDTO = new UserDTO();
-        userDTO.setFirstName(user.getFirstName());
-        userDTO.setLastName(user.getLastName());
-        userDTO.setUserName(user.getUserName());
-        userDTO.setAdmin(user.isAdmin());
-        userDTO.setPosition(user.getPosition());
-        userDTO.setValidity(user.getValidity());
+        userDTO.setFirstName(employee.getFirstName());
+        userDTO.setLastName(employee.getLastName());
+        userDTO.setUserName(employee.getUserName());
+        userDTO.setAdmin(employee.isAdmin());
+        userDTO.setPosition(employee.getPosition());
+        userDTO.setValidity(employee.getValidity());
         return userDTO;
     }
 

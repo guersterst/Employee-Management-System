@@ -50,15 +50,4 @@ public class EmployeeListView {
     public String getUsersWithRunningSessions() {
         return workSessionService.getUsersWithRunningSessionsAsJSON();
     }
-
-    //TODO
-    /**
-     * Terminalserver: userMainpage -> schickt anfragen an mainserver
-     * -> hat wsl koordinaten und login credentials
-     * -> auth am besten mit jwt
-     * -> kein restcontroller
-     * -> thymeleaf frontkomponente
-     * -> tomcat instanz
-     * -> kommunikations abfragen an den hauptserver
-     */
 }

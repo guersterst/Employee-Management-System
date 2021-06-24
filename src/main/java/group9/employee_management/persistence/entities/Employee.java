@@ -8,7 +8,7 @@ import java.util.Set;
  * An Entity describing a user of the terminal.
  */
 @Entity
-public class User {
+public class Employee {
 
     // Employee or admin name.
     @Column
@@ -41,9 +41,9 @@ public class User {
     private Set<WorkSession> workSessions;
      */
 
-    public User(){}
+    public Employee(){}
 
-    public User (String userName, String firstName, String lastName, String password, boolean isAdmin, String position, Date validity, Set<WorkSession> workSessions){
+    public Employee(String userName, String firstName, String lastName, String password, boolean isAdmin, String position, Date validity, Set<WorkSession> workSessions){
         super();
         this.userName = userName;
         this.firstName = firstName;
