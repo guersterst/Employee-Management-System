@@ -1,6 +1,7 @@
 package group9.employee_management.web.controller;
 
 import group9.employee_management.application.service.LoginService;
+import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.web.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,17 +29,19 @@ public class LoginController {
      * @param model The model.
      * @return The login page ("index.html")
      */
-    @GetMapping("")
+    @GetMapping(
+            value = "")
     public String index(Model model) {
         model.addAttribute("userCredentials", new UserDTO());
 
-        return "index.html";
+        return "index";
     }
 
     /**
      * Determine whether a user is allowed to login or has to create his password.
      *
      * @param userCredentials A dto containing the users login information.
+     *                        Requires an username and a password.
      * @return {@code HttpStatus.BAD_REQUEST} if the password is incorrect, {@code HttpStatus.NOT_FOUND} if the
      * there is no user with that name. {@code HttpStatus.TOO_EARLY} if its a first time login and the initial login
      * could be performed with the given login credentials. Else OK will be

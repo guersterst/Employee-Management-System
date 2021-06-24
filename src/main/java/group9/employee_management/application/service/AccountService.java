@@ -131,7 +131,7 @@ public class AccountService {
      * @return The users information in JSON format, excluding his work-sessions and password.
      * @throws NoSuchUserException Thrown if no user can be found with the given user name.
      */
-    public String getUserAsJSON(String userName) throws NoSuchUserException{
+    public String getUserAsJSON(String userName) throws NoSuchUserException {
         User user = userRepository.getUserByUserName(userName);
 
         if (user == null) {
