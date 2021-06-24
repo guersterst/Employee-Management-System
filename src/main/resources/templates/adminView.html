@@ -8,6 +8,7 @@
           integrity=
                   "sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
           crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/adminViewStyle.css">
     <link href="css/bootstrap.css" rel="stylesheet"/>
     <link href="css/pe-icon-7-stroke.css" rel="stylesheet"/>
     <link href="css/ct-navbar.css" rel="stylesheet"/>
@@ -136,43 +137,4 @@
     <div th:insert="'footer'" class="embeddedFooter"></div>
 </footer>
 
-<style>
-    .cont {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        margin: 20px 20px 20px;
-        text-align: center;
-    }
-
-    .list {
-        margin-top: 20px;
-    }
-
-    .map {
-        margin-top: 20px;
-    }
-
-    i.bi {
-        display: none;
-    }
-
-    tr:hover i.bi {
-        display: inline-block;
-    }
-
-    .map-container-5 {
-        overflow: hidden;
-        padding-bottom: 56.25%;
-        position: relative;
-        height: 0;
-    }
-
-    .map-container-5 iframe {
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 100%;
-        position: absolute;
-    }
-</style>
 </html>
