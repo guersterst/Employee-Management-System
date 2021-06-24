@@ -2,6 +2,7 @@ package group9.employee_management.web.controller;
 
 import group9.employee_management.application.service.LoginService;
 import group9.employee_management.web.dto.UserDTO;
+import group9.employee_management.web.dto.StatusDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -31,8 +32,8 @@ public class LoginController {
     @GetMapping("")
     public String index(Model model) {
         model.addAttribute("userCredentials", new UserDTO());
-
-        return "index.html";
+        model.addAttribute("status", new StatusDTO());
+        return "index";
     }
 
     /**
@@ -44,10 +45,10 @@ public class LoginController {
      * could be performed with the given login credentials. Else OK will be
      * returned.
      */
-    @GetMapping(
+    @PostMapping(
             value = "/authentication")
-    @ResponseBody
-    public HttpStatus login(@ModelAttribute("userCredentials") UserDTO userCredentials) {
+    public String login(@ModelAttribute("userCredentials") UserDTO userCredentials,
+                            @ModelAttribute("status") StatusDTO status) {
         String userName = userCredentials.getUserName();
         String password = userCredentials.getPassword();
 
@@ -56,16 +57,22 @@ public class LoginController {
             if (loginService.isFirstLogin(userCredentials.getUserName())) {
 
                 // Indicate that it is a first time login.
-                return HttpStatus.TOO_EARLY;
+                status.setMessage("first_login");
+                return "index";
+                //return HttpStatus.TOO_EARLY;
             } else {
 
                 // Indicate that this is a valid login.
-                return HttpStatus.OK;
+                status.setMessage("valid");
+                return "employeeView";
+                //return HttpStatus.OK;
             }
         } else {
 
             // Indicate that this user does not exist.
-            return HttpStatus.NOT_FOUND;
+            status.setMessage("not_found");
+            return "index";
+            //return HttpStatus.NOT_FOUND;
         }
     }
 }
