@@ -26,7 +26,9 @@ public class LoginController {
     /**
      * Show the login page.
      *
-     * @param model The model.
+     * @param model The model. The DTO UserDTO is used for transferring data regarding the user. The DTO status is
+     *              used to inform the frontend about e.g. whether the user logs in for the first time, which can be
+     *              processed by the frontend to e.g. display an alert/warning.
      * @return The login page ("index.html")
      */
     @GetMapping("")
@@ -40,6 +42,7 @@ public class LoginController {
      * Determine whether a user is allowed to login or has to create his password.
      *
      * @param userCredentials A dto containing the users login information.
+     * @param status A DTO containing the status, e.g. whether the user logs in for the first time or was not found.
      * @return {@code HttpStatus.BAD_REQUEST} if the password is incorrect, {@code HttpStatus.NOT_FOUND} if the
      * there is no user with that name. {@code HttpStatus.TOO_EARLY} if its a first time login and the initial login
      * could be performed with the given login credentials. Else OK will be
@@ -47,6 +50,7 @@ public class LoginController {
      */
     @PostMapping(
             value = "/authentication")
+    //@ResponseBody
     public String login(@ModelAttribute("userCredentials") UserDTO userCredentials,
                             @ModelAttribute("status") StatusDTO status) {
         String userName = userCredentials.getUserName();
