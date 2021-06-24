@@ -1,0 +1,89 @@
+.contain {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 2fr;
+    margin: 20px 500px;
+    text-align: center;
+}
+
+/*
+Changes content to fit in a better way.
+ */
+#messageCard {
+    margin: 20px;
+}
+
+.message-util {
+    margin: 20px;
+}
+
+.options {
+    margin: 20px;
+}
+
+/*
+Large area of history overview.
+ */
+#history {
+    margin: 20px;
+    grid-row: 2;
+    grid-column: 1 / 2;
+}
+
+.timeline {
+    border-left: 5px solid teal;
+    list-style: none;
+    padding: 20px 0 20px;
+    margin-left: 20px;
+    position: relative;
+}
+/*
+Line for timeline.
+ */
+.timeline::before {
+    top: 0;
+    bottom: 0;
+    position: relative;
+    content: " ";
+    width: 10px;
+    left: 50%;
+    background-color: #008080;
+}
+
+/*
+Create boxes for the content.
+ */
+.timeline-panel {
+    padding: 10px 30px;
+    position: relative;
+    width: 90%;
+    box-sizing: border-box;
+    margin: 20px 0;
+    background-color: #f2f2f2;
+    -webkit-border-radius: 5px;
+    -webkit-box-shadow: 0 0 6px #008080;
+}
+
+/*
+Create circles for timeline points.
+ */
+.timeline-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -12px;
+    width: 20px;
+    height: 18px;
+    border-radius: 50%;
+    background: #008080;
+    z-index: 1;
+}
+
+/*
+Footer to see more or less.
+ */
+.card-footer {
+    font-size: medium;
+}
+
