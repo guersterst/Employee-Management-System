@@ -51,6 +51,7 @@ public class EmployeeListView {
         return workSessionService.getUsersWithRunningSessionsAsJSON();
     }
 
+    //TODO
     /**
      * Terminalserver: userMainpage -> schickt anfragen an mainserver
      * -> hat wsl koordinaten und login credentials
