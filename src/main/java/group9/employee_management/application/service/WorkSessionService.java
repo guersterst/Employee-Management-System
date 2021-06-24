@@ -1,6 +1,8 @@
 package group9.employee_management.application.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import group9.employee_management.application.exception.NoSessionsException;
+import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.persistence.entities.User;
 import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.persistence.repositories.UserRepository;
@@ -9,6 +11,7 @@ import group9.employee_management.web.dto.WorkSessionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -29,8 +32,14 @@ public class WorkSessionService {
     /*
     Getters for the work-session history.
      */
-    public WorkSession getLatest(String userName) {
-        return workSessionRepository.getWorkSession(userName, getIndex(userName));
+    public WorkSession getLatest(String userName) throws EntityNotFoundException {
+        checkForUser(userName);
+        WorkSession latest = workSessionRepository.getWorkSession(userName, getIndex(userName));
+        if (latest != null) {
+            return latest;
+        } else {
+            throw new NoSessionsException(userName);
+        }
     }
 
     public String workSessionsToJSON(List<WorkSession> sessions) throws JsonProcessingException {
@@ -53,16 +62,22 @@ public class WorkSessionService {
     }
 
     /**
-     * Acquires the highest index of a work-session of this user.
+     * Acquires the highest index of a work-session of this user. {@code -1} indicates that there are no sessions.
      *
      * @param userName The user-name.
      * @return The highest index.
      */
     public int getIndex(String userName) {
-        return workSessionRepository.getIndex(userName);
+        checkForUser(userName);
+        if (workSessionRepository.getIndex(userName) != null) {
+            return workSessionRepository.getIndex(userName);
+        } else {
+            return -1;
+        }
     }
 
     public List<WorkSession> getThreeFromIndex(String userName, int index) {
+        checkForUser(userName);
         List<WorkSession> workSessions = new ArrayList<>();
         for (int i = index; i > index - 3 && i >= 0; i--) {
             WorkSession session = workSessionRepository.getWorkSession(userName, i);
@@ -97,8 +112,8 @@ public class WorkSessionService {
      * @param onSite     Indication for whether this employee is on- or offsite.
      */
     public void startSession(String userName, String textStatus, boolean available, boolean onSite) {
+        checkForUser(userName);
         Date currentTime = getCurrentTime();
-
         WorkSession newSession = new WorkSession(getIndex(userName) + 1, currentTime, null, textStatus,
                 available, onSite, userRepository.getUserByUserName(userName));
         workSessionRepository.save(newSession);
@@ -110,25 +125,28 @@ public class WorkSessionService {
      * @param userName The users user-name.
      */
     public void stopSession(String userName) {
+        checkForUser(userName);
         WorkSession latestSession = getLatest(userName);
         latestSession.setStopTime(getCurrentTime());
-
         workSessionRepository.save(latestSession);
     }
 
     public void putMessage(String userName, String textStatus) {
+        checkForUser(userName);
         WorkSession latestSession = getLatest(userName);
         latestSession.setTextStatus(textStatus);
         workSessionRepository.save(latestSession);
     }
 
     public void putAvailability(String userName, boolean available) {
+        checkForUser(userName);
         WorkSession latestSession = getLatest(userName);
         latestSession.setAvailable(available);
         workSessionRepository.save(latestSession);
     }
 
     public void putOnSite(String userName, boolean onSite) {
+        checkForUser(userName);
         WorkSession latestSession = getLatest(userName);
         latestSession.setOnSite(onSite);
         workSessionRepository.save(latestSession);
@@ -136,14 +154,17 @@ public class WorkSessionService {
 
 
     public String getTextStatus(String userName) {
+        checkForUser(userName);
         return workSessionRepository.getTextStatus(userName);
     }
 
     public String getAvailability(String userName) {
+        checkForUser(userName);
         return workSessionRepository.getAvailability(userName);
     }
 
     public String getOnSite(String userName) {
+        checkForUser(userName);
         return workSessionRepository.getOnSite(userName);
     }
 
@@ -155,6 +176,7 @@ public class WorkSessionService {
     Getters for employee-list-view.
      */
     public User getUser(String userName) {
+        checkForUser(userName);
         return userRepository.getUserByUserName(userName);
     }
 
@@ -173,5 +195,9 @@ public class WorkSessionService {
             result = result.substring(0, result.length() - 2);
         }
         return result;
+    }
+
+    private void checkForUser(String userName) {
+        if (workSessionRepository.getUserByUserName(userName) == null) throw new NoSuchUserException(userName);
     }
 }

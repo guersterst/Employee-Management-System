@@ -1,9 +1,7 @@
 package group9.employee_management.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import group9.employee_management.application.service.WorkSessionService;
-import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.web.dto.WorkSessionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,12 +34,16 @@ public class WorkSessionsHistoryController {
     )
     @ResponseBody
     public String getLatest(@PathVariable(value = "userName") String userName) throws JsonProcessingException {
-        //TODO exception
         return WorkSessionDTO.fromEntity(workSessionService.getLatest(userName)).toJSON();
     }
 
+    /**
+     * -1 indicates that there are no sessions for this user
+     * @param userName
+     * @return
+     */
     @GetMapping(
-            value = "/latest/index/{userName}"
+            value = "/latest/{userName}/index"
     )
     @ResponseBody
     public int getIndex(@PathVariable(value = "userName") String userName) {
@@ -49,7 +51,7 @@ public class WorkSessionsHistoryController {
     }
 
     @GetMapping(
-            value = "/{index}/{userName}"
+            value = "/{userName}/{index}"
     )
     @ResponseBody
     public String getThree(@PathVariable(value = "userName") String userName,

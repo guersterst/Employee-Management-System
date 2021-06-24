@@ -37,4 +37,7 @@ public interface WorkSessionRepository extends JpaRepository<WorkSession, Intege
 
     @Query("SELECT w.user FROM WorkSession w WHERE w.stopTime IS NULL")
     List<User> getUsersWithRunningSessions();
+
+    @Query("SELECT u FROM User u WHERE u.userName = :userName")
+    User getUserByUserName(@Param("userName") String userName);
 }
