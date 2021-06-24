@@ -36,16 +36,21 @@ public class EmployeeListView {
         return workSessionListEntryDTO.toJSON();
     }
 
-    //TODO why not working
-    //TODO replace posts with puts
+    //TODO
+    /**
+     * Returns the user names of all users with currently ongoing work-sessions.
+     *
+     * This is currently not working correctly due to issues with the foreign key and id.
+     * @return
+     */
     @GetMapping(
             value = "/working"
     )
+    @ResponseBody
     public String getUsersWithRunningSessions() {
         return workSessionService.getUsersWithRunningSessionsAsJSON();
     }
 
-    //ÜBUNG: terminals? -> koordinaten, auth, 2 server?
     /**
      * Terminalserver: userMainpage -> schickt anfragen an mainserver
      * -> hat wsl koordinaten und login credentials

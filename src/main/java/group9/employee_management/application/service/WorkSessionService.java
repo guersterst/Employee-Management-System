@@ -16,6 +16,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class WorkSessionService {
@@ -183,19 +184,26 @@ public class WorkSessionService {
 
     public String getUsersWithRunningSessionsAsJSON() {
         List<User> usersWithRunningSessions = workSessionRepository.getUsersWithRunningSessions();
-        StringBuilder jsonResponse = new StringBuilder("[");
 
+        //Remove duplicates.
+        //usersWithRunningSessions = usersWithRunningSessions.stream().distinct().collect(Collectors.toList());
+
+        for (User usersWithRunningSession : usersWithRunningSessions) {
+            System.out.println(usersWithRunningSession.getUserName());
+        }
+
+        // Build JSON.
+        StringBuilder jsonResponse = new StringBuilder("[");
         for (User user : usersWithRunningSessions) {
             jsonResponse.append("\"").append(user.getUserName()).append("\"").append(", ");
         }
-
         String result = jsonResponse.toString();
 
         // Remove following comma if necessary.
-        if (jsonResponse.length() > 2) {
+        if (jsonResponse.length() > 1) {
             result = result.substring(0, result.length() - 2);
         }
-        return result;
+        return result + "]";
     }
 
     private void checkForUser(String userName) {

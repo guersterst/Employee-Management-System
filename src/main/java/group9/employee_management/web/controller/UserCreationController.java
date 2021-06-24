@@ -23,6 +23,7 @@ public class UserCreationController {
 
     /**
      * Get access to the page and get a model-attribute of an user-dto.
+     *
      * @param model The model.
      * @return The user creation page.
      */
@@ -39,7 +40,8 @@ public class UserCreationController {
     /**
      * Create a new user in the database
      *
-     * @param newUser A dto containing the users account information.
+     * @param newUser A dto containing the users account information. (username, first- and lastname, password,
+     *                adminrights and position.
      * @return {@code HttpStatus.Ok} if successful. {@code HttpStatus.BAD_REQUEST} if the information contained within
      * the dto is insufficient.
      */

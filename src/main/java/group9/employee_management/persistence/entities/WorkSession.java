@@ -1,6 +1,10 @@
 package group9.employee_management.persistence.entities;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
@@ -11,8 +15,11 @@ public class WorkSession {
     @Column
     private Integer index;
 
-    @ManyToOne
+    //TODO
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name ="user_username", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     // The timestamps from where the user started working to when he ended working.

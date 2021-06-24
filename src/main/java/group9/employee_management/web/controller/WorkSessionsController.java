@@ -64,7 +64,7 @@ public class WorkSessionsController {
      * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise.
      * {@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.
      */
-    @PostMapping(
+    @PutMapping(
             value = "/ending"
     )
     @ResponseBody
@@ -86,7 +86,7 @@ public class WorkSessionsController {
      * HttpStatus.GONE} if this session has already ended. {@code HttpStatus.NOT_FOUND} if that user does not exist
      * or has no sessions.
      */
-    @PostMapping(
+    @PutMapping(
             value = "/message"
     )
     @ResponseBody
@@ -128,7 +128,7 @@ public class WorkSessionsController {
      * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise.
      * {@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.
      */
-    @PostMapping(
+    @PutMapping(
             value = "/availability"
     )
     @ResponseBody
@@ -157,14 +157,14 @@ public class WorkSessionsController {
         return workSessionService.getAvailability(userName);
     }
 
-    //TODO javadoc
     /**
      * Ends the latest session of a user.
      *
      * @param session A dto containing information about the desired new session. Requires only a {@code userName}.
-     * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise. {@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.
+     * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise.
+     * {@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.
      */
-    @PostMapping(
+    @PutMapping(
             value = "/onsite"
     )
     @ResponseBody
@@ -191,6 +191,4 @@ public class WorkSessionsController {
     public String getOnSite(@PathVariable("userName") String userName) {
         return workSessionService.getOnSite(userName);
     }
-
-    //TODO put -> post
 }

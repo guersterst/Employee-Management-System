@@ -1,8 +1,5 @@
 package group9.employee_management.persistence.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.jdbc.Work;
-
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Set;
@@ -11,7 +8,6 @@ import java.util.Set;
  * An Entity describing a user of the terminal.
  */
 @Entity
-@Table
 public class User {
 
     // Employee or admin name.
@@ -21,7 +17,6 @@ public class User {
     private String lastName;
 
     @Id
-    //@Column(name = "user_username")
     private String userName;
     @Column
     private String password;
@@ -40,12 +35,11 @@ public class User {
     @Column
     private Date validity;
 
-
-    //TODO this produces an Error
-    // The work-sessions (work days) associated with this user.
-
+    /*
+    // The work-sessions associated with this user.
     @OneToMany(mappedBy = "user")
     private Set<WorkSession> workSessions;
+     */
 
     public User(){}
 
@@ -59,7 +53,7 @@ public class User {
         this.position = position;
         this.validity = validity;
         this.isFirstLogin = true;
-        this.workSessions = workSessions;
+        //this.workSessions = workSessions;
     }
 
     public void setPassword(String password) {
@@ -122,4 +116,3 @@ public class User {
         return validity;
     }
 }
-

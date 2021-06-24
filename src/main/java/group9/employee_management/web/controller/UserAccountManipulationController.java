@@ -64,7 +64,7 @@ public class UserAccountManipulationController {
      * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned, if the
      * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
      *
-     * @param userCredentials A dto containing the users id and new password.
+     * @param userCredentials A dto containing the users username and new password.
      * @return Returns {@code HttpStatus.OK} if the operation was successful. Returns {@code HttpStatus.BAD_REQUEST}
      * otherwise or {@code HttpStatus.NOT_FOUND}.
      */
@@ -93,7 +93,7 @@ public class UserAccountManipulationController {
      * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned, if the
      * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
      *
-     * @param userCredentials A dto containing the users id and new name.
+     * @param userCredentials A dto containing the users username and new first- and lastname.
      * @return Returns {@code HttpStatus.OK} if the operation was successful. Returns {@code HttpStatus.BAD_REQUEST}
      * otherwise or {@code HttpStatus.NOT_FOUND
      */
@@ -121,7 +121,7 @@ public class UserAccountManipulationController {
      * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned, if the
      * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
      *
-     * @param userCredentials A dto containing the users id and new name.
+     * @param userCredentials A dto containing the users username and new admin rights.
      * @return Returns {@code HttpStatus.OK} if the operation was successful. Returns {@code HttpStatus.BAD_REQUEST}
      * otherwise or {@code HttpStatus.NOT_FOUND
      */
@@ -147,7 +147,7 @@ public class UserAccountManipulationController {
      * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned, if the
      * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
      *
-     * @param userCredentials A dto containing the users id and new name.
+     * @param userCredentials A dto containing the users username and new position title.
      * @return Returns {@code HttpStatus.OK} if the operation was successful. Returns {@code HttpStatus.BAD_REQUEST}
      * otherwise or {@code HttpStatus.NOT_FOUND
      */

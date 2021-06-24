@@ -58,21 +58,25 @@ public class DataInit implements CommandLineRunner {
         userRepository.save(user2);
         userRepository.save(user3);
 
-        WorkSession session1 = new WorkSession(0, new Date(1624354267000L), new Date(1624354305000L), "First "
+        WorkSession session1 = new WorkSession(0, new Date(1624354267000L), new Date(1624654267000L), "First "
                 + "session"
                 , false, true, user1);
 
-
-        WorkSession session2 = new WorkSession(1, new Date(1624354366000L), new Date(1624354376000L), "Second session"
+        WorkSession session2 = new WorkSession(1, new Date(1624354366000L), null, "Second session"
                 , false, true, user1);
 
-        WorkSession session3 = new WorkSession(0, new Date(1624354366000L), new Date(1624354376000L), "My first session"
+        WorkSession session3 = new WorkSession(0, new Date(1624354366000L), null, "My first session"
+                , true, true, user2);
+
+        WorkSession session4 = new WorkSession(1, new Date(1624354366000L), null, "My second "
+                + "session"
                 , true, true, user2);
 
 
         workSessionRepository.save(session1);
         workSessionRepository.save(session2);
         workSessionRepository.save(session3);
+        workSessionRepository.save(session4);
 
         userRepository.save(user1);
         userRepository.save(user2);
