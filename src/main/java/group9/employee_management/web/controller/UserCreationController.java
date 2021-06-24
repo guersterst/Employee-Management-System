@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/admin/users/accounts")
+@RequestMapping("/admin/employees/accounts")
 public class UserCreationController {
 
     //AUTH admin

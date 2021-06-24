@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/admin/employees")
 public class EmployeeListView {
 
-    //TODO defensiveness what if no session
-
     //AUTH ADMIN
+
     private final WorkSessionService workSessionService;
 
     @Autowired
@@ -34,11 +33,11 @@ public class EmployeeListView {
         WorkSessionListEntryDTO workSessionListEntryDTO =
                 WorkSessionListEntryDTO.fromEntities(workSessionService.getUser(userName),
                         workSessionService.getLatest(userName));
-
         return workSessionListEntryDTO.toJSON();
     }
 
-    //TODO test
+    //TODO why not working
+    //TODO replace posts with puts
     @GetMapping(
             value = "/working"
     )
@@ -47,4 +46,13 @@ public class EmployeeListView {
     }
 
     //ÜBUNG: terminals? -> koordinaten, auth, 2 server?
+    /**
+     * Terminalserver: userMainpage -> schickt anfragen an mainserver
+     * -> hat wsl koordinaten und login credentials
+     * -> auth am besten mit jwt
+     * -> kein restcontroller
+     * -> thymeleaf frontkomponente
+     * -> tomcat instanz
+     * -> kommunikations abfragen an den hauptserver
+     */
 }

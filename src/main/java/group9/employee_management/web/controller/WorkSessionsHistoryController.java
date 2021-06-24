@@ -10,16 +10,20 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/employees/worksessions")
 public class WorkSessionsHistoryController {
 
-    private final WorkSessionService workSessionService;
-    //TODO defensiveness what if no session
-
     //AUTH
+
+    private final WorkSessionService workSessionService;
 
     @Autowired
     public WorkSessionsHistoryController(WorkSessionService workSessionService) {
         this.workSessionService = workSessionService;
     }
 
+    /**
+     * Access the html to display an users work-session history.
+     *
+     * @return The history.html
+     */
     @GetMapping(
             value = ""
     )
@@ -29,6 +33,13 @@ public class WorkSessionsHistoryController {
         return "history";
     }
 
+    /**
+     * Get the latest work-session of a user. If that user has no sessions {@code HttpStatus.NOT_FOUND} will be
+     * returned.
+     * @param userName The user of whom we want to acquire the latest work-session.
+     * @return The latest work-session as JSON.
+     * @throws JsonProcessingException
+     */
     @GetMapping(
             value = "/latest/{userName}"
     )
@@ -38,9 +49,10 @@ public class WorkSessionsHistoryController {
     }
 
     /**
-     * -1 indicates that there are no sessions for this user
-     * @param userName
-     * @return
+     * Returns the index of the latest work-session of an user. Indexing starts at 0, therefore -1 indicates that
+     * there are no sessions for this user.
+     * @param userName The user of whom we want to acquire the highest index.
+     * @return The highest index.
      */
     @GetMapping(
             value = "/latest/{userName}/index"
@@ -50,6 +62,15 @@ public class WorkSessionsHistoryController {
         return workSessionService.getIndex(userName);
     }
 
+    /**
+     * Returns three sessions, beginning at the given index and descending from there. If there are less sessions
+     * available, less sessions will be returned. If there are no sessions the JSON array will be empty.
+     *
+     * @param userName The user of whom we want to acquire the sessions.
+     * @param index The index at which the returned sessions begin.
+     * @return At most three sessions in JSON.
+     * @throws JsonProcessingException
+     */
     @GetMapping(
             value = "/{userName}/{index}"
     )

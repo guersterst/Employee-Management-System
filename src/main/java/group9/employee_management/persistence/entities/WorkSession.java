@@ -7,7 +7,6 @@ import java.sql.Date;
 @Table
 public class WorkSession {
 
-    //TODO two keys
     @Id
     @Column
     private Integer index;

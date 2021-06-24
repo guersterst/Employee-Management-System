@@ -155,6 +155,7 @@ public class WorkSessionService {
 
     public String getTextStatus(String userName) {
         checkForUser(userName);
+        workSessionRepository.getTextStatus(userName);
         return workSessionRepository.getTextStatus(userName);
     }
 

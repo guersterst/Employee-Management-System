@@ -9,12 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping(value = "/employee/session")
+@RequestMapping(value = "/{userName}/session")
 public class WorkSessionsController {
 
     //AUTH user
-
-    //TODO defensiveness what if no session
 
     private final WorkSessionService workSessionService;
 
@@ -42,7 +40,8 @@ public class WorkSessionsController {
      *
      * @param newSession A dto containing information about the desired new session. Requires {@code userName},
      * {@code textStatus}, {@code availability} and {@code onSite}.
-     * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise.
+     * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise. {@code HttpStatus
+     * .NOT_FOUND} if that user does not exist or has no sessions.
      */
     @PostMapping(
             value = "/beginning"
@@ -63,6 +62,7 @@ public class WorkSessionsController {
      *
      * @param session A dto containing information about the desired new session. Requires only a {@code userName}.
      * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise.
+     * {@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.
      */
     @PostMapping(
             value = "/ending"
@@ -83,7 +83,8 @@ public class WorkSessionsController {
      * @param session A dto containing information about the desired new session. Requires {@code userName}, {@code
      * textStatus}.
      * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise. Returns {@code
-     * HttpStatus.GONE} if this session has already ended.
+     * HttpStatus.GONE} if this session has already ended. {@code HttpStatus.NOT_FOUND} if that user does not exist
+     * or has no sessions.
      */
     @PostMapping(
             value = "/message"
@@ -106,22 +107,26 @@ public class WorkSessionsController {
         }
     }
 
-    //TODO javadoc
-    //TODO defensiveness
+    /**
+     * Returns the message associated with the users latest session.
+     *
+     * @param userName The users identifying name.
+     * @return The message.
+     */
     @GetMapping(
             value = "/message"
     )
     @ResponseBody
-    public String getTextStatus(@ModelAttribute("workSessionData") WorkSessionDTO session) {
-        return workSessionService.getTextStatus(session.getUserName());
+    public String getTextStatus(@PathVariable("userName") String userName) {
+        return workSessionService.getTextStatus(userName);
     }
 
-    //TODO javadoc
     /**
      * Ends the latest session of a user.
      *
      * @param session A dto containing information about the desired new session. Requires only a {@code userName}.
      * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise.
+     * {@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.
      */
     @PostMapping(
             value = "/availability"
@@ -136,15 +141,20 @@ public class WorkSessionsController {
         }
     }
 
-    //TODO userName as pathvariable because its a get
-    //TODO javadoc
-    //TODO defensiveness
+    /**
+     * Returns the availability value of an users latest session. Returns {@code HttpStatus.NOT_FOUND} if that user
+     * does not  exist or has no sessions.
+     * @param userName The users identifying name.
+     * @return The availability value.
+     */
     @GetMapping(
             value = "/availability"
     )
     @ResponseBody
-    public String getAvailability(@ModelAttribute("workSessionData") WorkSessionDTO session) {
-        return workSessionService.getAvailability(session.getUserName());
+    public String getAvailability(@PathVariable("userName") String userName) {
+        //TODO if there is no session empty return -> replace with exception httpstatus? (same for other getters)
+        //TODO therefore javadoc is also wrong.
+        return workSessionService.getAvailability(userName);
     }
 
     //TODO javadoc
@@ -152,7 +162,7 @@ public class WorkSessionsController {
      * Ends the latest session of a user.
      *
      * @param session A dto containing information about the desired new session. Requires only a {@code userName}.
-     * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise.
+     * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise. {@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.
      */
     @PostMapping(
             value = "/onsite"
@@ -167,13 +177,20 @@ public class WorkSessionsController {
         }
     }
 
-    //TODO javadoc
-    //TODO defensiveness
+    /**
+     * Returns the onSite value of an users latest session.
+     *
+     * ({@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.)
+     * @param userName The users identifying name.
+     * @return The onsite value.
+     */
     @GetMapping(
             value = "/onsite"
     )
     @ResponseBody
-    public String getOnSite(@ModelAttribute("workSessionData") WorkSessionDTO session) {
-        return workSessionService.getOnSite(session.getUserName());
+    public String getOnSite(@PathVariable("userName") String userName) {
+        return workSessionService.getOnSite(userName);
     }
+
+    //TODO put -> post
 }
