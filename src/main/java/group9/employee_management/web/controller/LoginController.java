@@ -40,9 +40,10 @@ public class LoginController {
         return "index";
     }
 
+    // I think that this is the only login function that we require. Maybe another for first-time login.
     @GetMapping("/login")
     public String login(Model model) {
-        model.addAttribute("userCredentials", new UserDTO());
+        //model.addAttribute("userCredentials", new UserDTO());
         return "index";
     }
 
