@@ -60,7 +60,7 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().regexMatchers("/user").authenticated()
                 .anyRequest().hasAnyRole(Roles.USER.toString(), Roles.ADMIN.toString())
                 .and()
-                .formLogin().loginPage("/login").defaultSuccessUrl("/user", true);
+                .formLogin();//.loginPage("/login").defaultSuccessUrl("/user", true);
     }
 
 

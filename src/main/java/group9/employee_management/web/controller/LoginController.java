@@ -1,7 +1,6 @@
 package group9.employee_management.web.controller;
 
 import group9.employee_management.application.service.LoginService;
-import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.web.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,7 +38,8 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model) {
+        model.addAttribute("userCredentials", new UserDTO());
         return "index";
     }
 
