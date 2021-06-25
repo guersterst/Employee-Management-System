@@ -2,9 +2,14 @@ package group9.employee_management.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import group9.employee_management.application.service.WorkSessionService;
+import group9.employee_management.persistence.entities.WorkSession;
+import group9.employee_management.web.dto.StatusDTO;
 import group9.employee_management.web.dto.WorkSessionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/employees/worksessions")
@@ -27,9 +32,13 @@ public class WorkSessionsHistoryController {
     @GetMapping(
             value = ""
     )
-    public String get() {
+    public String get(Model model) {
 
-        //TODO
+        // Three work-sessions to be displayed on the work-session history. Mainly workSession1 will be used.
+        model.addAttribute("workSession1", new WorkSessionDTO());
+        model.addAttribute("workSession2", new WorkSessionDTO());
+        model.addAttribute("workSession3", new WorkSessionDTO());
+        model.addAttribute("status", new StatusDTO());
         return "history";
     }
 
@@ -43,9 +52,17 @@ public class WorkSessionsHistoryController {
     @GetMapping(
             value = "/latest/{userName}"
     )
-    @ResponseBody
-    public String getLatest(@PathVariable(value = "userName") String userName) throws JsonProcessingException {
-        return WorkSessionDTO.fromEntity(workSessionService.getLatest(userName)).toJSON();
+    //@ResponseBody
+    public String getLatest(@PathVariable(value = "userName") String userName,
+                            @ModelAttribute("workSession1") WorkSessionDTO workSessionDTO,
+                            @ModelAttribute("status") StatusDTO status) {
+        if (workSessionService.getLatest(userName) != null) {
+            workSessionDTO = WorkSessionDTO.fromEntity(workSessionService.getLatest(userName));
+            status.setMessage("valid");
+        } else {
+            status.setMessage("bad_request");
+        }
+        return "history";
     }
 
     /**
@@ -57,9 +74,17 @@ public class WorkSessionsHistoryController {
     @GetMapping(
             value = "/latest/{userName}/index"
     )
-    @ResponseBody
-    public int getIndex(@PathVariable(value = "userName") String userName) {
-        return workSessionService.getIndex(userName);
+    //@ResponseBody
+    public String getIndex(@PathVariable(value = "userName") String userName,
+                        @ModelAttribute("workSession1") WorkSessionDTO workSessionDTO,
+                        @ModelAttribute("status") StatusDTO status) {
+        if (workSessionService.getLatest(userName) != null) {
+            workSessionDTO.setId(workSessionService.getIndex(userName));
+            status.setMessage("valid");
+        } else {
+            status.setMessage("bad_request");
+        }
+        return "history";
     }
 
     /**
@@ -69,14 +94,29 @@ public class WorkSessionsHistoryController {
      * @param userName The user of whom we want to acquire the sessions.
      * @param index The index at which the returned sessions begin.
      * @return At most three sessions in JSON.
-     * @throws JsonProcessingException
      */
     @GetMapping(
             value = "/{userName}/{index}"
     )
-    @ResponseBody
+    //@ResponseBody
     public String getThree(@PathVariable(value = "userName") String userName,
-                          @PathVariable(value = "index") int index) throws JsonProcessingException {
-        return workSessionService.workSessionsToJSON(workSessionService.getThreeFromIndex(userName, index));
+                          @PathVariable(value = "index") int index,
+                           @ModelAttribute("workSession1") WorkSessionDTO workSession1,
+                           @ModelAttribute("workSession2") WorkSessionDTO workSession2,
+                           @ModelAttribute("workSession3") WorkSessionDTO workSession3) {
+        List<WorkSession> threeFromIndex = workSessionService.getThreeFromIndex(userName, index);
+        List<WorkSessionDTO> modelAttributes = List.of(workSession1, workSession2, workSession3);
+
+        //TODO i'd be surprised if this actually works.
+
+        // Assign work-sessions to model-attributes
+        for (int i = 0; i < 3; i++) {
+            WorkSessionDTO modelAttribute = modelAttributes.get(i);
+            if (threeFromIndex.get(i) != null) {
+                modelAttribute = WorkSessionDTO.fromEntity(threeFromIndex.get(i));
+            }
+        }
+
+        return "history";
     }
 }

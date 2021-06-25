@@ -32,14 +32,9 @@ public class WorkSessionService {
     /*
     Getters for the work-session history.
      */
-    public WorkSession getLatest(String userName) throws EntityNotFoundException {
+    public WorkSession getLatest(String userName) {
         checkForUser(userName);
-        WorkSession latest = workSessionRepository.getWorkSession(userName, getIndex(userName));
-        if (latest != null) {
-            return latest;
-        } else {
-            throw new NoSessionsException(userName);
-        }
+        return workSessionRepository.getWorkSession(userName, getIndex(userName));
     }
 
     public String workSessionsToJSON(List<WorkSession> sessions) throws JsonProcessingException {
@@ -81,7 +76,6 @@ public class WorkSessionService {
         List<WorkSession> workSessions = new ArrayList<>();
         for (int i = index; i > index - 3 && i >= 0; i--) {
             WorkSession session = workSessionRepository.getWorkSession(userName, i);
-            assert session != null;
             workSessions.add(session);
         }
         return workSessions;
