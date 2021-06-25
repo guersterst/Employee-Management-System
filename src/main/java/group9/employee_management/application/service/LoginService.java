@@ -3,6 +3,7 @@ package group9.employee_management.application.service;
 import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.application.exception.WrongPasswordException;
 import group9.employee_management.persistence.entities.User;
+import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

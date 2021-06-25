@@ -1,0 +1,67 @@
+.embeddedFooter {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 16pt;
+    margin-bottom: -10px;
+}
+
+.form-control {
+    font-size: 14px;
+}
+
+.form-group {
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+.alert-danger {
+    width: 30%;
+    position: center;
+    margin-top: 20px;
+}
+
+#submitPassword {
+    margin-bottom: 5px;
+    width: 18%;
+    min-width: 220px;
+    position: center;
+    text-align: center !important;
+    margin-top: 50px;
+}
+
+#password {
+    padding: 0 5px;
+}
+
+#passwordRepeated {
+    padding: 0 5px;
+}
+
+
+input {
+    padding: 10px 30px;
+}
+
+h1 {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.progress {
+    min-width: 300px;
+    margin-top: 30px;
+}
+
+#passwordTooShort {
+    margin-top: 20px;
+}
+
+#missingPasswordCharacteristics {
+    color: crimson;
+}
+
+#passwordCharacteristicsText {
+    margin-top: 40px;
+}

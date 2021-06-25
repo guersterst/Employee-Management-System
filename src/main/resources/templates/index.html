@@ -3,15 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link href="/webjars/bootstrap/5.0.1/css/bootstrap.css" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link href="../../static/css/login.css" th:href="@{/css/login.css}" rel="stylesheet"/>
     <title>Login</title>
 </head>
-
-<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 
 <nav>
   <div class="row">
@@ -20,46 +16,73 @@
 </nav>
 
 <body>
- <div>
-   <h1>Login</h1>
- </div>
-
-<!--Here, our input-forms for the login are specified-->
-  <form>
-    <div class="row"> <!--But each input field into their own row-->
-      <div class="form-group col-sm-5"> <!--manipulates the width of the elements-->
-          <form id="userNameForm">
-              <label>User Name</label>
-              <input id="userName" class="form-control" placeholder="Enter your User Name" required>
-          </form>
-      </div>
+    <div>
+        <h1 class="text-center">Login</h1>
     </div>
 
-      <div class="alert alert-danger" id="userNameEmpty">
-          <strong>Please enter a User Name.</strong>
-      </div>
+    <div class="container">
+        <!--Here, our form for the login are specified-->
+        <form id="inputFieldsForm" class="needs-validation" th:action="@{/}" th:object="${loginForm}" method="post">
+            <!--Specifies the input for the user name-->
+            <div class="row">
+                <div class="form-group col-sm-5 mx-auto">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text bi-file-person" id="icon"></span>
+                        <label for="userName"></label>
+                        <input id="userName" class="form-control" type="text" placeholder="User Name" th:field="*{userName}"
+                                                             onkeyup="updateAlert()" aria-describedby="icon" required>
+                        <div class="invalid-feedback">Please enter a user name</div>
+                    </div>
+                </div>
+            </div>
 
-    <div class = "row"> <!--But each input field into their own row-->
-      <div class="form-group col-sm-5"> <!--manipulates the width of the elements-->
-        <label>Password</label>
-        <input id="password" type="password" class="form-control" placeholder="Enter your Password" required>
-      </div>
+            <!--Specifies the input for the password-->
+            <div class = "row"> <!--But each input field into their own row-->
+                <div class="form-group col-sm-5 mx-auto">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text bi-key" id="icon2"></span>
+                        <label for="password"></label>
+                        <input id="password" type="password" class="form-control" placeholder="Password" th:field="*{password}"
+                                                             onkeyup="updateAlert()" aria-describedby="icon2" required>
+                        <div class="invalid-feedback">Please enter a password</div>
+                        <div class="input-group-append">
+                            <button class="input-group-btn" type="button" id="showHidePassword" onclick="showOrHidePassword()">
+                                <i class="bi-eye-slash" id="passwordButtonIcon"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--The login-button-->
+            <div class="d-grid col-5 mx-auto">
+                <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="loginButton" onclick="checkIfInputFieldsAreEmpty()">Login</button>
+            </div>
+        </form>
+
+        <!--If there was no match for the entered username and password in the database, we display an alert-->
+        <div th:if="${param.error}" class="alert alert-danger mx-auto" id="wrongUserNameOrPassword" role="alert">
+            <div class="row">
+                <div class="text-left">
+                    <i class="bi-exclamation" style="font-size: 1.5rem;"></i>
+                    <span id="alertText">Password or user name are wrong.</span>
+                </div>
+            </div>
+        </div>
+
+        <!--If the user presses "Login" without having entered a password or user name, an error is displayed-->
+        <div class="alert alert-danger mx-auto" id="noPasswordOrUserNameEnteredErrorMessage" role="alert">
+            <strong>Input field is empty.</strong>
+        </div>
+
+        <!--If the user enters a forbidden character in the username-input-field, display this alert-->
+        <div class="alert alert-danger mx-auto" id="forbiddenCharacterEntered" role="alert">
+            <strong>No special characters besides '@, -, _' are allowed in the username.</strong>
+        </div>
     </div>
-  </form>
 
- <div class="alert alert-danger" id="passwordEmpty">
-     <strong>Please enter a password.</strong>
- </div>
-
- <div class="row"> <!--Put the login and signup buttons into their own row-->
-    <input class="btn btn-primary btn-lg center-block " type="submit" value="Login" id="loginButton">
-    <input class="btn btn-primary btn-lg center-block" type="submit" value="Signup" id="signupButton">
-  </div>
-
- <!--Alert, displayed when login button is clicked but username/password is missing-->
- <div class="alert alert-danger" id="errorMessage">
-     <strong>Password or user name are missing</strong>
- </div>
+    <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
+    <script src="/webjars/popper.js/1.14.1/popper.min.js"></script>
+    <script src="/webjars/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 </body>
 
 <!--Include the footer that contains the copyright info-->
@@ -68,68 +91,91 @@
 </footer>
 
 <script>
-    // Get the password and username-input fields to check for empty texts
-    var passwordField = document.getElementById("password");
-    var userNameField = document.getElementById("userName");
-    var errorMessage = $('#errorMessage');
-    var userNameEmpty = $('#userNameEmpty')
-    var passwordEmpty = $('#passwordEmpty')
+    // Get the alert (error message) and both input fields for username / password.
+    let errorMessage = $('#noPasswordOrUserNameEnteredErrorMessage');
+    let userNameInputField = $('#userName');
+    let passwordInputField = $('#password');
 
-    // The login button
-    var loginButton = document.getElementById("loginButton");
+    // Get the alert that's displayed if the user enters forbidden special characters in userNameInputField
+    let errorMessageForbiddenCharacter = $('#forbiddenCharacterEntered');
 
-    // At the start, no username/password has been entered so we shouldn't display the error
-    userNameEmpty.fadeOut(0);
-    passwordEmpty.fadeOut(0);
+    // When submitting the form with at least one of the input fields being empty, we
+    // set userNameWasEmpty to true if no user name was entered. We set passwordWasEmpty to true
+    // if no password was empty. This allows us to check onkeypress whether the field(s) that was/were
+    // left empty are now filled out. Then we fadeOut the alert.
+    let userNameWasEmpty = false;
+    let passwordWasEmpty = false;
+
+    // Fade out the alerts when the site is loaded
     errorMessage.fadeOut(0);
+    errorMessageForbiddenCharacter.fadeOut(0);
 
-    // Fade in/out a warning beneath the password / user name fields whenever
-    // the last letter in the respective field was deleted
-    fadeOutIfEmpty('password', '#passwordEmpty');
-    fadeOutIfEmpty('userName', '#userNameEmpty');
-
-    // When clicking the login button, we check whether user name and password were entered
-    loginButton.onclick = function() {
-        if (!checkIfEmpty(userNameField) && checkIfEmpty(passwordField)) {// Only password is missing
-            errorMessage.fadeIn(200);
-            errorMessage.text("Please enter a password");
-        } else if (checkIfEmpty(userNameField) && !checkIfEmpty(passwordField)) { // Only user name is missing
-            errorMessage.fadeIn(200);
-            errorMessage.text("Please enter a user name");
-        } else if (checkIfEmpty(userNameField) || checkIfEmpty(passwordField)) { // User name and password are missing
-            errorMessage.fadeIn(200);
+    // When submitting the form, we check whether at least one of the fields were left empty and fadeIn
+    // a warning. For this, we check which one of the fields were left empty / if both were left empty.
+    // Depending on the condition specified above, we set the errorMessage and set userNameWasEmpty and
+    // passwordWasEmpty. checkIfInputFieldsAreEmpty() is triggered onsubmit.
+    function checkIfInputFieldsAreEmpty() {
+        if (userNameInputField.val().length === 0 && passwordInputField.val().length === 0) {
             errorMessage.text("Please enter a user name and a password.");
-        } else { // User name and password were entered
+            errorMessage.fadeIn(200);
+            userNameWasEmpty = true;
+            passwordWasEmpty = true;
+        } else if (userNameInputField.val().length === 0) {
+            errorMessage.text("Please enter a user name.");
+            errorMessage.fadeIn(200);
+            userNameWasEmpty = true;
+            passwordWasEmpty = false;
+        } else if (passwordInputField.val().length === 0) {
+            errorMessage.text("Please enter a password.");
+            errorMessage.fadeIn(200);
+            userNameWasEmpty = false;
+            passwordWasEmpty = true;
+        }
+    }
+
+    // If one of the input fields were left empty, an alert is show. However, we want to fadeOut that alert
+    // as soon as the field is filled out. Thus, we check if the field that was left empty has received at least
+    // one character as its input. In case both were left empty, both fields need an input. Then, we fadeOut the
+    // alert.
+    // Also, the username doesn't allow special characters apart from '@, -, _'. Thus, we also check whether
+    // the username includes a forbidden character and if so, we display a warning.
+    // updateAlert() is triggered onkeypress.
+    function updateAlert() {
+        if (userNameWasEmpty && passwordWasEmpty && !(userNameInputField.val().length === 0
+            || passwordInputField.val().length === 0)) {
+            errorMessage.fadeOut(200);
+        } else if (userNameWasEmpty && !passwordWasEmpty && userNameInputField.val().length !== 0) {
+            errorMessage.fadeOut(200);
+        } else if (!userNameWasEmpty && passwordWasEmpty && passwordInputField.val().length !== 0) {
             errorMessage.fadeOut(200);
         }
-    }
 
-    function fadeOutIfEmpty(elementToCheckForBeingEmpty, elementToFindInOrOut) {
-        var elementToCheckForBeingEmptyInHtml = document.getElementById(elementToCheckForBeingEmpty);
-        var elementToFindInOrOutInHtml = $(elementToFindInOrOut)
-        elementToCheckForBeingEmptyInHtml.onkeyup = function () {
-            elementToFindInOrOutInHtml.fadeOut(200); // Remove error message (from failed login submit) when user starts typing
-            if (checkIfEmpty(elementToCheckForBeingEmptyInHtml)) {
-                elementToFindInOrOutInHtml.fadeIn(200);
-            } else {
-                elementToFindInOrOutInHtml.fadeOut(100);
-            }
+        // If the username's input field isn't empty, we check whether a forbidden character is entered and if so,
+        // we display an alert.
+        if (userNameInputField.val().length === 0 || userNameInputField.val().match(/^[a-zA-Z0-9-_@]*$/)) {
+            errorMessageForbiddenCharacter.fadeOut(200);
+        } else {
+            errorMessageForbiddenCharacter.fadeIn(200);
         }
     }
 
-    function checkIfEmpty(elementToCheck) {
-        return (elementToCheck.value === null || elementToCheck.value === "");
+    // Determines whether to show or hide the password
+    let passwordVisible = false;
+
+    // Show or hide the password. Is called 'onclick' and thus only changes whenever the user clicks on the button.
+    // The icon is determined by '#passwordButtonIcon' and as a result we have to change the used class to determine
+    // what the icon should look like. 'bi-eye-slash' is a closed eye and represents that the password is not shown
+    // in text, whereas 'bi-eye' means just that.
+    function showOrHidePassword() {
+        if (passwordVisible) {
+            passwordVisible = false;
+            passwordInputField.attr("type", "password");
+            $('#passwordButtonIcon').removeClass('bi-eye').addClass('bi-eye-slash');
+        } else {
+            passwordInputField.attr("type", "text");
+            $('#passwordButtonIcon').removeClass('bi-eye-slash').addClass('bi-eye');
+            passwordVisible = true;
+        }
     }
 </script>
-
-<style>
-    .embeddedFooter {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        text-align: center;
-        font-size: 16pt;
-        margin-bottom: -10px;
-    }
-</style>
 </html>

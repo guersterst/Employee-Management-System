@@ -4,11 +4,12 @@ import group9.employee_management.application.service.AccountService;
 import group9.employee_management.web.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/admin/users/accounts")
+@Controller
+@RequestMapping("/admin/employees/accounts")
 public class UserCreationController {
 
     //AUTH admin
@@ -22,6 +23,7 @@ public class UserCreationController {
 
     /**
      * Get access to the page and get a model-attribute of an user-dto.
+     *
      * @param model The model.
      * @return The user creation page.
      */
@@ -32,13 +34,14 @@ public class UserCreationController {
     public String get(Model model) {
         model.addAttribute("newUser", new UserDTO());
 
-        return "adminCreateUserAccount.html";
+        return "adminCreateUserAccount";
     }
 
     /**
      * Create a new user in the database
      *
-     * @param newUser A dto containing the users account information.
+     * @param newUser A dto containing the users account information. (username, first- and lastname, password,
+     *                adminrights and position.
      * @return {@code HttpStatus.Ok} if successful. {@code HttpStatus.BAD_REQUEST} if the information contained within
      * the dto is insufficient.
      */

@@ -1,6 +1,7 @@
 package group9.employee_management.web.controller;
 
 import group9.employee_management.application.service.LoginService;
+import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.web.dto.UserDTO;
 import group9.employee_management.web.dto.StatusDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,8 @@ public class LoginController {
      *              processed by the frontend to e.g. display an alert/warning.
      * @return The login page ("index.html")
      */
-    @GetMapping("")
+    @GetMapping(
+            value = "")
     public String index(Model model) {
         model.addAttribute("userCredentials", new UserDTO());
         model.addAttribute("status", new StatusDTO());
