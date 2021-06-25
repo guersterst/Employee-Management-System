@@ -16,6 +16,7 @@ public class Employee {
     @Column
     private String lastName;
 
+    // This userName and the associated Users userName must be identical.
     @Id
     private String userName;
     @Column
