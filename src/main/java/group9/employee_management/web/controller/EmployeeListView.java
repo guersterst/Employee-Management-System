@@ -23,7 +23,7 @@ public class EmployeeListView {
             ""
     )
     public String get(Model model) {
-        model.addAttribute("workSessionListEntry", new WorkSessionListEntryDTO())
+        model.addAttribute("workSessionListEntry", new WorkSessionListEntryDTO());
         return "adminView";
     }
     @Autowired
@@ -31,6 +31,7 @@ public class EmployeeListView {
         this.workSessionService = workSessionService;
     }
 
+    // Here the PathVariable is appropriate as it is not about an user getting information about himself.
     @GetMapping(
             value = "/{userName}/session"
     )
