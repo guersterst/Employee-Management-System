@@ -23,6 +23,8 @@ public interface WorkSessionRepository extends JpaRepository<WorkSession, Intege
             + "WHERE w.employee = (SELECT u FROM Employee u WHERE u.userName = :userName)")
     Integer getIndex(@Param("userName") String userName);
 
+    //TODO get only latest worksession
+    //like in first query
     @Query("SELECT w.textStatus from"
             + " WorkSession w WHERE w.employee = (SELECT u FROM Employee u WHERE u.userName = :userName)")
     String getTextStatus(@Param("userName") String userName);

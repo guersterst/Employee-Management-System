@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+//TODO url does not fit for puts.
 @RequestMapping(value = "/{userName}/session")
 public class WorkSessionsController {
 

@@ -64,6 +64,7 @@ public class DataInit implements CommandLineRunner {
         employeeRepository.save(employee2);
         employeeRepository.save(employee3);
 
+
         WorkSession session1 = new WorkSession(0, new Date(1624354267000L), new Date(1624654267000L), "First "
                 + "session"
                 , false, true, employee1);
@@ -71,13 +72,14 @@ public class DataInit implements CommandLineRunner {
         WorkSession session2 = new WorkSession(1, new Date(1624354366000L), null, "Second session"
                 , false, true, employee1);
 
-        WorkSession session3 = new WorkSession(0, new Date(1624354366000L), null, "My first session"
+        WorkSession session3 = new WorkSession(2, new Date(1624354366000L), null, "My first session"
                 , true, true, employee2);
 
-        WorkSession session4 = new WorkSession(1, new Date(1624354366000L), null, "My second "
+
+
+        WorkSession session4 = new WorkSession(3, new Date(1624354366000L), null, "My second "
                 + "session"
                 , true, true, employee2);
-
 
         workSessionRepository.save(session1);
         workSessionRepository.save(session2);
