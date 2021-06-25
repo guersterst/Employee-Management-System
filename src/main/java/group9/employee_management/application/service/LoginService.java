@@ -2,9 +2,7 @@ package group9.employee_management.application.service;
 
 import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.application.exception.WrongPasswordException;
-import group9.employee_management.persistence.entities.User;
-import group9.employee_management.persistence.entities.WorkSession;
-import group9.employee_management.persistence.repositories.UserRepository;
+import group9.employee_management.persistence.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,12 +13,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class LoginService {
 
-    private final UserRepository userRepository;
+    private final EmployeeRepository employeeRepository;
     private final BCryptPasswordEncoder encoder;
 
     @Autowired
-    public LoginService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public LoginService(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
         this.encoder = new BCryptPasswordEncoder(10);
     }
 
@@ -33,8 +31,8 @@ public class LoginService {
      * @param userName The given user name.
      */
     public void match(String password, String userName) throws WrongPasswordException, NoSuchUserException {
-        if (userRepository.userExistsByUserName(userName)) {
-            String encodedPW = userRepository.findPasswordByUserName(userName);
+        if (employeeRepository.userExistsByUserName(userName)) {
+            String encodedPW = employeeRepository.findPasswordByUserName(userName);
             if (!encoder.matches(password, encodedPW)) {
                 throw new WrongPasswordException();
             }
@@ -48,11 +46,11 @@ public class LoginService {
      */
 
     public boolean isUser(String userName) {
-        return userRepository.userExistsByUserName(userName);
+        return employeeRepository.userExistsByUserName(userName);
     }
 
     public boolean isFirstLogin(String userName) {
-        assert userRepository != null;
-        return userRepository.findIsFirstLoginByUserName(userName);
+        assert employeeRepository != null;
+        return employeeRepository.findIsFirstLoginByUserName(userName);
     }
 }

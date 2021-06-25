@@ -1,118 +1,76 @@
 package group9.employee_management.persistence.entities;
 
-import javax.persistence.*;
-import java.sql.Date;
-import java.util.Set;
+import group9.employee_management.application.Roles;
 
-/**
- * An Entity describing a user of the terminal.
- */
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 @Entity
 public class User {
 
-    // Employee or admin name.
-    @Column
-    private String firstName;
-    @Column
-    private String lastName;
-
     @Id
-    private String userName;
-    @Column
+    private String username;
     private String password;
 
-    // Initially always true;
-    @Column
-    private boolean isFirstLogin;
-    @Column
-    private boolean isAdmin;
+    @OneToOne(optional = true)
+    private Employee employee;
 
-    // Describes the corporate title of an user.
-    @Column
-    private String position;
+    @ElementCollection
+    private List<Roles> roles;
 
-    // Describes how long this account is valid;
-    @Column
-    private Date validity;
-
-    /*
-    // The work-sessions associated with this user.
-    @OneToMany(mappedBy = "user")
-    private Set<WorkSession> workSessions;
-     */
-
-    public User(){}
-
-    public User (String userName, String firstName, String lastName, String password, boolean isAdmin, String position, Date validity, Set<WorkSession> workSessions){
-        super();
-        this.userName = userName;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String username, String password, Employee employee, Roles... roles) {
+        this.username = username;
         this.password = password;
-        this.isAdmin = isAdmin;
-        this.position = position;
-        this.validity = validity;
-        this.isFirstLogin = true;
-        //this.workSessions = workSessions;
+        this.employee = employee;
+        this.roles = new ArrayList<>(Arrays.asList(roles));
+    }
+
+    public User() {
+    }
+
+    public User(String username, String password, Employee employee, List<Roles> roles) {
+        this.username = username;
+        this.password = password;
+        this.employee = employee;
+        this.roles = roles;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public void setFirstLogin(boolean isFirstLogin) {
-        this.isFirstLogin = isFirstLogin;
+    public List<Roles> getRoles() {
+        return roles;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setRoles(List<Roles> roles) {
+        this.roles = roles;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+
+    public Optional<Employee> getEmployee() {
+        return Optional.ofNullable(employee);
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    public void setValidity(Date validity) {
-        this.validity = validity;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public boolean isFirstLogin() {
-        return isFirstLogin;
-    }
-
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public Date getValidity() {
-        return validity;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

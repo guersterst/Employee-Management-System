@@ -1,11 +1,9 @@
 package group9.employee_management.web.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import group9.employee_management.persistence.entities.User;
+import group9.employee_management.persistence.entities.Employee;
 import group9.employee_management.persistence.entities.WorkSession;
-import org.hibernate.jdbc.Work;
 
 import java.sql.Date;
 
@@ -22,11 +20,11 @@ public class WorkSessionListEntryDTO {
 
     public WorkSessionListEntryDTO(){}
 
-    public static WorkSessionListEntryDTO fromEntities(User user, WorkSession workSession) {
+    public static WorkSessionListEntryDTO fromEntities(Employee employee, WorkSession workSession) {
         WorkSessionListEntryDTO workSessionListEntryDTO = new WorkSessionListEntryDTO();
-        workSessionListEntryDTO.setFirstName(user.getFirstName());
-        workSessionListEntryDTO.setLastName(user.getLastName());
-        workSessionListEntryDTO.setUserName(user.getUserName());
+        workSessionListEntryDTO.setFirstName(employee.getFirstName());
+        workSessionListEntryDTO.setLastName(employee.getLastName());
+        workSessionListEntryDTO.setUserName(employee.getUserName());
         workSessionListEntryDTO.setStartTime(workSession.getStartTime());
         workSessionListEntryDTO.setStopTime(workSession.getStopTime());
         workSessionListEntryDTO.setTextStatus(workSession.getTextStatus());

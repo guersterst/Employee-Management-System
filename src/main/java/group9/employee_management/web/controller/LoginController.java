@@ -1,7 +1,6 @@
 package group9.employee_management.web.controller;
 
 import group9.employee_management.application.service.LoginService;
-import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.web.dto.UserDTO;
 import group9.employee_management.web.dto.StatusDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/login")
+@RequestMapping("")
+//@RequestMapping("/login")
 public class LoginController {
 
     //AUTH none
@@ -40,6 +40,12 @@ public class LoginController {
         return "index";
     }
 
+    @GetMapping("/login")
+    public String login(Model model) {
+        model.addAttribute("userCredentials", new UserDTO());
+        return "index";
+    }
+
     /**
      * Determine whether a user is allowed to login or has to create his password.
      *
@@ -47,8 +53,7 @@ public class LoginController {
      * @param status A DTO containing the status, e.g. whether the user logs in for the first time or was not found.
      * @return {@code HttpStatus.BAD_REQUEST} if the password is incorrect, {@code HttpStatus.NOT_FOUND} if the
      * there is no user with that name. {@code HttpStatus.TOO_EARLY} if its a first time login and the initial login
-     * could be performed with the given login credentials. Else OK will be
-     * returned.
+     * could be performed with the given login credentials. Else OK will be returned.
      */
     @PostMapping(
             value = "/authentication")

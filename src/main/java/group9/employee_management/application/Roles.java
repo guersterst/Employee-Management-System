@@ -1,4 +1,7 @@
 package group9.employee_management.application;
 
-public class Roles {
+public enum Roles {
+    ADMIN,
+    USER
 }
+

@@ -3,9 +3,9 @@ package group9.employee_management.application.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import group9.employee_management.application.exception.NoSessionsException;
 import group9.employee_management.application.exception.NoSuchUserException;
-import group9.employee_management.persistence.entities.User;
+import group9.employee_management.persistence.entities.Employee;
 import group9.employee_management.persistence.entities.WorkSession;
-import group9.employee_management.persistence.repositories.UserRepository;
+import group9.employee_management.persistence.repositories.EmployeeRepository;
 import group9.employee_management.persistence.repositories.WorkSessionRepository;
 import group9.employee_management.web.dto.WorkSessionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +16,17 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class WorkSessionService {
 
     private final WorkSessionRepository workSessionRepository;
-    private final UserRepository userRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Autowired
-    public WorkSessionService(WorkSessionRepository workSessionRepository, UserRepository userRepository) {
+    public WorkSessionService(WorkSessionRepository workSessionRepository, EmployeeRepository employeeRepository) {
         this.workSessionRepository = workSessionRepository;
-        this.userRepository = userRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     /*
@@ -116,7 +115,7 @@ public class WorkSessionService {
         checkForUser(userName);
         Date currentTime = getCurrentTime();
         WorkSession newSession = new WorkSession(getIndex(userName) + 1, currentTime, null, textStatus,
-                available, onSite, userRepository.getUserByUserName(userName));
+                available, onSite, employeeRepository.getUserByUserName(userName));
         workSessionRepository.save(newSession);
     }
 
@@ -156,7 +155,6 @@ public class WorkSessionService {
 
     public String getTextStatus(String userName) {
         checkForUser(userName);
-        workSessionRepository.getTextStatus(userName);
         return workSessionRepository.getTextStatus(userName);
     }
 
@@ -177,25 +175,25 @@ public class WorkSessionService {
     /*
     Getters for employee-list-view.
      */
-    public User getUser(String userName) {
+    public Employee getUser(String userName) {
         checkForUser(userName);
-        return userRepository.getUserByUserName(userName);
+        return employeeRepository.getUserByUserName(userName);
     }
 
     public String getUsersWithRunningSessionsAsJSON() {
-        List<User> usersWithRunningSessions = workSessionRepository.getUsersWithRunningSessions();
+        List<Employee> usersWithRunningSessions = workSessionRepository.getUsersWithRunningSessions();
 
         //Remove duplicates.
         //usersWithRunningSessions = usersWithRunningSessions.stream().distinct().collect(Collectors.toList());
 
-        for (User usersWithRunningSession : usersWithRunningSessions) {
+        for (Employee usersWithRunningSession : usersWithRunningSessions) {
             System.out.println(usersWithRunningSession.getUserName());
         }
 
         // Build JSON.
         StringBuilder jsonResponse = new StringBuilder("[");
-        for (User user : usersWithRunningSessions) {
-            jsonResponse.append("\"").append(user.getUserName()).append("\"").append(", ");
+        for (Employee employee : usersWithRunningSessions) {
+            jsonResponse.append("\"").append(employee.getUserName()).append("\"").append(", ");
         }
         String result = jsonResponse.toString();
 

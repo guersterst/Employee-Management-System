@@ -6,10 +6,7 @@ import group9.employee_management.web.dto.WorkSessionDTO;
 import group9.employee_management.web.dto.WorkSessionListEntryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/admin/employees")
@@ -50,15 +47,4 @@ public class EmployeeListView {
     public String getUsersWithRunningSessions() {
         return workSessionService.getUsersWithRunningSessionsAsJSON();
     }
-
-    //TODO
-    /**
-     * Terminalserver: userMainpage -> schickt anfragen an mainserver
-     * -> hat wsl koordinaten und login credentials
-     * -> auth am besten mit jwt
-     * -> kein restcontroller
-     * -> thymeleaf frontkomponente
-     * -> tomcat instanz
-     * -> kommunikations abfragen an den hauptserver
-     */
 }
