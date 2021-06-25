@@ -50,7 +50,7 @@ public class DataInit implements CommandLineRunner {
         // An empty set of work-sessions.
         Set<WorkSession> workSessions = Collections.emptySet();
 
-        Employee employee1 = new Employee("bax01","H.P.","Baxxter", hashPassword("h0wmUchisthef1sh"),
+        Employee employee1 = new Employee("student","H.P.","Baxxter", hashPassword("h0wmUchisthef1sh"),
                 true, "Lead singer", validityDate, workSessions);
         employee1.setFirstLogin(false);
         Employee employee2 = new Employee("url01","Farin", "Urlaub", hashPassword("abc123def"),
