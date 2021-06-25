@@ -2,6 +2,7 @@ package group9.employee_management.spring.config;
 
 import group9.employee_management.application.Roles;
 import group9.employee_management.application.service.MyUserDetailsService;
+import group9.employee_management.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -20,21 +21,30 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-/*
+    private final UserRepository userRepository;
+
+    @Autowired
+    public UserSecurityConfiguration(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    /*
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
     }
  */
 
-    //Tut 2
     //TODO not for production
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
 
-
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new MyUserDetailsService(userRepository);
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

@@ -91,8 +91,8 @@ public class DataInit implements CommandLineRunner {
         employeeRepository.save(employee3);
 
         // Create Users: Better to work with services in general
-        userRepository.save(new User("admin", "123", null, Roles.ADMIN));
-        userRepository.save(new User("student", "abc", employee1, Roles.USER));
+        userRepository.save(new User("admin", "admin", null, Roles.ADMIN));
+        userRepository.save(new User("student", "student", employee1, Roles.USER));
 
 
     }
