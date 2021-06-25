@@ -61,6 +61,8 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest().hasAnyRole(Roles.USER.toString(), Roles.ADMIN.toString())
                 .and()
                 .formLogin();//.loginPage("/login").defaultSuccessUrl("/user", true);
+
+        //TODO see to it, that afmin is redirected differently
     }
 
 

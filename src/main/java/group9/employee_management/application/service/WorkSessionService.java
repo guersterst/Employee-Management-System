@@ -4,9 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import group9.employee_management.application.exception.NoSessionsException;
 import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.persistence.entities.Employee;
+import group9.employee_management.persistence.entities.User;
 import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.persistence.repositories.EmployeeRepository;
 import group9.employee_management.persistence.repositories.WorkSessionRepository;
+import group9.employee_management.web.dto.UserDTO;
 import group9.employee_management.web.dto.WorkSessionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -180,10 +182,6 @@ public class WorkSessionService {
         //Remove duplicates.
         //usersWithRunningSessions = usersWithRunningSessions.stream().distinct().collect(Collectors.toList());
 
-        for (Employee usersWithRunningSession : usersWithRunningSessions) {
-            System.out.println(usersWithRunningSession.getUserName());
-        }
-
         // Build JSON.
         StringBuilder jsonResponse = new StringBuilder("[");
         for (Employee employee : usersWithRunningSessions) {
@@ -196,6 +194,15 @@ public class WorkSessionService {
             result = result.substring(0, result.length() - 2);
         }
         return result + "]";
+    }
+
+    public List<UserDTO> getEmployeesWithRunningSessions() {
+        List<Employee> employees = workSessionRepository.getUsersWithRunningSessions();
+        List<UserDTO> result = new ArrayList<>();
+        for (Employee employee : employees) {
+            result.add(UserDTO.fromEntity(employee));
+        }
+        return result;
     }
 
     private void checkForUser(String userName) {

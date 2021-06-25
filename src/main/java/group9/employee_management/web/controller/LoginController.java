@@ -43,7 +43,9 @@ public class LoginController {
     // I think that this is the only login function that we require. Maybe another for first-time login.
     @GetMapping("/login")
     public String login(Model model) {
-        //model.addAttribute("userCredentials", new UserDTO());
+        //model.addAttribute("userCredentials", new UserDTO())
+        //
+        //TODO see whether or nort user is admin and redirect accordingly
         return "index";
     }
 

@@ -31,7 +31,7 @@ public class UserCreationController {
     @GetMapping(
             value = ""
     )
-    @ResponseBody
+    //@ResponseBody
     public String get(Model model) {
         model.addAttribute("newUser", new UserDTO());
         model.addAttribute("status", new StatusDTO());

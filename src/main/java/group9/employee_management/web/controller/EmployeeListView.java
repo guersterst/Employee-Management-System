@@ -26,6 +26,7 @@ public class EmployeeListView {
         model.addAttribute("workSessionListEntry", new WorkSessionListEntryDTO());
         return "adminView";
     }
+
     @Autowired
     public EmployeeListView(WorkSessionService workSessionService) {
         this.workSessionService = workSessionService;
@@ -35,11 +36,12 @@ public class EmployeeListView {
     @GetMapping(
             value = "/{userName}/session"
     )
-    public String getLatestSessionAndUser(@PathVariable("userName") String userName) throws JsonProcessingException {
-        WorkSessionListEntryDTO workSessionListEntryDTO =
+    public String getLatestSessionAndUser(@PathVariable("userName") String userName,
+                                          @ModelAttribute("workSessionListEntry") WorkSessionListEntryDTO workSessionListEntryDTO) {
+        workSessionListEntryDTO =
                 WorkSessionListEntryDTO.fromEntities(workSessionService.getUser(userName),
                         workSessionService.getLatest(userName));
-        return workSessionListEntryDTO.toJSON();
+        return "adminView";
     }
 
     //TODO
@@ -54,6 +56,9 @@ public class EmployeeListView {
     )
     @ResponseBody
     public String getUsersWithRunningSessions() {
+        //return workSessionService.getEmployeesWithRunningSessions();
+
+        // I think it is appropriate to return JSON here. Don't really want to introduce a DTO or something for this.
         return workSessionService.getUsersWithRunningSessionsAsJSON();
     }
 }
