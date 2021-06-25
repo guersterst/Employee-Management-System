@@ -3,12 +3,15 @@ package group9.employee_management.web.controller;
 import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.application.service.AccountService;
 import group9.employee_management.application.service.LoginService;
+import group9.employee_management.web.dto.StatusDTO;
 import group9.employee_management.web.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/users/accounts")
@@ -32,12 +35,15 @@ public class UserAccountManipulationController {
     @GetMapping(
             value = ""
     )
-    @ResponseBody
+    //@ResponseBody
     public String get(Model model) {
         model.addAttribute("userCredentials", new UserDTO());
-
+        model.addAttribute("status", new StatusDTO());
         return "userAccountPage";
     }
+
+
+    // FOR an admin
 
     /**
      * Returns a users information in JSON format.
@@ -49,13 +55,72 @@ public class UserAccountManipulationController {
     @GetMapping(
             value = "/{userName}"
     )
-    @ResponseBody
-    public String getUserData(@PathVariable(value = "userName") String userName) {
+    //@ResponseBody
+    public String getUserDataAsAdmin(@ModelAttribute("userCredentials") UserDTO userCredentials,
+                                     @ModelAttribute("status") StatusDTO status, @PathVariable(value =
+            "userName") String userName) {
         if (accountService.userExistsByUserName(userName)) {
-            return accountService.getUserAsJSON(userName);
+            userCredentials = accountService.getUserAsDTO(userName);
         } else {
-            throw new NoSuchUserException(userName);
+            //throw new NoSuchUserException(userName);
+            status.setMessage("user_not_found");
         }
+        return "userAccountPage";
+    }
+
+    // FOR an user
+
+    /**
+     * Returns a users information in JSON format.
+     * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned.
+     *
+     * @param userName
+     * @return
+     */
+    @GetMapping(
+            value = "/me}"
+    )
+    //@ResponseBody
+    public String getUserDataAsUser(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
+            "status") StatusDTO status, Principal principal) {
+        String userName = principal.getName();
+
+        if (accountService.userExistsByUserName(userName)) {
+            userCredentials = accountService.getUserAsDTO(userName);
+        } else {
+            //throw new NoSuchUserException(userName);
+            status.setMessage("user_not_found");
+        }
+        return "userAccountPage";
+    }
+
+    /**
+     * Sets a new password and determines that this user must not set a new password the next
+     * time he logs in.
+     * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned, if the
+     * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
+     *
+     * @param userCredentials A dto containing the users username and new password.
+     * @return Returns {@code HttpStatus.OK} if the operation was successful. Returns {@code HttpStatus.BAD_REQUEST}
+     * otherwise or {@code HttpStatus.NOT_FOUND}.
+     */
+    @PutMapping(
+            value = "/{userName}/password"
+    )
+    //@ResponseBody
+    public String setPasswordAsAdmin(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
+            "status") StatusDTO status, @PathVariable("userName") String userName) {
+        String password = userCredentials.getPassword();
+
+        if (accountService.userExistsByUserName(userName)
+                && password != null) {
+            accountService.setPassword(userName, password);
+            accountService.setIsFirstLogin(userName, false);
+            status.setMessage("valid");
+        } else {
+            status.setMessage("bad_request");
+        }
+        return "userAccountPage";
     }
 
     /**
@@ -71,20 +136,22 @@ public class UserAccountManipulationController {
     @PutMapping(
             value = "/password"
     )
-    @ResponseBody
-    public HttpStatus setPassword(@ModelAttribute("loginForm") UserDTO userCredentials) {
+    //@ResponseBody
+    public String setPasswordAsUser(@ModelAttribute("userCredentials") UserDTO userCredentials,
+                                    @ModelAttribute("status") StatusDTO status, Principal principal) {
 
-        String userName = userCredentials.getUserName();
+        String userName = principal.getName();
         String password = userCredentials.getPassword();
 
         if (accountService.userExistsByUserName(userName)
-                && password != null && userName != null) {
+                && password != null) {
             accountService.setPassword(userName, password);
             accountService.setIsFirstLogin(userName, false);
-            return HttpStatus.OK;
+            status.setMessage("valid");
         } else {
-            return HttpStatus.BAD_REQUEST;
+            status.setMessage("bad_request");
         }
+        return "userAccountPage";
     }
 
 
@@ -98,22 +165,55 @@ public class UserAccountManipulationController {
      * otherwise or {@code HttpStatus.NOT_FOUND
      */
     @PutMapping(
-            value = "/name"
+            value = "/{userName}/name"
     )
-    @ResponseBody
-    public HttpStatus setName(@ModelAttribute("accountForm") UserDTO userCredentials) {
-
-        String userName = userCredentials.getUserName();
+    //@ResponseBody
+    public String setNameAsAdmin(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
+            "status") StatusDTO status, @PathVariable("userName") String userName) {
         String firstName = userCredentials.getFirstName();
         String lastName = userCredentials.getLastName();
 
         if (accountService.userExistsByUserName(userName)
-                && firstName != null && lastName != null && userName != null) {
+                && firstName != null && lastName != null) {
             accountService.setName(userName, firstName, lastName);
-            return HttpStatus.OK;
+            status.setMessage("valid");
+            //return HttpStatus.OK;
         } else {
-            return HttpStatus.BAD_REQUEST;
+            status.setMessage("bad_request");
+            //return HttpStatus.BAD_REQUEST;
         }
+        return "userAccountPage";
+    }
+
+    /**
+     * Sets a new first and last name for the user.
+     * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned, if the
+     * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
+     *
+     * @param userCredentials A dto containing the users username and new first- and lastname.
+     * @return Returns {@code HttpStatus.OK} if the operation was successful. Returns {@code HttpStatus.BAD_REQUEST}
+     * otherwise or {@code HttpStatus.NOT_FOUND
+     */
+    @PutMapping(
+            value = "/name"
+    )
+    //@ResponseBody
+    public String setNameAsUser(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
+            "status") StatusDTO status,Principal principal) {
+        String userName = principal.getName();
+        String firstName = userCredentials.getFirstName();
+        String lastName = userCredentials.getLastName();
+
+        if (accountService.userExistsByUserName(userName)
+                && firstName != null && lastName != null) {
+            accountService.setName(userName, firstName, lastName);
+            status.setMessage("valid");
+            //return HttpStatus.OK;
+        } else {
+            status.setMessage("bad_request");
+            //return HttpStatus.BAD_REQUEST;
+        }
+        return "userAccountPage";
     }
 
     /**
@@ -126,20 +226,22 @@ public class UserAccountManipulationController {
      * otherwise or {@code HttpStatus.NOT_FOUND
      */
     @PutMapping(
-            value = "/admin"
+            value = "/{userName}/admin"
     )
-    @ResponseBody
-    public HttpStatus setAdmin(@ModelAttribute("accountForm") UserDTO userCredentials) {
-
-        String userName = userCredentials.getUserName();
+    //@ResponseBody
+    public String setAdminAsAdmin(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
+            "status") StatusDTO status, @PathVariable("userName") String userName) {
         boolean admin = userCredentials.isAdmin();
 
-        if (accountService.userExistsByUserName(userName) && userName != null) {
+        if (accountService.userExistsByUserName(userName)) {
             accountService.setAdmin(userName, admin);
-            return HttpStatus.OK;
+            status.setMessage("valid");
+            //return HttpStatus.OK;
         } else {
-            return HttpStatus.BAD_REQUEST;
+            status.setMessage("bad_request");
+            //return HttpStatus.BAD_REQUEST;
         }
+        return "userAccountPage";
     }
 
     /**
@@ -152,19 +254,21 @@ public class UserAccountManipulationController {
      * otherwise or {@code HttpStatus.NOT_FOUND
      */
     @PutMapping(
-            value = "/position"
+            value = "/{userName}/position"
     )
-    @ResponseBody
-    public HttpStatus setPosition(@ModelAttribute("accountForm") UserDTO userCredentials) {
-
-        String userName = userCredentials.getUserName();
+    //@ResponseBody
+    public String setPositionAsAdmin(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
+            "status") StatusDTO status, @PathVariable("userName") String userName) {
         String position = userCredentials.getPosition();
 
         if (accountService.userExistsByUserName(userName) && position != null) {
             accountService.setPosition(userName, position);
-            return HttpStatus.OK;
+            status.setMessage("valid");
+            //return HttpStatus.OK;
         } else {
-            return HttpStatus.BAD_REQUEST;
+            status.setMessage("bad_request");
+            //return HttpStatus.BAD_REQUEST;
         }
+        return "userAccountPage";
     }
 }

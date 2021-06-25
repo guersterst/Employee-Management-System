@@ -2,6 +2,7 @@ package group9.employee_management.application.service;
 
 import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.persistence.entities.Employee;
+import group9.employee_management.persistence.entities.User;
 import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.persistence.repositories.EmployeeRepository;
 import group9.employee_management.web.dto.UserDTO;
@@ -138,6 +139,17 @@ public class AccountService {
             throw new NoSuchUserException(userName);
         } else {
             return UserDTO.fromEntity(employee).toJSON();
+        }
+    }
+
+
+    public UserDTO getUserAsDTO(String userName) throws NoSuchUserException {
+        Employee employee = employeeRepository.getUserByUserName(userName);
+
+        if (employee == null) {
+            throw new NoSuchUserException(userName);
+        } else {
+            return UserDTO.fromEntity(employee);
         }
     }
 
