@@ -58,7 +58,6 @@ public class LoginController {
      */
     @PostMapping(
             value = "/authentication")
-    //@ResponseBody
     public String login(@ModelAttribute("userCredentials") UserDTO userCredentials,
                             @ModelAttribute("status") StatusDTO status) {
         String userName = userCredentials.getUserName();
@@ -71,20 +70,17 @@ public class LoginController {
                 // Indicate that it is a first time login.
                 status.setMessage("first_login");
                 return "index";
-                //return HttpStatus.TOO_EARLY;
             } else {
 
                 // Indicate that this is a valid login.
                 status.setMessage("valid");
                 return "employeeView";
-                //return HttpStatus.OK;
             }
         } else {
 
             // Indicate that this user does not exist.
             status.setMessage("not_found");
             return "index";
-            //return HttpStatus.NOT_FOUND;
         }
     }
 }
