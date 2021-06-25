@@ -158,12 +158,12 @@ public class WorkSessionService {
         return workSessionRepository.getTextStatus(userName);
     }
 
-    public String getAvailability(String userName) {
+    public boolean getAvailability(String userName) {
         checkForUser(userName);
         return workSessionRepository.getAvailability(userName);
     }
 
-    public String getOnSite(String userName) {
+    public boolean getOnSite(String userName) {
         checkForUser(userName);
         return workSessionRepository.getOnSite(userName);
     }

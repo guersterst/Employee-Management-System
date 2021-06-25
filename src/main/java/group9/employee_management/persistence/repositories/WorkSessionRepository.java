@@ -31,11 +31,11 @@ public interface WorkSessionRepository extends JpaRepository<WorkSession, Intege
 
     @Query("SELECT w.available from"
             + " WorkSession w WHERE w.employee = (SELECT u FROM Employee u WHERE u.userName = :userName)")
-    String getAvailability(@Param("userName") String userName);
+    boolean getAvailability(@Param("userName") String userName);
 
     @Query("SELECT w.onSite from"
             + " WorkSession w WHERE w.employee = (SELECT u FROM Employee u WHERE u.userName = :userName)")
-    String getOnSite(@Param("userName") String userName);
+    boolean getOnSite(@Param("userName") String userName);
 
     @Query("SELECT DISTINCT w.employee FROM WorkSession w WHERE w.stopTime IS NULL")
     List<Employee> getUsersWithRunningSessions();
