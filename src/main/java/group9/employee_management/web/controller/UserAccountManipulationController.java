@@ -49,8 +49,9 @@ public class UserAccountManipulationController {
      * Returns a users information in JSON format.
      * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned.
      *
-     * @param userName
-     * @return
+     * @param userName The user name.
+     * @param status Used to inform the frontend whether the operation was not successful ("user_not_found").
+     * @return the view to display
      */
     @GetMapping(
             value = "/{userName}"
@@ -72,14 +73,15 @@ public class UserAccountManipulationController {
 
     /**
      * Returns a users information in JSON format.
-     * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned.
      *
-     * @return
+     * @param userCredentials The DTO carrying information about the user.
+     * @param status Used to informt the frontend whether the operation was not successful ("user_not_found").
+     * @param principal Description forthcoming.
+     * @return the view to display
      */
     @GetMapping(
             value = "/me}"
     )
-    //@ResponseBody
     public String getUserDataAsUser(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
             "status") StatusDTO status, Principal principal) {
         String userName = principal.getName();
@@ -100,8 +102,9 @@ public class UserAccountManipulationController {
      * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
      *
      * @param userCredentials A dto containing the users username and new password.
-     * @return Returns {@code HttpStatus.OK} if the operation was successful. Returns {@code HttpStatus.BAD_REQUEST}
-     * otherwise or {@code HttpStatus.NOT_FOUND}.
+     * @param status Used to inform the frontend about whether everything went fine ("valid") or if
+     *               something went wrong ("bad_request").
+     * @return Returns the view to display
      */
     @PutMapping(
             value = "/{userName}/password"
@@ -129,8 +132,9 @@ public class UserAccountManipulationController {
      * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
      *
      * @param userCredentials A dto containing the users username and new password.
-     * @return Returns {@code HttpStatus.OK} if the operation was successful. Returns {@code HttpStatus.BAD_REQUEST}
-     * otherwise or {@code HttpStatus.NOT_FOUND}.
+     * @param status Used to inform the frontend about whether everything went fine ("valid") or if
+     *               something went wrong ("bad_request").
+     * @return Returns the view to display
      */
     @PutMapping(
             value = "/password"
@@ -160,8 +164,9 @@ public class UserAccountManipulationController {
      * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
      *
      * @param userCredentials A dto containing the users username and new first- and lastname.
-     * @return Returns {@code HttpStatus.OK} if the operation was successful. Returns {@code HttpStatus.BAD_REQUEST}
-     * otherwise or {@code HttpStatus.NOT_FOUND
+     * @param status Used to inform the frontend about whether everything went fine ("valid") or if
+     *               something went wrong ("bad_request").
+     * @return Returns the view to display
      */
     @PutMapping(
             value = "/{userName}/name"
@@ -176,10 +181,8 @@ public class UserAccountManipulationController {
                 && firstName != null && lastName != null) {
             accountService.setName(userName, firstName, lastName);
             status.setMessage("valid");
-            //return HttpStatus.OK;
         } else {
             status.setMessage("bad_request");
-            //return HttpStatus.BAD_REQUEST;
         }
         return "userAccountPage";
     }
@@ -190,8 +193,9 @@ public class UserAccountManipulationController {
      * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
      *
      * @param userCredentials A dto containing the users username and new first- and lastname.
-     * @return Returns {@code HttpStatus.OK} if the operation was successful. Returns {@code HttpStatus.BAD_REQUEST}
-     * otherwise or {@code HttpStatus.NOT_FOUND
+     * @param status Used to inform the frontend about whether everything went fine ("valid") or if
+     *               something went wrong ("bad_request").
+     * @return Returns the view to display
      */
     @PutMapping(
             value = "/name"
@@ -207,10 +211,8 @@ public class UserAccountManipulationController {
                 && firstName != null && lastName != null) {
             accountService.setName(userName, firstName, lastName);
             status.setMessage("valid");
-            //return HttpStatus.OK;
         } else {
             status.setMessage("bad_request");
-            //return HttpStatus.BAD_REQUEST;
         }
         return "userAccountPage";
     }
@@ -221,13 +223,13 @@ public class UserAccountManipulationController {
      * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
      *
      * @param userCredentials A dto containing the users username and new admin rights.
-     * @return Returns {@code HttpStatus.OK} if the operation was successful. Returns {@code HttpStatus.BAD_REQUEST}
-     * otherwise or {@code HttpStatus.NOT_FOUND
+     * @param status Used to inform the frontend about whether everything went fine ("valid") or if
+     *               something went wrong ("bad_request").
+     * @return Returns the view to display
      */
     @PutMapping(
             value = "/{userName}/admin"
     )
-    //@ResponseBody
     public String setAdminAsAdmin(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
             "status") StatusDTO status, @PathVariable("userName") String userName) {
         boolean admin = userCredentials.isAdmin();
@@ -235,10 +237,8 @@ public class UserAccountManipulationController {
         if (accountService.userExistsByUserName(userName)) {
             accountService.setAdmin(userName, admin);
             status.setMessage("valid");
-            //return HttpStatus.OK;
         } else {
             status.setMessage("bad_request");
-            //return HttpStatus.BAD_REQUEST;
         }
         return "userAccountPage";
     }
@@ -249,13 +249,13 @@ public class UserAccountManipulationController {
      * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
      *
      * @param userCredentials A dto containing the users username and new position title.
-     * @return Returns {@code HttpStatus.OK} if the operation was successful. Returns {@code HttpStatus.BAD_REQUEST}
-     * otherwise or {@code HttpStatus.NOT_FOUND
+     * @param status Used to inform the frontend about whether everything went fine ("valid") or if
+     *               something went wrong ("bad_request").
+     * @return Returns the view to display
      */
     @PutMapping(
             value = "/{userName}/position"
     )
-    //@ResponseBody
     public String setPositionAsAdmin(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
             "status") StatusDTO status, @PathVariable("userName") String userName) {
         String position = userCredentials.getPosition();
@@ -263,10 +263,8 @@ public class UserAccountManipulationController {
         if (accountService.userExistsByUserName(userName) && position != null) {
             accountService.setPosition(userName, position);
             status.setMessage("valid");
-            //return HttpStatus.OK;
         } else {
             status.setMessage("bad_request");
-            //return HttpStatus.BAD_REQUEST;
         }
         return "userAccountPage";
     }

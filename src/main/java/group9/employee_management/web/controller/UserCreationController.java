@@ -1,6 +1,7 @@
 package group9.employee_management.web.controller;
 
 import group9.employee_management.application.service.AccountService;
+import group9.employee_management.web.dto.StatusDTO;
 import group9.employee_management.web.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,7 @@ public class UserCreationController {
     @ResponseBody
     public String get(Model model) {
         model.addAttribute("newUser", new UserDTO());
-
+        model.addAttribute("status", new StatusDTO());
         return "adminCreateUserAccount";
     }
 
@@ -47,8 +48,7 @@ public class UserCreationController {
      */
     @PostMapping(
             value = "/creation")
-    @ResponseBody
-    public HttpStatus createUser(@ModelAttribute("newUser") UserDTO newUser) {
+    public String createUser(@ModelAttribute("newUser") UserDTO newUser, @ModelAttribute("status") StatusDTO status) {
         if (newUser.getUserName() != null
                 && newUser.getFirstName() != null
                 && newUser.getLastName() != null
@@ -56,9 +56,13 @@ public class UserCreationController {
                 && newUser.getPosition() != null) {
             accountService.createUser(newUser.getUserName(), newUser.getFirstName(), newUser.getLastName(),
                     newUser.getPassword(), newUser.isAdmin(), newUser.getPosition());
-            return HttpStatus.OK;
+                status.setMessage("ok");
+
+                return "userAccountPage";
         } else {
-            return HttpStatus.BAD_REQUEST;
+            status.setMessage("bad_request");
+
+            return "userAccountPage";
         }
     }
 
