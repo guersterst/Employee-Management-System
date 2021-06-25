@@ -1,20 +1,24 @@
 package group9.employee_management.web.controller;
 
 import group9.employee_management.application.service.WorkSessionService;
+import group9.employee_management.web.dto.StatusDTO;
 import group9.employee_management.web.dto.WorkSessionDTO;
+import org.hibernate.event.spi.PreInsertEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @Controller
-//TODO url does not fit for puts.
-@RequestMapping(value = "/{userName}/session")
+@RequestMapping(value = "/my-session")
 public class WorkSessionsController {
 
     //AUTH user
 
+    //TODO what if there is no session yet, solution like in getAvailability?
     private final WorkSessionService workSessionService;
 
     @Autowired
@@ -33,6 +37,7 @@ public class WorkSessionsController {
     )
     public String get(Model model) {
         model.addAttribute("workSessionData", new WorkSessionDTO());
+        model.addAttribute("status", new StatusDTO());
         return "employeeView";
     }
 
@@ -40,22 +45,26 @@ public class WorkSessionsController {
      * Starts the latest session for an employee.
      *
      * @param newSession A dto containing information about the desired new session. Requires {@code userName},
-     * {@code textStatus}, {@code availability} and {@code onSite}.
+     *                   {@code textStatus}, {@code availability} and {@code onSite}.
      * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise. {@code HttpStatus
      * .NOT_FOUND} if that user does not exist or has no sessions.
      */
     @PostMapping(
             value = "/beginning"
     )
-    @ResponseBody
-    public HttpStatus startSession(@ModelAttribute("workSessionData") WorkSessionDTO newSession) {
-        if (newSession.getUserName() != null && newSession.getTextStatus() != null) {
-            workSessionService.startSession(newSession.getUserName(), newSession.getTextStatus(),
+    //@ResponseBody
+    public String startSession(@ModelAttribute("workSessionData") WorkSessionDTO newSession,
+                               @ModelAttribute("status") StatusDTO status, Principal principal) {
+        if (newSession.getTextStatus() != null) {
+            workSessionService.startSession(principal.getName(), newSession.getTextStatus(),
                     newSession.isAvailable(), newSession.isOnSite());
-            return HttpStatus.OK;
+            status.setMessage("valid");
+            //return HttpStatus.OK;
         } else {
-            return HttpStatus.BAD_REQUEST;
+            status.setMessage("bad_request");
+            //return HttpStatus.BAD_REQUEST;
         }
+        return "employeeView";
     }
 
     /**
@@ -68,21 +77,23 @@ public class WorkSessionsController {
     @PutMapping(
             value = "/ending"
     )
-    @ResponseBody
-    public HttpStatus endSession(@ModelAttribute("workSessionData") WorkSessionDTO session) {
-        if (session.getUserName() != null) {
-            workSessionService.stopSession(session.getUserName());
-            return HttpStatus.OK;
+    //@ResponseBody
+    public String endSession(@ModelAttribute("workSessionData") WorkSessionDTO session,
+                             @ModelAttribute("status") StatusDTO status, Principal principal) {
+        if (workSessionService.getUser(principal.getName()) != null) {
+            workSessionService.stopSession(principal.getName());
+            status.setMessage("valid");
         } else {
-            return HttpStatus.BAD_REQUEST;
+            status.setMessage("bad_request");
         }
+        return "employeeView";
     }
 
     /**
      * Puts a new message in the current running session of a user.
      *
      * @param session A dto containing information about the desired new session. Requires {@code userName}, {@code
-     * textStatus}.
+     *                textStatus}.
      * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise. Returns {@code
      * HttpStatus.GONE} if this session has already ended. {@code HttpStatus.NOT_FOUND} if that user does not exist
      * or has no sessions.
@@ -90,22 +101,27 @@ public class WorkSessionsController {
     @PutMapping(
             value = "/message"
     )
-    @ResponseBody
-    public HttpStatus putMessage(@ModelAttribute("workSessionData") WorkSessionDTO session) {
-        if (session.getTextStatus() == null || session.getUserName() == null) {
+    //@ResponseBody
+    public String putMessage(@ModelAttribute("workSessionData") WorkSessionDTO session,
+                             @ModelAttribute("status") StatusDTO status, Principal principal) {
+        if (session.getTextStatus() == null || workSessionService.getUser(principal.getName()) == null) {
 
             // Check for necessary fields.
-            return HttpStatus.BAD_REQUEST;
+            //return HttpStatus.BAD_REQUEST;
+            status.setMessage("bad_request");
         } else if (session.getStopTime() != null) {
 
-            // Check if the session has not ended yet.
-            return HttpStatus.GONE;
+            // Check if the session has ended.
+            //return HttpStatus.GONE;
+            status.setMessage("too_late");
         } else {
 
             // Put the message.
-            workSessionService.putMessage(session.getUserName(), session.getTextStatus());
-            return HttpStatus.OK;
+            workSessionService.putMessage(principal.getName(), session.getTextStatus());
+            //return HttpStatus.OK;
+            status.setMessage("valid");
         }
+        return "employeeView";
     }
 
     /**
@@ -117,9 +133,16 @@ public class WorkSessionsController {
     @GetMapping(
             value = "/message"
     )
-    @ResponseBody
-    public String getTextStatus(@PathVariable("userName") String userName) {
-        return workSessionService.getTextStatus(userName);
+    //@ResponseBody
+    public String getTextStatus(@ModelAttribute("workSessionData") WorkSessionDTO session,
+                                @ModelAttribute("status") StatusDTO status, Principal principal) {
+        if (workSessionService.getUser(principal.getName()) != null) {
+            session.setTextStatus(workSessionService.getTextStatus(principal.getName()));
+            status.setMessage("valid");
+        } else {
+            status.setMessage("bad_request");
+        }
+        return "employeeView";
     }
 
     /**
@@ -132,30 +155,45 @@ public class WorkSessionsController {
     @PutMapping(
             value = "/availability"
     )
-    @ResponseBody
-    public HttpStatus putAvailability(@ModelAttribute("workSessionData") WorkSessionDTO session) {
-        if (session.getUserName() != null) {
-            workSessionService.putAvailability(session.getUserName(), session.isAvailable());
-            return HttpStatus.OK;
+    //@ResponseBody
+    public String putAvailability(@ModelAttribute("workSessionData") WorkSessionDTO session,
+                                  @ModelAttribute("status") StatusDTO status, Principal principal) {
+        if (workSessionService.getUser(principal.getName()) != null) {
+            workSessionService.putAvailability(principal.getName(), session.isAvailable());
+            //return HttpStatus.OK;
+            status.setMessage("valid");
         } else {
-            return HttpStatus.BAD_REQUEST;
+            status.setMessage("bad_request");
+            //return HttpStatus.BAD_REQUEST;
         }
+        return "employeeView";
     }
 
     /**
      * Returns the availability value of an users latest session. Returns {@code HttpStatus.NOT_FOUND} if that user
      * does not  exist or has no sessions.
+     *
      * @param userName The users identifying name.
      * @return The availability value.
      */
     @GetMapping(
             value = "/availability"
     )
-    @ResponseBody
-    public String getAvailability(@PathVariable("userName") String userName) {
-        //TODO if there is no session empty return -> replace with exception httpstatus? (same for other getters)
-        //TODO therefore javadoc is also wrong.
-        return workSessionService.getAvailability(userName);
+    //@ResponseBody
+    public String getAvailability(@ModelAttribute("workSessionData") WorkSessionDTO session,
+                                  @ModelAttribute("status") StatusDTO status, Principal principal) {
+        if (workSessionService.getUser(principal.getName()) != null) {
+            session.setAvailable(workSessionService.getAvailability(principal.getName()));
+            status.setMessage("valid");
+        } else if (workSessionService.getLatest(principal.getName()) == null) {
+
+            // Indicate that this user does not have a session
+            status.setMessage("too_early");
+        } else {
+            // Indicate that this user isnt an employee
+            status.setMessage("bad_request");
+        }
+        return "employeeView";
     }
 
     /**
@@ -168,28 +206,40 @@ public class WorkSessionsController {
     @PutMapping(
             value = "/onsite"
     )
-    @ResponseBody
-    public HttpStatus putOnSite(@ModelAttribute("workSessionData") WorkSessionDTO session) {
-        if (session.getUserName() != null) {
+    //@ResponseBody
+    public String putOnSite(@ModelAttribute("workSessionData") WorkSessionDTO session,
+                                @ModelAttribute("status") StatusDTO status, Principal principal) {
+        if (workSessionService.getUser(principal.getName()) != null) {
             workSessionService.putOnSite(session.getUserName(), session.isOnSite());
-            return HttpStatus.OK;
+            //return HttpStatus.OK;
+            status.setMessage("valid");
         } else {
-            return HttpStatus.BAD_REQUEST;
+            status.setMessage("bad_request");
+            //return HttpStatus.BAD_REQUEST;
         }
+        return "employeeView";
     }
 
     /**
      * Returns the onSite value of an users latest session.
-     *
+     * <p>
      * ({@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.)
+     *
      * @param userName The users identifying name.
      * @return The onsite value.
      */
     @GetMapping(
             value = "/onsite"
     )
-    @ResponseBody
-    public String getOnSite(@PathVariable("userName") String userName) {
-        return workSessionService.getOnSite(userName);
+    //@ResponseBody
+    public String getOnSite(@ModelAttribute("workSessionData") WorkSessionDTO session,
+                            @ModelAttribute("status") StatusDTO status, Principal principal) {
+        if (workSessionService.getUser(principal.getName()) != null) {
+            session.setOnSite(workSessionService.getOnSite(principal.getName()));
+            status.setMessage("valid");
+        } else {
+            status.setMessage("bad_request");
+        }
+        return "employeeView";
     }
 }

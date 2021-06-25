@@ -74,7 +74,6 @@ public class UserAccountManipulationController {
      * Returns a users information in JSON format.
      * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned.
      *
-     * @param userName
      * @return
      */
     @GetMapping(
