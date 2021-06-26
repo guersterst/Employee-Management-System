@@ -57,21 +57,23 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().formLogin();
          */
 
+
         http.authorizeRequests().regexMatchers("/user").authenticated()
                 .anyRequest().hasAnyRole(Roles.USER.toString(), Roles.ADMIN.toString())
                 .and()
                 .formLogin().permitAll().loginPage("/login").defaultSuccessUrl("/user", true);
 
+
         //TODO see to it, that admin is redirected differently
 
         //TODO if you want to be able to login atm use (student, student) and this:
-/*
+        /*
         http.authorizeRequests().regexMatchers("/user").authenticated()
                 .anyRequest().hasAnyRole(Roles.USER.toString(), Roles.ADMIN.toString())
                 .and()
                 .formLogin();
+         */
 
- */
     }
 
 
