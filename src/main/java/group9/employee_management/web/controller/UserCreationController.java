@@ -35,7 +35,7 @@ public class UserCreationController {
     public String get(Model model) {
         model.addAttribute("newUser", new UserDTO());
         model.addAttribute("status", new StatusDTO());
-        return "adminCreateUserAccount";
+        return "adminCreateUserView";
     }
 
     /**
@@ -58,11 +58,11 @@ public class UserCreationController {
                     newUser.getPassword(), newUser.isAdmin(), newUser.getPosition());
                 status.setMessage("ok");
 
-                return "userAccountPage";
+                return "adminCreateUserView";
         } else {
             status.setMessage("bad_request");
 
-            return "userAccountPage";
+            return "adminCreateUserView";
         }
     }
 

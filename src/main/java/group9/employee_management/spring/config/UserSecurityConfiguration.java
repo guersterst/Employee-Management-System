@@ -46,11 +46,14 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
      * This is otherwise blocked when using Spring Security.
      * @param web
      */
+    /*
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/css/**", "/js/**");
         web.ignoring().antMatchers("/css/**", "/js/**", "/resources/**", "/static/**","/webjars/**");
     }
+     */
+
 
 
     //TODO not for production
@@ -80,15 +83,20 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().regexMatchers("/user").authenticated()
                 .anyRequest().hasAnyRole(Roles.USER.toString(), Roles.ADMIN.toString())
                 .and()
-                .formLogin().loginPage("/login")
+                .formLogin();
+
+                /*
+                .loginPage("/login")
                 .failureUrl("/login?error=true")
-                .defaultSuccessUrl("/login?error=true")
+                .defaultSuccessUrl("/user",true)
                 //.defaultSuccessUrl("/my-session", true)
                 .and()
                 .logout().permitAll()
                 .logoutUrl("/logout")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                 .logoutSuccessUrl("/login");
+
+                 */
     }
 
     /**
@@ -97,6 +105,20 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService()).passwordEncoder(new BCryptPasswordEncoder(10));
+        //auth.userDetailsService(userDetailsService()).passwordEncoder(new BCryptPasswordEncoder(10));
+        //auth.userDetailsService(userDetailsService()).passwordEncoder(getPasswordEncoder());
+        auth.userDetailsService(userDetailsService());
     }
 }
+
+/*
+1. User creation
+2. Auth zuweisen
+
+2. Email Weissgerber
+3.Login first-time
+
+5.password encryption
+6.foreign_key bug
+
+ */
