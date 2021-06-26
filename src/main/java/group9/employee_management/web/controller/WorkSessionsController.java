@@ -124,6 +124,21 @@ public class WorkSessionsController {
         return "employeeView";
     }
 
+    @DeleteMapping(
+            value = "/message"
+    )
+    public String deleteTextStatus(@ModelAttribute("workSessionData") WorkSessionDTO session,
+                                @ModelAttribute("status") StatusDTO status, Principal principal) {
+        if (workSessionService.getUser(principal.getName()) != null) {
+            workSessionService.deleteTextStatus(principal.getName());
+            session.setTextStatus("");
+            status.setMessage("valid");
+        } else {
+            status.setMessage("bad_request");
+        }
+        return "employeeView";
+    }
+
     /**
      * Returns the message associated with the users latest session.
      *

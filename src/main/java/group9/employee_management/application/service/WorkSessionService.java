@@ -154,6 +154,13 @@ public class WorkSessionService {
         return workSessionRepository.getTextStatus(userName);
     }
 
+    public void deleteTextStatus(String userName) {
+        checkForUser(userName);
+        WorkSession session = workSessionRepository.getById(workSessionRepository.getIndex(userName));
+        session.setTextStatus("");
+        workSessionRepository.save(session);
+    }
+
     public boolean getAvailability(String userName) {
         checkForUser(userName);
         return workSessionRepository.getAvailability(userName);
