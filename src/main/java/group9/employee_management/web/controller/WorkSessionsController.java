@@ -98,7 +98,7 @@ public class WorkSessionsController {
      * HttpStatus.GONE} if this session has already ended. {@code HttpStatus.NOT_FOUND} if that user does not exist
      * or has no sessions.
      */
-    @PutMapping(
+    @PostMapping(
             value = "/message"
     )
     //@ResponseBody

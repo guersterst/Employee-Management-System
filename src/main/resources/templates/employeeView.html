@@ -42,9 +42,10 @@
                     <h2>Message</h2>
                 </div>
                 <!--Show saved message-->
-                <form onsubmit="saveMessage(event)" id="messageCard">
+                <form onsubmit="saveMessage(event)" id="messageCard" th:action="@{/my-session/message}"
+                      th:object="${workSessionData}" method="post">
                     <div class="form-group mx-auto">
-                        <label class="form-control" id="savedMsg" type="text">Here should appear a message.</label>
+                        <label class="form-control" id="savedMsg" type="text" th:text="${workSessionData.textStatus}"></label>
                     </div>
                     <!--Text field to leave a message-->
                     <div class="input-group">
@@ -52,7 +53,7 @@
                             <span class="input-group-text">Notification</span>
                         </div>
                         <textarea class="form-control" aria-label="With textarea" placeholder="Leave a message..."
-                                  id="message"></textarea>
+                                  id="message" th:field="*{textStatus}"></textarea>
                     </div>
 
                     <!--Message has to short. The minimum amount of characters should be 10.-->
