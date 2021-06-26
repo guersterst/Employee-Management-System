@@ -14,7 +14,7 @@
 }
 
 #inputFieldsForm {
-    margin-top: 10%;
+    margin-top: 5%;
 }
 
 #loginButton {
@@ -26,21 +26,17 @@
 }
 
 #userName {
-    padding: 0 40px;
+    padding: 0 5px;
     font-size: 16px;
 }
 
 #password {
-    padding: 0 40px;
+    padding: 0 5px;
     font-size: 16px;
 }
 
 input {
     padding: 10px 30px;
-}
-
-h1 {
-    margin-top: 20px;
 }
 
 #wrongUserNameOrPassword {

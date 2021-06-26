@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,6 +24,11 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserRepository userRepository;
 
+    /**
+     * Sets the userRepository.
+     *
+     * @param userRepository the UserRepository to use.
+     */
     @Autowired
     public UserSecurityConfiguration(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -35,54 +41,62 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
  */
 
+    /**
+     * Allows us to embed the webjars and apply css to our templates/views.
+     * This is otherwise blocked when using Spring Security.
+     * @param web
+     */
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers("/css/**", "/js/**");
+        web.ignoring().antMatchers("/css/**", "/js/**", "/resources/**", "/static/**","/webjars/**");
+    }
+
+
     //TODO not for production
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
 
+    /**
+     * Returns a new Instance of MyUserDetailsService
+     *
+     * @return as described above.
+     */
     @Bean
-    public UserDetailsService userDetailsService() {
+    public MyUserDetailsService userDetailsService() {
         return new MyUserDetailsService(userRepository);
     }
 
+
+    /**
+     * Configure the login. Utilized to use our custom login page.
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // Second tut
-        /*
-        http.authorizeRequests()
-                .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/user").hasAnyRole("ADMIN", "USER")
-                .antMatchers("/all").permitAll()
-                .and().formLogin();
-         */
-
-/*
         http.authorizeRequests().regexMatchers("/user").authenticated()
                 .anyRequest().hasAnyRole(Roles.USER.toString(), Roles.ADMIN.toString())
                 .and()
-                .formLogin().permitAll().loginPage("/login").defaultSuccessUrl("/user", true);
-
- */
-
-        //TODO see to it, that admin is redirected differently
-
-        //TODO if you want to be able to login atm use (student, student) and this:
-
-        http.authorizeRequests().regexMatchers("/user").authenticated()
-                .anyRequest().hasAnyRole(Roles.USER.toString(), Roles.ADMIN.toString())
+                .formLogin().loginPage("/login")
+                .failureUrl("/login?error=true")
+                .defaultSuccessUrl("/login?error=true")
+                //.defaultSuccessUrl("/my-session", true)
                 .and()
-                .formLogin();
-
+                .logout().permitAll()
+                .logoutUrl("/logout")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+                .logoutSuccessUrl("/login");
     }
 
-
+    /**
+     * @param auth
+     * @throws Exception
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // Second tut
-        auth.userDetailsService(userDetailsService());
+        auth.userDetailsService(userDetailsService()).passwordEncoder(new BCryptPasswordEncoder(10));
     }
-
-
 }
-
