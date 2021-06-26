@@ -46,7 +46,7 @@ public class LoginController {
     public String login(Model model) {
         //model.addAttribute("userCredentials", new UserDTO())
         //
-        //TODO see whether or nort user is admin and redirect accordingly
+        //TODO see whether or not user is admin and redirect accordingly
         return "index";
     }
     /**

@@ -1,15 +1,11 @@
 package group9.employee_management.web.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import group9.employee_management.application.service.WorkSessionService;
-import group9.employee_management.web.dto.WorkSessionDTO;
 import group9.employee_management.web.dto.WorkSessionListEntryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 
 @Controller
 @RequestMapping("/admin/employees")
@@ -56,7 +52,6 @@ public class EmployeeListView {
     )
     //@ResponseBody
     public String getUsersWithRunningSessions() {
-        //return workSessionService.getEmployeesWithRunningSessions();
 
         // I think it is appropriate to return JSON here. Don't really want to introduce a DTO or something for this.
         return workSessionService.getUsersWithRunningSessionsAsJSON();
