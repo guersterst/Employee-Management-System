@@ -42,9 +42,10 @@
                     <h2>Message</h2>
                 </div>
                 <!--Show saved message-->
-                <form onsubmit="saveMessage(event)" id="messageCard">
+                <form onsubmit="checkMessage(event)" onreset="checkReset()" id="messageCard" th:action="@{/my-session/message}"
+                      th:object="${workSessionData}" method="post">
                     <div class="form-group mx-auto">
-                        <label class="form-control" id="savedMsg" type="text">Here should appear a message.</label>
+                        <label class="form-control" id="savedMsg" type="text" th:text="${workSessionData.textStatus}"></label>
                     </div>
                     <!--Text field to leave a message-->
                     <div class="input-group">
@@ -52,7 +53,7 @@
                             <span class="input-group-text">Notification</span>
                         </div>
                         <textarea class="form-control" aria-label="With textarea" placeholder="Leave a message..."
-                                  id="message"></textarea>
+                                  id="message" th:field="*{textStatus}"></textarea>
                     </div>
 
                     <!--Message has to short. The minimum amount of characters should be 10.-->
@@ -70,15 +71,29 @@
                         </div>
                     </div>
 
+                    <div class="alert alert-danger mx-auto" id="alertDelete">
+                        <div class="align-text-bottom">
+                            <i class="bi bi-exclamation-circle"></i>
+                            <strong>Input required.</strong>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info mx-auto" id="alertDeleteValid">
+                        <div class="align-text-bottom">
+                            <i class="bi bi-info"></i>
+                            <strong>Message successfully deleted.</strong>
+                        </div>
+                    </div>
+
                     <!--Options for message-->
                     <div class="message-util form-group">
                         <!--Message with a minimum length.-->
                         <button class=" btn btn-primary btn-lg center-block" type="submit" id="save-button"
-                                onclick="saveMessage()">
+                                onclick="checkMessage()">
                             Save
                         </button>
                         <!--Deletes the saved message above the textarea.-->
-                        <button class="btn btn-primary btn-lg center-block" onclick="deleteMessage()" type="reset" id="delete-message">
+                        <button class="btn btn-primary btn-lg center-block" onclick="checkReset()" type="reset" id="delete-message">
                             Delete
                         </button>
                     </div>
@@ -96,8 +111,9 @@
                     </div>
                     <div class="options">
                         <!--User can change the state of availability.Within the first login this should be enabled.-->
-                        <div class="available d-table custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="availableSwitch">
+                        <div class="available d-table custom-control custom-switch"
+                             th:action="@{/my-session/availability}" th:object="${workSessionData}" th:method="put">
+                            <input type="checkbox" class="custom-control-input" id="availableSwitch" th:value="*{available}">
                             <label class="custom-control-label" for="availableSwitch">Availability</label>
                         </div>
                         <hr>
@@ -110,7 +126,7 @@
                         <hr>
                         <div class="location d-table custom-control custom-switch">
                             <input type="checkbox" class="custom-control-input" id="remote">
-                            <label class="custom-control-label" for="locationSwitch">Remote</label>
+                            <label class="custom-control-label" for="remote">Remote</label>
                         </div>
                     </div>
                 </div>
@@ -243,44 +259,96 @@
 
     let alertMessageToShort = $('#alertMessageToShort');
     let alertInputRequired = $('#alertInputRequired');
-    let savedMessage = document.getElementById("savedMsg").value;
+    let alertDeleteValid = $('#alertDeleteValid');
+    let alertDelete = $('#alertDelete');
+
+    let savedMessage = document.getElementById("savedMsg");
+
+    let messageWasToShort = false;
+    let inputWasRequired = false;
+    let deleteWasValid = false;
+    let wasDelte = false;
 
     const numberOfTimelinePanels = 0;
+    const requestMessageURL = '/my-session/message';
+
+    let request = new XMLHttpRequest();
+    request.open('GET', requestMessageURL);
+    request.responseType = 'json';
+    request.send();
+
+    request.onload = function () {
+        let jsonObj = request.response;
+        updateMessage(jsonObj);
+    }
+
+    function updateMessage(jsonObj) {
+        $(savedMessage).appendChild(jsonObj['textStatus']);
+    }
 
     //TODO: Store message.
     //TODO: Duplicated alert code. Maybe theres a better way.
     //Saves the written message in the textarea and show it at the top of the field.
-    function saveMessage(event) {
+    function checkMessage(event) {
         let message = document.getElementById("message").value;
         let minLength = 10;
 
-        let trimMessage = message.trim();
+        let trimMessage = message.replace(/ /g, "");
+
+        updateAlerts();
 
         if (trimMessage.length === 0) {
             //Input is required.
-            alertMessageToShort.fadeOut(1);
             alertInputRequired.fadeIn(100);
+            inputWasRequired = true;
             event.preventDefault();
         } else if (trimMessage.length < minLength) {
             //stops submitting and shows alert.
-            alertInputRequired.fadeOut(1);
             alertMessageToShort.fadeIn(100);
+            messageWasToShort = true;
+            event.preventDefault();
+        }
+    }
+
+    //Checks whether the message is successfully hidden or not.
+    function checkReset(event) {
+        let savedMessage = document.getElementById("savedMsg");
+        let message = document.getElementById("message");
+
+        updateAlerts();
+
+        //TODO: AlertDelte do not show up.
+        if (savedMessage.valueOf().length === 0) {
+            alertDelete.fadeIn(100);
+            wasDelte = true;
             event.preventDefault();
         } else {
-            //TODO: Show message correctly.
-            savedMessage.val(message);
+            alertDeleteValid.fadeIn(100);
+            deleteWasValid = true;
+        }
+    }
+
+    //Checks whether an alert is visible. If this is the case it is fade out.
+    function updateAlerts() {
+        if (messageWasToShort) {
+            alertMessageToShort.fadeOut(1);
+        }
+        if (inputWasRequired) {
+            alertInputRequired.fadeOut(1);
+        }
+        if (deleteWasValid) {
+            alertDeleteValid.fadeOut(1);
+        }
+        if (wasDelte) {
+            alertDelete.fadeOut(1);
         }
     }
 
     //Do not show alert.
     alertMessageToShort.fadeOut(1);
     alertInputRequired.fadeOut(1);
-
-    //Deletes the saved message in order to leave the field empty.
-    function deleteMessage() {
-        alert("Message deleted.");
-        savedMessage.text("");
-    }
+    alertDelete.fadeOut(1);
+    alertDeleteValid.fadeOut(1);
 
     function turnOffOnSite() {
         var heading = document.querySelector("h3"),
