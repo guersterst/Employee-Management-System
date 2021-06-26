@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,6 +26,10 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
    //     this.userRepository = userRepository;
    // }
 
+    /**
+     * Sets the userRepository.
+     * @param userRepository the UserRepository to use.
+     */
     @Autowired
     public UserSecurityConfiguration(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -42,7 +47,10 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
 
-    // Return a new instance of MyUserDetailsService.
+    /**
+     * Returns a new Instance of MyUserDetailsService
+     * @return as described above.
+     */
     @Bean
     public MyUserDetailsService userDetailsService() {
         return new MyUserDetailsService(userRepository);
@@ -60,6 +68,21 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
     //    return new MyUserDetailsService(userRepository);
     //}
 
+    /**
+     * This fixes the issue of css not being applied to the login page.
+     * @param web
+     */
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers("/css/**", "/js/**");
+    }
+
+
+    /**
+     * Configure the login.
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().regexMatchers("/user").authenticated()
@@ -76,6 +99,11 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login");
     }
 
+    /**
+     *
+     * @param auth
+     * @throws Exception
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService()).passwordEncoder(new BCryptPasswordEncoder(10));
