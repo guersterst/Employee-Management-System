@@ -22,14 +22,15 @@
 
     <div class="container">
         <!--Here, our form for the login are specified-->
-        <form id="inputFieldsForm" class="needs-validation" th:action="@{/}" th:object="${loginForm}" method="post">
+        <form id="inputFieldsForm" class="needs-validation" method="post" th:action="@{/login}"> <!--th:object="${userCredentials}" method="post" action="login">-->
             <!--Specifies the input for the user name-->
             <div class="row">
                 <div class="form-group col-sm-5 mx-auto">
                     <div class="input-group mb-3">
                         <span class="input-group-text bi-file-person" id="icon"></span>
                         <label for="userName"></label>
-                        <input id="userName" class="form-control" type="text" placeholder="User Name" th:field="*{userName}"
+                        <!--th:field="*{userName}"-->
+                        <input id="userName" class="form-control" type="text" placeholder="User Name"
                                                              onkeyup="updateAlert()" aria-describedby="icon" required>
                         <div class="invalid-feedback">Please enter a user name</div>
                     </div>
@@ -42,7 +43,8 @@
                     <div class="input-group mb-3">
                         <span class="input-group-text bi-key" id="icon2"></span>
                         <label for="password"></label>
-                        <input id="password" type="password" class="form-control" placeholder="Password" th:field="*{password}"
+                        <!--th:field="*{password}"-->
+                        <input id="password" type="password" class="form-control" placeholder="Password"
                                                              onkeyup="updateAlert()" aria-describedby="icon2" required>
                         <div class="invalid-feedback">Please enter a password</div>
                         <div class="input-group-append">

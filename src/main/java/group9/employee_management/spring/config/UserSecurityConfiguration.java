@@ -4,18 +4,15 @@ import group9.employee_management.application.Roles;
 import group9.employee_management.application.service.MyUserDetailsService;
 import group9.employee_management.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
@@ -23,55 +20,104 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserRepository userRepository;
 
+   // @Autowired
+   // public UserSecurityConfiguration(UserRepository userRepository) {
+   //     this.userRepository = userRepository;
+   // }
+
     @Autowired
     public UserSecurityConfiguration(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    /*
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(10);
-    }
- */
-
-    //TODO not for production
-    @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Bean
-    public UserDetailsService userDetailsService() {
+    AuthenticationProvider oathProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setPasswordEncoder(new BCryptPasswordEncoder());
+        provider.setUserDetailsService(userDetailsService);
+        return provider;
+    }
+
+
+    // Return a new instance of MyUserDetailsService.
+    @Bean
+    public MyUserDetailsService userDetailsService() {
         return new MyUserDetailsService(userRepository);
     }
 
+
+    //TODO not for production
+    //@Bean
+    //public PasswordEncoder getPasswordEncoder() {
+    //    return NoOpPasswordEncoder.getInstance();
+   // }
+
+    //@Bean
+   // public UserDetailsService userDetailsService() {
+    //    return new MyUserDetailsService(userRepository);
+    //}
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().regexMatchers("/user").authenticated()
+                .anyRequest().hasAnyRole(Roles.USER.toString(), Roles.ADMIN.toString())
+                .and()
+                .formLogin().loginPage("/login")
+                .failureUrl("/login?error=true")
+                .defaultSuccessUrl("/login?error=true")
+                //.defaultSuccessUrl("/my-session", true)
+                .and()
+                .logout().permitAll()
+                .logoutUrl("/logout")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+                .logoutSuccessUrl("/login");
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService()).passwordEncoder(new BCryptPasswordEncoder(10));
+    }
+
+    /* Old code:
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // Second tut
-        /*
         http.authorizeRequests()
                 .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/user").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/all").permitAll()
                 .and().formLogin();
-         */
 
+
+        http.csrf().disable().authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .permitAll();
+Funtkioniert:  http.authorizeRequests().anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/index.html?error=true");
+        //http.authorizeRequests().antMatchers("/user/**").hasRole("user").antMatchers("/").hasRole("user");
+
+        http.authorizeRequests().antMatchers("/login").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().loginPage("/login").permitAll().and().logout().permitAll().and().httpBasic();
+    //hasRole("user").antMatchers("/").hasRole("user");
+
+        //http.csrf().disable().authorizeRequests().antMatchers("/login").permitAll()
+         //   .and().formLogin().loginPage("/login").permitAll();
         http.authorizeRequests().regexMatchers("/user").authenticated()
                 .anyRequest().hasAnyRole(Roles.USER.toString(), Roles.ADMIN.toString())
                 .and()
-                .formLogin();//.loginPage("/login").defaultSuccessUrl("/user", true);
+                .formLogin().loginPage("/login")
+                .loginProcessingUrl("/login/authentication")
+                .defaultSuccessUrl("/user", true)
+                .failureUrl("/login?error=true");//.loginPage("/login").defaultSuccessUrl("/user", true);
 
         //TODO see to it, that afmin is redirected differently
-    }
-
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // Second tut
-        auth.userDetailsService(userDetailsService());
-    }
-
-
+    } */
 }
 
