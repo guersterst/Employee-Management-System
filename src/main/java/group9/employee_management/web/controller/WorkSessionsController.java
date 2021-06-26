@@ -1,5 +1,6 @@
 package group9.employee_management.web.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import group9.employee_management.application.service.WorkSessionService;
 import group9.employee_management.web.dto.StatusDTO;
 import group9.employee_management.web.dto.WorkSessionDTO;
@@ -39,6 +40,28 @@ public class WorkSessionsController {
         model.addAttribute("workSessionData", new WorkSessionDTO());
         model.addAttribute("status", new StatusDTO());
         return "employeeView";
+    }
+
+    /**
+     * Get the latest work-session of a user. If that user has no sessions {@code HttpStatus.NOT_FOUND} will be
+     * returned.
+     * @return The latest work-session as JSON.
+
+     */
+    @GetMapping(
+            value = "/latest}"
+    )
+    //@ResponseBody
+    public String getLatest(Principal principal,
+                            @ModelAttribute("workSessionData") WorkSessionDTO workSessionDTO,
+                            @ModelAttribute("status") StatusDTO status) {
+        if (workSessionService.getLatest(principal.getName()) != null) {
+            workSessionDTO = WorkSessionDTO.fromEntity(workSessionService.getLatest(principal.getName()));
+            status.setMessage("valid");
+        } else {
+            status.setMessage("bad_request");
+        }
+        return "history";
     }
 
     /**
@@ -120,6 +143,21 @@ public class WorkSessionsController {
             workSessionService.putMessage(principal.getName(), session.getTextStatus());
             //return HttpStatus.OK;
             status.setMessage("valid");
+        }
+        return "employeeView";
+    }
+
+    @DeleteMapping(
+            value = "/message"
+    )
+    public String deleteTextStatus(@ModelAttribute("workSessionData") WorkSessionDTO session,
+                                @ModelAttribute("status") StatusDTO status, Principal principal) {
+        if (workSessionService.getUser(principal.getName()) != null) {
+            workSessionService.deleteTextStatus(principal.getName());
+            session.setTextStatus("");
+            status.setMessage("valid");
+        } else {
+            status.setMessage("bad_request");
         }
         return "employeeView";
     }

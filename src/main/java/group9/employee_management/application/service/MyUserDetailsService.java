@@ -3,6 +3,7 @@ package group9.employee_management.application.service;
 import group9.employee_management.application.Roles;
 import group9.employee_management.persistence.entities.User;
 import group9.employee_management.persistence.repositories.UserRepository;
+import group9.employee_management.spring.config.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,10 +23,7 @@ public class MyUserDetailsService implements UserDetailsService {
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.getOne(username);
-        System.out.println(username);
-        System.out.println(user.getUsername());
-        System.out.println(user.getPassword());
+        User user = userRepository.getById(username);
 
         org.springframework.security.core.userdetails.User.UserBuilder builder = null;
         if (user != null) {
@@ -36,5 +34,10 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found.");
         }
         return builder.build();
+
+
+       // return new MyUserDetails(user);
+        //return user.map(MyUserDetails::new).get();
+
     }
 }
