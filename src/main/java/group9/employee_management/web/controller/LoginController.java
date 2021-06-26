@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("")
+//@RequestMapping("")
 //@RequestMapping("/login")
 public class LoginController {
 
@@ -32,13 +32,14 @@ public class LoginController {
      *              processed by the frontend to e.g. display an alert/warning.
      * @return The login page ("index.html")
      */
-    @GetMapping(
+    /*@GetMapping(
             value = "")
     public String index(Model model) {
         model.addAttribute("userCredentials", new UserDTO());
         model.addAttribute("status", new StatusDTO());
+        System.out.println("index");
         return "index";
-    }
+    }*/
 
     // I think that this is the only login function that we require. Maybe another for first-time login.
     @GetMapping("/login")
@@ -48,7 +49,6 @@ public class LoginController {
         //TODO see whether or nort user is admin and redirect accordingly
         return "index";
     }
-
     /**
      * Determine whether a user is allowed to login or has to create his password.
      *

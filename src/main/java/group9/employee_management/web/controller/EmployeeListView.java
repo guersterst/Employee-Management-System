@@ -54,7 +54,7 @@ public class EmployeeListView {
     @GetMapping(
             value = "/working"
     )
-    @ResponseBody
+    //@ResponseBody
     public String getUsersWithRunningSessions() {
         //return workSessionService.getEmployeesWithRunningSessions();
 
