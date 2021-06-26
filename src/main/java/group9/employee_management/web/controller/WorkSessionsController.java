@@ -17,8 +17,6 @@ import java.security.Principal;
 @RequestMapping(value = "/my-session")
 public class WorkSessionsController {
 
-    //AUTH user
-
     //TODO what if there is no session yet, solution like in getAvailability?
     private final WorkSessionService workSessionService;
 

@@ -46,13 +46,13 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
      * This is otherwise blocked when using Spring Security.
      * @param
      */
-    /*
+
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/css/**", "/js/**");
-        web.ignoring().antMatchers("/css/**", "/js/**", "/resources/**", "/static/**","/webjars/**");
+        web.ignoring().antMatchers("/css/**", "/js/**", "/resources/**", "/static/**","/webjars/**","/h2-console/**");
     }
-     */
+
 
 
 
@@ -80,21 +80,20 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/account/**", "/my-session")
+
+        http.authorizeRequests().antMatchers("/account/**", "/my-session/**","/h2-console/**")
                 .hasAnyRole(Roles.ADMIN.toString(), Roles.USER.toString())
                 .and().authorizeRequests().antMatchers("/admin/**")
                 .hasRole(Roles.ADMIN.toString())
-                .and().formLogin();
+                .and().formLogin()
 
+                //TODO FEHLERREPRODUKTION: diese Zeile auskommentieren
+                .defaultSuccessUrl("/my-session");
+
+
+
+//TODO FEHLERREPRODUKTION: diesen Teil Kette anfügen
 /*
-        http.authorizeRequests().regexMatchers("/user").authenticated()
-                .anyRequest().hasAnyRole(Roles.USER.toString(), Roles.ADMIN.toString())
-                .and()
-                .formLogin();
-
- */
-
-                /*
                 .loginPage("/login")
                 .failureUrl("/login?error=true")
                 .defaultSuccessUrl("/user",true)
@@ -105,7 +104,8 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                 .logoutSuccessUrl("/login");
 
-                 */
+ */
+
     }
 
     /**
@@ -115,22 +115,18 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //auth.userDetailsService(userDetailsService()).passwordEncoder(new BCryptPasswordEncoder(10));
+
+        //TODO FEHLERREPRODUKTION: diesen Teil ent-kommentieren
         //auth.userDetailsService(userDetailsService()).passwordEncoder(getPasswordEncoder());
+
+        //TODO FEHLERREPRODUKTION: diesen Teil auskommentieren
         auth.userDetailsService(userDetailsService());
     }
 }
 
 /*
-
-HEUTE
-1. User creation D1
-2. Auth zuweisen
-
-MORGEN
-
-2. Email Weissgerber
-6.foreign_key bug
-
 3.Login first-time
 5.password encryption
+
+6. On-demand: improve controllers
  */
