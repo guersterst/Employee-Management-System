@@ -45,7 +45,7 @@
                 <form onsubmit="checkMessage(event)" onreset="checkReset()" id="messageCard" th:action="@{/my-session/message}"
                       th:object="${workSessionData}" method="post">
                     <div class="form-group mx-auto">
-                        <label class="form-control" id="savedMsg" type="text" th:text="${workSessionData.textStatus}"></label>
+                        <label class="form-control" id="savedMsg" type="text" th:value="${workSessionData.getTextStatus()}"></label>
                     </div>
                     <!--Text field to leave a message-->
                     <div class="input-group">
@@ -89,11 +89,12 @@
                     <div class="message-util form-group">
                         <!--Message with a minimum length.-->
                         <button class=" btn btn-primary btn-lg center-block" type="submit" id="save-button"
-                                onclick="checkMessage()">
+                                onclick="checkMessage()" th:value="Submit">
                             Save
                         </button>
                         <!--Deletes the saved message above the textarea.-->
-                        <button class="btn btn-primary btn-lg center-block" onclick="checkReset()" type="reset" id="delete-message">
+                        <button class="btn btn-primary btn-lg center-block" onclick="checkReset()" type="reset" id="delete-message"
+                        th:value="Delete">
                             Delete
                         </button>
                     </div>

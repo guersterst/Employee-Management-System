@@ -91,6 +91,21 @@
                             <td>still here</td>
                             <td>Working on project xy</td>
                         </tr>
+
+                        <tr th:each="workSessionListEntry : ${workSessionListEntry}">
+                            <a th:href="@{/{userName}(userName = ${workSessionListEntry.userName})/session}">
+                                <th scope="row"></th>
+                                <td th:text="${workSessionListEntry.firstName} + ${workSessionListEntry.lastName}">
+                                    <a href="#"><i class="bi bi-person-bounding-box" title="Profile"></i></a>
+                                </td>
+                                <td th:text="${workSessionListEntry.available}"></td>
+                                <td th:text="${workSessionListEntry.onSite}"></td>
+                                <td>Location</td>
+                                <td th:value="${workSessionListEntry.getStartTime()}"></td>
+                                <td th:text="${workSessionListEntry.stopTime}"></td>
+                                <td th:value="${workSessionListEntry.getTextStatus()}"></td>
+                            </a>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
