@@ -112,13 +112,16 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 }
 
 /*
+
+HEUTE
 1. User creation
 2. Auth zuweisen
 
-2. Email Weissgerber
-3.Login first-time
+MORGEN
 
-5.password encryption
+2. Email Weissgerber
 6.foreign_key bug
 
+3.Login first-time
+5.password encryption
  */
