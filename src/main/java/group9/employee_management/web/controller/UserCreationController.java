@@ -66,4 +66,140 @@ public class UserCreationController {
         }
     }
 
+    /**
+     * Returns a users information in JSON format.
+     * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned.
+     *
+     * @param userName The user name.
+     * @param status Used to inform the frontend whether the operation was not successful ("user_not_found").
+     * @return the view to display
+     */
+    @GetMapping(
+            value = "/{userName}"
+    )
+    //@ResponseBody
+    public String getUserDataAsAdmin(@ModelAttribute("userCredentials") UserDTO userCredentials,
+                                     @ModelAttribute("status") StatusDTO status, @PathVariable(value =
+            "userName") String userName) {
+        if (accountService.userExistsByUserName(userName)) {
+            userCredentials = accountService.getUserAsDTO(userName);
+        } else {
+            //throw new NoSuchUserException(userName);
+            status.setMessage("user_not_found");
+        }
+        return "userAccountPage";
+    }
+
+    /**
+     * Sets a new password and determines that this user must not set a new password the next
+     * time he logs in.
+     * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned, if the
+     * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
+     *
+     * @param userCredentials A dto containing the users username and new password.
+     * @param status Used to inform the frontend about whether everything went fine ("valid") or if
+     *               something went wrong ("bad_request").
+     * @return Returns the view to display
+     */
+    @PutMapping(
+            value = "/{userName}/password"
+    )
+    //@ResponseBody
+    public String setPasswordAsAdmin(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
+            "status") StatusDTO status, @PathVariable("userName") String userName) {
+        String password = userCredentials.getPassword();
+
+        if (accountService.userExistsByUserName(userName)
+                && password != null) {
+            accountService.setPassword(userName, password);
+            accountService.setIsFirstLogin(userName, false);
+            status.setMessage("valid");
+        } else {
+            status.setMessage("bad_request");
+        }
+        return "userAccountPage";
+    }
+
+    /**
+     * Sets a new first and last name for the user.
+     * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned, if the
+     * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
+     *
+     * @param userCredentials A dto containing the users username and new first- and lastname.
+     * @param status Used to inform the frontend about whether everything went fine ("valid") or if
+     *               something went wrong ("bad_request").
+     * @return Returns the view to display
+     */
+    @PutMapping(
+            value = "/{userName}/name"
+    )
+    //@ResponseBody
+    public String setNameAsAdmin(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
+            "status") StatusDTO status, @PathVariable("userName") String userName) {
+        String firstName = userCredentials.getFirstName();
+        String lastName = userCredentials.getLastName();
+
+        if (accountService.userExistsByUserName(userName)
+                && firstName != null && lastName != null) {
+            accountService.setName(userName, firstName, lastName);
+            status.setMessage("valid");
+        } else {
+            status.setMessage("bad_request");
+        }
+        return "userAccountPage";
+    }
+
+
+    /**
+     * Sets the admin rights for a user.
+     * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned, if the
+     * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
+     *
+     * @param userCredentials A dto containing the users username and new admin rights.
+     * @param status Used to inform the frontend about whether everything went fine ("valid") or if
+     *               something went wrong ("bad_request").
+     * @return Returns the view to display
+     */
+    @PutMapping(
+            value = "/{userName}/admin"
+    )
+    public String setAdminAsAdmin(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
+            "status") StatusDTO status, @PathVariable("userName") String userName) {
+        boolean admin = userCredentials.isAdmin();
+
+        if (accountService.userExistsByUserName(userName)) {
+            accountService.setAdmin(userName, admin);
+            status.setMessage("valid");
+        } else {
+            status.setMessage("bad_request");
+        }
+        return "userAccountPage";
+    }
+
+    /**
+     * Sets the admin rights for a user.
+     * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned, if the
+     * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
+     *
+     * @param userCredentials A dto containing the users username and new position title.
+     * @param status Used to inform the frontend about whether everything went fine ("valid") or if
+     *               something went wrong ("bad_request").
+     * @return Returns the view to display
+     */
+    @PutMapping(
+            value = "/{userName}/position"
+    )
+    public String setPositionAsAdmin(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
+            "status") StatusDTO status, @PathVariable("userName") String userName) {
+        String position = userCredentials.getPosition();
+
+        if (accountService.userExistsByUserName(userName) && position != null) {
+            accountService.setPosition(userName, position);
+            status.setMessage("valid");
+        } else {
+            status.setMessage("bad_request");
+        }
+        return "userAccountPage";
+    }
+
 }

@@ -50,7 +50,7 @@ public class EmployeeListView {
     @GetMapping(
             value = "/working"
     )
-    //@ResponseBody
+    @ResponseBody
     public String getUsersWithRunningSessions() {
 
         // I think it is appropriate to return JSON here. Don't really want to introduce a DTO or something for this.

@@ -44,7 +44,7 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
     /**
      * Allows us to embed the webjars and apply css to our templates/views.
      * This is otherwise blocked when using Spring Security.
-     * @param web
+     * @param
      */
     /*
     @Override
@@ -80,10 +80,19 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().antMatchers("/account/**", "/my-session")
+                .hasAnyRole(Roles.ADMIN.toString(), Roles.USER.toString())
+                .and().authorizeRequests().antMatchers("/admin/**")
+                .hasRole(Roles.ADMIN.toString())
+                .and().formLogin();
+
+/*
         http.authorizeRequests().regexMatchers("/user").authenticated()
                 .anyRequest().hasAnyRole(Roles.USER.toString(), Roles.ADMIN.toString())
                 .and()
                 .formLogin();
+
+ */
 
                 /*
                 .loginPage("/login")
@@ -114,7 +123,7 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 /*
 
 HEUTE
-1. User creation
+1. User creation D1
 2. Auth zuweisen
 
 MORGEN
