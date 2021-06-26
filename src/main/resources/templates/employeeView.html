@@ -111,8 +111,9 @@
                     </div>
                     <div class="options">
                         <!--User can change the state of availability.Within the first login this should be enabled.-->
-                        <div class="available d-table custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="availableSwitch">
+                        <div class="available d-table custom-control custom-switch"
+                             th:action="@{/my-session/availability}" th:object="${workSessionData}" th:method="put">
+                            <input type="checkbox" class="custom-control-input" id="availableSwitch" th:value="*{available}">
                             <label class="custom-control-label" for="availableSwitch">Availability</label>
                         </div>
                         <hr>
@@ -125,7 +126,7 @@
                         <hr>
                         <div class="location d-table custom-control custom-switch">
                             <input type="checkbox" class="custom-control-input" id="remote">
-                            <label class="custom-control-label" for="locationSwitch">Remote</label>
+                            <label class="custom-control-label" for="remote">Remote</label>
                         </div>
                     </div>
                 </div>
@@ -261,12 +262,29 @@
     let alertDeleteValid = $('#alertDeleteValid');
     let alertDelete = $('#alertDelete');
 
+    let savedMessage = document.getElementById("savedMsg");
+
     let messageWasToShort = false;
     let inputWasRequired = false;
     let deleteWasValid = false;
     let wasDelte = false;
 
     const numberOfTimelinePanels = 0;
+    const requestMessageURL = '/my-session/message';
+
+    let request = new XMLHttpRequest();
+    request.open('GET', requestMessageURL);
+    request.responseType = 'json';
+    request.send();
+
+    request.onload = function () {
+        let jsonObj = request.response;
+        updateMessage(jsonObj);
+    }
+
+    function updateMessage(jsonObj) {
+        $(savedMessage).appendChild(jsonObj['textStatus']);
+    }
 
     //TODO: Store message.
     //TODO: Duplicated alert code. Maybe theres a better way.
