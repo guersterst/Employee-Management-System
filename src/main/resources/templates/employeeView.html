@@ -107,20 +107,21 @@
 
         <!--Option toolbar-->
         <div class="col-sm-12 col-md-6">
-            <form th:fragment="state">
+            <div th:fragment="state">
                 <div class="state card shadow">
                     <div class="badge-secondary">
                         <h2>State</h2>
                     </div>
-                    <div class="options">
+                    <div><!-- class="options"> -->
                         <!--User can change the state of availability.Within the first login this should be enabled.-->
-                        <form class="form-group" th:action="@{/my-session/availability}" th:object="${workSessionData}" th:method="post">
-                            <div class="available d-table form-check form-switch">
-                                <input type="checkbox" class="checkbox form-check-input" id="availableSwitch" th:checked="${workSessionData.available}">
-                                <label class="form-check-label" for="availableSwitch">Availability</label>
+                        <form th:action="@{/my-session/availability}" method="post" th:object="${workSessionData}" th:method="post">
+                            <div class="form-check form-switch d-table available">
+                                <input class="checkbox form-check-input" type="checkbox" id="available" value="true" th:field="${workSessionData.available}" name="available">
+                                <label class="form-check-label" for="available" id="isAdminLabel">Availability</label>
                             </div>
-                            <button class="btn" type="submit">Submit</button>
+                            <button class="btn btn-primary btn-sm" type="submit" id="createAccountButton">Submit</button>
                         </form>
+
                         <hr>
                         <!--On Site should be automatically switched on when logged in the first time of a day
                         and only switched of if you leave work.-->
@@ -137,7 +138,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
 
 
