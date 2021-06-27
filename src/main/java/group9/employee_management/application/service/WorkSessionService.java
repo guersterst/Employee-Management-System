@@ -76,9 +76,9 @@ public class WorkSessionService {
     }
 
     public List<WorkSession> getThreeFromIndex(String userName, int index) {
-        hasLatestSession(userName);
+        isEmployee(userName);
         List<WorkSession> workSessions = new ArrayList<>();
-        for (int i = index; i > index - 3 && i >= 0; i--) {
+        for (int i = index; i > index - 3; i--) {
             WorkSession session = workSessionRepository.getWorkSession(userName, i);
             workSessions.add(session);
         }

@@ -90,7 +90,7 @@ public class WorkSessionsController {
         WorkSession session = null;
 
         try {
-            session = workSessionService.getOneFromIndex(principal.getName(), index);
+            session = workSessionService.getOneFromIndex(userName, index);
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
             return "employeeView";

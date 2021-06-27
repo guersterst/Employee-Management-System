@@ -1,6 +1,8 @@
 package group9.employee_management.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import group9.employee_management.application.exception.NoSessionsException;
+import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.application.service.WorkSessionService;
 import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.web.dto.StatusDTO;
@@ -65,12 +67,12 @@ public class EmployeeWorkSessionsHistoryController {
                             @ModelAttribute("status") StatusDTO status) {
         String userName = principal.getName();
 
-        if (workSessionService.getLatest(userName) != null) {
+        try {
             workSessionDTO = WorkSessionDTO.fromEntity(workSessionService.getLatest(userName));
-            status.setMessage("valid");
-        } else {
+        } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
+        status.setMessage("valid");
         return "history";
     }
 
@@ -89,12 +91,12 @@ public class EmployeeWorkSessionsHistoryController {
                            @ModelAttribute("workSession1") WorkSessionDTO workSessionDTO,
                            @ModelAttribute("status") StatusDTO status) {
         String userName = principal.getName();
-        if (workSessionService.getLatest(userName) != null) {
+        try {
             workSessionDTO.setId(workSessionService.getIndex(userName));
-            status.setMessage("valid");
-        } else {
+        } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
+        status.setMessage("valid");
         return "history";
     }
 
@@ -110,14 +112,22 @@ public class EmployeeWorkSessionsHistoryController {
                                     @ModelAttribute("status") StatusDTO status) {
         String userName = principal.getName();
 
-        if (workSessionService.getOneFromIndex(userName, workSessionDTO.getId()) != null) {
-            workSessionDTO
-                    = WorkSessionDTO.fromEntity(workSessionService.getOneFromIndex(userName, workSessionDTO.getId()));
-            status.setMessage("valid");
+        WorkSession session = null;
+
+        try {
+            session = workSessionService.getOneFromIndex(userName, workSessionDTO.getId());
+        } catch (NoSessionsException | NoSuchUserException exception) {
+            status.setMessage("bad_request");
+            return "history";
+        }
+
+        if (session != null) {
+            workSessionDTO = WorkSessionDTO.fromEntity(session);
         } else {
             status.setMessage("bad_request");
         }
-        return "employeeView";
+        status.setMessage("valid");
+        return "history";
     }
 
     /**
@@ -133,6 +143,7 @@ public class EmployeeWorkSessionsHistoryController {
             value = "/session/three"
     )
     //@ResponseBody
+    //TODO does not work right now
     public String getThree(Principal principal,
                            @ModelAttribute("workSession1") WorkSessionDTO workSession1,
                            @ModelAttribute("workSession2") WorkSessionDTO workSession2,

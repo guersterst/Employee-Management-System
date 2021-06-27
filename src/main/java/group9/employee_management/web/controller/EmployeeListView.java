@@ -1,6 +1,9 @@
 package group9.employee_management.web.controller;
 
+import group9.employee_management.application.exception.NoSessionsException;
+import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.application.service.WorkSessionService;
+import group9.employee_management.web.dto.StatusDTO;
 import group9.employee_management.web.dto.WorkSessionListEntryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,10 +36,16 @@ public class EmployeeListView {
             value = "/{userName}/session"
     )
     public String getLatestSessionAndUser(@PathVariable("userName") String userName,
-                                          @ModelAttribute("workSessionListEntry") WorkSessionListEntryDTO workSessionListEntryDTO) {
-        workSessionListEntryDTO =
-                WorkSessionListEntryDTO.fromEntities(workSessionService.getUser(userName),
-                        workSessionService.getLatest(userName));
+                                          @ModelAttribute("workSessionListEntry") WorkSessionListEntryDTO workSessionListEntryDTO,
+                                          @ModelAttribute("status") StatusDTO status) {
+        try {
+            workSessionListEntryDTO =
+                    WorkSessionListEntryDTO.fromEntities(workSessionService.getUser(userName),
+                            workSessionService.getLatest(userName));
+        } catch (NoSessionsException | NoSuchUserException exception) {
+            status.setMessage("bad_request");
+        }
+        status.setMessage("valid");
         return "adminView";
     }
 
