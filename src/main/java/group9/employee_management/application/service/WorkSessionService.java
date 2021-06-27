@@ -9,6 +9,7 @@ import group9.employee_management.persistence.repositories.EmployeeRepository;
 import group9.employee_management.persistence.repositories.WorkSessionRepository;
 import group9.employee_management.web.dto.UserDTO;
 import group9.employee_management.web.dto.WorkSessionDTO;
+import group9.employee_management.web.dto.WorkSessionListEntryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -186,6 +187,15 @@ public class WorkSessionService {
     Getter for session history.
      */
 
+    public List<WorkSessionDTO> getSessions(String userName) {
+        List<WorkSessionDTO> result = new ArrayList<>();
+
+        for (int i = 0; i < workSessionRepository.getIndex(userName); i++) {
+            result.add(WorkSessionDTO.fromEntity(workSessionRepository.getWorkSession(userName, i)));
+        }
+        return result;
+    }
+
     /*
     Getters for employee-list-view.
      */
@@ -219,6 +229,16 @@ public class WorkSessionService {
         List<UserDTO> result = new ArrayList<>();
         for (Employee employee : employees) {
             result.add(UserDTO.fromEntity(employee));
+        }
+        return result;
+    }
+
+    public List<WorkSessionListEntryDTO>  getListEntries() {
+        List<UserDTO> users = getEmployeesWithRunningSessions();
+        List<WorkSessionListEntryDTO> result = new ArrayList<>();
+        for (UserDTO user : users) {
+            result.add(WorkSessionListEntryDTO.fromEntities(getUser(user.getUserName()),
+                    getLatest(user.getUserName())));
         }
         return result;
     }

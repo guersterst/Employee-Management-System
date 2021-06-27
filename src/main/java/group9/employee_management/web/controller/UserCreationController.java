@@ -46,7 +46,7 @@ public class UserCreationController {
      * @return {@code HttpStatus.Ok} if successful. {@code HttpStatus.BAD_REQUEST} if the information contained within
      * the dto is insufficient.
      */
-    @PostMapping(
+    @GetMapping(
             value = "/creation")
     public String createUser(@ModelAttribute("newUser") UserDTO newUser, @ModelAttribute("status") StatusDTO status) {
         boolean userAlreadyExists = accountService.userExistsByUserName(newUser.getUserName());

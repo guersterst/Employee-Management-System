@@ -34,12 +34,18 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.userRepository = userRepository;
     }
 
-    /*
+
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder bcryptEncoder() {
         return new BCryptPasswordEncoder(10);
     }
- */
+
+    //TODO not for production
+    @Bean
+    public PasswordEncoder getPasswordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
+    }
+
 
     /**
      * Allows us to embed the webjars and apply css to our templates/views.
@@ -53,14 +59,6 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/css/**", "/js/**", "/resources/**", "/static/**","/webjars/**","/h2-console/**");
     }
 
-
-
-
-    //TODO not for production
-    @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }
 
     /**
      * Returns a new Instance of MyUserDetailsService
@@ -121,18 +119,18 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
         //auth.userDetailsService(userDetailsService()).passwordEncoder(getPasswordEncoder());
 
         //TODO FEHLERREPRODUKTION: diesen Teil auskommentieren
-        auth.userDetailsService(userDetailsService());
+        auth.userDetailsService(userDetailsService()).passwordEncoder(getPasswordEncoder());
     }
 }
 
 /*
 3.Login first-time
-4. What if there is no session? -> Worksessioncontroller returns dto filled with null
-or what if is admin and no associated employee
+
+4.Rework List
+5. password encryption
 5. doc.
 6. getThree
-
-5. password encryption
+7.UserHistory as JSON, CSV etc...
 
 6. On-demand: improve controllers
  */
