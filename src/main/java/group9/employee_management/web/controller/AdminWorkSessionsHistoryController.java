@@ -1,6 +1,8 @@
 package group9.employee_management.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import group9.employee_management.application.exception.NoSessionsException;
+import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.application.service.WorkSessionService;
 import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.web.dto.StatusDTO;
@@ -50,6 +52,7 @@ public class AdminWorkSessionsHistoryController {
     /**
      * Get the latest work-session of a user. If that user has no sessions {@code HttpStatus.NOT_FOUND} will be
      * returned.
+     *
      * @param userName The user of whom we want to acquire the latest work-session.
      * @return The latest work-session as JSON.
      * @throws JsonProcessingException
@@ -61,18 +64,19 @@ public class AdminWorkSessionsHistoryController {
     public String getLatest(@PathVariable(value = "userName") String userName,
                             @ModelAttribute("workSession1") WorkSessionDTO workSessionDTO,
                             @ModelAttribute("status") StatusDTO status) {
-        if (workSessionService.getLatest(userName) != null) {
+        try {
             workSessionDTO = WorkSessionDTO.fromEntity(workSessionService.getLatest(userName));
-            status.setMessage("valid");
-        } else {
+        } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
+        status.setMessage("valid");
         return "history";
     }
 
     /**
      * Returns the index of the latest work-session of an user. Indexing starts at 0, therefore -1 indicates that
      * there are no sessions for this user.
+     *
      * @param userName The user of whom we want to acquire the highest index.
      * @return The highest index.
      */
@@ -81,14 +85,14 @@ public class AdminWorkSessionsHistoryController {
     )
     //@ResponseBody
     public String getIndex(@PathVariable(value = "userName") String userName,
-                        @ModelAttribute("workSession1") WorkSessionDTO workSessionDTO,
-                        @ModelAttribute("status") StatusDTO status) {
-        if (workSessionService.getLatest(userName) != null) {
+                           @ModelAttribute("workSession1") WorkSessionDTO workSessionDTO,
+                           @ModelAttribute("status") StatusDTO status) {
+        try {
             workSessionDTO.setId(workSessionService.getIndex(userName));
-            status.setMessage("valid");
-        } else {
+        } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
+        status.setMessage("valid");
         return "history";
     }
 
@@ -100,45 +104,76 @@ public class AdminWorkSessionsHistoryController {
     public String getSessionByIndex(@PathVariable("userName") String userName,
                                     @PathVariable("index") int index,
                                     @ModelAttribute("historyWorkSessionDTO") WorkSessionDTO workSessionDTO,
-                                    @ModelAttribute("status") StatusDTO status) throws JsonProcessingException {
+                                    @ModelAttribute("status") StatusDTO status) {
+        WorkSession session = null;
 
-        if (workSessionService.getOneFromIndex(userName, index) != null) {
-            workSessionDTO
-                    = WorkSessionDTO.fromEntity(workSessionService.getOneFromIndex(userName, index));
-            status.setMessage("valid");
+        try {
+            session = workSessionService.getOneFromIndex(userName, index);
+        } catch (NoSessionsException | NoSuchUserException exception) {
+            status.setMessage("bad_request");
+            return "history";
+        }
+
+        if (session != null) {
+            workSessionDTO = WorkSessionDTO.fromEntity(session);
         } else {
             status.setMessage("bad_request");
         }
+        status.setMessage("valid");
         return "history";
     }
 
     /**
      * Returns three sessions, beginning at the given index and descending from there. If there are less sessions
-     * available, less sessions will be returned. If there are no sessions the JSON array will be empty.
+     * available, sessions of null will be filled in.
      *
      * @param userName The user of whom we want to acquire the sessions.
-     * @param index The index at which the returned sessions begin.
+     * @param index    The index at which the returned sessions begin.
      * @return At most three sessions in JSON.
      */
+    //TODO this mapping does not work right now. Please use above
     @GetMapping(
-            value = "/{userName}/{index}/three/"
+            //value = "/{userName}/{index}/three"
+            value = "denied"
     )
-    //@ResponseBody
+    @ResponseBody
     public String getThree(@PathVariable(value = "userName") String userName,
-                          @PathVariable(value = "index") int index,
+                           @PathVariable(value = "index") int index,
                            @ModelAttribute("workSession1") WorkSessionDTO workSession1,
                            @ModelAttribute("workSession2") WorkSessionDTO workSession2,
-                           @ModelAttribute("workSession3") WorkSessionDTO workSession3) {
-        List<WorkSession> threeFromIndex = workSessionService.getThreeFromIndex(userName, index);
+                           @ModelAttribute("workSession3") WorkSessionDTO workSession3,
+                           @ModelAttribute("status") StatusDTO status) {
+        List<WorkSession> threeFromIndex;
+        try {
+            threeFromIndex = workSessionService.getThreeFromIndex(userName, index);
+        } catch (NoSuchUserException exception) {
+            status.setMessage("bad_request");
+            return "bal";
+        }
         List<WorkSessionDTO> modelAttributes = List.of(workSession1, workSession2, workSession3);
 
-        // Assign work-sessions to model-attributes
-        for (int i = 0; i < 3; i++) {
-            WorkSessionDTO modelAttribute = modelAttributes.get(i);
-            if (threeFromIndex.get(i) != null) {
-                modelAttribute = WorkSessionDTO.fromEntity(threeFromIndex.get(i));
+        if (threeFromIndex != null) {
+
+            // Assign work-sessions to model-attributes
+            for (int i = 0; i < 3; i++) {
+                if (threeFromIndex.get(i) != null) {
+                    // this assignment seems not to work
+                    WorkSessionDTO el = modelAttributes.get(i);
+                    el = WorkSessionDTO.fromEntity(threeFromIndex.get(i));;
+                }
+            }
+        } else {
+            status.setMessage("bad_request");
+            return "bal";
+        }
+
+        for (WorkSessionDTO modelAttribute : modelAttributes) {
+            if(modelAttribute != null) {
+                System.out.println(modelAttribute.getTextStatus());
             }
         }
+
+        status.setMessage("valid");
         return "history";
     }
 }
