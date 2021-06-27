@@ -35,8 +35,62 @@ public class WorkSessionsController {
             value = ""
     )
     public String get(Model model) {
+
+        // This DTO is for the upper part of the page (my-session management).
         model.addAttribute("workSessionData", new WorkSessionDTO());
+
+        // This DTO is for the lower part of the page (my history of sessions)
+        model.addAttribute("historyWorkSessionDTO", new WorkSessionDTO());
+
+        // This DTO is used to indicate the success of an operation.
         model.addAttribute("status", new StatusDTO());
+        return "employeeView";
+    }
+
+    /**
+     * Returns the index of the latest work-session of an user. Indexing starts at 0, therefore -1 indicates that
+     * there are no sessions for this user.
+     * @param userName The user of whom we want to acquire the highest index.
+     * @return The highest index.
+     */
+    @GetMapping(
+            value = "/latest/index"
+    )
+    //@ResponseBody
+    public String getIndex(Principal principal,
+                           @ModelAttribute("historyWorkSessionDTO") WorkSessionDTO workSessionDTO,
+                           @ModelAttribute("status") StatusDTO status) {
+        String userName = principal.getName();
+
+        if (workSessionService.getLatest(userName) != null) {
+            workSessionDTO.setId(workSessionService.getIndex(userName));
+            status.setMessage("valid");
+        } else {
+            status.setMessage("bad_request");
+        }
+        //return String.valueOf(workSessionService.getIndex(userName));
+        return "employeeView";
+    }
+
+    /**
+     * Fill the historyWorkSessionDTO with the index of the session that you want to acquire.
+     */
+    @GetMapping(
+            value = "/session"
+    )
+    //@ResponseBody
+    public String getSessionByIndex(Principal principal,
+                                    @ModelAttribute("historyWorkSessionDTO") WorkSessionDTO workSessionDTO,
+                                    @ModelAttribute("status") StatusDTO status) {
+        String userName = principal.getName();
+
+        if (workSessionService.getOneFromIndex(userName, workSessionDTO.getId()) != null) {
+            workSessionDTO
+                    = WorkSessionDTO.fromEntity(workSessionService.getOneFromIndex(principal.getName(), workSessionDTO.getId()));
+            status.setMessage("valid");
+        } else {
+            status.setMessage("bad_request");
+        }
         return "employeeView";
     }
 
@@ -44,22 +98,21 @@ public class WorkSessionsController {
      * Get the latest work-session of a user. If that user has no sessions {@code HttpStatus.NOT_FOUND} will be
      * returned.
      * @return The latest work-session as JSON.
-
      */
     @GetMapping(
-            value = "/latest}"
+            value = "/latest"
     )
     //@ResponseBody
     public String getLatest(Principal principal,
                             @ModelAttribute("workSessionData") WorkSessionDTO workSessionDTO,
-                            @ModelAttribute("status") StatusDTO status) {
+                            @ModelAttribute("status") StatusDTO status) throws JsonProcessingException {
         if (workSessionService.getLatest(principal.getName()) != null) {
             workSessionDTO = WorkSessionDTO.fromEntity(workSessionService.getLatest(principal.getName()));
             status.setMessage("valid");
         } else {
             status.setMessage("bad_request");
         }
-        return "history";
+        return "employeeView";
     }
 
     /**
