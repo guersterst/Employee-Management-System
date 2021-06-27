@@ -1,6 +1,5 @@
 package group9.employee_management.web.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import group9.employee_management.persistence.entities.WorkSession;
@@ -33,7 +32,7 @@ public class WorkSessionDTO {
         workSessionDTO.setTextStatus(workSession.getTextStatus());
         workSessionDTO.setAvailable(workSession.isAvailable());
         workSessionDTO.setOnSite(workSession.isOnSite());
-        workSessionDTO.setUserName(workSession.getUser().getUserName());
+        workSessionDTO.setUserName(workSession.getEmployee().getUserName());
         return workSessionDTO;
     }
 
