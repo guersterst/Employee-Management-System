@@ -1,7 +1,7 @@
 .cont {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    margin: 20px 20px 20px;
+    margin: 50px 20px 20px;
     text-align: center;
 }
 
@@ -21,14 +21,14 @@ tr:hover i.bi {
     display: inline-block;
 }
 
-.map-container-5 {
+.card-body {
     overflow: hidden;
     padding-bottom: 56.25%;
     position: relative;
     height: 0;
 }
 
-.map-container-5 iframe {
+.iframe {
     left: 0;
     top: 0;
     height: 100%;

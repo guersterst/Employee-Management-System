@@ -56,7 +56,7 @@
                             <th scope="row">1</th>
                             <td>Elias Goller<br>
                                 <a href="#"><i class="bi bi-person-bounding-box" title="Profile"></i></a>
-                                    <a class="float-right" href="#" th:for="${userName}"><i class="bi-trash"></i></a>
+                                <a class="float-right" href="#" th:for="${userName}"><i class="bi-trash"></i></a>
                             </td>
                             <td>available</td>
                             <td>on site</td>
@@ -92,6 +92,7 @@
                             <td>Working on project xy</td>
                         </tr>
 
+                        <!--
                         <tr th:each="workSessionListEntry : ${workSessionListEntry}">
                             <a th:href="@{/{userName}(userName = ${workSessionListEntry.userName})/session}">
                                 <th scope="row"></th>
@@ -107,6 +108,7 @@
                                 <td th:value="${workSessionListEntry.getTextStatus()}"></td>
                             </a>
                         </tr>
+                        -->
                         </tbody>
                     </table>
                 </div>
@@ -116,18 +118,9 @@
         <div class="col-md-12 col-lg-6">
             <!--Embedded map-->
             <div class="map card card-cascade shadow">
-                <!--Card header-->
-                <div class="card-header badge-secondary text-left">
-                    <h2 class="mb-0">Map</h2>
-                </div>
-                <!--Content of card as a map-->
-                <div class="card-body card-body-cascade text-center">
-                    <div id="map-container-google-9" class="map-container-5 z-depth" style="height: 300px">
-                        <iframe src="https://maps.google.com/maps?q=Madryt&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                                frameborder="0"
-                                style="border: 0" allowfullscreen></iframe>
-                    </div>
-                </div>
+                <iframe src="https://www.google.com/maps/d/embed?mid=1KuOPZAoWJ_7X5KCwnCa_GgR89JX7X-Or" width="100%"
+                        height="480">
+                </iframe>
             </div>
         </div>
     </div>
@@ -146,6 +139,7 @@
 <script src="js/jquery-1.10.2.js"></script>
 <script src="js/bootstrap.js"></script>
 <script src="js/ct-navbar.js"></script>
+
 </body>
 
 <!--Has to be replaced-->
