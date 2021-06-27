@@ -87,6 +87,7 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 //TODO FEHLERREPRODUKTION: diese Zeile auskommentieren
                 .defaultSuccessUrl("/my-session/latest");
+        http.csrf().disable();
 
 
 
