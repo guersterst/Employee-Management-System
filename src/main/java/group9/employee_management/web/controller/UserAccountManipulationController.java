@@ -1,12 +1,10 @@
 package group9.employee_management.web.controller;
 
-import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.application.service.AccountService;
 import group9.employee_management.application.service.LoginService;
 import group9.employee_management.web.dto.StatusDTO;
 import group9.employee_management.web.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
