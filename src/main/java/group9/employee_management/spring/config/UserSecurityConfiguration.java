@@ -81,7 +81,7 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests().antMatchers("/account/**", "/my-session/**","/h2-console/**")
+        http.authorizeRequests().antMatchers("/account/**", "/my-session/**", "/my-history/**","/h2-console/**")
                 .hasAnyRole(Roles.ADMIN.toString(), Roles.USER.toString())
                 .and().authorizeRequests().antMatchers("/admin/**")
                 .hasRole(Roles.ADMIN.toString())
@@ -127,6 +127,8 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 /*
 3.Login first-time
 4. What if there is no session? -> Worksessioncontroller returns dto filled with null
+or what if is admin and no associated employee
+5. doc.
 
 5. Controller for userWorkSessionHistory.
 6. add history functions to my-session. D1

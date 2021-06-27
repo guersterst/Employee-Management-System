@@ -68,7 +68,6 @@ public class WorkSessionsController {
         } else {
             status.setMessage("bad_request");
         }
-        //return String.valueOf(workSessionService.getIndex(userName));
         return "employeeView";
     }
 
