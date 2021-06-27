@@ -80,7 +80,7 @@ public class WorkSession {
         return onSite;
     }
 
-    public Employee getUser() {
+    public Employee getEmployee() {
         return employee;
     }
 

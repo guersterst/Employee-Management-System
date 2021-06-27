@@ -1,7 +1,10 @@
 package group9.employee_management.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import group9.employee_management.application.exception.NoSessionsException;
+import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.application.service.WorkSessionService;
+import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.web.dto.StatusDTO;
 import group9.employee_management.web.dto.WorkSessionDTO;
 import org.hibernate.event.spi.PreInsertEvent;
@@ -50,6 +53,7 @@ public class WorkSessionsController {
     /**
      * Returns the index of the latest work-session of an user. Indexing starts at 0, therefore -1 indicates that
      * there are no sessions for this user.
+     *
      * @param userName The user of whom we want to acquire the highest index.
      * @return The highest index.
      */
@@ -62,12 +66,12 @@ public class WorkSessionsController {
                            @ModelAttribute("status") StatusDTO status) {
         String userName = principal.getName();
 
-        if (workSessionService.getLatest(userName) != null) {
+        try {
             workSessionDTO.setId(workSessionService.getIndex(userName));
-            status.setMessage("valid");
-        } else {
+        } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
+        status.setMessage("valid");
         return "employeeView";
     }
 
@@ -82,20 +86,29 @@ public class WorkSessionsController {
                                     @ModelAttribute("historyWorkSessionDTO") WorkSessionDTO workSessionDTO,
                                     @ModelAttribute("status") StatusDTO status) {
         String userName = principal.getName();
+        int index = workSessionDTO.getId();
+        WorkSession session = null;
 
-        if (workSessionService.getOneFromIndex(userName, workSessionDTO.getId()) != null) {
-            workSessionDTO
-                    = WorkSessionDTO.fromEntity(workSessionService.getOneFromIndex(principal.getName(), workSessionDTO.getId()));
-            status.setMessage("valid");
+        try {
+            session = workSessionService.getOneFromIndex(principal.getName(), index);
+        } catch (NoSessionsException | NoSuchUserException exception) {
+            status.setMessage("bad_request");
+            return "employeeView";
+        }
+
+        if (session != null) {
+            workSessionDTO = WorkSessionDTO.fromEntity(session);
         } else {
             status.setMessage("bad_request");
         }
+        status.setMessage("valid");
         return "employeeView";
     }
 
     /**
      * Get the latest work-session of a user. If that user has no sessions {@code HttpStatus.NOT_FOUND} will be
      * returned.
+     *
      * @return The latest work-session as JSON.
      */
     @GetMapping(
@@ -104,20 +117,21 @@ public class WorkSessionsController {
     //@ResponseBody
     public String getLatest(Principal principal,
                             @ModelAttribute("workSessionData") WorkSessionDTO workSessionDTO,
-                            @ModelAttribute("status") StatusDTO status) throws JsonProcessingException {
-        if (workSessionService.getLatest(principal.getName()) != null) {
-            workSessionDTO = WorkSessionDTO.fromEntity(workSessionService.getLatest(principal.getName()));
-            status.setMessage("valid");
-        } else {
+                            @ModelAttribute("status") StatusDTO status) {
+        String userName = principal.getName();
+        try {
+            workSessionDTO = WorkSessionDTO.fromEntity(workSessionService.getLatest(userName));
+        } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
+        status.setMessage("valid");
         return "employeeView";
     }
 
     /**
      * Starts the latest session for an employee.
      *
-     * @param newSession A dto containing information about the desired new session. Requires {@code userName},
+     * @param newSession A dto containing information about the desired new session. Requires
      *                   {@code textStatus}, {@code availability} and {@code onSite}.
      * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise. {@code HttpStatus
      * .NOT_FOUND} if that user does not exist or has no sessions.
@@ -128,15 +142,15 @@ public class WorkSessionsController {
     //@ResponseBody
     public String startSession(@ModelAttribute("workSessionData") WorkSessionDTO newSession,
                                @ModelAttribute("status") StatusDTO status, Principal principal) {
-        if (newSession.getTextStatus() != null) {
-            workSessionService.startSession(principal.getName(), newSession.getTextStatus(),
+        String userName = principal.getName();
+
+        try {
+            workSessionService.startSession(userName, newSession.getTextStatus(),
                     newSession.isAvailable(), newSession.isOnSite());
-            status.setMessage("valid");
-            //return HttpStatus.OK;
-        } else {
+        } catch (NoSuchUserException exception) {
             status.setMessage("bad_request");
-            //return HttpStatus.BAD_REQUEST;
         }
+        status.setMessage("valid");
         return "employeeView";
     }
 
@@ -147,18 +161,20 @@ public class WorkSessionsController {
      * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise.
      * {@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.
      */
-    @PutMapping(
+    @PostMapping(
             value = "/ending"
     )
     //@ResponseBody
     public String endSession(@ModelAttribute("workSessionData") WorkSessionDTO session,
                              @ModelAttribute("status") StatusDTO status, Principal principal) {
-        if (workSessionService.getUser(principal.getName()) != null) {
-            workSessionService.stopSession(principal.getName());
-            status.setMessage("valid");
-        } else {
+        String userName = principal.getName();
+
+        try {
+            workSessionService.stopSession(userName);
+        } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
+        status.setMessage("valid");
         return "employeeView";
     }
 
@@ -177,22 +193,17 @@ public class WorkSessionsController {
     //@ResponseBody
     public String putMessage(@ModelAttribute("workSessionData") WorkSessionDTO session,
                              @ModelAttribute("status") StatusDTO status, Principal principal) {
-        if (session.getTextStatus() == null || workSessionService.getUser(principal.getName()) == null) {
+        String userName = principal.getName();
 
-            // Check for necessary fields.
-            //return HttpStatus.BAD_REQUEST;
-            status.setMessage("bad_request");
-        } else if (session.getStopTime() != null) {
-
-            // Check if the session has ended.
-            //return HttpStatus.GONE;
-            status.setMessage("too_late");
-        } else {
-
-            // Put the message.
-            workSessionService.putMessage(principal.getName(), session.getTextStatus());
-            //return HttpStatus.OK;
+        if (session.getTextStatus() != null && session.getStopTime() == null) {
+            try {
+                workSessionService.putMessage(userName, session.getTextStatus());
+            } catch (NoSessionsException | NoSuchUserException exception) {
+                status.setMessage("bad_request");
+            }
             status.setMessage("valid");
+        } else {
+            status.setMessage("bad_request");
         }
         return "employeeView";
     }
@@ -201,14 +212,16 @@ public class WorkSessionsController {
             value = "/message"
     )
     public String deleteTextStatus(@ModelAttribute("workSessionData") WorkSessionDTO session,
-                                @ModelAttribute("status") StatusDTO status, Principal principal) {
-        if (workSessionService.getUser(principal.getName()) != null) {
-            workSessionService.deleteTextStatus(principal.getName());
+                                   @ModelAttribute("status") StatusDTO status, Principal principal) {
+        String userName = principal.getName();
+
+        try {
+            workSessionService.deleteTextStatus(userName);
             session.setTextStatus("");
-            status.setMessage("valid");
-        } else {
+        } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
+        status.setMessage("valid");
         return "employeeView";
     }
 
@@ -224,12 +237,14 @@ public class WorkSessionsController {
     //@ResponseBody
     public String getTextStatus(@ModelAttribute("workSessionData") WorkSessionDTO session,
                                 @ModelAttribute("status") StatusDTO status, Principal principal) {
-        if (workSessionService.getUser(principal.getName()) != null) {
-            session.setTextStatus(workSessionService.getTextStatus(principal.getName()));
-            status.setMessage("valid");
-        } else {
+        String userName = principal.getName();
+
+        try {
+            session.setTextStatus(workSessionService.getTextStatus(userName));
+        } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
+        status.setMessage("valid");
         return "employeeView";
     }
 
@@ -246,14 +261,14 @@ public class WorkSessionsController {
     //@ResponseBody
     public String putAvailability(@ModelAttribute("workSessionData") WorkSessionDTO session,
                                   @ModelAttribute("status") StatusDTO status, Principal principal) {
-        if (workSessionService.getUser(principal.getName()) != null) {
-            workSessionService.putAvailability(principal.getName(), session.isAvailable());
-            //return HttpStatus.OK;
-            status.setMessage("valid");
-        } else {
+        String userName = principal.getName();
+
+        try {
+            workSessionService.putAvailability(userName, session.isAvailable());
+        } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
-            //return HttpStatus.BAD_REQUEST;
         }
+        status.setMessage("valid");
         return "employeeView";
     }
 
@@ -270,17 +285,14 @@ public class WorkSessionsController {
     //@ResponseBody
     public String getAvailability(@ModelAttribute("workSessionData") WorkSessionDTO session,
                                   @ModelAttribute("status") StatusDTO status, Principal principal) {
-        if (workSessionService.getUser(principal.getName()) != null) {
-            session.setAvailable(workSessionService.getAvailability(principal.getName()));
-            status.setMessage("valid");
-        } else if (workSessionService.getLatest(principal.getName()) == null) {
+        String userName = principal.getName();
 
-            // Indicate that this user does not have a session
-            status.setMessage("too_early");
-        } else {
-            // Indicate that this user isnt an employee
+        try {
+            session.setAvailable(workSessionService.getAvailability(userName));
+        } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
+        status.setMessage("valid");
         return "employeeView";
     }
 
@@ -296,15 +308,15 @@ public class WorkSessionsController {
     )
     //@ResponseBody
     public String putOnSite(@ModelAttribute("workSessionData") WorkSessionDTO session,
-                                @ModelAttribute("status") StatusDTO status, Principal principal) {
-        if (workSessionService.getUser(principal.getName()) != null) {
-            workSessionService.putOnSite(session.getUserName(), session.isOnSite());
-            //return HttpStatus.OK;
-            status.setMessage("valid");
-        } else {
+                            @ModelAttribute("status") StatusDTO status, Principal principal) {
+        String userName = principal.getName();
+
+        try {
+            workSessionService.putOnSite(userName, session.isOnSite());
+        } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
-            //return HttpStatus.BAD_REQUEST;
         }
+        status.setMessage("valid");
         return "employeeView";
     }
 
@@ -322,12 +334,14 @@ public class WorkSessionsController {
     //@ResponseBody
     public String getOnSite(@ModelAttribute("workSessionData") WorkSessionDTO session,
                             @ModelAttribute("status") StatusDTO status, Principal principal) {
-        if (workSessionService.getUser(principal.getName()) != null) {
+        String userName = principal.getName();
+
+        try {
             session.setOnSite(workSessionService.getOnSite(principal.getName()));
-            status.setMessage("valid");
-        } else {
+        } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
+        status.setMessage("valid");
         return "employeeView";
     }
 }

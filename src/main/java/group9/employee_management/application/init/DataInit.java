@@ -53,7 +53,7 @@ public class DataInit implements CommandLineRunner {
         Employee employee1 = new Employee("student","H.P.","Baxxter", hashPassword("student"),
                 true, "Lead singer", validityDate, workSessions);
         employee1.setFirstLogin(false);
-        Employee employee2 = new Employee("admin","Farin", "Urlaub", hashPassword("admin"),
+        Employee employee2 = new Employee("url01a","Farin", "Urlaub", hashPassword("admin"),
                 false, "Lead singer", validityDate, workSessions);
         employee2.setFirstLogin(false);
         Employee employee3 = new Employee("kla01","Kristoffer Jonas", "Klauß", hashPassword("überallAnJederWand"),

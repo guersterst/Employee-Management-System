@@ -130,9 +130,6 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 or what if is admin and no associated employee
 5. doc.
 
-5. Controller for userWorkSessionHistory.
-6. add history functions to my-session. D1
-
 5. password encryption
 
 6. On-demand: improve controllers
