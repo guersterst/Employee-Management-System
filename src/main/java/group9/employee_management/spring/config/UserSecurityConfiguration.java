@@ -119,18 +119,18 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
         //auth.userDetailsService(userDetailsService()).passwordEncoder(getPasswordEncoder());
 
         //TODO FEHLERREPRODUKTION: diesen Teil auskommentieren
-        auth.userDetailsService(userDetailsService()).passwordEncoder(bcryptEncoder());
+        auth.userDetailsService(userDetailsService()).passwordEncoder(getPasswordEncoder());
     }
 }
 
 /*
 3.Login first-time
 
+4.Rework List
 5. password encryption
-7. endsession with onsite
 5. doc.
 6. getThree
-
+7.UserHistory as JSON, CSV etc...
 
 6. On-demand: improve controllers
  */
