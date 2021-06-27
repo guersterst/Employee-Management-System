@@ -70,7 +70,7 @@ public class DataInit implements CommandLineRunner {
                 , false, true, employee1);
 
         WorkSession session2 = new WorkSession(1, new Date(1624354366000L), null, "Second session"
-                , false, true, employee1);
+                , true, true, employee1);
 
         WorkSession session3 = new WorkSession(2, new Date(1624354366000L), null, "My first session"
                 , true, true, employee2);

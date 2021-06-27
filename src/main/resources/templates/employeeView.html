@@ -42,9 +42,11 @@
                     <h2>Message</h2>
                 </div>
                 <!--Show saved message-->
-                <form onsubmit="checkMessage(event)" onreset="checkReset()" id="messageCard" th:action="@{/my-session/message}" th:method="post">
+                <form onsubmit="checkMessage(event)" onreset="checkReset()" id="messageCard"
+                      th:action="@{/my-session/message}" th:method="post">
                     <div class="form-group mx-auto">
-                        <label class="form-control" id="savedMsg" type="text" th:text="${workSessionData.textStatus}"></label>
+                        <label class="form-control" id="savedMsg" type="text"
+                               th:text="${workSessionData.textStatus}"></label>
                     </div>
                     <!--Text field to leave a message-->
                     <div class="input-group">
@@ -88,12 +90,13 @@
                     <div class="message-util form-group">
                         <!--Message with a minimum length.-->
                         <button class=" btn btn-primary btn-lg center-block" type="submit" id="save-button"
-                                onclick="checkMessage()" >
+                                onclick="checkMessage()">
                             Save
                         </button>
                         <!--Deletes the saved message above the textarea.-->
-                        <button class="btn btn-primary btn-lg center-block" onclick="checkReset()" type="reset" id="delete-message"
-                        th:action="@{/my-session/message}" th:method="delete">
+                        <button class="btn btn-primary btn-lg center-block" onclick="checkReset()" type="reset"
+                                id="delete-message"
+                                th:action="@{/my-session/message}" th:method="delete">
                             Delete
                         </button>
                     </div>
@@ -111,17 +114,20 @@
                     </div>
                     <div class="options">
                         <!--User can change the state of availability.Within the first login this should be enabled.-->
-                        <div class="available d-table custom-control custom-switch"
-                             th:action="@{/my-session/availability}" th:object="${workSessionData}" th:method="put">
-                            <input type="checkbox" class="custom-control-input" id="availableSwitch" th:checked="${workSessionData.available}">
-                            <label class="custom-control-label" for="availableSwitch">Availability</label>
-                        </div>
+                        <form class="form-group" th:action="@{/my-session/availability}" th:object="${workSessionData}" th:method="post">
+                            <div class="available d-table form-check form-switch">
+                                <input type="checkbox" class="checkbox form-check-input" id="availableSwitch" th:checked="${workSessionData.available}">
+                                <label class="form-check-label" for="availableSwitch">Availability</label>
+                            </div>
+                            <button class="btn" type="submit">Submit</button>
+                        </form>
                         <hr>
                         <!--On Site should be automatically switched on when logged in the first time of a day
                         and only switched of if you leave work.-->
-                        <div class="location d-table custom-control custom-switch" th:action="@{/my-session/availability}"
-                        th:object="${workSessionData}" th:method="get">
-                            <input type="checkbox" class="custom-control-input" id="locationSwitch" th:field="*{available}">
+                        <div class="location d-table custom-control custom-switch" th:action="@{/my-session/onSite}"
+                             th:method="post">
+                            <input type="checkbox" class="custom-control-input" id="locationSwitch"
+                                   th:checked="*{onSite}">
                             <label class="custom-control-label" for="locationSwitch">On Site</label>
                         </div>
                         <hr>
@@ -252,9 +258,15 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

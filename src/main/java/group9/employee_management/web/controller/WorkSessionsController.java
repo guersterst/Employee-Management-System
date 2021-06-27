@@ -256,13 +256,14 @@ public class WorkSessionsController {
      * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise.
      * {@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.
      */
-    @PutMapping(
+    @PostMapping(
             value = "/availability"
     )
     //@ResponseBody
     public String putAvailability(@ModelAttribute("workSessionData") WorkSessionDTO session,
                                   @ModelAttribute("status") StatusDTO status, Principal principal) {
         String userName = principal.getName();
+        System.out.println(session.isAvailable());
 
         try {
             workSessionService.putAvailability(userName, session.isAvailable());
