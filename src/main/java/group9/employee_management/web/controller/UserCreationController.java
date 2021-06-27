@@ -57,13 +57,11 @@ public class UserCreationController {
             accountService.createUser(newUser.getUserName(), newUser.getFirstName(), newUser.getLastName(),
                     newUser.getPassword(), newUser.isAdmin(), newUser.getPosition());
                 status.setMessage("ok");
-
-                return "adminCreateUserView";
         } else {
             status.setMessage("bad_request");
 
-            return "adminCreateUserView";
         }
+        return "adminCreateUserView";
     }
 
     /**

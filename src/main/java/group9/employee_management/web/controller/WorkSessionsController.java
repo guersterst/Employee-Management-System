@@ -117,10 +117,11 @@ public class WorkSessionsController {
     //@ResponseBody
     public String getLatest(Principal principal,
                             @ModelAttribute("workSessionData") WorkSessionDTO workSessionDTO,
-                            @ModelAttribute("status") StatusDTO status) {
+                            @ModelAttribute("status") StatusDTO status, Model model) {
         String userName = principal.getName();
         try {
             workSessionDTO = WorkSessionDTO.fromEntity(workSessionService.getLatest(userName));
+            model.addAttribute("workSessionData", workSessionDTO);
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
