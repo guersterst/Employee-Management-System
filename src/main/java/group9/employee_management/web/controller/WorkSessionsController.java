@@ -256,7 +256,7 @@ public class WorkSessionsController {
      * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise.
      * {@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.
      */
-    @PutMapping(
+    @PostMapping(
             value = "/availability"
     )
     //@ResponseBody
@@ -298,7 +298,7 @@ public class WorkSessionsController {
     }
 
     /**
-     * Ends the latest session of a user.
+     * Ends the latest session of a user if the onSite value is changed to false. And puts a new onSite value.
      *
      * @param session A dto containing information about the desired new session. Requires only a {@code userName}.
      * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise.
@@ -314,6 +314,10 @@ public class WorkSessionsController {
 
         try {
             workSessionService.putOnSite(userName, session.isOnSite());
+
+            if (!session.isOnSite()) {
+                workSessionService.stopSession(userName);
+            }
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
@@ -322,7 +326,7 @@ public class WorkSessionsController {
     }
 
     /**
-     * Returns the onSite value of an users latest session.
+     * Returns the onSite value of an users latest session. A
      * <p>
      * ({@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.)
      *
