@@ -187,6 +187,15 @@ public class WorkSessionService {
     Getter for session history.
      */
 
+    public List<WorkSessionDTO> getSessions(String userName) {
+        List<WorkSessionDTO> result = new ArrayList<>();
+
+        for (int i = 0; i < workSessionRepository.getIndex(userName); i++) {
+            result.add(WorkSessionDTO.fromEntity(workSessionRepository.getWorkSession(userName, i)));
+        }
+        return result;
+    }
+
     /*
     Getters for employee-list-view.
      */

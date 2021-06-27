@@ -41,7 +41,10 @@ public class EmployeeWorkSessionsHistoryController {
     @GetMapping(
             value = ""
     )
-    public String get(Model model) {
+    public String get(Model model, Principal principal) {
+
+        // Possibly this is the only DTO and mapping you need.
+        model.addAttribute("workSessionsList", workSessionService.getSessions(principal.getName()));
 
         // Three work-sessions to be displayed on the work-session history. Mainly workSession1 will be used.
         model.addAttribute("workSession1", new WorkSessionDTO());
