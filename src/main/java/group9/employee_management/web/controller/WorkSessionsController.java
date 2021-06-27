@@ -257,7 +257,7 @@ public class WorkSessionsController {
      * {@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.
      */
     @PostMapping(
-            value = "/availability"
+            value = "/state"
     )
     //@ResponseBody
     public String putAvailability(@ModelAttribute("workSessionData") WorkSessionDTO session,
@@ -267,6 +267,7 @@ public class WorkSessionsController {
 
         try {
             workSessionService.putAvailability(userName, session.isAvailable());
+            workSessionService.putOnSite(userName, session.isOnSite());
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
@@ -298,6 +299,7 @@ public class WorkSessionsController {
         return "employeeView";
     }
 
+    //TODO:Maybe I don't need this any more.
     /**
      * Ends the latest session of a user.
      *

@@ -8,7 +8,8 @@
     <link href="../css/employeeHomePage.css" rel="stylesheet">
     <title>EmployeeManagement</title>
 
-    <link href="/webjars/bootstrap/5.0.1/css/bootstrap.css" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.css}" rel="stylesheet"/>
+    <link href="/webjars/bootstrap/5.0.1/css/bootstrap.css" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.css}"
+          rel="stylesheet"/>
 </head>
 
 <nav>
@@ -44,7 +45,7 @@
                         </div>
                         <div class="input-group">
                             <textarea class="form-control" aria-label="With textarea" placeholder="Leave a message..."
-                                  id="message" th:field="*{textStatus}"></textarea>
+                                      id="message" th:field="*{textStatus}"></textarea>
                         </div>
                     </div>
 
@@ -105,28 +106,23 @@
                     </div>
                     <div><!-- class="options"> -->
                         <!--User can change the state of availability.Within the first login this should be enabled.-->
-                        <form th:action="@{/my-session/availability}" method="post" th:object="${workSessionData}" th:method="post">
+                        <form th:action="@{/my-session/state}" method="post" th:object="${workSessionData}"
+                              th:method="post">
                             <div class="form-check form-switch d-table available">
-                                <input class="checkbox form-check-input" type="checkbox" id="available" value="true" th:field="${workSessionData.available}" name="available">
+                                <input class="checkbox form-check-input" type="checkbox" id="available" value="true"
+                                       th:field="${workSessionData.available}" name="available">
                                 <label class="form-check-label" for="available" id="isAdminLabel">Availability</label>
                             </div>
-                            <button class="btn btn-primary btn-sm" type="submit" id="createAccountButton">Submit</button>
-                        </form>
-
-                        <hr>
-                        <!--On Site should be automatically switched on when logged in the first time of a day
+                            <!--On Site should be automatically switched on when logged in the first time of a day
                         and only switched of if you leave work.-->
-                        <div class="location d-table custom-control custom-switch" th:action="@{/my-session/onSite}"
-                             th:method="post">
-                            <input type="checkbox" class="custom-control-input" id="locationSwitch"
-                                   th:checked="*{onSite}">
-                            <label class="custom-control-label" for="locationSwitch">On Site</label>
-                        </div>
-                        <hr>
-                        <div class="location d-table custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="remote">
-                            <label class="custom-control-label" for="remote">Remote</label>
-                        </div>
+                            <div class="form-check form-switch d-table onSite">
+                                <input class="checkbox form-check-input" type="checkbox" id="onSite" value="true"
+                                       th:field="${workSessionData.onSite}" name="onSite">
+                                <label class="form-check-label" for="onSite" id="isOnSiteLabel">OnSite</label>
+                            </div>
+                            <button class="btn btn-primary btn-sm" type="submit" id="createAccountButton">Submit
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
