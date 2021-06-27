@@ -49,18 +49,23 @@ public class UserCreationController {
     @PostMapping(
             value = "/creation")
     public String createUser(@ModelAttribute("newUser") UserDTO newUser, @ModelAttribute("status") StatusDTO status) {
+        boolean userAlreadyExists = accountService.userExistsByUserName(newUser.getUserName());
+
         if (newUser.getUserName() != null
                 && newUser.getFirstName() != null
                 && newUser.getLastName() != null
                 && newUser.getPassword() != null
-                && newUser.getPosition() != null) {
+                && newUser.getPosition() != null
+                && !userAlreadyExists) {
             accountService.createUser(newUser.getUserName(), newUser.getFirstName(), newUser.getLastName(),
                     newUser.getPassword(), newUser.isAdmin(), newUser.getPosition());
                 status.setMessage("ok");
+        } else if (userAlreadyExists) {
+            status.setMessage("user_already_existent");
         } else {
             status.setMessage("bad_request");
-
         }
+
         return "adminCreateUserView";
     }
 

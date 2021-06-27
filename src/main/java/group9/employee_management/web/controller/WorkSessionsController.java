@@ -206,7 +206,7 @@ public class WorkSessionsController {
         } else {
             status.setMessage("bad_request");
         }
-        return "employeeView";
+        return "redirect:/my-session/latest";
     }
 
     @DeleteMapping(
@@ -271,7 +271,7 @@ public class WorkSessionsController {
             status.setMessage("bad_request");
         }
         status.setMessage("valid");
-        return "employeeView";
+        return "redirect:/my-session/latest";
     }
 
     /**
@@ -319,7 +319,7 @@ public class WorkSessionsController {
             status.setMessage("bad_request");
         }
         status.setMessage("valid");
-        return "employeeView";
+        return "redirect:/my-session/latest";
     }
 
     /**
