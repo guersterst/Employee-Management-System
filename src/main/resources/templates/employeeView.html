@@ -19,16 +19,16 @@
 </nav>
 
 <body>
+<div class="contain container-fluid d-flex flex-column flex-fill">
 <div class="home">
-    <h1 class="d-flex badge-secondary">
+    <h1 class="d-flex bg-secondary text-light">
         Home Page
     </h1>
 </div>
-<div class="contain container-fluid d-flex flex-column flex-fill">
     <div class="row" th:action="@{/my-session/latest}" th:object="${workSessionData}" th:method="get">
         <div class="form-group col-sm-12 col-md-6" th:fragment="messageForm">
             <div class="message card shadow">
-                <div class="badge-secondary">
+                <div class="bg-secondary text-light">
                     <h2>Message</h2>
                 </div>
                 <!--Show saved message-->
@@ -41,9 +41,10 @@
                     <!--Text field to leave a message-->
                     <div>
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Notification</span>
+
                         </div>
                         <div class="input-group">
+                            <span class="input-group-text">Notification</span>
                             <textarea class="form-control" aria-label="With textarea" placeholder="Leave a message..."
                                       id="message" th:field="*{textStatus}"></textarea>
                         </div>
@@ -101,10 +102,10 @@
         <div class="col-sm-12 col-md-6">
             <div th:fragment="state">
                 <div class="state card shadow">
-                    <div class="badge-secondary">
+                    <div class="bg-secondary text-light">
                         <h2>State</h2>
                     </div>
-                    <div><!-- class="options"> -->
+                    <div class="options">
                         <!--User can change the state of availability.Within the first login this should be enabled.-->
                         <form th:action="@{/my-session/state}" method="post" th:object="${workSessionData}"
                               th:method="post">
@@ -182,7 +183,7 @@
         -->
 
         <div class="card shadow w-100" id="history">
-            <div class="card-header badge-secondary">
+            <div class="card-header bg-secondary text-light">
                 <h2 id="timeline">History</h2>
             </div>
             <!--Timeline vertically shows every event that is happening during using the web application.-->
