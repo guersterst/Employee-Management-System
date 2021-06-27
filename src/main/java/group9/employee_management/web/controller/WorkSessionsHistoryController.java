@@ -17,6 +17,10 @@ public class WorkSessionsHistoryController {
 
     //AUTH
 
+    // getSession(index)
+
+    // getLatestThree()?
+
     private final WorkSessionService workSessionService;
 
     @Autowired
@@ -107,8 +111,6 @@ public class WorkSessionsHistoryController {
         List<WorkSession> threeFromIndex = workSessionService.getThreeFromIndex(userName, index);
         List<WorkSessionDTO> modelAttributes = List.of(workSession1, workSession2, workSession3);
 
-        //TODO i'd be surprised if this actually works.
-
         // Assign work-sessions to model-attributes
         for (int i = 0; i < 3; i++) {
             WorkSessionDTO modelAttribute = modelAttributes.get(i);
@@ -116,7 +118,6 @@ public class WorkSessionsHistoryController {
                 modelAttribute = WorkSessionDTO.fromEntity(threeFromIndex.get(i));
             }
         }
-
         return "history";
     }
 }

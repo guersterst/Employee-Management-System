@@ -92,7 +92,7 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
 
-//TODO FEHLERREPRODUKTION: diesen Teil Kette anfügen
+                //TODO FEHLERREPRODUKTION: diesen Teil Kette anfügen
 /*
                 .loginPage("/login")
                 .failureUrl("/login?error=true")
@@ -126,7 +126,12 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 /*
 3.Login first-time
-5.password encryption
+4. What if there is no session? -> Worksessioncontroller returns dto filled with null
+
+5. Controller for userWorkSessionHistory.
+6. add history functions to my-session. D1
+
+5. password encryption
 
 6. On-demand: improve controllers
  */

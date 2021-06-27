@@ -83,6 +83,11 @@ public class WorkSessionService {
         return workSessions;
     }
 
+    public WorkSession getOneFromIndex(String userName, int index) {
+        checkForUser(userName);
+        return workSessionRepository.getWorkSession(userName, index);
+    }
+
     /*
     Setters for the work-session creation.
      */
