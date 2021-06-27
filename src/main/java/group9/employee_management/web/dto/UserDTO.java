@@ -18,7 +18,7 @@ public class UserDTO {
     private String userName;
     private String password;
     @JsonProperty("isAdmin")
-    private boolean isAdmin;
+    private boolean admin;
     @JsonProperty("position")
     private String position;
     @JsonProperty("validity")
@@ -53,7 +53,7 @@ public class UserDTO {
         return "{ \"firstName\": \"" + firstName + "\", " +
                 "\"lastName\": \"" + lastName + "\" ," +
                 "\"userName\": \"" + userName + "\", " +
-                "\"isAdmin\": \"" + isAdmin + "\", " +
+                "\"isAdmin\": \"" + admin + "\", " +
                 "\"position\": \"" + position + "\", " +
                 "\"validity\": \"" + validity + "\"}";
     }
@@ -94,20 +94,20 @@ public class UserDTO {
         this.password = password;
     }
 
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
-    }
-
     public String getPosition() {
         return position;
     }
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    public boolean isAdmin() {
+        return admin;
     }
 
     public Date getValidity() {

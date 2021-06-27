@@ -88,7 +88,7 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().formLogin()
 
                 //TODO FEHLERREPRODUKTION: diese Zeile auskommentieren
-                .defaultSuccessUrl("/my-session");
+                .defaultSuccessUrl("/my-session/latest");
 
 
 
