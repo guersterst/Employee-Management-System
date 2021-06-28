@@ -11,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
+/**
+ * A controller to access users work-sessions as an admin.
+ */
 @RestController
 @RequestMapping("/admin/employees/work-sessions")
 public class AdminWorkSessionsHistoryController {

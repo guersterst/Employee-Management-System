@@ -12,6 +12,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.transaction.Transactional;
 
+/**
+ * A service to provide UserDetails.
+ */
 public class MyUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -25,19 +28,17 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.getById(username);
 
-        org.springframework.security.core.userdetails.User.UserBuilder builder = null;
-        if (user != null) {
-            builder = org.springframework.security.core.userdetails.User.withUsername(username);
-            builder.password(user.getPassword());
-            builder.roles(user.getRoles().stream().map(Roles::toString).toArray(String[]::new));
-        } else {
-            throw new UsernameNotFoundException("User not found.");
-        }
+        org.springframework.security.core.userdetails.User.UserBuilder builder;
+        builder = org.springframework.security.core.userdetails.User.withUsername(username);
+        builder.password(user.getPassword());
+        builder.roles(user.getRoles().stream().map(Roles::toString).toArray(String[]::new));
         return builder.build();
 
+        // Alternative with a custom implementation of an UserDetail-class.
+        /*
+        return new MyUserDetails(user);
+        return user.map(MyUserDetails::new).get();
 
-       // return new MyUserDetails(user);
-        //return user.map(MyUserDetails::new).get();
-
+         */
     }
 }
