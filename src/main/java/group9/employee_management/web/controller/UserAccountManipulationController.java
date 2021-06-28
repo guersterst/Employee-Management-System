@@ -16,7 +16,6 @@ import java.security.Principal;
 public class UserAccountManipulationController {
 
     //AUTH own account
-
     private final AccountService accountService;
 
     @Autowired
@@ -36,19 +35,17 @@ public class UserAccountManipulationController {
     //@ResponseBody
     public String get(Model model, Principal principal) {
         model.addAttribute("userCredentials", new UserDTO());
-        /*String userName = principal.getName();
-        UserDTO userDTO = new UserDTO();
-        userDTO = accountService.getUserAsDTO(userName); //.getLatest(userName));
-        model.addAttribute("userCredentials", userDTO);*/
         model.addAttribute("status", new StatusDTO());
         return "userAccountPage";
     }
 
     /**
-     * Returns a users information in JSON format.
+     * Generates a new UserDTO, which contains the data saved to the corresponding user. The data stored in the
+     * database about this user is subsequently written to the UserDTO and thus the frontend can access the userName,
+     * firstName and so on.
      *
      * @param userCredentials The DTO carrying information about the user.
-     * @param status Used to informt the frontend whether the operation was not successful ("user_not_found").
+     * @param status Used to inform the frontend whether the operation was not successful ("user_not_found").
      * @param principal Description forthcoming.
      * @return the view to display
      */
@@ -57,23 +54,17 @@ public class UserAccountManipulationController {
     )
     public String getUserDataAsUser(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
             "status") StatusDTO status, Principal principal, Model model) {
-        /*String userName = principal.getName();
-
-        if (accountService.userExistsByUserName(userName)) {
-            userCredentials = accountService.getUserAsDTO(userName);
-            model.addAttribute(userCredentials);
-        } else {
-            //throw new NoSuchUserException(userName);
-            status.setMessage("user_not_found"); // Can this even happen? If the user is not found/doesn't exist, how can they even log in?
-        }
-        return "userAccountPage";*/
-
-        model.addAttribute("userCredentials", new UserDTO());
         String userName = principal.getName();
-        UserDTO userDTO = new UserDTO();
-        userDTO = accountService.getUserAsDTO(userName); //.getLatest(userName));
-        System.out.println(userDTO.getPassword());
-        model.addAttribute("userCredentials", userDTO);
+        UserDTO userDTO = accountService.getUserAsDTO(userName);
+
+        if (userDTO != null) {
+            model.addAttribute("userCredentials", userDTO); // The user exists. Thus, the DTO we add to the model is userDTO
+            status.setMessage("valid");
+        } else { // This should generally not happen. A user, who is logged in, has a corresponding database entry.
+            model.addAttribute("userCredentials", new UserDTO());  // Create new UserDTO as no user was found
+            status.setMessage("not_found");
+        }
+
         model.addAttribute("status", new StatusDTO());
         return "userAccountPage";
     }
@@ -142,16 +133,29 @@ public class UserAccountManipulationController {
     }
 
 
-
+    /**
+     * Called via Thymeleaf by the frontend whenever the user submits changes to their user profile. Generally speaking,
+     * the userAccountPage is first filled with the information currently stored in the database about the user (/me).
+     * If the user then decides to make changes, edits e.g. the userName and then submits the form, the entire form
+     * (including firstName, lastName and so on) are transferred. This method maps to the thymeleaf action used to
+     * submit the form.
+     * @param userCredentials The DTO used to store information about the user.
+     * @param status Informs the frontend about whether the operation was successful ("valid") or not ("bad_request")
+     * @param principal Description forthcoming.
+     * @return
+     */
     @PostMapping(
             value = "/edit"
     )
     public String edit(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
             "status") StatusDTO status,Principal principal) {
+
+        // Get the name.
         String userName = principal.getName();
         String firstName = userCredentials.getFirstName();
         String lastName = userCredentials.getLastName();
 
+        // If the given user exists, we change their name.
         if (accountService.userExistsByUserName(userName)
                 && firstName != null && lastName != null) {
             accountService.setName(userName, firstName, lastName);
@@ -160,6 +164,7 @@ public class UserAccountManipulationController {
             status.setMessage("bad_request");
         }
 
+        // If the given user exists and their password is not null, we can change the password
         String password = userCredentials.getPassword();
         if (accountService.userExistsByUserName(userName)
                 && password != null) {
