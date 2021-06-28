@@ -10,6 +10,7 @@ import group9.employee_management.persistence.repositories.WorkSessionRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
@@ -19,7 +20,7 @@ import java.util.Set;
 @Component
 public class DataInit implements CommandLineRunner {
 
-    private final BCryptPasswordEncoder encoder;
+    private final PasswordEncoder encoder;
     private final UserRepository userRepository;
     private final EmployeeRepository employeeRepository;
     private final WorkSessionRepository workSessionRepository;
@@ -53,7 +54,7 @@ public class DataInit implements CommandLineRunner {
         Employee employee1 = new Employee("student","H.P.","Baxxter", hashPassword("student"),
                 true, "Lead singer", validityDate, workSessions);
         employee1.setFirstLogin(false);
-        Employee employee2 = new Employee("url01a","Farin", "Urlaub", hashPassword("admin"),
+        Employee employee2 = new Employee("url01","Farin", "Urlaub", hashPassword("admin"),
                 false, "Lead singer", validityDate, workSessions);
         employee2.setFirstLogin(false);
         Employee employee3 = new Employee("kla01","Kristoffer Jonas", "Klauß", hashPassword("überallAnJederWand"),
@@ -67,10 +68,10 @@ public class DataInit implements CommandLineRunner {
 
         WorkSession session1 = new WorkSession(0, new Date(1624354267000L), new Date(1624654267000L), "First "
                 + "session"
-                , false, true, employee1);
+                , false, false, employee1);
 
         WorkSession session2 = new WorkSession(1, new Date(1624354366000L), null, "Second session"
-                , true, false, employee1);
+                , true, true, employee1);
 
         WorkSession session3 = new WorkSession(2, new Date(1624354366000L), null, "My first session"
                 , true, true, employee2);
@@ -89,7 +90,9 @@ public class DataInit implements CommandLineRunner {
         employeeRepository.save(employee3);
 
         // Create Users: Better to work with services in general
-        userRepository.save(new User("admin", "admin", null, Roles.ADMIN, Roles.USER));
-        userRepository.save(new User("student", "student", employee1, Roles.USER));
+
+        //TODO hash in accountService
+        userRepository.save(new User("admin", hashPassword("admin"), null, Roles.ADMIN, Roles.USER));
+        userRepository.save(new User("student", hashPassword("student"), employee1, Roles.USER));
     }
 }

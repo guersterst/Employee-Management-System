@@ -136,6 +136,7 @@ public class WorkSessionService {
         hasLatestSession(userName);
         WorkSession latestSession = getLatest(userName);
         latestSession.setStopTime(getCurrentTime());
+        latestSession.setOnSite(false);
         workSessionRepository.save(latestSession);
     }
 

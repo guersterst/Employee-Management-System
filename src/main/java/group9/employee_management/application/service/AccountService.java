@@ -10,6 +10,7 @@ import group9.employee_management.persistence.repositories.UserRepository;
 import group9.employee_management.web.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -25,7 +26,7 @@ public class AccountService {
 
     private final EmployeeRepository employeeRepository;
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder encoder;
+    private final PasswordEncoder encoder;
 
     // Default validity date of an account.
     //TODO in relation to current date. f.e. +2 years
@@ -67,7 +68,7 @@ public class AccountService {
         Employee newEmployee =new Employee(userName, firstName, lastName,password, isAdmin, position, validityDate,
                 emptySet);
         employeeRepository.save(newEmployee);
-        User newUser = new User(userName, password, newEmployee, Roles.USER);
+        User newUser = new User(userName, encoder.encode(password), newEmployee, Roles.USER);
         if(isAdmin) {
             newUser.setRoles(List.of(Roles.USER, Roles.ADMIN));
         }

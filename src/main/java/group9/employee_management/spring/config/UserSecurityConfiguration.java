@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -85,8 +86,15 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .hasRole(Roles.ADMIN.toString())
                 .and().formLogin()
 
+
                 //TODO FEHLERREPRODUKTION: diese Zeile auskommentieren
                 .defaultSuccessUrl("/my-session/latest");
+
+        //TODO Debug default success url nullpionter for newly created user
+        //TOOD remove newly created debug user
+
+
+
         http.csrf().disable();
 
 
@@ -107,6 +115,14 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     }
 
+    @Bean
+    public DaoAuthenticationProvider authProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService());
+        authProvider.setPasswordEncoder(bcryptEncoder());
+        return authProvider;
+    }
+
     /**
      * @param auth
      * @throws Exception
@@ -119,17 +135,16 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
         //auth.userDetailsService(userDetailsService()).passwordEncoder(getPasswordEncoder());
 
         //TODO FEHLERREPRODUKTION: diesen Teil auskommentieren
-        auth.userDetailsService(userDetailsService()).passwordEncoder(getPasswordEncoder());
+        //auth.userDetailsService(userDetailsService()).passwordEncoder(getPasswordEncoder());
+        auth.authenticationProvider(authProvider());
     }
 }
 
 /*
 3.Login first-time
 
-4.Rework List
-5. password encryption
+5. password encryption login debug as admin
 5. doc.
-6. getThree
 7.UserHistory as JSON, CSV etc...
 
 6. On-demand: improve controllers

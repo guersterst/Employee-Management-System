@@ -147,8 +147,7 @@ public class WorkSessionsController {
 
         try {
             workSessionService.startSession(userName, newSession.getTextStatus(),
-                    newSession.isAvailable(), newSession.isOnSite());
-            System.out.println(newSession.isOnSite() + " " + newSession.isAvailable());
+                    true, newSession.isOnSite());
         } catch (NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
@@ -168,13 +167,15 @@ public class WorkSessionsController {
     )
     //@ResponseBody
     public String endSession(@ModelAttribute("workSessionData") WorkSessionDTO session,
-                             @ModelAttribute("status") StatusDTO status, Principal principal) {
+                             @ModelAttribute("status") StatusDTO status, Principal principal, Model model) {
         String userName = principal.getName();
 
         try {
-            System.out.println(session.isOnSite());
+            //System.out.println(session.isOnSite());
             workSessionService.stopSession(userName);
-            System.out.println(session.isOnSite());
+            session = WorkSessionDTO.fromEntity(workSessionService.getLatest(userName));
+            model.addAttribute("workSessionData", session);
+            //System.out.println(session.isOnSite());
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
@@ -196,41 +197,34 @@ public class WorkSessionsController {
     )
     //@ResponseBody
     public String putMessage(@ModelAttribute("workSessionData") WorkSessionDTO session,
-                             @ModelAttribute("status") StatusDTO status, Principal principal,
-                             @RequestParam String value) {
+                             @ModelAttribute("status") StatusDTO status, Principal principal) {
         String userName = principal.getName();
 
         if (session.getTextStatus() != null && session.getStopTime() == null) {
             try {
-                switch (value) {
-                    case "message":
-                        workSessionService.putMessage(userName, session.getTextStatus());
-                    case "delete":
-                        workSessionService.deleteTextStatus(userName);
-                        session.setTextStatus("");
-                        System.out.println(userName);
-                }
-            } catch (NoSessionsException | NoSuchUserException exception) {
-                status.setMessage("bad_request");
-            }
-            status.setMessage("valid");
-        } else {
+                workSessionService.putMessage(userName, session.getTextStatus());
+        } catch(NoSessionsException | NoSuchUserException exception){
             status.setMessage("bad_request");
         }
-        return "redirect:/my-session/latest";
+        status.setMessage("valid");
+    } else {
+        status.setMessage("bad_request");
     }
+        return"redirect:/my-session/latest";
+}
 
     @DeleteMapping(
             value = "/message"
     )
     public String deleteTextStatus(@ModelAttribute("workSessionData") WorkSessionDTO session,
-                                   @ModelAttribute("status") StatusDTO status, Principal principal) {
+                                   @ModelAttribute("status") StatusDTO status, Principal principal, Model model) {
         String userName = principal.getName();
-
         try {
             workSessionService.deleteTextStatus(userName);
             session.setTextStatus("");
-            System.out.println(userName);
+            model.addAttribute("workSessionData", session);
+
+            //System.out.println(userName);
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
@@ -275,7 +269,7 @@ public class WorkSessionsController {
     public String putAvailability(@ModelAttribute("workSessionData") WorkSessionDTO session,
                                   @ModelAttribute("status") StatusDTO status, Principal principal) {
         String userName = principal.getName();
-        System.out.println(session.isAvailable());
+        //System.out.println(session.isAvailable());
 
         try {
             workSessionService.putAvailability(userName, session.isAvailable());
@@ -311,6 +305,7 @@ public class WorkSessionsController {
     }
 
     //TODO:Maybe I don't need this any more.
+
     /**
      * Ends the latest session of a user if the onSite value is changed to false. And puts a new onSite value.
      *
@@ -328,8 +323,10 @@ public class WorkSessionsController {
 
         try {
             workSessionService.putOnSite(userName, session.isOnSite());
+            /*
             workSessionService.stopSession(userName);
             System.out.println(session.isOnSite());
+             */
             if (!session.isOnSite()) {
                 workSessionService.stopSession(userName);
             }
