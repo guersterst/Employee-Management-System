@@ -20,11 +20,11 @@
 
 <body>
 <div class="contain container-fluid d-flex flex-column flex-fill">
-<div class="home">
-    <h1 class="d-flex bg-secondary text-light">
-        Home Page
-    </h1>
-</div>
+    <div class="home">
+        <h1 class="d-flex bg-secondary text-light">
+            Home Page
+        </h1>
+    </div>
     <div class="row" th:action="@{/my-session/latest}" th:object="${workSessionData}" th:method="get">
         <div class="form-group col-sm-12 col-md-6" th:fragment="messageForm">
             <div class="message card shadow">
@@ -114,16 +114,36 @@
                                        th:field="${workSessionData.available}" name="available">
                                 <label class="form-check-label" for="available" id="isAdminLabel">Availability</label>
                             </div>
-                            <!--On Site should be automatically switched on when logged in the first time of a day
-                        and only switched of if you leave work.-->
-                            <div class="form-check form-switch d-table onSite">
-                                <input class="checkbox form-check-input" type="checkbox" id="onSite" value="true"
-                                       th:field="${workSessionData.onSite}" name="onSite">
-                                <label class="form-check-label" for="onSite" id="isOnSiteLabel">OnSite</label>
-                            </div>
                             <button class="btn btn-primary btn-sm" type="submit" id="createAccountButton">Submit
                             </button>
                         </form>
+                        <!--If checked before action-->
+                        <div th:if="*{onSite == false}">
+                            <form th:action="@{/my-session/beginning}" method="post" th:object="${workSessionData}"
+                                  th:method="post">
+                                <!--On Site should be automatically switched on when logged in the first time of a day
+                                and only switched of if you leave work.-->
+                                <div class="form-check form-switch d-table onSite">
+                                    <input class="checkbox form-check-input" type="checkbox" id="beginning" value="true"
+                                           th:field="${workSessionData.onSite}" name="onSite">
+                                    <label class="form-check-label" for="beginning" id="isOnSiteLabel">OnSite</label>
+                                </div>
+                                <button class="btn btn-primary btn-sm" type="submit" id="beginSession">Submit
+                                </button>
+                            </form>
+                        </div>
+                        <div th:unless="*{onSite == false}">
+                            <form th:action="@{/my-session/ending/}" method="post" th:object="${workSessionData}"
+                                  th:method="post">
+                                <div class="form-check form-switch d-table onSite">
+                                    <input class="checkbox form-check-input" type="checkbox" id="ending" value="true"
+                                           th:field="${workSessionData.onSite}" name="onSite">
+                                    <label class="form-check-label" for="ending" id="leaveOnSite">OnSite</label>
+                                </div>
+                                <button class="btn btn-primary btn-sm" type="submit" id="endingSession">Submit
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

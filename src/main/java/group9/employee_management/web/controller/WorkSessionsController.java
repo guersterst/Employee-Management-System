@@ -148,11 +148,12 @@ public class WorkSessionsController {
         try {
             workSessionService.startSession(userName, newSession.getTextStatus(),
                     newSession.isAvailable(), newSession.isOnSite());
+            System.out.println(newSession.isOnSite() + " " + newSession.isAvailable());
         } catch (NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
         status.setMessage("valid");
-        return "employeeView";
+        return "redirect:/my-session/latest";
     }
 
     /**
@@ -171,12 +172,14 @@ public class WorkSessionsController {
         String userName = principal.getName();
 
         try {
+            System.out.println(session.isOnSite());
             workSessionService.stopSession(userName);
+            System.out.println(session.isOnSite());
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
         status.setMessage("valid");
-        return "employeeView";
+        return "redirect:/my-session/latest";
     }
 
     /**
@@ -266,7 +269,7 @@ public class WorkSessionsController {
      * {@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.
      */
     @PostMapping(
-            value = "/state"
+            value = "/availability"
     )
     //@ResponseBody
     public String putAvailability(@ModelAttribute("workSessionData") WorkSessionDTO session,
@@ -276,7 +279,6 @@ public class WorkSessionsController {
 
         try {
             workSessionService.putAvailability(userName, session.isAvailable());
-            workSessionService.putOnSite(userName, session.isOnSite());
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
@@ -316,7 +318,7 @@ public class WorkSessionsController {
      * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise.
      * {@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.
      */
-    @PutMapping(
+    @PostMapping(
             value = "/onsite"
     )
     //@ResponseBody
@@ -326,7 +328,8 @@ public class WorkSessionsController {
 
         try {
             workSessionService.putOnSite(userName, session.isOnSite());
-
+            workSessionService.stopSession(userName);
+            System.out.println(session.isOnSite());
             if (!session.isOnSite()) {
                 workSessionService.stopSession(userName);
             }
