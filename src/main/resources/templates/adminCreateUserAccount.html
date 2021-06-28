@@ -304,16 +304,7 @@
 
         while (roleFromCookie !== "") {
             locallyCreatedRoles.push(roleFromCookie);
-            let element = document.createElement("a");
-            element.className = "dropdown-item";
-            element.href = "#";
-            element.innerText = roleFromCookie;
-            element.onclick = function() {
-                $('#selectRoleDropdown').text($(this).text());
-                roleSelected = true;
-                noRoleSelectedAlert.fadeOut(0);
-            }
-            document.querySelector(".dropdown-menu").appendChild(element);
+            createDropDownElement(roleFromCookie);
 
             // Not final. For now, you can only read 10 cookies --> prevent endless loops.
             if (i >= 10) {
@@ -339,27 +330,33 @@
         let expires = "expires="+ date.toUTCString();
         document.cookie = "role" + locallyCreatedRoles.length + "=" +  roleInputField.val() +";" + expires + ";";
 
-
-
         locallyCreatedRoles.push(roleInputField.val());
-        //for (var i = 0; i < locallyCreatedRoles.length; i++) {
-            let element = document.createElement("a");
-            element.className = "dropdown-item";
-            element.href = "#";
-            element.innerText = roleInputField.val();
-            element.onclick = function() {
-                $('#selectRoleDropdown').text($(this).text());
-                roleSelected = true;
-                noRoleSelectedAlert.fadeOut(0);
-            }
-
-        document.querySelector(".dropdown-menu").appendChild(element);
+        createDropDownElement(roleInputField.val());
         roleInputField.val("");
     }
 
-    function getCookie(nr) {
-        let name = "role" + nr + "=";
-        let cookie = document.cookie;
+
+    // Create a new dropdown-item that is added do the dropdown-menu containing all the roles
+    //that can be selected.
+    function createDropDownElement(text) {
+        let element = document.createElement("a");
+        element.className = "dropdown-item";
+        element.href = "#";
+        element.innerText = text;
+        element.onclick = function() {
+            $('#selectRoleDropdown').text($(this).text());
+            roleSelected = true;
+            noRoleSelectedAlert.fadeOut(0);
+        }
+
+        document.querySelector(".dropdown-menu").appendChild(element);
+    }
+
+
+    // Returns "role"+nr+"="+role, which is our cookie's content.
+    function getCookieContent(nr) {
+        let name = "role" + nr + "="; // This is what identifies our cookie. Each cookie has a different number following "role".
+        let cookie = document.cookie; // Get cookies.
 
         //Removes everything beyond the semicolon. So, only e.g. role2=Employee; is left.
         let cookieUntilSemicolon = cookie.split(';');
@@ -369,33 +366,37 @@
             while (cookieUntilSemicolon[i].charAt(0) === ' ') {
                 cookieUntilSemicolon[i] = cookieUntilSemicolon[i].substring(1);
             }
+
             if (cookieUntilSemicolon[i].indexOf(name) === 0) {
-                return cookieUntilSemicolon[i].substring(0, cookieUntilSemicolon[i].length); //name.length
+                return cookieUntilSemicolon[i].substring(0, cookieUntilSemicolon[i].length);
             }
         }
         return "";
     }
 
-    // Use this function to search for the nr-th role.
+    // Use this function to return the nr-th role.
+    // We do this by getting the cookie using getCookieContent(nr) and then remove "role"+nr+"=".
     function getRoleFromCookie(nr) {
-        let name = "role" + nr + "=";
-        let cookieContent = getCookie(nr);
+        let name = "role" + nr + "="; // All cookies start with "role"+nr+"=". This part needs to be removed to get the actual role
+        let cookieContent = getCookieContent(nr); //"" if no cookie was found, "role"+nr+"="+roleName otherwise. E.g. "role2=Worker".
 
+        // If no cookie was found, we also return "", just like getCookieContent(""). Otherwise, we extract the role itself
         if (cookieContent === "") {
             return "";
         } else {
+            // Remove "role"+nr+"=" from the String. The result is the role itself.
             return cookieContent.substring(name.length, cookieContent.length);
         }
     }
 
+    // Overwrites a cookie starting with "role"+nr+"=" with number being an integer starting from 0.
+    // The old cookie will therefore be deleted as the expiration date is set to the past.
     function deleteCookie(nr) {
-        let cookie = getCookie(nr)
-        if (cookie !== "") {
+        let cookie = getCookieContent(nr)
+        if (cookie !== "") { // If the cookie exists. Otherwise, getCookieContent(nr) returns "".
             cookie = "role" + nr + "=" + getRoleFromCookie(nr) + ";expires = Thu, 01 Jan 1970 00:00:00 GMT;" + "path=/ ";
             document.cookie = cookie;
         }
-
-        console.log(getRoleFromCookie(nr)+", "+cookie);
     }
 </script>
 </html>
