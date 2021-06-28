@@ -240,11 +240,11 @@
                     if (list[i].textContent !== "Clear Roles") {
                         list[i].remove();
                         locallyCreatedRoles.pop();
+                        deleteCookie(i - 1);
                     }
                 }
 
                 $('#selectRoleDropdown').text("Select Role");
-                console.log("hallo");
 
             } else {
                 $('#selectRoleDropdown').text($(this).text());
@@ -357,12 +357,8 @@
         roleInputField.val("");
     }
 
-    // Use this function to search for the nr-th role.
-    function getRoleFromCookie(nr) {
+    function getCookie(nr) {
         let name = "role" + nr + "=";
-        console.log(name);
-
-        //Decode Cookie
         let cookie = document.cookie;
 
         //Removes everything beyond the semicolon. So, only e.g. role2=Employee; is left.
@@ -374,10 +370,32 @@
                 cookieUntilSemicolon[i] = cookieUntilSemicolon[i].substring(1);
             }
             if (cookieUntilSemicolon[i].indexOf(name) === 0) {
-                return cookieUntilSemicolon[i].substring(name.length, cookieUntilSemicolon[i].length);
+                return cookieUntilSemicolon[i].substring(0, cookieUntilSemicolon[i].length); //name.length
             }
         }
         return "";
+    }
+
+    // Use this function to search for the nr-th role.
+    function getRoleFromCookie(nr) {
+        let name = "role" + nr + "=";
+        let cookieContent = getCookie(nr);
+
+        if (cookieContent === "") {
+            return "";
+        } else {
+            return cookieContent.substring(name.length, cookieContent.length);
+        }
+    }
+
+    function deleteCookie(nr) {
+        let cookie = getCookie(nr)
+        if (cookie !== "") {
+            cookie = "role" + nr + "=" + getRoleFromCookie(nr) + ";expires = Thu, 01 Jan 1970 00:00:00 GMT;" + "path=/ ";
+            document.cookie = cookie;
+        }
+
+        console.log(getRoleFromCookie(nr)+", "+cookie);
     }
 </script>
 </html>
