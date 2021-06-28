@@ -1,6 +1,6 @@
 .embeddedFooter {
     position: fixed;
-    bottom: 0;
+    bottom: 0px;
     width: 100%;
     text-align: center;
     font-size: 12pt;
@@ -17,7 +17,7 @@
 }
 
 h2 {
-    margin-top: 20px;
+    margin-top: 0;
 }
 
 #createAccount {
@@ -67,17 +67,12 @@ h2 {
     }
 }
 
-#isAdminLabel {
-    margin-left: 200px;
-    padding-left: 50px;
-}
-
 #isAdmin {
     margin-top: 10px;
 }
 
 .form-check {
-    margin-left: 2px;
+    margin-left: 20px;
 }
 
 .form-check-label {
