@@ -8,7 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
- * A service to perform login functions.
+ * A service to perform login functions. NOT IN USE.
  */
 @Service
 public class LoginService {

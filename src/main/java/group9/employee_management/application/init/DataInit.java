@@ -56,14 +56,14 @@ public class DataInit implements CommandLineRunner {
         // An empty set of work-sessions.
         Set<WorkSession> workSessions = Collections.emptySet();
 
-        Employee employee1 = new Employee("student","H.P.","Baxxter", hashPassword("student"),
-                true, "Lead singer", validityDate, workSessions);
+        Employee employee1 = new Employee("student","H.P.","Baxxter",
+                true, "Lead singer");
         employee1.setFirstLogin(false);
-        Employee employee2 = new Employee("url01","Farin", "Urlaub", hashPassword("admin"),
-                false, "Lead singer", validityDate, workSessions);
+        Employee employee2 = new Employee("url01","Farin", "Urlaub",
+                false, "Lead singer");
         employee2.setFirstLogin(false);
-        Employee employee3 = new Employee("kla01","Kristoffer Jonas", "Klauß", hashPassword("überallAnJederWand"),
-                false, "Rapper", validityDate, workSessions);
+        Employee employee3 = new Employee("kla01","Kristoffer Jonas", "Klauß",
+                false, "Rapper");
 
 
         employeeRepository.save(employee1);
@@ -94,13 +94,12 @@ public class DataInit implements CommandLineRunner {
         employeeRepository.save(employee2);
         employeeRepository.save(employee3);
 
-        // Create Users: Better to work with services in general
-
-        //TODO hash in accountService
         userRepository.save(new User("admin", hashPassword("admin"), null, Roles.ADMIN, Roles.USER));
         userRepository.save(new User("student", hashPassword("student"), employee1, Roles.USER));
 
-        accountService.createUser("aladin","Alan", "Turing", "p=np", false, "Researcher");
-        accountService.createUser("linus","Linus", "Torvald", "linux", false, "Chief code magician");
+        accountService.createUser("aladin","Alan", "Turing", "p=np", false,
+                "Researcher");
+        accountService.createUser("linus","Linus", "Torvald", "linux", false,
+                "Chief code magician");
     }
 }

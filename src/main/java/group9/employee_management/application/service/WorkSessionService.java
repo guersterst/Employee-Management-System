@@ -28,12 +28,6 @@ public class WorkSessionService {
 
     private final WorkSessionRepository workSessionRepository;
     private final EmployeeRepository employeeRepository;
-    //private final String filepath = "C:/Users/Johnn/OneDrive/Desktop/SoSe"
-     //       + ".21/WDE/Projekt/employee-management-system/g9-21ss-web.data.eng/src/main/resources/sessions";
-
-    //"src/main/resources/sessions";
-
-    private final String HEADERS = "";
 
     @Autowired
     public WorkSessionService(WorkSessionRepository workSessionRepository, EmployeeRepository employeeRepository) {
@@ -51,25 +45,6 @@ public class WorkSessionService {
         } else {
             throw new NoSessionsException(userName);
         }
-    }
-
-    public String workSessionsToJSON(List<WorkSession> sessions) throws JsonProcessingException {
-        StringBuilder jsonArrayResponse = new StringBuilder("{ \"workSessions\": [");
-
-        for (WorkSession workSession : sessions) {
-            if (workSession != null) {
-                jsonArrayResponse.append(WorkSessionDTO.fromEntity(workSession).toJSON());
-                jsonArrayResponse.append(", ");
-            }
-        }
-        String result = jsonArrayResponse.toString();
-
-        // Remove last comma if there is an element in the json array.
-        if (jsonArrayResponse.length() > 20) {
-            result = jsonArrayResponse.substring(0, jsonArrayResponse.length() - 2);
-        }
-
-        return result + "]}";
     }
 
     /**
@@ -219,9 +194,6 @@ public class WorkSessionService {
     public String getUsersWithRunningSessionsAsJSON() {
         List<Employee> usersWithRunningSessions = workSessionRepository.getEmployeesWithRunningSessions();
 
-        //Remove duplicates.
-        //usersWithRunningSessions = usersWithRunningSessions.stream().distinct().collect(Collectors.toList());
-
         // Build JSON.
         StringBuilder jsonResponse = new StringBuilder("[");
         for (Employee employee : usersWithRunningSessions) {
@@ -237,7 +209,6 @@ public class WorkSessionService {
     }
 
     public List<UserDTO> getLatestSessionsOfAllEmployees() {
-        //List<Employee> employees = workSessionRepository.getEmployeesWithRunningSessions();
         List<Employee> employees = workSessionRepository.getAllEmployeesWithSessions();
         List<UserDTO> result = new ArrayList<>();
         for (Employee employee : employees) {
@@ -269,16 +240,22 @@ public class WorkSessionService {
     public void workSessionsToCSV(String userName) throws IOException {
         List<WorkSessionDTO> sessions = getSessions(userName);
         FileWriter out = new FileWriter("book_new.csv");
+        /*
         try (CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT
-                .withHeader(HEADERS))) {
+                .withHeader("")) {
+
+         */
             /*
             WorkSessionDTO.forEach((author, title) -> {
                 printer.printRecord(author, title);
             });
 
              */
-        }
     }
+
+    /*
+    For defensive programming.
+     */
 
     private void hasLatestSession(String userName) {
         if (workSessionRepository.getEmployeeByUserName(userName) == null) {
@@ -291,5 +268,28 @@ public class WorkSessionService {
     private void isEmployee(String userName) {
         if (workSessionRepository.getEmployeeByUserName(userName) == null)
             throw new NoSuchUserException(userName);
+    }
+
+    /*
+     Not in use anymore.
+     */
+
+    public String workSessionsToJSON(List<WorkSession> sessions) throws JsonProcessingException {
+        StringBuilder jsonArrayResponse = new StringBuilder("{ \"workSessions\": [");
+
+        for (WorkSession workSession : sessions) {
+            if (workSession != null) {
+                jsonArrayResponse.append(WorkSessionDTO.fromEntity(workSession).toJSON());
+                jsonArrayResponse.append(", ");
+            }
+        }
+        String result = jsonArrayResponse.toString();
+
+        // Remove last comma if there is an element in the json array.
+        if (jsonArrayResponse.length() > 20) {
+            result = jsonArrayResponse.substring(0, jsonArrayResponse.length() - 2);
+        }
+
+        return result + "]}";
     }
 }

@@ -9,6 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * NOT IN USE.
+ */
 @Controller
 //@RequestMapping("")
 //@RequestMapping("/login")
@@ -46,7 +49,6 @@ public class LoginController {
     public String login(Model model) {
         //model.addAttribute("userCredentials", new UserDTO())
         //
-        //TODO see whether or not user is admin and redirect accordingly
         return "index";
     }
     /**
@@ -60,7 +62,6 @@ public class LoginController {
      *               incorrect.
      * @return The view to display. We stay on "index" if the password has to be set or if the log in was not
      * successful. Otherwise, the employeeView is shown.
-     * TODO: "adminView" could also be shown if the user that logged in is an admin.
      */
     @PostMapping(
             value = "/authentication")
@@ -77,7 +78,6 @@ public class LoginController {
                 status.setMessage("first_login");
                 return "index";
             } else {
-                //TODO:
                 //if (!...Service.isAdmin()) {
                 // Indicate that this is a valid login.
                     status.setMessage("valid");

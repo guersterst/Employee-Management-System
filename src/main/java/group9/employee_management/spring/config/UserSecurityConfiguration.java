@@ -55,7 +55,6 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/css/**", "/js/**");
         web.ignoring().antMatchers("/css/**", "/js/**", "/resources/**", "/static/**","/webjars/**","/h2-console/**");
     }
 
@@ -122,10 +121,7 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return authProvider;
     }
 
-    /**
-     * @param auth
-     * @throws Exception
-     */
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //auth.userDetailsService(userDetailsService()).passwordEncoder(new BCryptPasswordEncoder(10));
@@ -142,11 +138,9 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 /*
 3.Login first-time
 
-4. return not only running sessions to employeeListView
-5.
-6. doc.
 6. csv oder xml
 7. delete user?
 
 6. On-demand: improve controllers
+7.foreign key -> kombi aus fremd und eigenschlüssel googlen
  */

@@ -10,33 +10,45 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-
+/**
+ * A controller to gain access to all users latest sessions.
+ */
 @Controller
 @RequestMapping("/admin/employees")
 public class EmployeeListView {
 
-    //AUTH ADMIN
-
     private final WorkSessionService workSessionService;
-
-    @GetMapping(
-            ""
-    )
-    public String get(Model model) {
-
-        // This is the only controller you'll need possibly.
-        model.addAttribute("workSessionListEntries", workSessionService.getListEntries());
-        return "adminView";
-    }
 
     @Autowired
     public EmployeeListView(WorkSessionService workSessionService) {
         this.workSessionService = workSessionService;
     }
 
-    // Here the PathVariable is appropriate as it is not about an user getting information about himself.
+    /**
+     * Get the view and a DTO for all WorkSessionListEntries.
+     *
+     * @param model The Model.
+     * @return The view.
+     */
+    @GetMapping(
+            ""
+    )
+    public String get(Model model) {
+        model.addAttribute("workSessionListEntries", workSessionService.getListEntries());
+        return "adminView";
+    }
+
+    /**
+     * OUT OF ORDER AND NOT IN USE.
+     *
+     * Sets the dto of the list entry with the values of the latest session for a given user.
+     *
+     * @param userName The users name.
+     * @param workSessionListEntryDTO The DTO to be filled.
+     * @param status The status.
+     * @return The view.
+     */
+    @Deprecated
     @GetMapping(
             value = "/{userName}/session"
     )
@@ -54,12 +66,12 @@ public class EmployeeListView {
         return "adminView";
     }
 
-    //TODO
+
     /**
      * Returns the user names of all users with currently ongoing work-sessions.
-     *
      * This is currently not working correctly due to issues with the foreign key and id.
-     * @return
+     *
+     * @return JSON format of {@code userName} array.
      */
     @GetMapping(
             value = "/working"

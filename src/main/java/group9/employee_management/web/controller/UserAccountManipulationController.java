@@ -11,15 +11,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
+/**
+ * This controller handles requests related to changing the users data.
+ */
 @Controller
 @RequestMapping("/account")
 public class UserAccountManipulationController {
 
-    //AUTH own account
     private final AccountService accountService;
 
     @Autowired
-    public UserAccountManipulationController(AccountService accountService, LoginService loginService) {
+    public UserAccountManipulationController(AccountService accountService) {
         this.accountService = accountService;
     }
 
@@ -32,7 +34,6 @@ public class UserAccountManipulationController {
     @GetMapping(
             value = ""
     )
-    //@ResponseBody
     public String get(Model model, Principal principal) {
         model.addAttribute("userCredentials", new UserDTO());
         model.addAttribute("status", new StatusDTO());

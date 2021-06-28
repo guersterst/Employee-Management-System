@@ -19,8 +19,6 @@ public class Employee {
     // This userName and the associated Users userName must be identical.
     @Id
     private String userName;
-    @Column
-    private String password;
 
     // Initially always true;
     @Column
@@ -32,10 +30,6 @@ public class Employee {
     @Column
     private String position;
 
-    // Describes how long this account is valid;
-    @Column
-    private Date validity;
-
     /*
     // The work-sessions associated with this user.
     @OneToMany(mappedBy = "user")
@@ -44,23 +38,15 @@ public class Employee {
 
     public Employee(){}
 
-    public Employee(String userName, String firstName, String lastName, String password, boolean isAdmin, String position, Date validity, Set<WorkSession> workSessions){
+    public Employee(String userName, String firstName, String lastName, boolean isAdmin, String position){
         super();
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = password;
         this.isAdmin = isAdmin;
         this.position = position;
-        this.validity = validity;
         this.isFirstLogin = true;
-        //this.workSessions = workSessions;
     }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public void setFirstLogin(boolean isFirstLogin) {
         this.isFirstLogin = isFirstLogin;
     }
@@ -85,10 +71,6 @@ public class Employee {
         this.position = position;
     }
 
-    public void setValidity(Date validity) {
-        this.validity = validity;
-    }
-
     public String getFirstName() {
         return firstName;
     }
@@ -111,9 +93,5 @@ public class Employee {
 
     public String getPosition() {
         return position;
-    }
-
-    public Date getValidity() {
-        return validity;
     }
 }

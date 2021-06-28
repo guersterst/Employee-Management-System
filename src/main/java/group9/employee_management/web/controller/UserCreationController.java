@@ -9,11 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * This controller handles everything related to user creation.
+ */
 @Controller
 @RequestMapping("/admin/employees/accounts")
 public class UserCreationController {
-
-    //AUTH admin
 
     private final AccountService accountService;
 
@@ -23,7 +24,7 @@ public class UserCreationController {
     }
 
     /**
-     * Get access to the page and get a model-attribute of an user-dto.
+     * Get access to the page and get a model-attribute of an user-dto as well as staus-dto.
      *
      * @param model The model.
      * @return The user creation page.
@@ -39,19 +40,15 @@ public class UserCreationController {
     }
 
     /**
-     * Create a new user in the database
+     * Create a new user and an associated employee in the database .
      *
      * @param newUser A dto containing the users account information. (username, first- and lastname, password,
-     *                adminrights and position.
-     * @return {@code HttpStatus.Ok} if successful. {@code HttpStatus.BAD_REQUEST} if the information contained within
-     * the dto is insufficient.
+     *                adminRights and position).
      */
     @GetMapping(
             value = "/creation")
     public String createUser(@ModelAttribute("newUser") UserDTO newUser, @ModelAttribute("status") StatusDTO status) {
         boolean userAlreadyExists = accountService.userExistsByUserName(newUser.getUserName());
-        accountService.createUser("hans", "1", "2",
-                "hans", true, "CEO");
         if (newUser.getUserName() != null
                 && newUser.getFirstName() != null
                 && newUser.getLastName() != null
@@ -66,13 +63,11 @@ public class UserCreationController {
         } else {
             status.setMessage("bad_request");
         }
-
         return "adminCreateUserView";
     }
 
     /**
-     * Returns a users information in JSON format.
-     * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned.
+     * Returns a users information in the {@code userCredentials} UserDTO.
      *
      * @param userName The user name.
      * @param status Used to inform the frontend whether the operation was not successful ("user_not_found").
@@ -88,7 +83,6 @@ public class UserCreationController {
         if (accountService.userExistsByUserName(userName)) {
             userCredentials = accountService.getUserAsDTO(userName);
         } else {
-            //throw new NoSuchUserException(userName);
             status.setMessage("user_not_found");
         }
         return "userAccountPage";
@@ -97,8 +91,6 @@ public class UserCreationController {
     /**
      * Sets a new password and determines that this user must not set a new password the next
      * time he logs in.
-     * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned, if the
-     * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
      *
      * @param userCredentials A dto containing the users username and new password.
      * @param status Used to inform the frontend about whether everything went fine ("valid") or if
@@ -108,7 +100,6 @@ public class UserCreationController {
     @PutMapping(
             value = "/{userName}/password"
     )
-    //@ResponseBody
     public String setPasswordAsAdmin(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
             "status") StatusDTO status, @PathVariable("userName") String userName) {
         String password = userCredentials.getPassword();
@@ -156,8 +147,6 @@ public class UserCreationController {
 
     /**
      * Sets the admin rights for a user.
-     * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned, if the
-     * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
      *
      * @param userCredentials A dto containing the users username and new admin rights.
      * @param status Used to inform the frontend about whether everything went fine ("valid") or if
@@ -182,8 +171,6 @@ public class UserCreationController {
 
     /**
      * Sets the admin rights for a user.
-     * If there is no user with that user-name a {@code HttpStatus.NOT_FOUND} will be returned, if the
-     * model-attribute is insufficient a {@code HttpStatus.BAD_REQUEST} will be returned.
      *
      * @param userCredentials A dto containing the users username and new position title.
      * @param status Used to inform the frontend about whether everything went fine ("valid") or if

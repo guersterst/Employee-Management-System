@@ -11,19 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
+/**
+ * A controller to access users work-sessions as an admin.
+ */
 @RestController
 @RequestMapping("/admin/employees/work-sessions")
 public class AdminWorkSessionsHistoryController {
-
-    //AUTH
-
-    // getSession(index)
-
-    // getLatestThree()?
-
     private final WorkSessionService workSessionService;
 
     @Autowired
@@ -32,9 +27,11 @@ public class AdminWorkSessionsHistoryController {
     }
 
     /**
-     * Access the html to display an users work-session history.
+     * Access the html and gain access to all latest work-sessions of all users.
      *
-     * @return The history.html
+     * @param model    The model.
+     * @param userName The users name.
+     * @return The view.
      */
     @GetMapping(
             value = "/{userName}"
@@ -53,17 +50,16 @@ public class AdminWorkSessionsHistoryController {
     }
 
     /**
-     * Get the latest work-session of a user. If that user has no sessions {@code HttpStatus.NOT_FOUND} will be
-     * returned.
+     * Get the latest work-session of a user.
      *
-     * @param userName The user of whom we want to acquire the latest work-session.
-     * @return The latest work-session as JSON.
-     * @throws JsonProcessingException
+     * @param userName       The users name.
+     * @param workSessionDTO The dto filled with the relevant info.
+     * @param status         The status dto.
+     * @return The view.
      */
     @GetMapping(
             value = "/latest/{userName}"
     )
-    //@ResponseBody
     public String getLatest(@PathVariable(value = "userName") String userName,
                             @ModelAttribute("workSession1") WorkSessionDTO workSessionDTO,
                             @ModelAttribute("status") StatusDTO status) {
@@ -80,13 +76,14 @@ public class AdminWorkSessionsHistoryController {
      * Returns the index of the latest work-session of an user. Indexing starts at 0, therefore -1 indicates that
      * there are no sessions for this user.
      *
-     * @param userName The user of whom we want to acquire the highest index.
-     * @return The highest index.
+     * @param userName       The users name.
+     * @param workSessionDTO The dto filled with the relevant info.
+     * @param status         The status dto.
+     * @return The view.
      */
     @GetMapping(
             value = "/latest/{userName}/index"
     )
-    //@ResponseBody
     public String getIndex(@PathVariable(value = "userName") String userName,
                            @ModelAttribute("workSession1") WorkSessionDTO workSessionDTO,
                            @ModelAttribute("status") StatusDTO status) {
@@ -99,7 +96,15 @@ public class AdminWorkSessionsHistoryController {
         return "history";
     }
 
-
+    /**
+     * Returns the session at the desired index.
+     *
+     * @param userName       The users name.
+     * @param index          The index of the desired session.
+     * @param workSessionDTO The dto filled with the relevant info.
+     * @param status         The status dto.
+     * @return The view.
+     */
     @GetMapping(
             value = "/{userName}/{index}"
     )
@@ -127,14 +132,19 @@ public class AdminWorkSessionsHistoryController {
     }
 
     /**
+     * OUT OF ORDER AND NOT IN USER
      * Returns three sessions, beginning at the given index and descending from there. If there are less sessions
      * available, sessions of null will be filled in.
      *
-     * @param userName The user of whom we want to acquire the sessions.
-     * @param index    The index at which the returned sessions begin.
-     * @return At most three sessions in JSON.
+     * @param userName     The users name.
+     * @param index        The beginning-index of the desired sessions.
+     * @param workSession1 The first dto filled with the relevant info.
+     * @param workSession2 The second dto filled with the relevant info.
+     * @param workSession3 The third dto filled with the relevant info.
+     * @param status       Status dto
+     * @return The view.
      */
-    //TODO this mapping does not work right now. Please use above
+    @Deprecated
     @GetMapping(
             //value = "/{userName}/{index}/three"
             value = "denied"
@@ -162,7 +172,8 @@ public class AdminWorkSessionsHistoryController {
                 if (threeFromIndex.get(i) != null) {
                     // this assignment seems not to work
                     WorkSessionDTO el = modelAttributes.get(i);
-                    el = WorkSessionDTO.fromEntity(threeFromIndex.get(i));;
+                    el = WorkSessionDTO.fromEntity(threeFromIndex.get(i));
+                    ;
                 }
             }
         } else {
@@ -171,7 +182,7 @@ public class AdminWorkSessionsHistoryController {
         }
 
         for (WorkSessionDTO modelAttribute : modelAttributes) {
-            if(modelAttribute != null) {
+            if (modelAttribute != null) {
                 System.out.println(modelAttribute.getTextStatus());
             }
         }

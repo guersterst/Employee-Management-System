@@ -28,10 +28,6 @@ public class AccountService {
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
 
-    // Default validity date of an account.
-    //TODO in relation to current date. f.e. +2 years
-    Date validityDate = new Date(1640991600000L);
-
     @Autowired
     public AccountService(EmployeeRepository employeeRepository, UserRepository userRepository) {
         this.employeeRepository = employeeRepository;
@@ -59,14 +55,11 @@ public class AccountService {
      */
 
     /**
-     * Constructor with default values set. Be aware that the password should now be a token for use in first time
-     * login only.
+     * Constructor for an user, automatically creates and associates with a new employee.
      */
     public void createUser(String userName, String firstName, String lastName, String password, boolean isAdmin,
                            String position) {
-        Set<WorkSession> emptySet = Collections.emptySet();
-        Employee newEmployee =new Employee(userName, firstName, lastName,password, isAdmin, position, validityDate,
-                emptySet);
+        Employee newEmployee = new Employee(userName, firstName, lastName, isAdmin, position);
         employeeRepository.save(newEmployee);
         User newUser = new User(userName, encoder.encode(password), newEmployee, Roles.USER);
         if(isAdmin) {
@@ -129,12 +122,19 @@ public class AccountService {
     public void setAdmin(String userName, boolean admin) throws NoSuchUserException {
         assert employeeRepository != null;
         Employee employee = employeeRepository.getUserByUserName(userName);
+        User user = userRepository.getById(userName);
 
         if (employee == null) {
             throw new NoSuchUserException(userName);
         } else {
             employee.setAdmin(admin);
             employeeRepository.save(employee);
+            if (admin) {
+                user.setRoles(List.of(Roles.USER, Roles.ADMIN));
+            } else {
+                user.setRoles(List.of(Roles.USER));
+            }
+            userRepository.save(user);
         }
     }
 
@@ -179,12 +179,12 @@ public class AccountService {
      */
     public void setPassword(String userName, String password) throws NoSuchUserException {
         assert employeeRepository != null;
-        Employee employee = employeeRepository.getUserByUserName(userName);
-        if (employee == null) {
+        User user = userRepository.getById(userName);
+        if (user == null) {
             throw new NoSuchUserException(userName);
         } else {
-            employee.setPassword(encoder.encode(password));
-            employeeRepository.save(employee);
+            user.setPassword(encoder.encode(password));
+            userRepository.save(user);
         }
     }
 

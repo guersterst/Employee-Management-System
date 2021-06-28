@@ -14,8 +14,6 @@ public class WorkSession {
     @Column
     private Integer index;
 
-    //TODO
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name ="user_username", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -28,7 +26,6 @@ public class WorkSession {
     private Date stopTime;
 
     // The text description given by the user about this work-session.
-    //TODO multiple messages?
     @Column
     private String textStatus;
 
