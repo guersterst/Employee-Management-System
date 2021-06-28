@@ -17,14 +17,13 @@
 </nav>
 
 <body>
-<div class="container card shadow-sm p-3 mb-5">
+<div class="container card shadow-sm">
   <!--  <div class="card shadow-sm p-3 mb-5 bg-white rounded" style="height: 52rem;">
         <div class="card-body"> -->
     <!--Put both forms in one row-->
     <div class="row">
-        <div class="col">
             <!--First form-group for the elements needed to create the account-->
-            <div class="col-md card-body" id="createAccount">
+            <div class ="col-lg" id="createAccount">
                 <h2 class="text-center">Create User-Account</h2>
                 <!--Form, which includes the input fields that will be sent on submit (for creating account)-->
                 <form id="inputFieldsForm" class="needs-validation"  onsubmit="return validate(event);">
@@ -122,7 +121,7 @@
                     <div class="d-grid col-12">
                         <button class="btn btn-primary btn-sm center-block mx-auto" type="submit" id="createAccountButton">Create Account</button>
                     </div>
-                </form>
+            </form>
 
                 <!--show alert if username already exists-->
                 <div class="alert alert-danger" id="userNameExistentAlert">
@@ -139,10 +138,10 @@
                     <strong>Please select a role.</strong>
                 </div>
             </div>
-        </div>
+
 
         <!--Elements needed to create a role-->
-        <div class="col-md-5">
+        <div class="col">
             <div class="form-group" id="createRole">
                 <h2 class="text-center">Create Role</h2>
                 <!--Form used to submit the content of a single input field,
@@ -151,14 +150,14 @@
                 <div class="card card-body shadow-sm m-2">
                     <div class="row">
                         <div class="col">
-                            <div class="form-group col">
+                            <div class="form-group">
                                 <label for="roleCreate">Role</label>
                                 <input id="roleCreate" type="text" class="form-control" placeholder="Role Name" required>
                             </div>
                         </div>
-                        <div class="col-md-5">
-                            <div class="form-group col">
-                                <button class="btn btn-primary btn-sm center-block mx-auto" type="button" onclick="addRole()" id="createRoleButton">Create Role</button>
+                        <div class="col">
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-sm center-block" type="button" onclick="addRole()" id="createRoleButton">Create Role</button>
                             </div>
                         </div>
                     </div>
