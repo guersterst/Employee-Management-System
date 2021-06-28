@@ -232,17 +232,19 @@
     // its text in order to show which role was selected.
     $( ".dropdown-item" ).each(function() {
         $(this).on("click", function() {
-            if ($(this).text() !== "Clear Roles") {
+            if ($(this).text() === "Clear Roles") {
                 // Remove all elements
-                $('#selectRoleDropdown').text("Select Role");
 
-                let list = $('.dropdown-menu')
-                for (i = 0; i < list.childNodes.length; i++) {
-                    if (list.childNodes[i].textContent === elementText) {
-                        list.removeChild(list.childNodes[i]);
+                let list = $('.dropdown-item')
+                for (i = 0; i < list.length; i++) {
+                    if (list[i].textContent !== "Clear Roles") {
+                        list[i].remove();
                         locallyCreatedRoles.pop();
                     }
                 }
+
+                $('#selectRoleDropdown').text("Select Role");
+                console.log("hallo");
 
             } else {
                 $('#selectRoleDropdown').text($(this).text());
@@ -293,6 +295,37 @@
         noRoleSelectedAlert.fadeOut(0);
         roleAlreadyExistentAlert.fadeOut(0);
         userNameExistsAlert.fadeOut(0);
+
+        // Load all previously stored roles
+        console.log("Loading cookies");
+
+        let i = 0
+        let roleFromCookie = getRoleFromCookie(i);
+
+        while (roleFromCookie !== "") {
+            locallyCreatedRoles.push(roleFromCookie);
+            let element = document.createElement("a");
+            element.className = "dropdown-item";
+            element.href = "#";
+            element.innerText = roleFromCookie;
+            element.onclick = function() {
+                $('#selectRoleDropdown').text($(this).text());
+                roleSelected = true;
+                noRoleSelectedAlert.fadeOut(0);
+            }
+            document.querySelector(".dropdown-menu").appendChild(element);
+
+            // Not final. For now, you can only read 10 cookies --> prevent endless loops.
+            if (i >= 10) {
+                break;
+            }
+
+            // Get next Cookie
+            i++;
+            roleFromCookie = getRoleFromCookie(i);
+        }
+            console.log("no more cookies " + i);
+
     }
 
     // Local list of all created roles:
@@ -300,47 +333,51 @@
     let locallyCreatedRoles = [];
 
     function addRole() {
+        // Create Cookie here:
+        const date = new Date();
+        date.setTime(date.getTime() + (365*24*60*60*1000));
+        let expires = "expires="+ date.toUTCString();
+        document.cookie = "role" + locallyCreatedRoles.length + "=" +  roleInputField.val() +";" + expires + ";";
+
+
+
         locallyCreatedRoles.push(roleInputField.val());
-        roleInputField.val("");
-        for (var i = 0; i < locallyCreatedRoles.length; i++) {
+        //for (var i = 0; i < locallyCreatedRoles.length; i++) {
             let element = document.createElement("a");
             element.className = "dropdown-item";
             element.href = "#";
-            element.innerText = locallyCreatedRoles[i];
+            element.innerText = roleInputField.val();
             element.onclick = function() {
                 $('#selectRoleDropdown').text($(this).text());
                 roleSelected = true;
                 noRoleSelectedAlert.fadeOut(0);
             }
 
-            /*let button = document.createElement("button");
-            button.className = "btn btn-danger btn-circle"
-            button.style = "width: 30px; height: 30px;text-align: center; padding: 6px 0;font-size: 12px;line-height: 1.5;";
+        document.querySelector(".dropdown-menu").appendChild(element);
+        roleInputField.val("");
+    }
 
+    // Use this function to search for the nr-th role.
+    function getRoleFromCookie(nr) {
+        let name = "role" + nr + "=";
+        console.log(name);
 
-            button.onclick = function() {
-                if ($('#selectRoleDropdown').text() === $(this).text()) {
-                    $('#selectRoleDropdown').text("Select Role");
-                    roleSelected = false;
-                    noRoleSelectedAlert.fadeIn(200);
-                }
+        //Decode Cookie
+        let cookie = document.cookie;
 
-                locallyCreatedRoles.splice(locallyCreatedRoles.indexOf($(this).text()), 1);
-                this.parentNode.parentNode.removeChild(this);
+        //Removes everything beyond the semicolon. So, only e.g. role2=Employee; is left.
+        let cookieUntilSemicolon = cookie.split(';');
+
+        for (let i = 0; i < cookieUntilSemicolon.length; i++) {
+
+            while (cookieUntilSemicolon[i].charAt(0) === ' ') {
+                cookieUntilSemicolon[i] = cookieUntilSemicolon[i].substring(1);
             }
-
-            element.appendChild(button);
-
-            let icon = document.createElement("i");
-            icon.className = "bi-exclamation";
-
-
-            button.appendChild(icon); */
-
-
-            document.querySelector(".dropdown-menu").appendChild(element);
+            if (cookieUntilSemicolon[i].indexOf(name) === 0) {
+                return cookieUntilSemicolon[i].substring(name.length, cookieUntilSemicolon[i].length);
+            }
         }
-
+        return "";
     }
 </script>
 </html>
