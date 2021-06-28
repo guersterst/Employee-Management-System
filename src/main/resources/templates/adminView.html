@@ -93,21 +93,23 @@
                         </tr>
 
 
-                        <tr th:each="workSessionListEntry : ${workSessionListEntries}">
-                            <a th:href="@{/{userName}(userName = ${workSessionListEntry.userName})/session}">
+                        <form th:action="@{/admin/employees}" method="get" th:object="${workSessionListEntries}"
+                              th:method="get">
+                            <tr th:each="workSessionListEntry : ${workSessionListEntries}">
                                 <th scope="row"></th>
                                 <td th:text="${workSessionListEntry.firstName} + ' ' + ${workSessionListEntry.lastName}">
                                     <a href="#"><i class="bi bi-person-bounding-box" title="Profile"></i></a>
-                                    <a class="float-right" href="#" th:for="${userName}"><i class="bi-trash"></i></a>
+                                    <a class="float-right" href="#" th:for="${userName}"><i
+                                            class="bi-trash"></i></a>
                                 </td>
                                 <td th:text="${workSessionListEntry.available}"></td>
                                 <td th:text="${workSessionListEntry.onSite}"></td>
                                 <td>Location</td>
-                                <td th:value="${workSessionListEntry.startTime}"></td>
-                                <td th:text="${workSessionListEntry.stopTime}"></td>
-                                <td th:value="${workSessionListEntry.textStatus}"></td>
-                            </a>
-                        </tr>
+                                <td th:text="${#dates.format(workSessionListEntry.startTime, 'yyyy-MM-dd : HH:mm')}"></td>
+                                <td th:text="${#dates.format(workSessionListEntry.stopTime, 'yyyy-MM-dd : HH:mm')}"></td>
+                                <td th:text="${workSessionListEntry.textStatus}"></td>
+                            </tr>
+                        </form>
 
                         </tbody>
                     </table>
