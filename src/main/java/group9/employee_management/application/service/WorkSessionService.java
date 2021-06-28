@@ -1,7 +1,6 @@
 package group9.employee_management.application.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.gson.Gson;
 import group9.employee_management.application.exception.NoSessionsException;
 import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.persistence.entities.Employee;
@@ -11,13 +10,9 @@ import group9.employee_management.persistence.repositories.WorkSessionRepository
 import group9.employee_management.web.dto.UserDTO;
 import group9.employee_management.web.dto.WorkSessionDTO;
 import group9.employee_management.web.dto.WorkSessionListEntryDTO;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.FileWriter;
-import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -231,12 +226,15 @@ public class WorkSessionService {
     CSV and JSOn converters.
      */
 
+    /*
     public String workSessionsToJSON(String userName) {
         hasLatestSession(userName);
         return new Gson().toJson(getSessions(userName));
 
     }
 
+     */
+/*
     public void workSessionsToCSV(String userName) throws IOException {
         List<WorkSessionDTO> sessions = getSessions(userName);
         FileWriter out = new FileWriter("book_new.csv");
@@ -250,12 +248,16 @@ public class WorkSessionService {
                 printer.printRecord(author, title);
             });
 
-             */
+
+
     }
+
+             */
 
     /*
     For defensive programming.
      */
+
 
     private void hasLatestSession(String userName) {
         if (workSessionRepository.getEmployeeByUserName(userName) == null) {
@@ -274,7 +276,7 @@ public class WorkSessionService {
      Not in use anymore.
      */
 
-    public String workSessionsToJSON(List<WorkSession> sessions) throws JsonProcessingException {
+    public String workSessionsToJSON(String sessions) throws JsonProcessingException {
         StringBuilder jsonArrayResponse = new StringBuilder("{ \"workSessions\": [");
 
         for (WorkSession workSession : sessions) {

@@ -28,7 +28,7 @@
       <h1 id="timeline">History</h1>
     </div>
     <!--Timeline vertically shows every event that is happening during using the web application.-->
-    <ul class="timeline" th:action="@{/my-history}" th:object="${workSessionsList}" th:method="get">
+    <ul class="timeline" th:action="@{/my-history}" th:object="${historyWorkSessionDTO}" th:method="get">
       <div class="text-muted date">
         <hr><strong>Monday 22.06.2021</strong>
       </div>
@@ -78,11 +78,12 @@
           </div>
         </div>
       </li>
-      <li th:each="workSession : ${workSessionsList}">
+      <li th:each="workSession : ${historyWorkSessionDTO}">
       <div class="timeline-panel">
         <div class="timeline-heading">
-          <h3 class="panel-title">Availability</h3>
-          <p class="text-muted" th:text="${#dates.format(workSession.startTime)}"><i class="bi bi-clock"></i> 10:14 am</p>
+          <h3 class="panel-title"th:if="*{onSite == true}">Login</h3>
+          <h3 class="panel-title" th:unless="*{onSite == true}">Logout</h3>
+          <p class="text-muted" th:text="${#dates.format(historyWorkSessionDTO.startTime)}"><i class="bi bi-clock"></i> 10:14 am</p>
         </div>
         <div class="timeline-body">
           <p>Is now available.</p>

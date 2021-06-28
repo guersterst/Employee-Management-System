@@ -196,7 +196,7 @@ public class EmployeeWorkSessionsHistoryController {
         byte[] customerJsonBytes;
         try {
             customerJsonBytes = workSessionService.workSessionsToJSON(principal.getName()).getBytes();
-        } catch (NoSessionsException | NoSuchUserException exception) {
+        } catch (NoSessionsException | NoSuchUserException | JsonProcessingException exception) {
             status.setMessage("bad_request");
             return null;
         }
