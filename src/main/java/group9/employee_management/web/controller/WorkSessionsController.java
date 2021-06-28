@@ -193,12 +193,20 @@ public class WorkSessionsController {
     )
     //@ResponseBody
     public String putMessage(@ModelAttribute("workSessionData") WorkSessionDTO session,
-                             @ModelAttribute("status") StatusDTO status, Principal principal) {
+                             @ModelAttribute("status") StatusDTO status, Principal principal,
+                             @RequestParam String value) {
         String userName = principal.getName();
 
         if (session.getTextStatus() != null && session.getStopTime() == null) {
             try {
-                workSessionService.putMessage(userName, session.getTextStatus());
+                switch (value) {
+                    case "message":
+                        workSessionService.putMessage(userName, session.getTextStatus());
+                    case "delete":
+                        workSessionService.deleteTextStatus(userName);
+                        session.setTextStatus("");
+                        System.out.println(userName);
+                }
             } catch (NoSessionsException | NoSuchUserException exception) {
                 status.setMessage("bad_request");
             }
@@ -219,11 +227,12 @@ public class WorkSessionsController {
         try {
             workSessionService.deleteTextStatus(userName);
             session.setTextStatus("");
+            System.out.println(userName);
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
         status.setMessage("valid");
-        return "employeeView";
+        return "redirect:/my-session/latest";
     }
 
     /**
