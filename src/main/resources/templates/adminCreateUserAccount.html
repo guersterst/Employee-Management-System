@@ -17,104 +17,106 @@
 </nav>
 
 <body>
-<div class="container">
+<div class="container card shadow-sm p-3 mb-5">
   <!--  <div class="card shadow-sm p-3 mb-5 bg-white rounded" style="height: 52rem;">
         <div class="card-body"> -->
     <!--Put both forms in one row-->
     <div class="row">
         <div class="col">
             <!--First form-group for the elements needed to create the account-->
-            <div class="form-group col-md" id="createAccount">
+            <div class="col-md card-body" id="createAccount">
                 <h2 class="text-center">Create User-Account</h2>
                 <!--Form, which includes the input fields that will be sent on submit (for creating account)-->
                 <form id="inputFieldsForm" class="needs-validation"  onsubmit="return validate(event);">
+                    <div class="card card-body shadow-sm m-2">
                     <!--form-group for the user's first name-->
-                    <div class="form-group col">
-                        <label for="firstName">First Name</label>
-                        <!--Use an input group so an icon can be added to the input field-->
-                        <div class="input-group">
-                            <input id="firstName" type="text" class="form-control" placeholder="First Name"required>
-                            <div class="invalid-feedback">Please enter the employee's first name.</div>
-                            <!--<div class="input-group-append">
-                                <span class="input-group-addon bi-file-person" id="icon1"></span>
-                            </div>-->
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label for="firstName">First Name</label>
+                                <input id="firstName" type="text" class="form-control" placeholder="First Name"required>
+                                <div class="invalid-feedback">Please enter the employee's first name.</div>
+                            </div>
+                            <!--form-group for the user's last name-->
+                            <div class="form-group col">
+                                <label for="lastName">Last Name</label>
+                                <input id="lastName" type="text" class="form-control" placeholder="Last Name" required>
+                                <div class="invalid-feedback">Please enter the employee's last name.</div>
+                            </div>
                         </div>
-                    </div>
-                    <!--form-group for the user's last name-->
-                    <div class="form-group col">
-                        <label for="lastName">Last Name</label>
-                        <!--Use an input group so an icon can be added to the input field-->
-                        <div class="input-group">
-                            <input id="lastName" type="text" class="form-control" placeholder="Last Name" required>
-                            <div class="invalid-feedback">Please enter the employee's last name.</div>
-                            <!--<div class="input-group-append">
-                                <span class="input-group-addon bi-file-person" id="icon2"></span>
-                            </div>-->
-                        </div>
-                    </div>
-                    <!--Input field for user name. This input field is optional as a user name can be
-                    generated using JavaScript if the field is left empty-->
-                    <div class="form-group col">
-                        <label for="userName">User Name</label>
-                        <input id="userName" type="text" class="form-control" placeholder="User Name" required>
-                    </div>
-
-                    <!--Selecting the role from a dropdown-menu:-->
-                    <div class="form-group col">
-                        <label for="selectRoleDropdown">Role in Company</label>
-                        <div class="dropdown">
-                            <!-- data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="selectRoleDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Select Role
-                            </button>
-                            <!--This is for testing purposes. Later on, we will fill the dropdown-menu with
-                            elements from the database, which have been created by the admin-->
-                            <div class="dropdown-menu" aria-labelledby="selectRoleDropdown">
-                                <a class="divider"></a>
-                                <a class="dropdown-item rounded" href="#" style="background: rgb(200, 50, 90); color: ghostwhite">Clear Roles</a>
-                                <!-- <a class="dropdown-item" href="#">CEO</a> -->
-                                <!-- <a class="dropdown-item" href="#">Clerk</a> -->
-                                <!-- <a class="dropdown-item" href="#">Head of Department</a> -->
+                        <!--Input field for user name. This input field is optional as a user name can be
+                            generated using JavaScript if the field is left empty-->
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label for="userName">User Name</label>
+                                <input id="userName" type="text" class="form-control" placeholder="User Name" required>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group col">
-                        <label for="role">Position</label>
-                        <!--Use an input group so an icon can be added to the input field-->
-                        <div class="input-group">
-                            <input id="role" type="text" class="form-control" placeholder="Position" required>
-                            <div class="invalid-feedback">Please enter the employee's last name.</div>
+                    <div class="card card-body shadow-sm m-2">
+                        <div class="form-row">
+                            <!--Selecting the role from a dropdown-menu:-->
+                            <div class="form-group col">
+                                <label for="selectRoleDropdown">Role in Company</label>
+                                <div class="dropdown">
+                                <!-- data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="selectRoleDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Select Role
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="selectRoleDropdown">
+                                        <a class="dropdown-item rounded" href="#" style="background: rgb(200, 50, 90); color: ghostwhite">Clear Roles </a>
+                                        <div class="dropdown-divider"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group col">
-                        <div class="form-check form-switch d-table">
-                            <input class="checkbox form-check-input col" type="checkbox" id="isAdmin" value="true" name="isAdmin">
-                            <label class="form-check-label col" for="isAdmin" id="isAdminLabel">
-                                Admin-Privileges
-                            </label>
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <div class="form-check form-switch d-table">
+                                    <input class="checkbox form-check-input" type="checkbox" id="isAdmin" value="true" name="isAdmin">
+                                    <label class="form-check-label" for="isAdmin" id="isAdminLabel">
+                                        Admin-Privileges
+                                    </label>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group col">
-                        <label for="password">Password</label>
-                        <div class="input-group">
-                            <input id="password" type="password" class="form-control" placeholder="Password" required>
-                            <div class="invalid-feedback">Please enter a password</div>
-                            <div class="input-group-append">
-                                <button class="input-group-btn" type="button" id="showHidePassword" onclick="showOrHidePassword()" onkeyup="checkIfPasswordsMatch()">
-                                    <i class="bi-eye-slash" id="passwordButtonIcon"></i></button>
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label for="role">Position</label>
+                                <!--Use an input group so an icon can be added to the input field-->
+                                <div class="input-group">
+                                    <input id="role" type="text" class="form-control" placeholder="Position" required>
+                                    <div class="invalid-feedback">Please enter the employee's last name.</div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group col">
-                        <label for="passwordRepeated">Repeat Password</label>
-                        <input id="passwordRepeated" type="password" class="form-control" placeholder="Repeat Password" onkeyup="checkIfPasswordsMatch()" required>
-                        <div class="invalid-feedback">Please repeat the password</div>
-                    </div>
+                    <div class="card card-body shadow-sm m-2">
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label for="password">Password</label>
+                                <div class="input-group">
+                                    <input id="password" type="password" class="form-control" placeholder="Password" required>
+                                    <div class="invalid-feedback">Please enter a password</div>
+                                    <div class="input-group-append">
+                                        <button class="input-group-btn" type="button" id="showHidePassword" onclick="showOrHidePassword()" onkeyup="checkIfPasswordsMatch()">
+                                            <i class="bi-eye-slash" id="passwordButtonIcon"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label for="passwordRepeated">Repeat Password</label>
+                                <input id="passwordRepeated" type="password" class="form-control" placeholder="Repeat Password" onkeyup="checkIfPasswordsMatch()" required>
+                                <div class="invalid-feedback">Please repeat the password</div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!--Button to submit the form-->
                     <div class="d-grid col-12">
@@ -146,21 +148,21 @@
                 <!--Form used to submit the content of a single input field,
                 which is used to describe the name of a role-->
                 <!--  <form id="inputFieldsForRoleForm" class="needs-validation"> -->
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group col">
-                            <label for="roleCreate">Role</label>
-                            <input id="roleCreate" type="text" class="form-control" placeholder="Role Name" required>
+                <div class="card card-body shadow-sm m-2">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group col">
+                                <label for="roleCreate">Role</label>
+                                <input id="roleCreate" type="text" class="form-control" placeholder="Role Name" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-5">
-                        <!--Button to submit content of the form-->
-                        <div class="form-group col">
-                            <button class="btn btn-primary btn-sm center-block mx-auto" type="button" onclick="addRole()" id="createRoleButton">Create Role</button>
+                        <div class="col-md-5">
+                            <div class="form-group col">
+                                <button class="btn btn-primary btn-sm center-block mx-auto" type="button" onclick="addRole()" id="createRoleButton">Create Role</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!--  </form> -->
 
                 <!--show alert if role already exists-->
                 <div class="alert alert-danger" id="roleAlreadyExistentAlert">
