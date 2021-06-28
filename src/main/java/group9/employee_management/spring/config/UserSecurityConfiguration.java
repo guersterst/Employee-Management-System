@@ -142,8 +142,11 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 /*
 3.Login first-time
 
-5. doc.
-7.UserHistory as JSON, CSV etc...
+4. return not only running sessions to employeeListView
+5.
+6. doc.
+6. csv oder xml
+7. delete user?
 
 6. On-demand: improve controllers
  */

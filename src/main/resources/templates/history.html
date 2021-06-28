@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,7 +28,7 @@
       <h1 id="timeline">History</h1>
     </div>
     <!--Timeline vertically shows every event that is happening during using the web application.-->
-    <ul class="timeline">
+    <ul class="timeline" th:action="@{/my-history}" th:object="${workSessionsList}" th:method="get">
       <div class="text-muted date">
         <hr><strong>Monday 22.06.2021</strong>
       </div>
@@ -77,6 +77,17 @@
             <p>Is now available.</p>
           </div>
         </div>
+      </li>
+      <li th:each="workSession : ${workSessionsList}">
+      <div class="timeline-panel">
+        <div class="timeline-heading">
+          <h3 class="panel-title">Availability</h3>
+          <p class="text-muted" th:text="${#dates.format(workSession.startTime)}"><i class="bi bi-clock"></i> 10:14 am</p>
+        </div>
+        <div class="timeline-body">
+          <p>Is now available.</p>
+        </div>
+      </div>
       </li>
     </ul>
     <!--Footer with the option to show more details.-->

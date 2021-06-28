@@ -40,6 +40,9 @@ public interface WorkSessionRepository extends JpaRepository<WorkSession, Intege
     @Query("SELECT DISTINCT w.employee FROM WorkSession w WHERE w.stopTime IS NULL")
     List<Employee> getEmployeesWithRunningSessions();
 
+    @Query("SELECT DISTINCT w.employee FROM WorkSession w")
+    List<Employee> getAllEmployeesWithSessions();
+
     @Query("SELECT u FROM Employee u WHERE u.userName = :userName")
     Employee getEmployeeByUserName(@Param("userName") String userName);
 }

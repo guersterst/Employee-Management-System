@@ -8,12 +8,18 @@ import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.web.dto.StatusDTO;
 import group9.employee_management.web.dto.WorkSessionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -58,6 +64,7 @@ public class EmployeeWorkSessionsHistoryController {
      * Get the latest work-session of a user. If that user has no sessions {@code HttpStatus.NOT_FOUND} will be
      * returned.
      * It is saved in "workSession1" DTO.
+     *
      * @return The latest work-session as JSON.
      * @throws JsonProcessingException
      */
@@ -83,6 +90,7 @@ public class EmployeeWorkSessionsHistoryController {
      * Returns the index of the latest work-session of an user. Indexing starts at 0, therefore -1 indicates that
      * there are no sessions for this user.
      * The index is written into "workSession1" DTO
+     *
      * @param userName The user of whom we want to acquire the highest index.
      * @return The highest index.
      */
@@ -135,11 +143,11 @@ public class EmployeeWorkSessionsHistoryController {
 
     /**
      * Returns three sessions, beginning at the given index and descending from there.
-     *
+     * <p>
      * Fill "workSession1" DTO with the desired index.
      *
      * @param userName The user of whom we want to acquire the sessions.
-     * @param index The index at which the returned sessions begin.
+     * @param index    The index at which the returned sessions begin.
      * @return At most three sessions in JSON.
      */
     @GetMapping(
@@ -166,4 +174,58 @@ public class EmployeeWorkSessionsHistoryController {
         }
         return "history";
     }
+
+    @GetMapping(
+            //TODO content negotiation
+            value = "/downloadJSON"
+    )
+    @ResponseBody
+    public ResponseEntity<byte[]> getSessionsJSON(Principal principal,
+    @ModelAttribute("status") StatusDTO status) {
+        byte[] customerJsonBytes;
+        try {
+            customerJsonBytes = workSessionService.workSessionsToJSON(principal.getName()).getBytes();
+        } catch (NoSessionsException | NoSuchUserException exception) {
+            status.setMessage("bad_request");
+            return null;
+        }
+        status.setMessage("valid");
+
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=sessions.json")
+                .contentType(MediaType.APPLICATION_JSON)
+                .contentLength(customerJsonBytes.length)
+                .body(customerJsonBytes);
+    }
+
+    /*
+    @GetMapping(
+            //TODO content negotiation
+            value = "/downloadCSV"
+    )
+    @ResponseBody
+    public ResponseEntity<byte[]> getSessionsCSV(Principal principal, @ModelAttribute("status") StatusDTO status,
+                                                 HttpServletResponse response) throws IOException {
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; file=sessions.csv");
+        //workSessionService.workSessionsToCSV(response.getWriter(), principal.getName());
+
+        byte[] customerCSVBytes;
+        try {
+            //customerCSVBytes = workSessionService.workSessionsToCSV(principal.getName()).getBytes();
+        } catch (NoSessionsException | NoSuchUserException exception) {
+            status.setMessage("bad_request");
+            return null;
+        }
+        status.setMessage("valid");
+
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=sessions.json")
+                .contentType(MediaType.APPLICATION_JSON);
+                //.contentLength(customerCSVBytes.length)
+                //.body(customerCSVBytes);
+    }
+     */
 }

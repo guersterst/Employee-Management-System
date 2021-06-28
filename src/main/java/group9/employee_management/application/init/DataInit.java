@@ -1,6 +1,8 @@
 package group9.employee_management.application.init;
 
 import group9.employee_management.application.Roles;
+import group9.employee_management.application.service.AccountService;
+import group9.employee_management.application.service.WorkSessionService;
 import group9.employee_management.persistence.entities.Employee;
 import group9.employee_management.persistence.entities.User;
 import group9.employee_management.persistence.entities.WorkSession;
@@ -24,13 +26,16 @@ public class DataInit implements CommandLineRunner {
     private final UserRepository userRepository;
     private final EmployeeRepository employeeRepository;
     private final WorkSessionRepository workSessionRepository;
+    private final AccountService accountService;
+
 
     @Autowired
     public DataInit(EmployeeRepository employeeRepository, WorkSessionRepository workSessionRepository,
-                    UserRepository userRepository) {
+                    UserRepository userRepository, AccountService accountService, WorkSessionService workSessionService) {
         this.userRepository = userRepository;
         this.employeeRepository = employeeRepository;
         this.workSessionRepository = workSessionRepository;
+        this.accountService = accountService;
         this.encoder = new BCryptPasswordEncoder(10);
     }
 
@@ -94,5 +99,8 @@ public class DataInit implements CommandLineRunner {
         //TODO hash in accountService
         userRepository.save(new User("admin", hashPassword("admin"), null, Roles.ADMIN, Roles.USER));
         userRepository.save(new User("student", hashPassword("student"), employee1, Roles.USER));
+
+        accountService.createUser("aladin","Alan", "Turing", "p=np", false, "Researcher");
+        accountService.createUser("linus","Linus", "Torvald", "linux", false, "Chief code magician");
     }
 }

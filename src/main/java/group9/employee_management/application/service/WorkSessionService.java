@@ -1,6 +1,7 @@
 package group9.employee_management.application.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.gson.Gson;
 import group9.employee_management.application.exception.NoSessionsException;
 import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.persistence.entities.Employee;
@@ -10,9 +11,13 @@ import group9.employee_management.persistence.repositories.WorkSessionRepository
 import group9.employee_management.web.dto.UserDTO;
 import group9.employee_management.web.dto.WorkSessionDTO;
 import group9.employee_management.web.dto.WorkSessionListEntryDTO;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,6 +28,12 @@ public class WorkSessionService {
 
     private final WorkSessionRepository workSessionRepository;
     private final EmployeeRepository employeeRepository;
+    //private final String filepath = "C:/Users/Johnn/OneDrive/Desktop/SoSe"
+     //       + ".21/WDE/Projekt/employee-management-system/g9-21ss-web.data.eng/src/main/resources/sessions";
+
+    //"src/main/resources/sessions";
+
+    private final String HEADERS = "";
 
     @Autowired
     public WorkSessionService(WorkSessionRepository workSessionRepository, EmployeeRepository employeeRepository) {
@@ -191,7 +202,7 @@ public class WorkSessionService {
     public List<WorkSessionDTO> getSessions(String userName) {
         List<WorkSessionDTO> result = new ArrayList<>();
 
-        for (int i = 0; i < workSessionRepository.getIndex(userName); i++) {
+        for (int i = 0; i < workSessionRepository.getIndex(userName) + 1; i++) {
             result.add(WorkSessionDTO.fromEntity(workSessionRepository.getWorkSession(userName, i)));
         }
         return result;
@@ -225,8 +236,9 @@ public class WorkSessionService {
         return result + "]";
     }
 
-    public List<UserDTO> getEmployeesWithRunningSessions() {
-        List<Employee> employees = workSessionRepository.getEmployeesWithRunningSessions();
+    public List<UserDTO> getLatestSessionsOfAllEmployees() {
+        //List<Employee> employees = workSessionRepository.getEmployeesWithRunningSessions();
+        List<Employee> employees = workSessionRepository.getAllEmployeesWithSessions();
         List<UserDTO> result = new ArrayList<>();
         for (Employee employee : employees) {
             result.add(UserDTO.fromEntity(employee));
@@ -234,14 +246,38 @@ public class WorkSessionService {
         return result;
     }
 
-    public List<WorkSessionListEntryDTO>  getListEntries() {
-        List<UserDTO> users = getEmployeesWithRunningSessions();
+    public List<WorkSessionListEntryDTO> getListEntries() {
+        List<UserDTO> users = getLatestSessionsOfAllEmployees();
         List<WorkSessionListEntryDTO> result = new ArrayList<>();
         for (UserDTO user : users) {
             result.add(WorkSessionListEntryDTO.fromEntities(getUser(user.getUserName()),
                     getLatest(user.getUserName())));
         }
         return result;
+    }
+
+    /*
+    CSV and JSOn converters.
+     */
+
+    public String workSessionsToJSON(String userName) {
+        hasLatestSession(userName);
+        return new Gson().toJson(getSessions(userName));
+
+    }
+
+    public void workSessionsToCSV(String userName) throws IOException {
+        List<WorkSessionDTO> sessions = getSessions(userName);
+        FileWriter out = new FileWriter("book_new.csv");
+        try (CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT
+                .withHeader(HEADERS))) {
+            /*
+            WorkSessionDTO.forEach((author, title) -> {
+                printer.printRecord(author, title);
+            });
+
+             */
+        }
     }
 
     private void hasLatestSession(String userName) {
