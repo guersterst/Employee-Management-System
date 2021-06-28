@@ -220,9 +220,11 @@ public class WorkSessionsController {
                                    @ModelAttribute("status") StatusDTO status, Principal principal, Model model) {
         String userName = principal.getName();
         try {
+            System.out.println(session.getTextStatus());
             workSessionService.deleteTextStatus(userName);
             session.setTextStatus("");
             model.addAttribute("workSessionData", session);
+            System.out.println(session.getTextStatus());
 
             //System.out.println(userName);
         } catch (NoSessionsException | NoSuchUserException exception) {

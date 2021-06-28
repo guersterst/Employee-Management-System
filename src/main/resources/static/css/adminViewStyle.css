@@ -1,7 +1,7 @@
 .cont {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    margin: 50px 20px 20px;
+    margin: 80px 300px 300px;
     text-align: center;
 }
 
@@ -25,7 +25,7 @@ tr:hover i.bi {
     overflow: hidden;
     padding-bottom: 56.25%;
     position: relative;
-    height: 0;
+    height: auto;
 }
 
 .iframe {
