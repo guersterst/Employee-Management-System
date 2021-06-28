@@ -12,9 +12,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, String> {
 
-    @Query("SELECT e.password FROM Employee e WHERE e.userName = :userName")
-    String findPasswordByUserName(@Param("userName") String userName);
-
     @Query("SELECT e FROM Employee e WHERE e.userName = :userName")
     Employee getUserByUserName(@Param("userName") String userName);
 
