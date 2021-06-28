@@ -48,6 +48,7 @@ public class EmployeeListView {
      * @param status The status.
      * @return The view.
      */
+    @Deprecated
     @GetMapping(
             value = "/{userName}/session"
     )

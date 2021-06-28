@@ -18,20 +18,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
+/**
+ * A controller for an employee to get access to his own work-session history.
+ */
 @Controller
 @RequestMapping("/my-history")
 public class EmployeeWorkSessionsHistoryController {
-    //AUTH
-
-    // getSession(index)
-
-    // getLatestThree()?
-
     private final WorkSessionService workSessionService;
 
     @Autowired
@@ -40,9 +35,11 @@ public class EmployeeWorkSessionsHistoryController {
     }
 
     /**
-     * Access the html to display an users work-session history.
+     * Access the html and gain access to all latest work-sessions of all users.
      *
-     * @return The history.html
+     * @param model     The model.
+     * @param principal Spring security principal.
+     * @return The view.
      */
     @GetMapping(
             value = ""
@@ -61,12 +58,12 @@ public class EmployeeWorkSessionsHistoryController {
     }
 
     /**
-     * Get the latest work-session of a user. If that user has no sessions {@code HttpStatus.NOT_FOUND} will be
-     * returned.
-     * It is saved in "workSession1" DTO.
+     * Get the users latest session.
      *
-     * @return The latest work-session as JSON.
-     * @throws JsonProcessingException
+     * @param principal      Spring security principal.
+     * @param workSessionDTO The dto filled with the relevant info.
+     * @param status         The status dto.
+     * @return The view.
      */
     @GetMapping(
             value = "/latest"
@@ -89,10 +86,11 @@ public class EmployeeWorkSessionsHistoryController {
     /**
      * Returns the index of the latest work-session of an user. Indexing starts at 0, therefore -1 indicates that
      * there are no sessions for this user.
-     * The index is written into "workSession1" DTO
      *
-     * @param userName The user of whom we want to acquire the highest index.
-     * @return The highest index.
+     * @param principal      Spring security principal.
+     * @param workSessionDTO The dto filled with the relevant info.
+     * @param status         The status dto.
+     * @return The view.
      */
     @GetMapping(
             value = "/latest/index"
@@ -112,12 +110,16 @@ public class EmployeeWorkSessionsHistoryController {
     }
 
     /**
-     * Fill the historyWorkSessionDTO with the index of the session that you want to acquire.
+     * Returns the session at the desired index.
+     *
+     * @param principal      Spring security principal.
+     * @param workSessionDTO The dto filled with the relevant info. (index)
+     * @param status         The status dto.
+     * @return The view.
      */
     @GetMapping(
             value = "/session"
     )
-    //@ResponseBody
     public String getSessionByIndex(Principal principal,
                                     @ModelAttribute("historyWorkSessionDTO") WorkSessionDTO workSessionDTO,
                                     @ModelAttribute("status") StatusDTO status) {
@@ -142,19 +144,21 @@ public class EmployeeWorkSessionsHistoryController {
     }
 
     /**
-     * Returns three sessions, beginning at the given index and descending from there.
-     * <p>
-     * Fill "workSession1" DTO with the desired index.
+     * OUT OF ORDER AND NOT IN USER
+     * Returns three sessions, beginning at the given index and descending from there. If there are less sessions
+     * available, sessions of null will be filled in.
      *
-     * @param userName The user of whom we want to acquire the sessions.
-     * @param index    The index at which the returned sessions begin.
-     * @return At most three sessions in JSON.
+     * @param principal Spring security principal.
+     * @param workSession1 The first dto filled with the relevant info.
+     * @param workSession2 The second dto filled with the relevant info.
+     * @param workSession3 The third dto filled with the relevant info.
+     * @return The view.
      */
+    @Deprecated
     @GetMapping(
             value = "/session/three"
     )
-    //@ResponseBody
-    //TODO does not work right now
+
     public String getThree(Principal principal,
                            @ModelAttribute("workSession1") WorkSessionDTO workSession1,
                            @ModelAttribute("workSession2") WorkSessionDTO workSession2,
@@ -175,13 +179,20 @@ public class EmployeeWorkSessionsHistoryController {
         return "history";
     }
 
+    /**
+     * Downloads a JSON file containing all sessions.
+     *
+     * @param principal      Spring security principal.
+     * @param status         The status dto.
+     * @return The view.
+     */
     @GetMapping(
             //TODO content negotiation
             value = "/downloadJSON"
     )
     @ResponseBody
     public ResponseEntity<byte[]> getSessionsJSON(Principal principal,
-    @ModelAttribute("status") StatusDTO status) {
+                                                  @ModelAttribute("status") StatusDTO status) {
         byte[] customerJsonBytes;
         try {
             customerJsonBytes = workSessionService.workSessionsToJSON(principal.getName()).getBytes();

@@ -55,7 +55,6 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/css/**", "/js/**");
         web.ignoring().antMatchers("/css/**", "/js/**", "/resources/**", "/static/**","/webjars/**","/h2-console/**");
     }
 
@@ -122,10 +121,7 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return authProvider;
     }
 
-    /**
-     * @param auth
-     * @throws Exception
-     */
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //auth.userDetailsService(userDetailsService()).passwordEncoder(new BCryptPasswordEncoder(10));
@@ -142,7 +138,6 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 /*
 3.Login first-time
 
-6. doc.
 6. csv oder xml
 7. delete user?
 

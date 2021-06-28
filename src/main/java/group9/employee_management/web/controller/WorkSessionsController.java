@@ -1,26 +1,25 @@
 package group9.employee_management.web.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import group9.employee_management.application.exception.NoSessionsException;
 import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.application.service.WorkSessionService;
 import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.web.dto.StatusDTO;
 import group9.employee_management.web.dto.WorkSessionDTO;
-import org.hibernate.event.spi.PreInsertEvent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
+/**
+ * A controller to gain access to your current session.
+ */
 @Controller
 @RequestMapping(value = "/my-session")
 public class WorkSessionsController {
-
-    //TODO what if there is no session yet, solution like in getAvailability?
     private final WorkSessionService workSessionService;
 
     @Autowired
@@ -29,7 +28,7 @@ public class WorkSessionsController {
     }
 
     /**
-     * Show the employees main page.
+     * Show the employees main page. Introduces DTOS for the current WorkSession, latest history and an status.
      *
      * @param model The model.
      * @return The employees main page.
@@ -54,13 +53,14 @@ public class WorkSessionsController {
      * Returns the index of the latest work-session of an user. Indexing starts at 0, therefore -1 indicates that
      * there are no sessions for this user.
      *
-     * @param userName The user of whom we want to acquire the highest index.
-     * @return The highest index.
+     * @param principal      Spring security principal.
+     * @param workSessionDTO The work-session dto filled with relevant information.
+     * @param status         The status dto.
+     * @return
      */
     @GetMapping(
             value = "/latest/index"
     )
-    //@ResponseBody
     public String getIndex(Principal principal,
                            @ModelAttribute("historyWorkSessionDTO") WorkSessionDTO workSessionDTO,
                            @ModelAttribute("status") StatusDTO status) {
@@ -77,11 +77,15 @@ public class WorkSessionsController {
 
     /**
      * Fill the historyWorkSessionDTO with the index of the session that you want to acquire.
+     *
+     * @param principal      Spring security principal.
+     * @param workSessionDTO The work-session dto filled with relevant information.
+     * @param status         The status dto.
+     * @return
      */
     @GetMapping(
             value = "/session"
     )
-    //@ResponseBody
     public String getSessionByIndex(Principal principal,
                                     @ModelAttribute("historyWorkSessionDTO") WorkSessionDTO workSessionDTO,
                                     @ModelAttribute("status") StatusDTO status) {
@@ -106,15 +110,17 @@ public class WorkSessionsController {
     }
 
     /**
-     * Get the latest work-session of a user. If that user has no sessions {@code HttpStatus.NOT_FOUND} will be
-     * returned.
+     * Get the latest work-session of a user.
      *
-     * @return The latest work-session as JSON.
+     * @param principal      Spring security principal.
+     * @param workSessionDTO The work-session dto filled with relevant information.
+     * @param status         The status dto.
+     * @param model          The model.
+     * @return
      */
     @GetMapping(
             value = "/latest"
     )
-    //@ResponseBody
     public String getLatest(Principal principal,
                             @ModelAttribute("workSessionData") WorkSessionDTO workSessionDTO,
                             @ModelAttribute("status") StatusDTO status, Model model) {
@@ -132,15 +138,15 @@ public class WorkSessionsController {
     /**
      * Starts the latest session for an employee.
      *
-     * @param newSession A dto containing information about the desired new session. Requires
-     *                   {@code textStatus}, {@code availability} and {@code onSite}.
-     * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise. {@code HttpStatus
-     * .NOT_FOUND} if that user does not exist or has no sessions.
+     * @param newSession The dto filled with relevant information.
+     * @param status     The status dto.
+     * @param principal  Spring security principal.
+     * @return The view.
      */
     @PostMapping(
             value = "/beginning"
     )
-    //@ResponseBody
+
     public String startSession(@ModelAttribute("workSessionData") WorkSessionDTO newSession,
                                @ModelAttribute("status") StatusDTO status, Principal principal) {
         String userName = principal.getName();
@@ -158,24 +164,23 @@ public class WorkSessionsController {
     /**
      * Ends the latest session of a user.
      *
-     * @param session A dto containing information about the desired new session. Requires only a {@code userName}.
-     * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise.
-     * {@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.
+     * @param session   The work-session dto filled with the relevant information.
+     * @param status    The status dto.
+     * @param principal Spring security principal.
+     * @param model     The model.
+     * @return The view.
      */
     @PostMapping(
             value = "/ending"
     )
-    //@ResponseBody
     public String endSession(@ModelAttribute("workSessionData") WorkSessionDTO session,
                              @ModelAttribute("status") StatusDTO status, Principal principal, Model model) {
         String userName = principal.getName();
 
         try {
-            //System.out.println(session.isOnSite());
             workSessionService.stopSession(userName);
             session = WorkSessionDTO.fromEntity(workSessionService.getLatest(userName));
             model.addAttribute("workSessionData", session);
-            //System.out.println(session.isOnSite());
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
@@ -186,16 +191,14 @@ public class WorkSessionsController {
     /**
      * Puts a new message in the current running session of a user.
      *
-     * @param session A dto containing information about the desired new session. Requires {@code userName}, {@code
-     *                textStatus}.
-     * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise. Returns {@code
-     * HttpStatus.GONE} if this session has already ended. {@code HttpStatus.NOT_FOUND} if that user does not exist
-     * or has no sessions.
+     * @param session   The work-session dto filled with the relevant information.
+     * @param status    The status dto.
+     * @param principal Spring security principal.
+     * @return The view.
      */
     @PostMapping(
             value = "/message"
     )
-    //@ResponseBody
     public String putMessage(@ModelAttribute("workSessionData") WorkSessionDTO session,
                              @ModelAttribute("status") StatusDTO status, Principal principal) {
         String userName = principal.getName();
@@ -203,16 +206,25 @@ public class WorkSessionsController {
         if (session.getTextStatus() != null && session.getStopTime() == null) {
             try {
                 workSessionService.putMessage(userName, session.getTextStatus());
-        } catch(NoSessionsException | NoSuchUserException exception){
+            } catch (NoSessionsException | NoSuchUserException exception) {
+                status.setMessage("bad_request");
+            }
+            status.setMessage("valid");
+        } else {
             status.setMessage("bad_request");
         }
-        status.setMessage("valid");
-    } else {
-        status.setMessage("bad_request");
+        return "redirect:/my-session/latest";
     }
-        return"redirect:/my-session/latest";
-}
 
+    /**
+     * Deletes a text message.
+     *
+     * @param session   The work-session dto filled with the relevant information.
+     * @param status    The status dto.
+     * @param principal Spring security principal.
+     * @param model     The model.
+     * @return The view.
+     */
     @DeleteMapping(
             value = "/message"
     )
@@ -220,13 +232,9 @@ public class WorkSessionsController {
                                    @ModelAttribute("status") StatusDTO status, Principal principal, Model model) {
         String userName = principal.getName();
         try {
-            System.out.println(session.getTextStatus());
             workSessionService.deleteTextStatus(userName);
             session.setTextStatus("");
             model.addAttribute("workSessionData", session);
-            System.out.println(session.getTextStatus());
-
-            //System.out.println(userName);
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
@@ -237,13 +245,14 @@ public class WorkSessionsController {
     /**
      * Returns the message associated with the users latest session.
      *
-     * @param userName The users identifying name.
-     * @return The message.
+     * @param session   The work-session dto filled with the relevant information.
+     * @param status    The status dto.
+     * @param principal Spring security principal.
+     * @return The view.
      */
     @GetMapping(
             value = "/message"
     )
-    //@ResponseBody
     public String getTextStatus(@ModelAttribute("workSessionData") WorkSessionDTO session,
                                 @ModelAttribute("status") StatusDTO status, Principal principal) {
         String userName = principal.getName();
@@ -264,14 +273,18 @@ public class WorkSessionsController {
      * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise.
      * {@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.
      */
+    /**
+     * @param session   The work-session dto filled with the relevant information.
+     * @param status    The status dto.
+     * @param principal Spring security principal.
+     * @return The view.
+     */
     @PostMapping(
             value = "/availability"
     )
-    //@ResponseBody
     public String putAvailability(@ModelAttribute("workSessionData") WorkSessionDTO session,
                                   @ModelAttribute("status") StatusDTO status, Principal principal) {
         String userName = principal.getName();
-        //System.out.println(session.isAvailable());
 
         try {
             workSessionService.putAvailability(userName, session.isAvailable());
@@ -283,16 +296,16 @@ public class WorkSessionsController {
     }
 
     /**
-     * Returns the availability value of an users latest session. Returns {@code HttpStatus.NOT_FOUND} if that user
-     * does not  exist or has no sessions.
+     * Returns the availability value of an users latest session.
      *
-     * @param userName The users identifying name.
-     * @return The availability value.
+     * @param session   The work-session dto filled with the relevant information.
+     * @param status    The status dto.
+     * @param principal Spring security principal.
+     * @return The view.
      */
     @GetMapping(
             value = "/availability"
     )
-    //@ResponseBody
     public String getAvailability(@ModelAttribute("workSessionData") WorkSessionDTO session,
                                   @ModelAttribute("status") StatusDTO status, Principal principal) {
         String userName = principal.getName();
@@ -306,29 +319,24 @@ public class WorkSessionsController {
         return "employeeView";
     }
 
-    //TODO:Maybe I don't need this any more.
 
     /**
      * Ends the latest session of a user if the onSite value is changed to false. And puts a new onSite value.
      *
-     * @param session A dto containing information about the desired new session. Requires only a {@code userName}.
-     * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise.
-     * {@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.
+     * @param session   The work-session dto filled with the relevant information.
+     * @param status    The status dto.
+     * @param principal Spring security principal.
+     * @return The view.
      */
     @PostMapping(
             value = "/onsite"
     )
-    //@ResponseBody
     public String putOnSite(@ModelAttribute("workSessionData") WorkSessionDTO session,
                             @ModelAttribute("status") StatusDTO status, Principal principal) {
         String userName = principal.getName();
 
         try {
             workSessionService.putOnSite(userName, session.isOnSite());
-            /*
-            workSessionService.stopSession(userName);
-            System.out.println(session.isOnSite());
-             */
             if (!session.isOnSite()) {
                 workSessionService.stopSession(userName);
             }
@@ -340,23 +348,22 @@ public class WorkSessionsController {
     }
 
     /**
-     * Returns the onSite value of an users latest session. A
-     * <p>
-     * ({@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.)
+     * Returns the onSite value of an users latest session.
      *
-     * @param userName The users identifying name.
-     * @return The onsite value.
+     * @param session   The work-session dto filled with the relevant information.
+     * @param status    The status dto.
+     * @param principal Spring security principal.
+     * @return The view.
      */
     @GetMapping(
             value = "/onsite"
     )
-    //@ResponseBody
     public String getOnSite(@ModelAttribute("workSessionData") WorkSessionDTO session,
                             @ModelAttribute("status") StatusDTO status, Principal principal) {
         String userName = principal.getName();
 
         try {
-            session.setOnSite(workSessionService.getOnSite(principal.getName()));
+            session.setOnSite(workSessionService.getOnSite(userName));
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
