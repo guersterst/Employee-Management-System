@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -41,12 +42,10 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder(10);
     }
 
-    //TODO not for production
     @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+    public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
+        return new MyUrlAuthenticationSuccessHandler();
     }
-
 
     /**
      * Allows us to embed the webjars and apply css to our templates/views.
@@ -84,11 +83,11 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .hasAnyRole(Roles.ADMIN.toString(), Roles.USER.toString())
                 .and().authorizeRequests().antMatchers("/admin/**")
                 .hasRole(Roles.ADMIN.toString())
-                .and().formLogin()
+                .and().formLogin().successHandler(myAuthenticationSuccessHandler());
 
 
                 //TODO FEHLERREPRODUKTION: diese Zeile auskommentieren
-                .defaultSuccessUrl("/my-session/latest");
+                //.defaultSuccessUrl("/my-session/latest");
 
         //TODO Debug default success url nullpionter for newly created user
         //TOOD remove newly created debug user
@@ -143,7 +142,6 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 /*
 3.Login first-time
 
-5. password encryption login debug as admin
 5. doc.
 7.UserHistory as JSON, CSV etc...
 
