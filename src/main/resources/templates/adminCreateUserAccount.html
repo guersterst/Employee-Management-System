@@ -65,7 +65,7 @@
                                 Select Role
                             </button>
                             <div class="dropdown-menu" aria-labelledby="selectRoleDropdown">
-                                <a class="dropdown-item rounded" style="background: rgb(200, 50, 90); color: ghostwhite">Clear Roles </a>
+                                <a class="dropdown-item rounded" style="background: rgb(200, 50, 90); color: ghostwhite">Clear Roles</a>
                                 <div class="dropdown-divider"></div>
                             </div>
                         </div>
@@ -325,7 +325,6 @@
         $(this).on("click", function() {
             if ($(this).text() === "Clear Roles") {
                 // Remove all elements
-
                 let list = $('.dropdown-item')
                 for (i = 0; i < list.length; i++) {
                     if (list[i].textContent !== "Clear Roles") {
