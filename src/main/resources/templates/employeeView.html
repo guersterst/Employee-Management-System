@@ -87,7 +87,7 @@
                         </button>
                         <!--Deletes the saved message above the textarea.-->
                         <button class="btn btn-primary btn-lg center-block" type="submit"
-                                id="delete-message" th:formaction="'/my-session/message'" th:formmethod="delete">
+                                id="delete-message" th:formmethod="delete">
                             Delete
                         </button>
                     </div>
@@ -115,12 +115,18 @@
                             <button class="btn btn-primary btn-sm" type="submit" id="createAccountButton">Submit
                             </button>
                         </form>
+
                         <!--If checked before action-->
                         <div th:if="*{onSite == false}">
                             <form th:action="@{/my-session/beginning}" method="post" th:object="${workSessionData}"
                                   th:method="post">
                                 <!--On Site should be automatically switched on when logged in the first time of a day
                                 and only switched of if you leave work.-->
+                                <div class="form-check form-switch d-table onSite">
+                                    <input class="checkbox form-check-input" type="checkbox" id="beginning" value="true"
+                                           th:field="${workSessionData.onSite}" name="onSite">
+                                    <label class="form-check-label" for="beginning" id="startSession">OnSite</label>
+                                </div>
                                 <button class="btn btn-primary btn-sm" type="submit" id="beginSession">Submit
                                 </button>
                             </form>
