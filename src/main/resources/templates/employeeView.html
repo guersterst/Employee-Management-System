@@ -25,14 +25,14 @@
             Home Page
         </h1>
     </div>
-    <div class="row" th:action="@{/my-session/latest}" th:object="${workSessionData}" th:method="get">
+    <div class="row" th:action="@{/my-session/latest}" th:object="${workSessionData}" th:method="post">
         <div class="form-group col-sm-12 col-md-6" th:fragment="messageForm">
             <div class="message card shadow">
                 <div class="bg-secondary text-light">
                     <h2>Message</h2>
                 </div>
                 <!--Show saved message-->
-                <form onsubmit="checkMessage(event)" onreset="checkReset()" id="messageCard"
+                <form onsubmit="checkMessage(event);" onreset="checkReset();" id="messageCard"
                       th:action="@{/my-session/message}" th:method="post">
                     <div class="form-group mx-auto">
                         <label class="form-control" id="savedMsg" type="text"
@@ -81,16 +81,17 @@
 
                     <!--Options for message-->
                     <div class="message-util form-group">
-                        <!--Message with a minimum length.-->
-                        <button class=" btn btn-primary btn-lg center-block" type="submit" id="save-button">
-                            Save
-                        </button>
-                        <!--Deletes the saved message above the textarea.-->
-                        <button class="btn btn-primary btn-lg center-block" type="submit"
-                                id="delete-message" th:formmethod="delete">
-                            Delete
-                        </button>
+                    <!--Message with a minimum length.-->
+                    <button class=" btn btn-primary btn-lg center-block" type="submit" id="save-button">
+                        Save
+                    </button>
+                    <!--Deletes the saved message above the textarea.-->
                     </div>
+                </form>
+                <form th:action="@{/my-session/message/delete}" method="post">
+                    <button class="btn btn-primary btn-lg center-block" type="submit" id="delete-message">
+                        Delete
+                    </button>
                 </form>
             </div>
         </div>
@@ -299,24 +300,8 @@
     let messageWasToShort = false;
     let inputWasRequired = false;
     let deleteWasValid = false;
-    let wasDelte = false;
+    let wasDeleted = false;
 
-    const numberOfTimelinePanels = 0;
-    const requestMessageURL = '/my-session/latest';
-
-    let request = new XMLHttpRequest();
-    request.open('GET', requestMessageURL);
-    request.responseType = 'json';
-    request.send();
-
-    request.onload = function () {
-        let jsonObj = request.response;
-        updateMessage(jsonObj);
-    }
-
-    function updateMessage(jsonObj) {
-        $(savedMessage).appendChild(jsonObj['textStatus']);
-    }
 
     //TODO: Store message.
     //TODO: Duplicated alert code. Maybe theres a better way.
@@ -352,7 +337,7 @@
         //TODO: AlertDelte do not show up.
         if (savedMessage.valueOf().length === 0) {
             alertDelete.fadeIn(100);
-            wasDelte = true;
+            wasDeleted = true;
             event.preventDefault();
         } else {
             alertDeleteValid.fadeIn(100);
@@ -371,7 +356,7 @@
         if (deleteWasValid) {
             alertDeleteValid.fadeOut(1);
         }
-        if (wasDelte) {
+        if (wasDeleted) {
             alertDelete.fadeOut(1);
         }
     }
@@ -382,25 +367,8 @@
     alertDelete.fadeOut(1);
     alertDeleteValid.fadeOut(1);
 
-    function turnOffOnSite() {
-        var heading = document.querySelector("h3"),
-            paragraph = document.querySelector("p"),
-            panelMessage = document.querySelector("#timelineInfo div"),
-            temp = document.querySelector("#newTimelinePanel")
-
-        if ('content' in document.createElement('template')
-            && heading && paragraph && panelMessage && temp) {
-            //TODO:do something.
-        }
-    }
-
-    //Only 3 panels should appear at the employees homepage. This should only be an overview.
-    function checkAmountOfTimlinePanels() {
-        if (numberOfTimelinePanels > 3) {
-            //TODO: Don't show the oldest panels.
-            return false;
-        }
-        return true;
+    window.onload = function () {
+        document.getElementById("message").value = "";
     }
 
 </script>

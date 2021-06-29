@@ -202,7 +202,6 @@ public class WorkSessionsController {
     public String postMessage(@ModelAttribute("workSessionData") WorkSessionDTO session,
                              @ModelAttribute("status") StatusDTO status, Principal principal) {
         String userName = principal.getName();
-
         if (session.getTextStatus() != null && session.getStopTime() == null) {
             try {
                 workSessionService.putMessage(userName, session.getTextStatus());
@@ -225,23 +224,23 @@ public class WorkSessionsController {
      * @param model     The model.
      * @return The view.
      */
-    @DeleteMapping(
-            value = "/message"
+    @PostMapping(
+            value = "/message/delete"
     )
     public String deleteTextStatus(@ModelAttribute("workSessionData") WorkSessionDTO session,
                                    @ModelAttribute("status") StatusDTO status, Principal principal, Model model) {
-        String userName = principal.getName();
-        System.out.println(session.getTextStatus());
-        try {
-            workSessionService.deleteTextStatus(userName);
-            session.setTextStatus("");
-            model.addAttribute("workSessionData", session);
-            System.out.println(session.getTextStatus());
-        } catch (NoSessionsException | NoSuchUserException exception) {
-            status.setMessage("bad_request");
-        }
-        status.setMessage("valid");
-        return "redirect:/my-session/latest";
+       String userName = principal.getName();
+
+       try {
+           workSessionService.deleteTextStatus(userName);
+           session.setTextStatus("");
+           model.addAttribute("workSessionData", session);
+           System.out.println(session.getTextStatus());
+       } catch (NoSessionsException | NoSuchUserException exception) {
+           status.setMessage("bad_request");
+       }
+       status.setMessage("valid");
+       return "redirect:/my-session/latest";
     }
 
     /**

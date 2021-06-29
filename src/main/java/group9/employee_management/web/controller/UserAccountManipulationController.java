@@ -66,7 +66,7 @@ public class UserAccountManipulationController {
             status.setMessage("not_found");
         }
 
-        model.addAttribute("status", new StatusDTO());
+        model.addAttribute("status", status);
         return "userAccountPage";
     }
 
@@ -87,7 +87,7 @@ public class UserAccountManipulationController {
     )
     //@ResponseBody
     public String setPasswordAsUser(@ModelAttribute("userCredentials") UserDTO userCredentials,
-                                    @ModelAttribute("status") StatusDTO status, Principal principal) {
+                                    @ModelAttribute("status") StatusDTO status, Principal principal, Model model) {
 
         String userName = principal.getName();
         String password = userCredentials.getPassword();
@@ -100,6 +100,8 @@ public class UserAccountManipulationController {
         } else {
             status.setMessage("bad_request");
         }
+
+        model.addAttribute("status", status);
         return "userAccountPage";
     }
 
