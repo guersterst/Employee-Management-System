@@ -64,12 +64,12 @@ public class DataInit implements CommandLineRunner {
         workSessionService.stopSession("student");
         workSessionService.startSession("student", "Proving p=np", true, true);
         workSessionService.stopSession("student");
-        workSessionService.startSession("student", "Important meeting", false, false);
+        workSessionService.startSession("student", "Important meeting", false, true);
 
         workSessionService.startSession("linus", "Coding", true, true);
 
         workSessionService.startSession("hpb", "Songwriting", true, true);
         workSessionService.stopSession("hpb");
-        workSessionService.startSession("hpb", "Concert", false, false);
+        workSessionService.startSession("hpb", "Concert", false, true);
     }
 }

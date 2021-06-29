@@ -53,7 +53,7 @@ public class EmployeeWorkSessionsHistoryController {
         model.addAttribute("workSession2", new WorkSessionDTO());
         model.addAttribute("workSession3", new WorkSessionDTO());
         model.addAttribute("status", new StatusDTO());
-        return "historyTest";
+        return "historyView";
     }
 
     /**

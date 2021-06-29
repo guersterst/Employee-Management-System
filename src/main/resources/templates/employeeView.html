@@ -32,7 +32,7 @@
                     <h2>Message</h2>
                 </div>
                 <!--Show saved message-->
-                <form onsubmit="checkMessage(event);" onreset="checkReset();" id="messageCard"
+                <form onsubmit="checkMessage(event);" id="messageCard"
                       th:action="@{/my-session/message}" th:method="post">
                     <div class="form-group mx-auto">
                         <label class="form-control" id="savedMsg" type="text"
@@ -68,7 +68,7 @@
                     <div class="alert alert-danger mx-auto" id="alertDelete">
                         <div class="align-text-bottom">
                             <i class="bi bi-exclamation-circle"></i>
-                            <strong>Input required.</strong>
+                            <strong>You have already delete your message.</strong>
                         </div>
                     </div>
 
@@ -88,7 +88,7 @@
                     <!--Deletes the saved message above the textarea.-->
                     </div>
                 </form>
-                <form th:action="@{/my-session/message/delete}" method="post">
+                <form th:action="@{/my-session/message/delete}" method="post" onsubmit="checkReset(event)">
                     <button class="btn btn-primary btn-lg center-block" type="submit" id="delete-message">
                         Delete
                     </button>
@@ -323,25 +323,26 @@
             //stops submitting and shows alert.
             alertMessageToShort.fadeIn(100);
             messageWasToShort = true;
-            event.preventDefault();
         }
     }
 
     //Checks whether the message is successfully hidden or not.
     function checkReset(event) {
         let savedMessage = document.getElementById("savedMsg");
-        let message = document.getElementById("message");
 
         updateAlerts();
 
         //TODO: AlertDelte do not show up.
-        if (savedMessage.valueOf().length === 0) {
+        if (savedMessage.trim().length === 0) {
             alertDelete.fadeIn(100);
+            alert("You have already deleted this message.");
             wasDeleted = true;
             event.preventDefault();
         } else {
             alertDeleteValid.fadeIn(100);
+            alert("You successfully delete the message.");
             deleteWasValid = true;
+            event.preventDefault();
         }
     }
 
@@ -368,6 +369,7 @@
     alertDeleteValid.fadeOut(1);
 
     window.onload = function () {
+        updateAlerts();
         document.getElementById("message").value = "";
     }
 
