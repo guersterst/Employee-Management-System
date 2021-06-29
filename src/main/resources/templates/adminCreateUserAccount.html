@@ -153,16 +153,9 @@
                             <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="submitPassword" onclick="validate()">Submit Password</button>
                           </div> -->
 
-                <div class="alert alert-danger mx-auto" id="p_errorMessage" role="alert">
-                    <strong>Passwords must match</strong>
-                </div>
-
+                <!-- Alert that's shown if the password is too short -->
                 <div class="alert alert-danger mx-auto" id="p_passwordTooShort" role="alert">
                     <strong>Passwords must be at least 8 characters long.</strong>
-                </div>
-
-                <div class="alert alert-danger mx-auto" id="p_missingForHigherPasswordStrength" role="alert">
-                    <strong>Your password must contain upper- and lowercase letters.</strong>
                 </div>
                         <!--<div class="form-row">
                             <div class="form-group col">
@@ -187,7 +180,7 @@
                         </div>-->
 
 
-                    <!--Button to submit the form-->
+                <!--Button to submit the form-->
                 <div class="d-grid col-12">
                     <button class="btn btn-primary btn-sm center-block mx-auto" type="submit" id="createAccountButton">Create Account</button>
                 </div>
@@ -280,8 +273,8 @@
 </footer>
 
 <script>
-    let passwordInputField = $('#password');
-    let passwordRepeatedInputField = $('#passwordRepeated');
+    let passwordInputField = $('#p_password');
+    let passwordRepeatedInputField = $('#p_passwordRepeated');
     let roleSelected = false;
     let passwordsDidntMatchOnLastSubmit = false;
 
@@ -322,6 +315,7 @@
             userNameInput.val("");
             return false;
         }
+
         return true;
     }
 
