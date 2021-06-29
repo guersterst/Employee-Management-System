@@ -18,7 +18,8 @@
             crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-latest.js"></script>
     <link rel="stylesheet" type="text/css" href="../static/css/history.css" th:href="@{/css/history.css}">
-    <link href="/webjars/bootstrap/5.0.1/css/bootstrap.css" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.css}" rel="stylesheet"/>
+    <link href="/webjars/bootstrap/5.0.1/css/bootstrap.css" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.css}"
+          rel="stylesheet"/>
     <title>History</title>
 </head>
 
@@ -34,14 +35,15 @@
     <div class="card shadow">
         <div class="card-header bg-secondary text-light">
             <h1 id="timeline">History</h1>
-            <label class="form-inline">
-                <span>Download here   :</span>
-                <select class="custom-select">
-                    <option selected>JSON</option>
-                    <option value="1">CSV</option>
-                </select>
-                <button class="btn btn-primary btn-group"><i class="bi bi-download"></i></button>
-            </label>
+            <div class="form-inline">
+                <div th:action="@{/my-history/download}" th:method="get">
+                    <button class="btn btn-primary" type="submit">
+                        JSON <i class="bi bi-download"></i></button>
+                </div>
+                <div>
+                    <button class="btn btn-primary" type="submit">CSV <i class="bi bi-download"></i></button>
+                </div>
+            </div>
         </div>
         <!--Timeline vertically shows every event that is happening during using the web application.-->
         <ul class="timeline text-center" th:action="@{/my-history}" th:method="get">
