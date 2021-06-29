@@ -142,5 +142,5 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 7. delete user?
 
 6. On-demand: improve controllers
-7.foreign key -> kombi aus fremd und eigenschlüssel googlen
+7. foreign key -> kombi aus fremd und eigenschlüssel googlen
  */

@@ -150,7 +150,7 @@ public class WorkSessionService {
 
     public String getTextStatus(String userName) {
         hasLatestSession(userName);
-        return workSessionRepository.getTextStatus(userName);
+        return workSessionRepository.getTextStatus(userName, getIndex(userName));
     }
 
     public void deleteTextStatus(String userName) {
