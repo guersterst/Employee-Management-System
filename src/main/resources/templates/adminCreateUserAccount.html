@@ -228,16 +228,26 @@
                 <!--  <form id="inputFieldsForRoleForm" class="needs-validation"> -->
                 <div> <!--  class="card card-body shadow-sm m-2"> -->
                     <div class="row">
-                        <div class="col">
+                        <div class="col-md-5">
+                            <!-- input to write down the role's name -->
                             <div class="form-group">
                                 <label for="roleCreate">Role</label>
                                 <input id="roleCreate" type="text" class="form-control" placeholder="Role Name" required>
                             </div>
                         </div>
-                        <div class="col">
+
+                        <!--Button to add the role to the list-->
+                        <div class="col-sm-5">
                             <div class="form-group">
                                 <button class="btn btn-primary btn-sm center-block" type="button" onclick="addRole()" id="createRoleButton">Create Role</button>
                             </div>
+                        </div>
+
+                        <!-- Tooltip, used for explanation -->
+                        <div class="col">
+                            <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" id="infoTooltip" title="Roles are created locally and stored via Cookies. They can be select when creating new accounts. Delete Cookies by selecting 'Clear Roles' in the DropDown-Menu.">
+                                <i class="bi bi-info-circle" id="helpIcon"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -511,5 +521,12 @@
             userNameInput.val("default_UserName_" + Math.floor(Math.random() * 100000));
         }
     }
+
+
+    // Enable Tooltips:
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
 </script>
 </html>

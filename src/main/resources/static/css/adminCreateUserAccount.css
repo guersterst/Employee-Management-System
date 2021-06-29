@@ -72,3 +72,8 @@ h2 {
     margin-left: 15px;
     margin-top: 4px;
 }
+
+#infoTooltip {
+    margin-left: -70px;
+    margin-bottom: -85px;
+}
