@@ -55,7 +55,7 @@ public class AdminUserAccountManipulationController {
             status.setMessage("not_found");
         }
 
-        model.addAttribute("status", new StatusDTO());
+        model.addAttribute("status", status);
         return "userAccountPage";
     }
 
@@ -63,7 +63,7 @@ public class AdminUserAccountManipulationController {
             value = "/edit/{userName}"
     )
     public String edit(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
-            "status") StatusDTO status,Principal principal, @PathVariable("userName") String userName) {
+            "status") StatusDTO status,Principal principal, @PathVariable("userName") String userName, Model model) {
 
         // Get the name.
         //String userName = principal.getName();
@@ -75,7 +75,7 @@ public class AdminUserAccountManipulationController {
         if (accountService.userExistsByUserName(userName)
                 && firstName != null && lastName != null) {
             accountService.setName(userName, firstName, lastName);
-            status.setMessage("valid");
+            status.setMessage("admin_valid");
         } else {
             status.setMessage("bad_request");
         }
@@ -86,11 +86,12 @@ public class AdminUserAccountManipulationController {
                 && password != null) {
             accountService.setPassword(userName, password);
             accountService.setIsFirstLogin(userName, false);
-            status.setMessage("valid");
+            status.setMessage("admin_valid");
         } else {
             status.setMessage("bad_request");
         }
 
+        model.addAttribute("status", status);
         return "redirect:/admin/account/" + userName;
     }
 }
