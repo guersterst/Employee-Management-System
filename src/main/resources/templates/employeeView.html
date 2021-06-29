@@ -208,61 +208,41 @@
             </div>
             <!--Timeline vertically shows every event that is happening during using the web application.-->
             <div class="card-body">
-                <ul class="timeline">
-                    <div class="text-muted date">
-                        <hr>
-                        <strong>Monday 22.06.2021</strong>
-                    </div>
-                    <li>
+                <!--TODO: asking for list of the three latest sessions"
+                <ul class="timeline text-center" th:action="@{/my-history}" th:method="get">
+                    <li th:each="workSession : ${historyWorkSessionDTO}">
                         <div class="timeline-panel">
                             <div class="timeline-heading">
                                 <h3 class="panel-title">Login</h3>
-                                <!--shows stored time.-->
-                                <p class="text-muted"><i class="bi bi-clock"></i> 8:00 am</p>
-                            </div>
-                            <!--Message is different depending to the topic.-->
-                            <div class="timeline-body">
-                                <p>Logged in as guerster</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h3 class="panel-title">Availability</h3>
-                                <p class="text-muted"><i class="bi bi-clock"></i> 8:06 am</p>
+                                <span><i class="bi bi-clock"></i></span>
+                                <span class="text-muted" th:text="${#dates.format(workSession.startTime, 'HH:mm a') + ' '
+                            + #dates.dayOfWeekName(workSession.) + ' '
+                            + #dates.format(workSession.startTime, 'dd.MM.yyyy')}"> 10:14 am</span>
                             </div>
                             <div class="timeline-body">
-                                <p>Changed availability to not available.</p>
+                            -->
+                                <!--TODO: need to add href-->
+                <!--
+                                <span>Logged in as </span><a href="#" th:text="${workSession.userName}"></a>
                             </div>
                         </div>
-                    </li>
-                    <li>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h3 class="panel-title">Changed Message</h3>
-                                <p class="text-muted"><i class="bi bi-clock"></i> 8:30 am</p>
-                            </div>
-                            <div class="timeline-body">
-                                <p>New message: "In a meeting until 10:00 am."</p>
-                            </div>
-                        </div>
-                    </li>
-                    <!--
-                    <template id="newTimelinePanel">
-                        <li th:action="@{/my-history/latest}" th:object="${historyWorkSessionDTO}" th:method="get">
-                            <div class="timeline-panel"  th:if="*{onSite == true}">
+                        <div th:if="${workSession.stopTime != null}">
+                            <div class="timeline-panel">
                                 <div class="timeline-heading">
-                                    <h3 class="panel-title">Login</h3>
-                                    <p class="text-muted" th:text="*{#dates.format(startTime, 'HH:mm')}"><i class="bi bi-clock"></i></p>
+                                    <h3 class="panel-title">Logout</h3>
+                                    <span><i class="bi bi-clock"></i></span>
+                                    <span class="text-muted" th:text="${#dates.format(workSession.stopTime, 'HH:mm a')
+                            + #dates.dayOfWeekName(workSession.stopTime)
+                            + #dates.format(workSession.stopTime, 'dd.MM.yyyy')}"></span>
                                 </div>
-                                <div class="timeline-body" id="timelineInfo" th:text="Logged in as + *{userName}">
+                                <div class="timeline-body">
+                                    <p>Finished work.</p>
                                 </div>
                             </div>
-                        </li>
-                    </template>
-                    -->
+                        </div>
+                    </li>
                 </ul>
+                -->
             </div>
             <!--Footer with the option to show more details.-->
             <div class="card-footer badge-light text-right">
