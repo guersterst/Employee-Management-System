@@ -24,15 +24,18 @@ public class LoginService {
 
 
     /**
-     * Validation whether password and name form a correct pair.
+     * NOT USABLE
+     *
+     *  Validation whether password and name form a correct pair.
      * If unsuccessful a descriptive exception will be thrown.
      *
      * @param password The given password.
      * @param userName The given user name.
      */
+    @Deprecated
     public void match(String password, String userName) throws WrongPasswordException, NoSuchUserException {
         if (employeeRepository.userExistsByUserName(userName)) {
-            String encodedPW = employeeRepository.findPasswordByUserName(userName);
+            String encodedPW = ""; //employeeRepository.findPasswordByUserName(userName);
             if (!encoder.matches(password, encodedPW)) {
                 throw new WrongPasswordException();
             }
