@@ -194,17 +194,17 @@
             </form>
 
             <!--show alert if username already exists-->
-            <div class="alert alert-danger" id="userNameExistentAlert">
+            <div class="alert alert-danger" id="userNameExistentAlert" role="alert">
                 <strong>This username exists already.</strong>
             </div>
 
             <!--show alert if passwords don't match-->
-            <div class="alert alert-danger" id="passwordsDontMatchAlert">
+            <div class="alert alert-danger" id="passwordsDontMatchAlert" role="alert">
                 <strong>The entered passwords don't match.</strong>
             </div>
 
             <!--show alert if no role has been selected -->
-            <div class="alert alert-danger" id="noRoleSelectedAlert">
+            <div class="alert alert-danger" id="noRoleSelectedAlert" role="alert">
                 <strong>Please select a role.</strong>
             </div>
 
@@ -539,8 +539,8 @@
             userNameInput.val(firstNameVal.substring(0, Math.floor(Math.random() * 7) + 1)
                 + "_" + Math.floor(Math.random() * 100000));
         } else if (firstNameVal.length <= 0 && lastNameVal.length > 0) { // (2b)
-        userNameInput.val(lastNameVal.substring(0, Math.floor(Math.random() * 7) + 1)
-            + "_" + Math.floor(Math.random() * 100000));
+            userNameInput.val(lastNameVal.substring(0, Math.floor(Math.random() * 7) + 1)
+                + "_" + Math.floor(Math.random() * 100000));
         } else { // (3)
             userNameInput.val("default_UserName_" + Math.floor(Math.random() * 100000));
         }
