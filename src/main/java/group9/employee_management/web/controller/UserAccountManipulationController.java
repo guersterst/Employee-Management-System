@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 /**
- * This controller handles requests related to changing the users data.
+ * This controller handles requests related to a user changing their own data / accessing their profile.
+ * This applies to user only. Admins use different requests/mappings as they can edit any profile. For this,
+ * an admin needs the user's name, which is used as a pathvariable. For the user, we use Principal to get
+ * their name.
  */
 @Controller
 @RequestMapping("/account")

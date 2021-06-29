@@ -10,7 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-/* This controller allows the admin to change a user's profile settings
+/**
+ *  This controller allows the admin to change a user's profile settings.
+ *  The admin needs different mappings as UserAccountManipulationController
+ *  uses Principal to get a user's name. Thus, a user can edit their own profile only.
+ *  The admin, however, can select any user and view/edit their profile.
+ *  We use pathvariables to accomplish this.
  */
 @Controller
 @RequestMapping("/admin/account")
@@ -41,7 +46,7 @@ public class AdminUserAccountManipulationController {
     @GetMapping(
             value = "/{userName}"
     )
-    public String getUserDataAsUser2(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
+    public String getData(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
             "status") StatusDTO status, Principal principal, Model model, @PathVariable("userName") String userName) {
         //String userName = //principal.getName();
 
