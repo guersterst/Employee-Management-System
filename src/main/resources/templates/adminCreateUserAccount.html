@@ -20,158 +20,150 @@
 <div class="container card shadow-sm">
     <!--Put both forms in one row-->
     <div class="row">
-            <!--First form-group for the elements needed to create the account-->
-            <div class ="col-lg" id="createAccount">
-                <h2 class="text-center">Create User-Account</h2>
-                <!--Form, which includes the input fields that will be sent on submit (for creating account)-->
-                <form id="inputFieldsForm" class="needs-validation" onsubmit="return validate(event);"> <!-- th:object="${newUser}" th:action="@{adminCreateUser/submit}""> -->
-                    <div> <!-- class="card card-body shadow-sm m-2"> -->
-                    <!--form-group for the user's first name-->
-                        <div class="form-row">
-                            <div class="form-group col">
-                                <label for="firstName">First Name</label>
-                                <input id="firstName" type="text" class="form-control" placeholder="First Name"required>
-                                <div class="invalid-feedback">Please enter the employee's first name.</div>
-                            </div>
-                            <!--form-group for the user's last name-->
-                            <div class="form-group col">
-                                <label for="lastName">Last Name</label>
-                                <input id="lastName" type="text" class="form-control" placeholder="Last Name" required>
-                                <div class="invalid-feedback">Please enter the employee's last name.</div>
-                            </div>
+        <!--First form-group for the elements needed to create the account-->
+        <div class ="col-lg" id="createAccount">
+            <h2 class="text-center">Create User-Account</h2>
+            <!--Form, which includes the input fields that will be sent on submit (for creating account)-->
+            <form id="inputFieldsForm" class="needs-validation" onsubmit="return validate(event);"> <!-- th:object="${newUser}" th:action="@{adminCreateUser/submit}""> -->
+                <div> <!-- class="card card-body shadow-sm m-2"> --><!--form-group for the user's first name-->
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="firstName">First Name</label>
+                            <input id="firstName" type="text" class="form-control" placeholder="First Name"required>
+                            <div class="invalid-feedback">Please enter the employee's first name.</div>
                         </div>
-                        <!--Input field for user name. This input field is optional as a user name can be
-                            generated using JavaScript if the field is left empty-->
-                        <div class="form-row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="userName">User Name</label>
-                                    <div class="input-group">
-                                        <input id="userName" type="text" class="form-control" placeholder="User Name" required>
-                                        <button class="btn btn-secondary" type="button" id="generateUserNameButton" onclick="generateUserName()">
-                                            Generate
-                                        </button>
-                                    </div>
-                                </div>
+                        <!--form-group for the user's last name-->
+                        <div class="form-group col">
+                            <label for="lastName">Last Name</label>
+                            <input id="lastName" type="text" class="form-control" placeholder="Last Name" required>
+                            <div class="invalid-feedback">Please enter the employee's last name.</div>
+                        </div>
+                    </div>
+                </div>
+                <!--Input field for user name. This input field is optional as a user name can be
+                           generated using JavaScript if the field is left empty-->
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="userName">User Name</label>
+                            <div class="input-group">
+                                <input id="userName" type="text" class="form-control" placeholder="User Name" required>
+                                <button class="btn btn-secondary" type="button" id="generateUserNameButton" onclick="generateUserName()">
+                                    Generate
+                                </button>
                             </div>
                         </div>
                     </div>
+                </div>
 
-
-
-                    <div> <!--  class="card card-body shadow-sm m-2"> -->
-                        <div class="form-row">
-                            <!--Selecting the role from a dropdown-menu:-->
-                            <div class="form-group col">
-                                <label for="selectRoleDropdown">Role in Company</label>
-                                <div class="dropdown">
-                                <!-- data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="selectRoleDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Select Role
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="selectRoleDropdown">
-                                        <a class="dropdown-item rounded" style="background: rgb(200, 50, 90); color: ghostwhite">Clear Roles </a>
-                                        <div class="dropdown-divider"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col">
-                                <div class="form-check form-switch d-table">
-                                    <input class="checkbox form-check-input" type="checkbox" id="isAdmin" value="true" name="isAdmin">
-                                    <label class="form-check-label" for="isAdmin" id="isAdminLabel">
-                                        Admin-Privileges
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col">
-                                <label for="role">Position</label>
-                                <!--Use an input group so an icon can be added to the input field-->
-                                <div class="input-group">
-                                    <input id="role" type="text" class="form-control" placeholder="Position" required>
-                                    <div class="invalid-feedback">Please enter the employee's last name.</div>
-                                </div>
+                <div class="form-row">
+                    <!--Selecting the role from a dropdown-menu:-->
+                    <div class="form-group col">
+                        <label for="selectRoleDropdown">Role in Company</label>
+                        <div class="dropdown"><!-- data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="selectRoleDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Select Role
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="selectRoleDropdown">
+                                <a class="dropdown-item rounded" style="background: rgb(200, 50, 90); color: ghostwhite">Clear Roles </a>
+                                <div class="dropdown-divider"></div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div> <!--  class="card card-body shadow-sm m-2"> -->
-                        <div class="form-row">
-                            <div class="form-group col">
-                                <label for="p_password">Password</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bi-key" id="p_icon"></span>
-                                    <input id="p_password" type="password" class="form-control" placeholder="Password" aria-describedby="icon" onkeyup="p_determinePasswordStrength(); p_showMissingPasswordCharacteristics();" required>
-                                    <div class="input-group-append">
-                                        <button class="input-group-btn" type="button" id="p_showHidePassword" onclick="p_showOrHidePassword('password')">
-                                            <i class="bi-eye-slash" id="p_passwordButtonIcon"></i></button>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-end">
-                                    <i class="bi-check-circle text-success " style="font-size: 1.2rem;" id="p_icon3"></i>
-                                </div>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <div class="form-check form-switch d-table">
+                            <input class="checkbox form-check-input" type="checkbox" id="isAdmin" value="true" name="isAdmin">
+                            <label class="form-check-label" for="isAdmin" id="isAdminLabel">
+                                Admin-Privileges
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="role">Position</label>
+                        <!--Use an input group so an icon can be added to the input field-->
+                        <div class="input-group">
+                            <input id="role" type="text" class="form-control" placeholder="Position" required>
+                            <div class="invalid-feedback">Please enter the employee's last name.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="p_password">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi-key" id="p_icon"></span>
+                            <input id="p_password" type="password" class="form-control" placeholder="Password" aria-describedby="icon" onkeyup="p_determinePasswordStrength(); p_showMissingPasswordCharacteristics();" required>
+                            <div class="input-group-append">
+                                <button class="input-group-btn" type="button" id="p_showHidePassword" onclick="p_showOrHidePassword('password')">
+                                    <i class="bi-eye-slash" id="p_passwordButtonIcon"></i></button>
                             </div>
                         </div>
+                        <div class="d-flex justify-content-end">
+                            <i class="bi-check-circle text-success " style="font-size: 1.2rem;" id="p_icon3"></i>
+                        </div>
+                    </div>
+                </div>
 
-                        <div class="form-row">
-                            <div class="form-group col">
-                                <label for="p_passwordRepeated">Repeat Password</label>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text bi-key" id="p_icon2"></span>
-                                    <input id="p_passwordRepeated" type="password" class="form-control" placeholder="Repeat Password" aria-describedby="icon2" onkeyup="p_determinePasswordStrength()" required>
-                                    <div class="input-group-append">
-                                        <button class="input-group-btn" type="button" id="p_showHideRepeatedPassword" onclick="p_showOrHidePassword('passwordRepeated')">
-                                            <i class="bi-eye-slash" id="p_repeatedPasswordButtonIcon"></i></button>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-end">
-                                    <i class="bi-check-circle text-success " style="font-size: 1.2rem;" id="p_icon4"></i>
-                                </div>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="p_passwordRepeated">Repeat Password</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bi-key" id="p_icon2"></span>
+                            <input id="p_passwordRepeated" type="password" class="form-control" placeholder="Repeat Password" aria-describedby="icon2" onkeyup="p_determinePasswordStrength()" required>
+                            <div class="input-group-append">
+                                <button class="input-group-btn" type="button" id="p_showHideRepeatedPassword" onclick="p_showOrHidePassword('passwordRepeated')">
+                                    <i class="bi-eye-slash" id="p_repeatedPasswordButtonIcon"></i></button>
                             </div>
                         </div>
-
-                        <div class="row">
-                            <div class="col">
-                                <div class="progress mx-auto" style="height: 20px; background-color: rgba(200,200,200,0.2);" onkeyup="p_checkPasswordStrength()">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" id="p_passwordStrengthBar" style="width: 40px;"></div>
-                                </div>
-                            </div>
+                        <div class="d-flex justify-content-end">
+                            <i class="bi-check-circle text-success " style="font-size: 1.2rem;" id="p_icon4"></i>
                         </div>
+                    </div>
+                </div>
 
-                        <div class="row">
-                            <div class="col d-grid justify-content-center">
-                                <p id="p_passwordCharacteristicsText">Your password should match the following criteria:</p>
-                                <ul id="p_missingPasswordCharacteristics">
-                                    <li id="p_element1">Password is too short.</li>
-                                    <li id="p_element2">Must contain upper- and lowercase letters.</li>
-                                    <li id="p_element3">Must contain numbers.</li>
-                                    <li id="p_element4">Must contain special characters.</li>
-                                </ul>
-                            </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="progress mx-auto" style="height: 20px; background-color: rgba(200,200,200,0.2);" onkeyup="p_checkPasswordStrength()">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" id="p_passwordStrengthBar" style="width: 40px;"></div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col d-grid justify-content-center">
+                        <p id="p_passwordCharacteristicsText">Your password should match the following criteria:</p>
+                        <ul id="p_missingPasswordCharacteristics">
+                            <li id="p_element1">Password is too short.</li>
+                            <li id="p_element2">Must contain upper- and lowercase letters.</li>
+                            <li id="p_element3">Must contain numbers.</li>
+                            <li id="p_element4">Must contain special characters.</li>
+                        </ul>
+                    </div>
+                </div>
 
                         <!--
                           <div class="d-grid col-5 mx-auto">
                             <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="submitPassword" onclick="validate()">Submit Password</button>
                           </div> -->
 
-                        <div class="alert alert-danger mx-auto" id="p_errorMessage" role="alert">
-                            <strong>Passwords must match</strong>
-                        </div>
+                <div class="alert alert-danger mx-auto" id="p_errorMessage" role="alert">
+                    <strong>Passwords must match</strong>
+                </div>
 
-                        <div class="alert alert-danger mx-auto" id="p_passwordTooShort" role="alert">
-                            <strong>Passwords must be at least 8 characters long.</strong>
-                        </div>
+                <div class="alert alert-danger mx-auto" id="p_passwordTooShort" role="alert">
+                    <strong>Passwords must be at least 8 characters long.</strong>
+                </div>
 
-                        <div class="alert alert-danger mx-auto" id="p_missingForHigherPasswordStrength" role="alert">
-                            <strong>Your password must contain upper- and lowercase letters.</strong>
-                        </div>
-                    </div>
+                <div class="alert alert-danger mx-auto" id="p_missingForHigherPasswordStrength" role="alert">
+                    <strong>Your password must contain upper- and lowercase letters.</strong>
+                </div>
                         <!--<div class="form-row">
                             <div class="form-group col">
                                 <label for="password">Password</label>
@@ -196,38 +188,36 @@
 
 
                     <!--Button to submit the form-->
-                    <div class="d-grid col-12">
-                        <button class="btn btn-primary btn-sm center-block mx-auto" type="submit" id="createAccountButton">Create Account</button>
-                    </div>
-
+                <div class="d-grid col-12">
+                    <button class="btn btn-primary btn-sm center-block mx-auto" type="submit" id="createAccountButton">Create Account</button>
+                </div>
             </form>
 
-                <!--show alert if username already exists-->
-                <div class="alert alert-danger" id="userNameExistentAlert">
-                    <strong>This username exists already.</strong>
-                </div>
+            <!--show alert if username already exists-->
+            <div class="alert alert-danger" id="userNameExistentAlert">
+                <strong>This username exists already.</strong>
+            </div>
 
-                <!--show alert if passwords don't match-->
-                <div class="alert alert-danger" id="passwordsDontMatchAlert">
-                    <strong>The entered passwords don't match.</strong>
-                </div>
+            <!--show alert if passwords don't match-->
+            <div class="alert alert-danger" id="passwordsDontMatchAlert">
+                <strong>The entered passwords don't match.</strong>
+            </div>
 
-                <!--show alert if no role has been selected -->
-                <div class="alert alert-danger" id="noRoleSelectedAlert">
-                    <strong>Please select a role.</strong>
-                </div>
+            <!--show alert if no role has been selected -->
+            <div class="alert alert-danger" id="noRoleSelectedAlert">
+                <strong>Please select a role.</strong>
+            </div>
 
-                <!-- Use Thymeleaf: -->
-                <!--<div class="alert alert-danger mx-auto" id="accountWithUserNameAlreadyExists" role="alert">
-                    <strong>An account with this username already exists.</strong>
-                </div> -->
+            <!-- Use Thymeleaf: -->
+            <!--<div class="alert alert-danger mx-auto" id="accountWithUserNameAlreadyExists" role="alert">
+                   <strong>An account with this username already exists.</strong>
+               </div> -->
 
-                <!-- Use Thymeleaf: -->
+            <!-- Use Thymeleaf: -->
                 <!--<div class="alert alert-success mx-auto" id="accountCreationSuccessful" role="alert">
                     <p>Account was successfully created.</p>
                 </div> --> <!-- Fade this alert out as soon as a key is pressed -->
-            </div>
-
+        </div>
 
         <!--Elements needed to create a role-->
         <div class="col">
@@ -263,7 +253,7 @@
                 </div>
 
                 <!--show alert if role already exists-->
-                <div class="alert alert-danger" id="roleAlreadyExistentAlert">
+                <div class="alert alert-danger alert-dismissible fade show" id="roleAlreadyExistentAlert" role="alert">
                     <strong>This role exists already.</strong>
                 </div>
             </div>
@@ -401,8 +391,8 @@
     function onload() {
         passwordsDontMatchAlert.fadeOut(0);
         noRoleSelectedAlert.fadeOut(0);
-        roleAlreadyExistentAlert.fadeOut(0);
         userNameExistsAlert.fadeOut(0);
+        roleAlreadyExistentAlert.fadeOut(0);
 
         // Load all previously stored roles
         console.log("Loading cookies");
@@ -427,19 +417,41 @@
 
     }
 
+
+    // Called by the timer after 2000 milliseconds
+    // Fades out the alert as it isn't relevant anymore by then.
+    // Alert is only needed to inform the admin that the role already exists.
+    function fadeRoleAlreadyExistentAlert() {
+        roleAlreadyExistentAlert.fadeOut(400);
+    }
+
     // Local list of all created roles:
     let roleInputField = $('#roleCreate');
     let locallyCreatedRoles = [];
 
     function addRole() {
+        let newRoleName = roleInputField.val();
+
+        // In case the role already exists, we fade in an alert and stop the creation of a new role by using 'return'.
+        for(let i = 0;  i < locallyCreatedRoles.length; i++) {
+           if  (locallyCreatedRoles[i] === newRoleName) {
+               roleAlreadyExistentAlert.fadeIn(50);
+               window.setTimeout(fadeRoleAlreadyExistentAlert, 1000);
+               return;
+           }
+        }
+
         // Create Cookie here:
         const date = new Date();
         date.setTime(date.getTime() + (365*24*60*60*1000));
         let expires = "expires="+ date.toUTCString();
         document.cookie = "role" + locallyCreatedRoles.length + "=" +  roleInputField.val() +";" + expires + ";";
 
-        locallyCreatedRoles.push(roleInputField.val());
-        createDropDownElement(roleInputField.val());
+        // Put the role into the list and create an element for it within the dropdown-menu.
+        locallyCreatedRoles.push(newRoleName);
+        createDropDownElement(newRoleName);
+
+        // Reset the input field
         roleInputField.val("");
     }
 
