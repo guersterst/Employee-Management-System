@@ -1,23 +1,40 @@
 package group9.employee_management.persistence.entities;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.context.annotation.Primary;
 
 import javax.persistence.*;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
 @Table
 public class WorkSession {
 
-    @Id
-    @Column
-    private Integer index;
+    @EmbeddedId
+    private WorkSessionID id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name ="user_username", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Employee employee;
+    @Embeddable
+    static
+    class WorkSessionID implements Serializable {
+        Integer index;
+
+        @ManyToOne(fetch = FetchType.LAZY, optional = false)
+        @PrimaryKeyJoinColumn(foreignKey = @ForeignKey(name = "user_username" ))
+        @OnDelete(action = OnDeleteAction.CASCADE)
+        Employee employee;
+
+        public WorkSessionID(Integer index, Employee employee) {
+            this.index = index;
+            this.employee = employee;
+        }
+
+
+        public WorkSessionID() {
+            //super();
+        }
+    }
 
     // The timestamps from where the user started working to when he ended working.
     @Column
@@ -44,17 +61,16 @@ public class WorkSession {
     public WorkSession(Integer index, Date startTime, Date stopTime, String textStatus, boolean available, boolean onSite,
                        Employee employee) {
         super();
-        this.index = index;
+        this.id = new WorkSessionID(index, employee);
         this.startTime = startTime;
         this.stopTime = stopTime;
         this.textStatus = textStatus;
         this.available = available;
         this.onSite = onSite;
-        this.employee = employee;
     }
 
     public Integer getIndex() {
-        return index;
+        return id.index;
     }
 
     public Date getStartTime() {
@@ -78,7 +94,7 @@ public class WorkSession {
     }
 
     public Employee getEmployee() {
-        return employee;
+        return id.employee;
     }
 
     public void setStopTime(Date stopTime) {

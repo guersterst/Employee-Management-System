@@ -57,7 +57,7 @@ public class AccountService {
     /**
      * Constructor for an user, automatically creates and associates with a new employee.
      */
-    public void createUser(String userName, String firstName, String lastName, String password, boolean isAdmin,
+    public Employee createUser(String userName, String firstName, String lastName, String password, boolean isAdmin,
                            String position) {
         Employee newEmployee = new Employee(userName, firstName, lastName, isAdmin, position);
         employeeRepository.save(newEmployee);
@@ -66,6 +66,7 @@ public class AccountService {
             newUser.setRoles(List.of(Roles.USER, Roles.ADMIN));
         }
         userRepository.save(newUser);
+        return newEmployee;
     }
 
     /*

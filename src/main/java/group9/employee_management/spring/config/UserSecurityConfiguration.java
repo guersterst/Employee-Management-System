@@ -138,7 +138,7 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 /*
 3.Login first-time
 
-6. csv oder xml
+6. XML and content negotiation.
 7. delete user?
 
 6. On-demand: improve controllers

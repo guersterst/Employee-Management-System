@@ -1,6 +1,5 @@
 package group9.employee_management.web.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import group9.employee_management.application.exception.NoSessionsException;
 import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.application.service.WorkSessionService;
@@ -54,7 +53,7 @@ public class EmployeeWorkSessionsHistoryController {
         model.addAttribute("workSession2", new WorkSessionDTO());
         model.addAttribute("workSession3", new WorkSessionDTO());
         model.addAttribute("status", new StatusDTO());
-        return "history";
+        return "historyTest";
     }
 
     /**
@@ -186,10 +185,9 @@ public class EmployeeWorkSessionsHistoryController {
      * @param status         The status dto.
      * @return The view.
      */
-    /*
     @GetMapping(
-            //TODO content negotiation
-            value = "/downloadJSON"
+            value = "/download",
+            produces = { "application/json", "application/xml" }
     )
     @ResponseBody
     public ResponseEntity<byte[]> getSessionsJSON(Principal principal,
@@ -211,7 +209,6 @@ public class EmployeeWorkSessionsHistoryController {
                 .body(customerJsonBytes);
     }
 
-     */
 
     /*
     @GetMapping(

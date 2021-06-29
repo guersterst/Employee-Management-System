@@ -1,6 +1,10 @@
 package group9.employee_management.application.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.*;
 import com.google.gson.Gson;
 import group9.employee_management.application.exception.NoSessionsException;
 import group9.employee_management.application.exception.NoSuchUserException;
@@ -11,12 +15,9 @@ import group9.employee_management.persistence.repositories.WorkSessionRepository
 import group9.employee_management.web.dto.UserDTO;
 import group9.employee_management.web.dto.WorkSessionDTO;
 import group9.employee_management.web.dto.WorkSessionListEntryDTO;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -54,11 +55,11 @@ public class WorkSessionService {
      * @return The highest index.
      */
     public int getIndex(String userName) {
-        hasLatestSession(userName);
+        isEmployee(userName);
         if (workSessionRepository.getIndex(userName) != null) {
             return workSessionRepository.getIndex(userName);
         } else {
-            throw new NoSessionsException(userName);
+            return 0;
         }
     }
 
@@ -108,7 +109,13 @@ public class WorkSessionService {
     public void startSession(String userName, String textStatus, boolean available, boolean onSite) {
         isEmployee(userName);
         Date currentTime = getCurrentTime();
-        WorkSession newSession = new WorkSession(getIndex(userName) + 1, currentTime, null, textStatus,
+        int offset = 1;
+        if (workSessionRepository.getWorkSession(userName, 0) == null) {
+
+            // If this user has no sessions yet the index should start at 0;
+            offset = 0;
+        }
+        WorkSession newSession = new WorkSession(getIndex(userName) + offset, currentTime, null, textStatus,
                 available, onSite, employeeRepository.getUserByUserName(userName));
         workSessionRepository.save(newSession);
     }
@@ -237,21 +244,19 @@ public class WorkSessionService {
 
     }
 
-    public void workSessionsToCSV(String userName) throws IOException {
+    public String workSessionsToCSV(String userName) throws IOException {
         List<WorkSessionDTO> sessions = getSessions(userName);
-        FileWriter out = new FileWriter("book_new.csv");
-        /*
-        try (CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT
-                .withHeader("")) {
+        JsonNode node = new ObjectMapper().readTree(workSessionsToJSON(userName));
+/*
+        Csv
 
-         */
-            /*
-            WorkSessionDTO.forEach((author, title) -> {
-                printer.printRecord(author, title);
-            });
+        JsonMapper.Builder csvSchemaBuilder = CsvSchema.builder();
+        JsonNode firstObject = node.elements().next();
+        firstObject.fieldNames().forEachRemaining(fieldName -> {csvSchemaBuilder.addColumn(fieldName);} );
+        CsvSchema csvSchema = csvSchemaBuilder.build().withHeader();
+ */
+    return "";}
 
-             */
-    }
 
     /*
     For defensive programming.
