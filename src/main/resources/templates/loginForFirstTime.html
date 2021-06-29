@@ -9,6 +9,12 @@
   <title>Set Password</title>
 </head>
 
+<nav>
+  <div class="row">
+    <div th:insert="'menubar'"></div>
+  </div>
+</nav>
+
 <body>
 <div>
   <h1 class="text-center">Choose Password</h1>
@@ -92,6 +98,11 @@
 <script src="/webjars/popper.js/1.14.1/popper.min.js"></script>
 <script src="/webjars/bootstrap/5.0.1/js/bootstrap.min.js"></script>
 </body>
+
+<!--Include the footer that contains the copyright info-->
+<footer>
+  <div th:insert="'footer'" class="embeddedFooter"></div>
+</footer>
 
 <script>
   // The error message (passwords not matching) should not be shown when loading the view
