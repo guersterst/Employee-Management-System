@@ -52,14 +52,13 @@ public class DataInit implements CommandLineRunner {
     @Override
     public void run(String... strings) {
         Employee turing = accountService.createUser("student","Alan", "Turing",
-                "p=np", false, "Researcher");
+                "student", false, "Researcher");
         Employee linus = accountService.createUser("linus","Linus", "Torvald",
                 "linux", false, "Chief code magician");
         Employee scooter = accountService.createUser("hpb","H.P.", "Baxxter",
                 "hpb123", false, "Lead singer");
 
         userRepository.save(new User("admin", hashPassword("admin"), null, Roles.ADMIN, Roles.USER));
-        userRepository.save(new User("student", hashPassword("student"), turing , Roles.USER));
 
         workSessionService.startSession("student", "Creating turing machine", true, true);
         workSessionService.stopSession("student");
