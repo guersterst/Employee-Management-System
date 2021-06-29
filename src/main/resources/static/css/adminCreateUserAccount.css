@@ -77,3 +77,19 @@ h2 {
     margin-left: -70px;
     margin-bottom: -85px;
 }
+
+.progress {
+    width: 50%;
+    min-width: 300px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+#p_passwordTooShort {
+    margin-top: 20px;
+}
+
+#p_missingPasswordCharacteristics {
+    margin-top: 20px;
+    color: crimson;
+}
