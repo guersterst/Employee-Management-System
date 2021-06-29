@@ -26,8 +26,8 @@
             <div class ="col-lg" id="createAccount">
                 <h2 class="text-center">Create User-Account</h2>
                 <!--Form, which includes the input fields that will be sent on submit (for creating account)-->
-                <form id="inputFieldsForm" class="needs-validation" th:object="${newUser}"  th:action="@{adminCreateUser/submit}" onsubmit="return validate(event);">
-                    <div class="card card-body shadow-sm m-2">
+                <form id="inputFieldsForm" class="needs-validation" onsubmit="return validate(event);"> <!-- th:object="${newUser}" th:action="@{adminCreateUser/submit}""> -->
+                    <div> <!-- class="card card-body shadow-sm m-2"> -->
                     <!--form-group for the user's first name-->
                         <div class="form-row">
                             <div class="form-group col">
@@ -45,14 +45,23 @@
                         <!--Input field for user name. This input field is optional as a user name can be
                             generated using JavaScript if the field is left empty-->
                         <div class="form-row">
-                            <div class="form-group col">
-                                <label for="userName">User Name</label>
-                                <input id="userName" type="text" class="form-control" placeholder="User Name" required>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="userName">User Name</label>
+                                    <div class="input-group">
+                                        <input id="userName" type="text" class="form-control" placeholder="User Name" required>
+                                        <button class="btn btn-secondary" type="button" id="generateUserName">
+                                            Generate
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="card card-body shadow-sm m-2">
+
+
+                    <div> <!--  class="card card-body shadow-sm m-2"> -->
                         <div class="form-row">
                             <!--Selecting the role from a dropdown-menu:-->
                             <div class="form-group col">
@@ -93,7 +102,7 @@
                         </div>
                     </div>
 
-                    <div class="card card-body shadow-sm m-2">
+                    <div> <!--  class="card card-body shadow-sm m-2"> -->
                         <div class="row">
                             <div class="form-group col-sm-6 mx-auto">
                                 <label for="p_password">Password</label>
@@ -219,7 +228,7 @@
                 <!--Form used to submit the content of a single input field,
                 which is used to describe the name of a role-->
                 <!--  <form id="inputFieldsForRoleForm" class="needs-validation"> -->
-                <div class="card card-body shadow-sm m-2">
+                <div> <!--  class="card card-body shadow-sm m-2"> -->
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
@@ -365,7 +374,9 @@
         }
     }
 
-    window.onload = function() {
+    document.addEventListener("DOMContentLoaded", onload);
+
+    function onload() {
         passwordsDontMatchAlert.fadeOut(0);
         noRoleSelectedAlert.fadeOut(0);
         roleAlreadyExistentAlert.fadeOut(0);
