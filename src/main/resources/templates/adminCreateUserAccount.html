@@ -18,8 +18,6 @@
 
 <body>
 <div class="container card shadow-sm">
-  <!--  <div class="card shadow-sm p-3 mb-5 bg-white rounded" style="height: 52rem;">
-        <div class="card-body"> -->
     <!--Put both forms in one row-->
     <div class="row">
             <!--First form-group for the elements needed to create the account-->
@@ -50,7 +48,7 @@
                                     <label for="userName">User Name</label>
                                     <div class="input-group">
                                         <input id="userName" type="text" class="form-control" placeholder="User Name" required>
-                                        <button class="btn btn-secondary" type="button" id="generateUserName">
+                                        <button class="btn btn-secondary" type="button" id="generateUserNameButton" onclick="generateUserName()">
                                             Generate
                                         </button>
                                     </div>
@@ -271,14 +269,18 @@
     let roleSelected = false;
     let passwordsDidntMatchOnLastSubmit = false;
 
+    let userNameInput = $('#userName');
+    let firstName = $('#firstName');
+    let lastName = $('#lastName');
+
     // Test for what an automatic generation of user names could look like.
     // Note: In the final version, this requires checking the database to find out
     // how many employees have the username and concatenate the number at the end.
     // This ensures the username's uniqueness.
     function validate(event) {
-        let userNameInput = $('#userName');
-        let firstName = $('#firstName');
-        let lastName = $('#lastName');
+       // let userNameInput = $('#userName');
+       // let firstName = $('#firstName');
+       // let lastName = $('#lastName');
 
         // TODO: If username exists, fade out the alert. Implementation depends on how we handle this in the backend
         // TODO: (in which way does the back-end inform the front-end about the duplicate username?).
@@ -481,6 +483,32 @@
         if (cookie !== "") { // If the cookie exists. Otherwise, getCookieContent(nr) returns "".
             cookie = "role" + nr + "=" + getRoleFromCookie(nr) + ";expires = Thu, 01 Jan 1970 00:00:00 GMT;" + "path=/ ";
             document.cookie = cookie;
+        }
+    }
+
+
+
+    // Generate a random user name.
+    // (1) If  firstName and lastName are entered, we create the username from those to Strings.
+    // (2 a, b)If only either of them were entered, we create the username from only that String but use a longer
+    // substring.
+    // (3) Otherwise, we write a default user name.
+    // Both approaches also have a random number applied.
+    function generateUserName() {
+        let firstNameVal = firstName.val();
+        let lastNameVal = lastName.val();
+
+        if (firstNameVal.length > 0 && lastNameVal.length > 0) { //(1)
+            userNameInput.val(firstNameVal.substring(0, Math.floor(Math.random() * 5) + 1)
+                + "_" + lastNameVal.substring(0, Math.floor(Math.random() * 5) + 1) + Math.floor(Math.random() * 100000));
+        } else if (firstNameVal.length > 0 && lastNameVal.length <= 0) { // (2a)
+            userNameInput.val(firstNameVal.substring(0, Math.floor(Math.random() * 7) + 1)
+                + "_" + Math.floor(Math.random() * 100000));
+        } else if (firstNameVal.length <= 0 && lastNameVal.length > 0) { // (2b)
+        userNameInput.val(lastNameVal.substring(0, Math.floor(Math.random() * 7) + 1)
+            + "_" + Math.floor(Math.random() * 100000));
+        } else { // (3)
+            userNameInput.val("default_UserName_" + Math.floor(Math.random() * 100000));
         }
     }
 </script>
