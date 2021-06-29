@@ -199,7 +199,7 @@ public class WorkSessionsController {
     @PostMapping(
             value = "/message"
     )
-    public String putMessage(@ModelAttribute("workSessionData") WorkSessionDTO session,
+    public String postMessage(@ModelAttribute("workSessionData") WorkSessionDTO session,
                              @ModelAttribute("status") StatusDTO status, Principal principal) {
         String userName = principal.getName();
 
@@ -231,10 +231,12 @@ public class WorkSessionsController {
     public String deleteTextStatus(@ModelAttribute("workSessionData") WorkSessionDTO session,
                                    @ModelAttribute("status") StatusDTO status, Principal principal, Model model) {
         String userName = principal.getName();
+        System.out.println(session.getTextStatus());
         try {
             workSessionService.deleteTextStatus(userName);
             session.setTextStatus("");
             model.addAttribute("workSessionData", session);
+            System.out.println(session.getTextStatus());
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }

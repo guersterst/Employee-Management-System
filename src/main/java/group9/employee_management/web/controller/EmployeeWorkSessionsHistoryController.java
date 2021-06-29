@@ -80,7 +80,7 @@ public class EmployeeWorkSessionsHistoryController {
             status.setMessage("bad_request");
         }
         status.setMessage("valid");
-        return "history";
+        return "redirect:/my-session/latest";
     }
 
     /**
@@ -106,7 +106,7 @@ public class EmployeeWorkSessionsHistoryController {
             status.setMessage("bad_request");
         }
         status.setMessage("valid");
-        return "history";
+        return "redirect:/my-session/latest";
     }
 
     /**

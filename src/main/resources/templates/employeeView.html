@@ -32,7 +32,8 @@
                     <h2>Message</h2>
                 </div>
                 <!--Show saved message-->
-                <form onsubmit="checkMessage(event)" onreset="checkReset()" id="messageCard">
+                <form onsubmit="checkMessage(event)" onreset="checkReset()" id="messageCard"
+                      th:action="@{/my-session/message}" th:method="post">
                     <div class="form-group mx-auto">
                         <label class="form-control" id="savedMsg" type="text"
                                th:text="${workSessionData.textStatus}"></label>
@@ -86,7 +87,7 @@
                         </button>
                         <!--Deletes the saved message above the textarea.-->
                         <button class="btn btn-primary btn-lg center-block" type="submit"
-                                id="delete-message" th:action="@{/my-session/delete}" th:method="delete">
+                                id="delete-message" th:formaction="'/my-session/message'" th:formmethod="delete">
                             Delete
                         </button>
                     </div>
@@ -240,18 +241,20 @@
                             </div>
                         </div>
                     </li>
+                    <!--
                     <template id="newTimelinePanel">
-                        <li>
-                            <div class="timeline-panel">
+                        <li th:action="@{/my-history/latest}" th:object="${historyWorkSessionDTO}" th:method="get">
+                            <div class="timeline-panel"  th:if="*{onSite == true}">
                                 <div class="timeline-heading">
-                                    <h3 class="panel-title"></h3>
-                                    <p class="text-muted"><i class="bi bi-clock"></i></p>
+                                    <h3 class="panel-title">Login</h3>
+                                    <p class="text-muted" th:text="*{#dates.format(startTime, 'HH:mm')}"><i class="bi bi-clock"></i></p>
                                 </div>
-                                <div class="timeline-body" id="timelineInfo">
+                                <div class="timeline-body" id="timelineInfo" th:text="Logged in as + *{userName}">
                                 </div>
                             </div>
                         </li>
                     </template>
+                    -->
                 </ul>
             </div>
             <!--Footer with the option to show more details.-->
