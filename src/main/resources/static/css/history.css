@@ -1,5 +1,7 @@
-.date {
-    margin-left: 10px;
+.container {
+    margin-top: 40px;
+    margin-left: 100px;
+    margin-right: 100px;
 }
 
 .timeline {
@@ -49,11 +51,4 @@ Create circles for timeline points.
     border-radius: 50%;
     background: #008080;
     z-index: 1;
-}
-
-/*
-Footer to see more or less.
- */
-.card-footer {
-    font-size: medium;
 }

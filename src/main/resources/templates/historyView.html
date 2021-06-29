@@ -17,14 +17,22 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-latest.js"></script>
-    <link rel="stylesheet" href="history.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/history.css" th:href="@{/css/history.css}">
+    <link href="/webjars/bootstrap/5.0.1/css/bootstrap.css" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.css}" rel="stylesheet"/>
     <title>History</title>
 </head>
+
+<nav>
+    <div class="row">
+        <div th:insert="'menubar'"></div>
+    </div>
+</nav>
+
 <body>
 <div class="container">
     <!--Card contains the timeline.-->
     <div class="card shadow">
-        <div class="card-header badge-secondary">
+        <div class="card-header bg-secondary text-light">
             <h1 id="timeline">History</h1>
         </div>
         <!--Timeline vertically shows every event that is happening during using the web application.-->
@@ -34,12 +42,13 @@
                     <div class="timeline-heading">
                         <h3 class="panel-title">Login</h3>
                         <span><i class="bi bi-clock"></i></span>
-                        <span class="text-muted" th:text="${#dates.format(workSession.startTime, 'HH:mm a')
-                            + #dates.dayOfWeekName(workSession.startTime)
+                        <span class="text-muted" th:text="${#dates.format(workSession.startTime, 'HH:mm a') + ' '
+                            + #dates.dayOfWeekName(workSession.startTime) + ' '
                             + #dates.format(workSession.startTime, 'dd.MM.yyyy')}"> 10:14 am</span>
                     </div>
                     <div class="timeline-body">
-                        <span>Logged in as <p th:text="${workSession.userName}"></p></span>
+                        <!--TODO: need to add href-->
+                        <span>Logged in as </span><a href="#" th:text="${workSession.userName}"></a>
                     </div>
                 </div>
                 <div th:if="${workSession.stopTime != null}">
@@ -58,11 +67,12 @@
                 </div>
             </li>
         </ul>
-        <!--Footer with the option to show more details.-->
-        <div class="card-footer badge-light text-right">
-            <a href="#"><i class="bi bi-arrow-90deg-down"></i>More</a>
-        </div>
     </div>
 </div>
 </body>
+
+<!--Include the footer that contains the copyright info-->
+<footer>
+    <div th:insert="'footer'" class="embeddedFooter"></div>
+</footer>
 </html>
