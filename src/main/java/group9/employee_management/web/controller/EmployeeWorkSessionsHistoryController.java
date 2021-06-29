@@ -186,6 +186,7 @@ public class EmployeeWorkSessionsHistoryController {
      * @param status         The status dto.
      * @return The view.
      */
+    /*
     @GetMapping(
             //TODO content negotiation
             value = "/downloadJSON"
@@ -196,7 +197,7 @@ public class EmployeeWorkSessionsHistoryController {
         byte[] customerJsonBytes;
         try {
             customerJsonBytes = workSessionService.workSessionsToJSON(principal.getName()).getBytes();
-        } catch (NoSessionsException | NoSuchUserException | JsonProcessingException exception) {
+        } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
             return null;
         }
@@ -209,6 +210,8 @@ public class EmployeeWorkSessionsHistoryController {
                 .contentLength(customerJsonBytes.length)
                 .body(customerJsonBytes);
     }
+
+     */
 
     /*
     @GetMapping(

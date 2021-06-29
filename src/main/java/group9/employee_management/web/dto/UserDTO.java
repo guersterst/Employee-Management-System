@@ -39,7 +39,6 @@ public class UserDTO {
         userDTO.setUserName(employee.getUserName());
         userDTO.setAdmin(employee.isAdmin());
         userDTO.setPosition(employee.getPosition());
-        userDTO.setValidity(employee.getValidity());
         return userDTO;
     }
 
