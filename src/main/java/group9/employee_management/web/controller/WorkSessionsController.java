@@ -203,6 +203,7 @@ public class WorkSessionsController {
                              @ModelAttribute("status") StatusDTO status, Principal principal) {
         String userName = principal.getName();
 
+        System.out.println("Again post message");
         if (session.getTextStatus() != null && session.getStopTime() == null) {
             try {
                 workSessionService.putMessage(userName, session.getTextStatus());
@@ -226,7 +227,7 @@ public class WorkSessionsController {
      * @return The view.
      */
     @DeleteMapping(
-            value = "/message"
+            value = "/delete"
     )
     public String deleteTextStatus(@ModelAttribute("workSessionData") WorkSessionDTO session,
                                    @ModelAttribute("status") StatusDTO status, Principal principal, Model model) {

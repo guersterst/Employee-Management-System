@@ -86,10 +86,10 @@
                             Save
                         </button>
                         <!--Deletes the saved message above the textarea.-->
-                        <button class="btn btn-primary btn-lg center-block" type="submit"
-                                id="delete-message" th:formmethod="delete">
-                            Delete
-                        </button>
+                            <button class="btn btn-primary btn-lg center-block" type="submit"
+                                    id="delete-message" th:formaction="'/my-session/delete'" th:formmethod="delete">
+                                Delete
+                            </button>
                     </div>
                 </form>
             </div>
