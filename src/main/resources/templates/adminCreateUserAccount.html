@@ -47,7 +47,7 @@
                         <div class="form-group">
                             <label for="userName">User Name</label>
                             <div class="input-group">
-                                <input id="userName" type="text" class="form-control" placeholder="User Name" required>
+                                <input id="userName" type="text" class="form-control" placeholder="User Name" onkeyup="updateAlert()" required>
                                 <button class="btn btn-secondary" type="button" id="generateUserNameButton" onclick="generateUserName()">
                                     Generate
                                 </button>
@@ -208,6 +208,12 @@
                 <strong>Please select a role.</strong>
             </div>
 
+            <!--If the user enters a forbidden character in the username-input-field, display this alert-->
+            <div class="alert alert-danger mx-auto" id="forbiddenCharacterEntered" role="alert">
+                <strong>No special characters besides '@, -, _' are allowed in the username.</strong>
+            </div>
+
+
             <!-- Use Thymeleaf: -->
             <!--<div class="alert alert-danger mx-auto" id="accountWithUserNameAlreadyExists" role="alert">
                    <strong>An account with this username already exists.</strong>
@@ -283,25 +289,13 @@
     let firstName = $('#firstName');
     let lastName = $('#lastName');
 
+    let errorMessageForbiddenCharacter = $('#forbiddenCharacterEntered')
+
     // Test for what an automatic generation of user names could look like.
     // Note: In the final version, this requires checking the database to find out
     // how many employees have the username and concatenate the number at the end.
     // This ensures the username's uniqueness.
     function validate(event) {
-       // let userNameInput = $('#userName');
-       // let firstName = $('#firstName');
-       // let lastName = $('#lastName');
-
-        // TODO: If username exists, fade out the alert. Implementation depends on how we handle this in the backend
-        // TODO: (in which way does the back-end inform the front-end about the duplicate username?).
-        // userNameExistsAlert.fadeOut(200);
-
-        if (userNameInput.val() === "" || userNameInput.val() === null) {
-            userNameInput.val(firstName.val() +  lastName.val() + "01");
-
-            alert(userNameInput.val());
-        }
-
         // Stop submission if passwords don't match
         if (passwordInputField.val() !== passwordRepeatedInputField.val()) {
             passwordsDontMatchAlert.fadeIn(200);
@@ -321,6 +315,13 @@
             return false;
         }
 
+        // Stop submission if the username contains special characters apart from '@', '_', '-'
+        if (!(userNameInput.val().length === 0 || userNameInput.val().match(/^[a-zA-Z0-9-,_@]*$/))) {
+            event.preventDefault();
+            event.stopPropagation();
+            userNameInput.val("");
+            return false;
+        }
         return true;
     }
 
@@ -393,6 +394,7 @@
         noRoleSelectedAlert.fadeOut(0);
         userNameExistsAlert.fadeOut(0);
         roleAlreadyExistentAlert.fadeOut(0);
+        errorMessageForbiddenCharacter.fadeOut(0);
 
         // Load all previously stored roles
         console.log("Loading cookies");
@@ -550,5 +552,19 @@
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
+
+
+    // The username doesn't allow special characters apart from '@, -, _'. Thus, we also check whether
+    // the username includes a forbidden character and if so, we display a warning.
+    // updateAlert() is triggered onkeypress.
+    function updateAlert() {
+        // If the username's input field isn't empty, we check whether a forbidden character is entered and if so,
+        // we display an alert.
+        if (userNameInput.val().length === 0 || userNameInput.val().match(/^[a-zA-Z0-9-,_@]*$/)) {
+            errorMessageForbiddenCharacter.fadeOut(200);
+        } else {
+            errorMessageForbiddenCharacter.fadeIn(200);
+        }
+    }
 </script>
 </html>
