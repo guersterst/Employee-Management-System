@@ -56,7 +56,7 @@ public class WorkSessionsController {
      * @param principal      Spring security principal.
      * @param workSessionDTO The work-session dto filled with relevant information.
      * @param status         The status dto.
-     * @return
+     * @return The view.
      */
     @GetMapping(
             value = "/latest/index"
@@ -268,13 +268,6 @@ public class WorkSessionsController {
     }
 
     /**
-     * Ends the latest session of a user.
-     *
-     * @param session A dto containing information about the desired new session. Requires only a {@code userName}.
-     * @return {@code HttpStatus.OK} if successful, {@code HttpStatus.BAD_REQUEST} otherwise.
-     * {@code HttpStatus.NOT_FOUND} if that user does not exist or has no sessions.
-     */
-    /**
      * @param session   The work-session dto filled with the relevant information.
      * @param status    The status dto.
      * @param principal Spring security principal.
@@ -335,6 +328,12 @@ public class WorkSessionsController {
     public String putOnSite(@ModelAttribute("workSessionData") WorkSessionDTO session,
                             @ModelAttribute("status") StatusDTO status, Principal principal) {
         String userName = principal.getName();
+
+        /*
+        1. coordsDTO
+        2. PathVariable / RequestParam
+        4. session attributes
+         */
 
         try {
             workSessionService.putOnSite(userName, session.isOnSite());

@@ -123,7 +123,7 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         //auth.userDetailsService(userDetailsService()).passwordEncoder(new BCryptPasswordEncoder(10));
 
         //TODO FEHLERREPRODUKTION: diesen Teil ent-kommentieren
@@ -134,13 +134,10 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authProvider());
     }
 }
-
 /*
 3.Login first-time
 
+5. COORDS: add to dto, add dto for coords, onSite -> setCoords, offSite -> delCoords.
 6. XML and content negotiation.
-7. delete user?
 
-6. On-demand: improve controllers
-7. foreign key -> kombi aus fremd und eigenschlüssel googlen
  */
