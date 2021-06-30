@@ -99,4 +99,24 @@ public class AdminUserAccountManipulationController {
         model.addAttribute("status", status);
         return "redirect:/admin/account/" + userName;
     }
+
+    /**
+     * Admin should be able to delete users. Use this mapping to delete a user as specified by {userName}
+     * @param userCredentials
+     * @param status Not explicitly used.
+     * @param userName The path variable which defines the user.
+     * @return The view to display. The admin should be returned to /admin/employees to see all remaining users.
+     */
+    @PostMapping(
+            value = "/delete/{userName}"
+    )
+    public String delete(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
+            "status") StatusDTO status, @PathVariable("userName") String userName) {
+
+        if (accountService.userExistsByUserName(userName)) {
+            accountService.deleteUser(userName);
+        }
+
+        return "redirect:/admin/employees";
+    }
 }

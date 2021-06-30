@@ -207,4 +207,21 @@ public class AccountService {
             employeeRepository.save(employee);
         }
     }
+
+    /**
+     * Delete a user as specified by the userName.
+     * @param userName The username with which a user entity can be identified.
+     * @throws NoSuchUserException Thrown if no user with the given name could be found.
+     */
+    public void deleteUser(String userName) throws NoSuchUserException {
+        assert employeeRepository != null;
+        Employee employee = employeeRepository.getUserByUserName(userName);
+
+        if (employee == null) {
+            throw new NoSuchUserException(userName);
+        } else {
+            userRepository.delete(userRepository.getById(userName));
+            employeeRepository.delete(employee);
+        }
+    }
 }
