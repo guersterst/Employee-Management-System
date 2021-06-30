@@ -159,6 +159,7 @@
             <!--Timeline vertically shows every event that is happening during using the web application.-->
             <div class="card-body">
                 <!--TODO: asking for list of the three latest sessions"-->
+
                 <!--
                 <ul class="timeline text-left" th:action="@{/my-session}" th:method="get">
                     <li th:each="workSession : ${workSessionListEntries.}">
@@ -176,12 +177,15 @@
                                 + #dates.dayOfWeekName(workSession.startTime) + ' '
                                 + #dates.format(workSession.startTime, 'dd.MM.yyyy')}"></span>
                                 </div>
+
                             </div>
                             <hr>
                             <div class="timeline-body">
+
                                 <div class="form-check-inline">
                                     <span><i class="bi bi-mailbox"></i> Current message: </span>
                                     <span th:text="${' ' + workSession.textStatus}"></span>
+
                                 </div>
                                 <br>
                                 <div class="form-check-inline">
@@ -192,8 +196,8 @@
                         </div>
                     </li>
                 </ul>
-                -->
             </div>
+            -->
             <!--Footer with the option to show more details.-->
             <div class="card-footer badge-light text-right">
                 <a href="#">See more <i class="bi bi-arrow-right-circle"></i></a>
