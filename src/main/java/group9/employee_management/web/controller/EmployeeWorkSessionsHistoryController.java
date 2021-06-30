@@ -192,9 +192,7 @@ public class EmployeeWorkSessionsHistoryController {
     @ResponseBody
     public ResponseEntity<byte[]> getSessionsJSON(Principal principal,
                                                   @ModelAttribute("status") StatusDTO status) {
-        System.out.println("Is in");
         byte[] customerJsonBytes;
-        System.out.println("Called");
         try {
             customerJsonBytes = workSessionService.workSessionsToJSON(principal.getName()).getBytes();
         } catch (NoSessionsException | NoSuchUserException exception) {
