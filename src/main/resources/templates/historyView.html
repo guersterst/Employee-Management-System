@@ -36,10 +36,9 @@
         <div class="card-header bg-secondary text-light">
             <h1 id="timeline">History</h1>
             <div class="form-inline">
-                <div th:action="@{/my-history/download}" th:method="get">
-                    <button class="btn btn-primary" type="submit">
-                        JSON <i class="bi bi-download"></i></button>
-                </div>
+                <form th:action="@{/my-history/download}" th:method="get">
+                    <button class="btn btn-primary" type="submit">JSON <i class="bi bi-download"></i></button>
+                </form>
                 <div>
                     <button class="btn btn-primary" type="submit">CSV <i class="bi bi-download"></i></button>
                 </div>
