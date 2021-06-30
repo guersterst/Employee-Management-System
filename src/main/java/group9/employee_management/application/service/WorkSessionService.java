@@ -3,7 +3,9 @@ package group9.employee_management.application.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import group9.employee_management.application.exception.NoSessionsException;
 import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.persistence.entities.Employee;
@@ -13,9 +15,13 @@ import group9.employee_management.persistence.repositories.WorkSessionRepository
 import group9.employee_management.web.dto.UserDTO;
 import group9.employee_management.web.dto.WorkSessionDTO;
 import group9.employee_management.web.dto.WorkSessionListEntryDTO;
+import org.hibernate.boot.spi.XmlMappingBinderAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -242,18 +248,13 @@ public class WorkSessionService {
 
     }
 
-    public String workSessionsToCSV(String userName) throws IOException {
+    public String workSessionsToXML(String userName) throws IOException {
         List<WorkSessionDTO> sessions = getSessions(userName);
         JsonNode node = new ObjectMapper().readTree(workSessionsToJSON(userName));
-/*
-        Csv
 
-        JsonMapper.Builder csvSchemaBuilder = CsvSchema.builder();
-        JsonNode firstObject = node.elements().next();
-        firstObject.fieldNames().forEachRemaining(fieldName -> {csvSchemaBuilder.addColumn(fieldName);} );
-        CsvSchema csvSchema = csvSchemaBuilder.build().withHeader();
- */
-    return "";}
+        XmlMapper xmlMapper = new XmlMapper();
+        return xmlMapper.writeValueAsString(sessions);
+    }
 
 
     /*

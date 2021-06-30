@@ -45,9 +45,8 @@ public class TestController {
     @GetMapping(
             value = "/sessions"
     )
-    public void ses(Principal principal) {
-        System.out.println("called");
-        workSessionService.getSessions(principal.getName());
+    public void ses(Principal principal) throws IOException {
+        workSessionService.workSessionsToXML(principal.getName());
     }
 }
 
