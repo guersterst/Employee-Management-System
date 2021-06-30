@@ -25,16 +25,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav nav-fill w-100">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="employeeView.html" th:href="@{/employeeView.html}">HomePage</a>
+                    <a href="employeeView.html" th:href="@{/my-session/latest}">HomePage</a>
 
-                    <a class="nav-link" href="history.html" th:href="@{/history.html}">History</a>
+                    <a class="nav-link" href="history.html" th:href="@{/my-history}">History</a>
                 </li>
             </ul>
         </div>
-        <a class="pull-right" href="#"><i class="bi-arrow-right-circle"></i> Logout</a>
+        <a class="pull-right" th:href="@{/login}"><i class="bi-arrow-right-circle"></i> Logout</a>
     </nav>
     <br><br>
 </div>
