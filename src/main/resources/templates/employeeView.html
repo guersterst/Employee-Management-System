@@ -151,55 +151,6 @@
 
         <!--TODO:Correct apearence of header.-->
         <!--View latest chronic items-->
-        <!--
-        <section class="section">
-            <div class="container card shadow">
-                <div class="badge-secondary">
-                    <h2>History</h2>
-                </div>
-                <div class="timeline">
-                    <hr>
-
-                    <div class="line"></div>
-
-                    <div class="text-muted text-left">
-                        <time>Monday</time>
-                    </div>
-
-                    <article class="panel">
-                        <div class="panel-heading icon">
-                            <i class="bi bi-arrow-right-circle"></i>
-                        </div>
-                        <div class="panel-body text-left">
-                            <strong>Login</strong> at 8:00 am.
-                        </div>
-                    </article>
-                    <article class="panel">
-                        <div class="panel-heading icon">
-                            <i class="bi bi-arrow-right-circle"></i>
-                        </div>
-                        <div class="panel-body text-left">
-                            <strong>Login</strong> at 8:00 am.
-                        </div>
-                    </article>
-                    <article class="panel">
-                        <div class="panel-heading icon">
-                            <i class="bi bi-arrow-right-circle"></i>
-                        </div>
-                        <div class="panel-body text-left">
-                            <strong>Available</strong> at 8:00 am.
-                        </div>
-                    </article>
-                </div>
-                -->
-        <!--end timeline-->
-        <!--
-                <div class="text-right align-text-bottom pt-5">
-                    <a href="#">See more <i class="bi bi-arrow-right-circle"></i></a>
-                </div>
-            </div>
-        </section>
-        -->
 
         <div class="card shadow w-100" id="history">
             <div class="bg-secondary text-light">
@@ -207,15 +158,16 @@
             </div>
             <!--Timeline vertically shows every event that is happening during using the web application.-->
             <div class="card-body">
-                <!--TODO: asking for list of the three latest sessions"
-                <ul class="timeline text-center" th:action="@{/my-history}" th:method="get">
+                <!--TODO: asking for list of the three latest sessions"-->
+                <!--
+                <ul class="timeline text-center" th:action="@{/my-session/session}" th:method="get">
                     <li th:each="workSession : ${historyWorkSessionDTO}">
                         <div class="timeline-panel">
                             <div class="timeline-heading">
                                 <h3 class="panel-title">Login</h3>
                                 <span><i class="bi bi-clock"></i></span>
                                 <span class="text-muted" th:text="${#dates.format(workSession.startTime, 'HH:mm a') + ' '
-                            + #dates.dayOfWeekName(workSession.) + ' '
+                            + #dates.dayOfWeekName(workSession.startTime) + ' '
                             + #dates.format(workSession.startTime, 'dd.MM.yyyy')}"> 10:14 am</span>
                             </div>
                             <div class="timeline-body">

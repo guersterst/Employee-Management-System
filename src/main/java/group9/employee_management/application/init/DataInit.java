@@ -67,6 +67,7 @@ public class DataInit implements CommandLineRunner {
         workSessionService.startSession("student", "Important meeting", false, true);
 
         workSessionService.startSession("linus", "Coding", true, true);
+        workSessionService.stopSession("linus");
 
         workSessionService.startSession("hpb", "Songwriting", true, true);
         workSessionService.stopSession("hpb");
