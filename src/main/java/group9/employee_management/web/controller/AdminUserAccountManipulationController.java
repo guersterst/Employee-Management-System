@@ -40,6 +40,7 @@ public class AdminUserAccountManipulationController {
     public String get(Model model, Principal principal) {
         model.addAttribute("userCredentials", new UserDTO());
         model.addAttribute("status", new StatusDTO());
+        model.addAttribute("selectedUser", "");
         return "userAccountPage";
     }
 
@@ -51,6 +52,9 @@ public class AdminUserAccountManipulationController {
         //String userName = //principal.getName();
 
         UserDTO userDTO = accountService.getUserAsDTO(userName);
+        model.addAttribute("selectedUser", userName); // Can be accessed in userAccountPage to determine the user to edit
+
+        System.out.println(model.getAttribute("selectedUser"));
 
         if (userDTO != null) {
             model.addAttribute("userCredentials", userDTO); // The user exists. Thus, the DTO we add to the model is userDTO
@@ -107,7 +111,7 @@ public class AdminUserAccountManipulationController {
      * @param userName The path variable which defines the user.
      * @return The view to display. The admin should be returned to /admin/employees to see all remaining users.
      */
-    @PostMapping(
+    @GetMapping(
             value = "/delete/{userName}"
     )
     public String delete(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
