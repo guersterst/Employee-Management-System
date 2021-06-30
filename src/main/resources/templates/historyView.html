@@ -38,29 +38,29 @@
             <li th:each="workSession : ${workSessionsList}">
                 <div class="timeline-panel">
                     <div class="timeline-heading text-muted form-check-inline">
-                        <span> <i class="bi bi-clock"></i> Time: </span>
-                        <span th:text="${' ' + #dates.format(workSession.startTime, 'HH:mm a') + ' '
-                            + #dates.dayOfWeekName(workSession.startTime) + ' '
+                        <span> <i class="bi bi-clock"></i> Time :</span>
+                        <span th:text="${' ' + #dates.dayOfWeekName(workSession.startTime) + ' '
+                            + #dates.format(workSession.startTime, 'HH:mm a') + ' '
                             + #dates.format(workSession.startTime, 'dd.MM.yyyy') + ' - '}"></span>
                         <div th:if="${workSession.stopTime == null}">
                             <span> Still here</span>
                         </div>
                         <div th:unless="${workSession.stopTime == null}">
-                                <span th:text="${' ' + #dates.format(workSession.startTime, 'HH:mm a') + ' '
-                                + #dates.dayOfWeekName(workSession.startTime) + ' '
+                                <span th:text="${' ' + #dates.dayOfWeekName(workSession.startTime) + ' '
+                                + #dates.format(workSession.startTime, 'HH:mm a') + ' '
                                 + #dates.format(workSession.startTime, 'dd.MM.yyyy')}"></span>
                         </div>
                     </div>
                     <hr>
                     <div class="timeline-body">
                         <div class="form-check-inline">
-                            <span><i class="bi bi-mailbox"></i> Current message: </span>
-                            <span th:text="${' ' + workSession.textStatus}"></span>
+                            <span><i class="bi bi-mailbox"></i> Current message: "</span>
+                            <span th:text="${' ' + workSession.textStatus}"></span><span>"</span>
                         </div>
                         <br>
                         <div class="form-check-inline">
                             <span><i class="bi bi-person-bounding-box"></i> Logged in as: </span>
-                            <span th:text="${' ' + workSession.userName}"></span>
+                            <a th:text="${' ' + workSession.userName}"></a>
                         </div>
                     </div>
                 </div>

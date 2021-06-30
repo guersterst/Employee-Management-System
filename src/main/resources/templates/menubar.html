@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
-   <!-- <link href="/webjars/bootstrap/5.0.1/css/bootstrap.css" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.css}" rel="stylesheet"/> -->
-    <link rel="stylesheet" href="../css/menuStyles.css">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+   <link href="/webjars/bootstrap/5.0.1/css/bootstrap.css" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="../static/css/menuStyles.css" th:href="@{/css/menuStyle.css}">
     <title>Menubar</title>
 </head>
 <body>
-<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
-<!-- <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
 <script src="/webjars/popper.js/1.14.1/popper.min.js"></script>
-<script src="/webjars/bootstrap/4.1.0/js/bootstrap.min.js"></script> -->
+<script src="/webjars/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
 
 <div class="navbar-static-top">
 
@@ -21,12 +22,13 @@
         <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbarNav">
             <span class="bi-menu-button "></span>
         </button>
-        <a class="navbar-brand" href="#">EmployeeManager</a>
+        <a class="navbar-brand" th:href="@{/my-session/latest}">EmployeeManager</a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav nav-fill w-100">
                 <li class="nav-item">
-                    <a href="employeeView.html" th:href="@{/my-session/latest}">HomePage</a>
-
+                    <a class="nav-link" href="employeeView.html" th:href="@{/my-session/latest}">HomePage</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="history.html" th:href="@{/my-history}">History</a>
                 </li>
             </ul>
