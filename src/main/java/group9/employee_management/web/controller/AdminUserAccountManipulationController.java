@@ -29,28 +29,45 @@ public class AdminUserAccountManipulationController {
     }
 
     /**
-     * Get access to the page and get a model-attribute of an user-dto.
+     * Currently not in use. The admin has to navigate to a specific
+     * user instead by using one of the mappings and methods below.
      *
      * @param model The model.
-     * @return The user creation page.
+     * @return The user account page.
      */
     @GetMapping(
             value = ""
     )
-    public String get(Model model, Principal principal) {
+    public String get(Model model) {
         model.addAttribute("userCredentials", new UserDTO());
         model.addAttribute("status", new StatusDTO());
+        model.addAttribute("selectedUser", "");
         return "userAccountPage";
     }
 
+    /**
+     * Admin can access the user's profile.
+     * @param userCredentials Contains the information about the selected user.
+     * @param status Used to inform the frontend that the admin is accessing the view. The message is set to
+     *               'admin_valid' in order to tell the frontend that it has to react differently. Among other things
+     *               the mapping for th:actions is different as the username has to be store in a path variable when
+     *               the admin accesses a user's profile. For the user, we can use Principal to get the name. That's not
+     *               possible for the admin as it would refer to themself. Also, the admin should be able to delete
+     *               users and change their roles(=positions) and whether they are admins themselves. This cannot
+     *               be done by users.
+     * @param model The model.
+     * @param userName A path-variable, which contains the userName. The path-variable is set when clicking a user's
+     *                 profile icon in the adminView. It is then stored in 'selectedUser', a model attribute,
+     *                 so that userAccountPage can reference it.
+     * @return userAccountPage, which is the view to display.
+     */
     @GetMapping(
             value = "/{userName}"
     )
     public String getData(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
-            "status") StatusDTO status, Principal principal, Model model, @PathVariable("userName") String userName) {
-        //String userName = //principal.getName();
-
+            "status") StatusDTO status, Model model, @PathVariable("userName") String userName) {
         UserDTO userDTO = accountService.getUserAsDTO(userName);
+        model.addAttribute("selectedUser", userName); // Can be accessed in userAccountPage to determine the user to edit
 
         if (userDTO != null) {
             model.addAttribute("userCredentials", userDTO); // The user exists. Thus, the DTO we add to the model is userDTO
@@ -98,5 +115,25 @@ public class AdminUserAccountManipulationController {
 
         model.addAttribute("status", status);
         return "redirect:/admin/account/" + userName;
+    }
+
+    /**
+     * Admin should be able to delete users. Use this mapping to delete a user as specified by {userName}
+     * @param userCredentials
+     * @param status Not explicitly used.
+     * @param userName The path variable which defines the user.
+     * @return The view to display. The admin should be returned to /admin/employees to see all remaining users.
+     */
+    @GetMapping(
+            value = "/delete/{userName}"
+    )
+    public String delete(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
+            "status") StatusDTO status, @PathVariable("userName") String userName) {
+
+        if (accountService.userExistsByUserName(userName)) {
+            accountService.deleteUser(userName);
+        }
+
+        return "redirect:/admin/employees";
     }
 }

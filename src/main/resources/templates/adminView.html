@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/webjars/bootstrap/5.0.1/css/bootstrap.css" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.css}"
           rel="stylesheet"/>
-    <link rel="stylesheet" type="text/css" href="../static/css/adminViewStyle.css" th:action="@{/css/adminViewStyle.css}">
+    <link rel="stylesheet" type="text/css" href="../static/css/adminViewStyle.css"
+          th:action="@{/css/adminViewStyle.css}">
     <!--<link href="../../static/css/adminViewStyle.css" th:href="@{/css/adminViewStyle.css}" rel="stylesheet"/>
 
 -->
@@ -62,8 +63,10 @@
                                     <div class="row">
                                         <span th:text="${workSessionListEntry.firstName} + ' ' + ${workSessionListEntry.lastName}"></span>
                                         <span>
-                                        <a href="#"><i class="bi bi-person-bounding-box" title="Edit"></i></a>
-                                        <a href="#" th:for="${userName}"><i class="bi-trash" title="Delete"></i></a>
+                                        <a th:href="@{/admin/account/__${workSessionListEntry.getUserName()}__}"><i
+                                                class="bi bi-person-bounding-box" title="Edit"></i></a>
+                                        <a th:href="@{/admin/account/delete/__${workSessionListEntry.getUserName()}__}"
+                                           th:for="${userName}"><i class="bi-trash" title="Delete"></i></a>
                                     </span>
                                     </div>
                                 </td>
