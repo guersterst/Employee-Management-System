@@ -159,35 +159,34 @@
             <!--Timeline vertically shows every event that is happening during using the web application.-->
             <div class="card-body">
                 <!--TODO: asking for list of the three latest sessions"-->
-
                 <!--
-                <ul class="timeline text-center" th:action="@{/my-session/session}" th:method="get">
-                    <li th:each="workSession : ${historyWorkSessionDTO}">
+                <ul class="timeline text-left" th:action="@{/my-session}" th:method="get">
+                    <li th:each="workSession : ${workSessionListEntries.}">
                         <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h3 class="panel-title">Login</h3>
-                                <span><i class="bi bi-clock"></i></span>
-                                <span class="text-muted" th:text="${#dates.format(workSession.startTime, 'HH:mm a') + ' '
+                            <div class="timeline-heading text-muted form-check-inline">
+                                <span> <i class="bi bi-clock"></i> Time: </span>
+                                <span th:text="${' '+ #dates.format(workSessionListEntry.startTime, 'HH:mm a') + ' '
                             + #dates.dayOfWeekName(workSession.startTime) + ' '
-                            + #dates.format(workSession.startTime, 'dd.MM.yyyy')}"> 10:14 am</span>
-                            </div>
-                            <div class="timeline-body">
-                                TODO: need to add href-->
-                <!--
-                                <span>Logged in as </span><a href="#" th:text="${workSession.userName}"></a>
-                            </div>
-                        </div>
-                        <div th:if="${workSession.stopTime != null}">
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h3 class="panel-title">Logout</h3>
-                                    <span><i class="bi bi-clock"></i></span>
-                                    <span class="text-muted" th:text="${#dates.format(workSession.stopTime, 'HH:mm a')
-                            + #dates.dayOfWeekName(workSession.stopTime)
-                            + #dates.format(workSession.stopTime, 'dd.MM.yyyy')}"></span>
+                            + #dates.format(workSession.startTime, 'dd.MM.yyyy') + ' - '}"></span>
+                                <div th:if="${workSession.stopTime == null}">
+                                    <span> Still here</span>
                                 </div>
-                                <div class="timeline-body">
-                                    <p>Finished work.</p>
+                                <div th:unless="${workSession.stopTime == null}">
+                                <span th:text="${' ' + #dates.format(workSession.startTime, 'HH:mm a') + ' '
+                                + #dates.dayOfWeekName(workSession.startTime) + ' '
+                                + #dates.format(workSession.startTime, 'dd.MM.yyyy')}"></span>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="timeline-body">
+                                <div class="form-check-inline">
+                                    <span><i class="bi bi-mailbox"></i> Current message: </span>
+                                    <span th:text="${' ' + workSession.textStatus}"></span>
+                                </div>
+                                <br>
+                                <div class="form-check-inline">
+                                    <span><i class="bi bi-person-bounding-box"></i> Logged in as: </span>
+                                    <span th:text="${' ' + workSession.userName}"></span>
                                 </div>
                             </div>
                         </div>
