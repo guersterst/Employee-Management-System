@@ -7,12 +7,14 @@ import group9.employee_management.application.service.WorkSessionService;
 import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.web.dto.StatusDTO;
 import group9.employee_management.web.dto.WorkSessionDTO;
+import group9.employee_management.web.dto.WorkSessionListEntryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 /**
  * A controller to gain access to your current session.
@@ -36,10 +38,17 @@ public class WorkSessionsController {
     @GetMapping(
             value = ""
     )
-    public String get(Model model) {
+    public String get(Model model, Principal principal) {
 
         // This DTO is for the upper part of the page (my-session management).
         model.addAttribute("workSessionData", new WorkSessionDTO());
+
+        List<WorkSessionDTO> sessions = workSessionService.getSessions(principal.getName());
+        List<WorkSessionDTO> lastTwoSessions = List.of(sessions.get(sessions.size() - 1),
+                sessions.get(sessions.size() - 2));
+
+        // A DTO containing the last two sessions of an employee.
+        model.addAttribute("workSessionListEntries", lastTwoSessions);
 
         // This DTO is for the lower part of the page (my history of sessions)
         model.addAttribute("historyWorkSessionDTO", new WorkSessionDTO());
@@ -81,7 +90,7 @@ public class WorkSessionsController {
      * @param principal      Spring security principal.
      * @param workSessionDTO The work-session dto filled with relevant information.
      * @param status         The status dto.
-     * @return
+     * @return The view.
      */
     @GetMapping(
             value = "/session"
