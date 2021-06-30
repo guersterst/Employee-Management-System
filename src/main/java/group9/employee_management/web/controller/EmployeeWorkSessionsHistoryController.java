@@ -12,11 +12,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -186,8 +184,8 @@ public class EmployeeWorkSessionsHistoryController {
      * @return The view.
      */
     @GetMapping(
-            value = "/download",
-            produces = { "application/json", "application/xml" }
+            value = "/download/json",
+            produces = { "application/json"}
     )
     @ResponseBody
     public ResponseEntity<byte[]> getSessionsJSON(Principal principal,
@@ -209,23 +207,24 @@ public class EmployeeWorkSessionsHistoryController {
                 .body(customerJsonBytes);
     }
 
-
-    /*
+    /**
+     * Downloads a XML file containing all sessions.
+     *
+     * @param principal      Spring security principal.
+     * @param status         The status dto.
+     * @return The view.
+     */
     @GetMapping(
-            //TODO content negotiation
-            value = "/downloadCSV"
+            value = "/download/xml",
+            produces = {"application/xml"}
     )
     @ResponseBody
-    public ResponseEntity<byte[]> getSessionsCSV(Principal principal, @ModelAttribute("status") StatusDTO status,
-                                                 HttpServletResponse response) throws IOException {
-        response.setContentType("text/csv");
-        response.setHeader("Content-Disposition", "attachment; file=sessions.csv");
-        //workSessionService.workSessionsToCSV(response.getWriter(), principal.getName());
-
-        byte[] customerCSVBytes;
+    public ResponseEntity<byte[]> getSessionsXML(Principal principal,
+                                                      @ModelAttribute("status") StatusDTO status) throws IOException {
+        byte[] customerXMLBytes;
         try {
-            //customerCSVBytes = workSessionService.workSessionsToCSV(principal.getName()).getBytes();
-        } catch (NoSessionsException | NoSuchUserException exception) {
+            customerXMLBytes = workSessionService.workSessionsToXML(principal.getName()).getBytes();
+        } catch (NoSessionsException | NoSuchUserException | IOException exception) {
             status.setMessage("bad_request");
             return null;
         }
@@ -233,10 +232,10 @@ public class EmployeeWorkSessionsHistoryController {
 
         return ResponseEntity
                 .ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=sessions.json")
-                .contentType(MediaType.APPLICATION_JSON);
-                //.contentLength(customerCSVBytes.length)
-                //.body(customerCSVBytes);
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=sessions.xml")
+                .contentType(MediaType.APPLICATION_XML)
+                .contentLength(customerXMLBytes.length)
+                .body(customerXMLBytes);
+
     }
-     */
 }
