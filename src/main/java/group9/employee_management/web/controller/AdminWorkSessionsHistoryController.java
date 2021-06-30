@@ -172,8 +172,7 @@ public class AdminWorkSessionsHistoryController {
                 if (threeFromIndex.get(i) != null) {
                     // this assignment seems not to work
                     WorkSessionDTO el = modelAttributes.get(i);
-                    el = WorkSessionDTO.fromEntity(threeFromIndex.get(i));
-                    ;
+                    el = WorkSessionDTO.fromEntity(threeFromIndex.get(i));;
                 }
             }
         } else {

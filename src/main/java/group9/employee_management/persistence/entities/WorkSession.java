@@ -32,7 +32,6 @@ public class WorkSession {
 
 
         public WorkSessionID() {
-            //super();
         }
     }
 

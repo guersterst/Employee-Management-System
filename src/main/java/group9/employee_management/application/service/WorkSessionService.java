@@ -3,8 +3,6 @@ package group9.employee_management.application.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.*;
 import com.google.gson.Gson;
 import group9.employee_management.application.exception.NoSessionsException;
 import group9.employee_management.application.exception.NoSuchUserException;
@@ -162,7 +160,7 @@ public class WorkSessionService {
 
     public void deleteTextStatus(String userName) {
         hasLatestSession(userName);
-        WorkSession session = workSessionRepository.getById(workSessionRepository.getIndex(userName));
+        WorkSession session = workSessionRepository.getWorkSession(userName, workSessionRepository.getIndex(userName));
         session.setTextStatus("");
         workSessionRepository.save(session);
     }
