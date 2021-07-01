@@ -106,6 +106,11 @@ public class EmployeeWorkSessionsHistoryController {
         return "redirect:/my-session/latest";
     }
 
+
+    @DeleteMapping(
+            value = ""
+    )
+
     /**
      * Returns the session at the desired index.
      *

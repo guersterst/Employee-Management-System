@@ -82,7 +82,10 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .hasAnyRole(Roles.ADMIN.toString(), Roles.USER.toString())
                 .and().authorizeRequests().antMatchers("/admin/**")
                 .hasRole(Roles.ADMIN.toString())
-                .and().formLogin().loginPage("/login").successHandler(myAuthenticationSuccessHandler());
+                .and().formLogin().loginPage("/login").successHandler(myAuthenticationSuccessHandler())
+                .and().logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout");
 
 
                 //TODO FEHLERREPRODUKTION: diese Zeile auskommentieren
@@ -140,7 +143,6 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 5. COORDS: add to dto, add dto for coords, onSite -> setCoords, offSite -> delCoords.
 (steffi koordinaten?)
 
-6. EmployeeListView POST ONSITE -> userName von Steffi?
 7. DELETE From historyView -> index (userName) von steffi?
 pathVariables
 

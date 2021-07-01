@@ -1,6 +1,5 @@
 package group9.employee_management.web.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import group9.employee_management.application.exception.NoSessionsException;
 import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.application.service.WorkSessionService;
@@ -8,6 +7,7 @@ import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.web.dto.StatusDTO;
 import group9.employee_management.web.dto.WorkSessionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * A controller to access users work-sessions as an admin.
  */
-@RestController
+@Controller
 @RequestMapping("/admin/employees/work-sessions")
 public class AdminWorkSessionsHistoryController {
     private final WorkSessionService workSessionService;
@@ -186,6 +186,20 @@ public class AdminWorkSessionsHistoryController {
             }
         }
 
+        status.setMessage("valid");
+        return "history";
+    }
+
+    @DeleteMapping(
+            value = "/{userName}/{index}"
+    )
+    public String deleteSession(@PathVariable(value = "userName") String userName,
+                                @PathVariable(value = "index") int index, @ModelAttribute("status") StatusDTO status) {
+        try {
+            workSessionService.deleteSession(userName, index);
+        } catch (NoSessionsException exception) {
+            status.setMessage("bad_request");
+        }
         status.setMessage("valid");
         return "history";
     }

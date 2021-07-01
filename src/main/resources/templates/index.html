@@ -80,11 +80,13 @@
         <div class="alert alert-danger mx-auto" id="forbiddenCharacterEntered" role="alert">
             <strong>No special characters besides '@, -, _' are allowed in the username.</strong>
         </div>
+
+        <!--Alert which is displayed in case a logout was performed-->
+        <div th:if="${param.logout}" class="alert alert-success">
+            You've logged out successfully!
+        </div>
     </div>
 
-    <!-- beim ersten Login anzeigen:
-    <div th:insert="'loginForFirstTime'"></div>
-    -->
 
     <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
     <script src="/webjars/popper.js/1.14.1/popper.min.js"></script>
