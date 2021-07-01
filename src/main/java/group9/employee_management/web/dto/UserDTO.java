@@ -21,8 +21,8 @@ public class UserDTO {
     private boolean admin;
     @JsonProperty("position")
     private String position;
-    @JsonProperty("validity")
-    private Date validity;
+    private int coordX;
+    private int coordY;
 
     public UserDTO(){}
 
@@ -39,6 +39,8 @@ public class UserDTO {
         userDTO.setUserName(employee.getUserName());
         userDTO.setAdmin(employee.isAdmin());
         userDTO.setPosition(employee.getPosition());
+        userDTO.setCoordX(employee.getCoordX());
+        userDTO.setCoordY(employee.getCoordY());
         return userDTO;
     }
 
@@ -53,8 +55,7 @@ public class UserDTO {
                 "\"lastName\": \"" + lastName + "\" ," +
                 "\"userName\": \"" + userName + "\", " +
                 "\"isAdmin\": \"" + admin + "\", " +
-                "\"position\": \"" + position + "\", " +
-                "\"validity\": \"" + validity + "\"}";
+                "\"position\": \"" + position + "\"}";
     }
 
 
@@ -109,11 +110,19 @@ public class UserDTO {
         return admin;
     }
 
-    public Date getValidity() {
-        return validity;
+    public int getCoordX() {
+        return coordX;
     }
 
-    public void setValidity(Date validity) {
-        this.validity = validity;
+    public void setCoordX(int coordX) {
+        this.coordX = coordX;
+    }
+
+    public int getCoordY() {
+        return coordY;
+    }
+
+    public void setCoordY(int coordY) {
+        this.coordY = coordY;
     }
 }

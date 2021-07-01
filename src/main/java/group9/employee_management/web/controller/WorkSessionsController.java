@@ -339,16 +339,12 @@ public class WorkSessionsController {
                             @ModelAttribute("status") StatusDTO status, Principal principal) {
         String userName = principal.getName();
 
-        /*
-        1. coordsDTO
-        2. PathVariable / RequestParam
-        4. session attributes
-         */
-
         try {
             workSessionService.putOnSite(userName, session.isOnSite());
             if (!session.isOnSite()) {
                 workSessionService.stopSession(userName);
+            } else {
+
             }
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");

@@ -143,7 +143,4 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 5. COORDS: add to dto, add dto for coords, onSite -> setCoords, offSite -> delCoords.
 (steffi koordinaten?)
 
-7. DELETE From historyView -> index (userName) von steffi?
-pathVariables
-
  */
