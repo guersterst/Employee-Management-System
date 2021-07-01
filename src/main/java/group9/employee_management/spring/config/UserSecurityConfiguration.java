@@ -82,7 +82,10 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .hasAnyRole(Roles.ADMIN.toString(), Roles.USER.toString())
                 .and().authorizeRequests().antMatchers("/admin/**")
                 .hasRole(Roles.ADMIN.toString())
-                .and().formLogin().loginPage("/login").successHandler(myAuthenticationSuccessHandler());
+                .and().formLogin().loginPage("/login").successHandler(myAuthenticationSuccessHandler())
+                .and().logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout");
 
 
                 //TODO FEHLERREPRODUKTION: diese Zeile auskommentieren

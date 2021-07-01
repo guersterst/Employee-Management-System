@@ -33,7 +33,9 @@
                 </li>
             </ul>
         </div>
-        <a class="pull-right" th:href="@{/login}"><i class="bi-arrow-right-circle"></i> Logout</a>
+        <form th:action="@{/logout}" method="post" name="logout">
+            <a class="pull-right" href="javascript: document.logout.submit()"><i class="bi-arrow-right-circle"></i>Logout</a>
+        </form>
     </nav>
     <br><br>
 </div>
