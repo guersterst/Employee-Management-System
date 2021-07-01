@@ -30,9 +30,6 @@ public class Employee {
     @Column
     private String position;
 
-    private Integer coordX;
-    private Integer coordY;
-
     /*
     // The work-sessions associated with this user.
     @OneToMany(mappedBy = "user")
@@ -96,21 +93,5 @@ public class Employee {
 
     public String getPosition() {
         return position;
-    }
-
-    public Integer getCoordX() {
-        return coordX;
-    }
-
-    public void setCoordX(Integer coordX) {
-        this.coordX = coordX;
-    }
-
-    public Integer getCoordY() {
-        return coordY;
-    }
-
-    public void setCoordY(Integer coordY) {
-        this.coordY = coordY;
     }
 }

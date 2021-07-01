@@ -10,11 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * NOT IN USE.
+ * Used to display the login-view.
  */
 @Controller
-//@RequestMapping("")
-//@RequestMapping("/login")
 public class LoginController {
 
     //AUTH none
@@ -35,6 +33,7 @@ public class LoginController {
         return "index";
     }
 
+    /*
     /**
      * The login-page should be displayed for the given mapping.
      * @return The login-page.
@@ -45,7 +44,7 @@ public class LoginController {
     }
 
     // UNNECESSARY:
-    /**
+    /*
      * Determine whether a user is allowed to login or has to create his password.
      *
      * @param userCredentials A dto containing the users login information.
@@ -56,7 +55,7 @@ public class LoginController {
      *               incorrect.
      * @return The view to display. We stay on "index" if the password has to be set or if the log in was not
      * successful. Otherwise, the employeeView is shown.
-     */
+
     @PostMapping(
             value = "/authentication")
     public String login(@ModelAttribute("userCredentials") UserDTO userCredentials,
@@ -87,5 +86,5 @@ public class LoginController {
             status.setMessage("not_found");
             return "index";
         }
-    }
+    } */
 }

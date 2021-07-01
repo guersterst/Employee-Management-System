@@ -21,8 +21,6 @@ public class UserDTO {
     private boolean admin;
     @JsonProperty("position")
     private String position;
-    private int coordX;
-    private int coordY;
 
     public UserDTO(){}
 
@@ -39,8 +37,6 @@ public class UserDTO {
         userDTO.setUserName(employee.getUserName());
         userDTO.setAdmin(employee.isAdmin());
         userDTO.setPosition(employee.getPosition());
-        userDTO.setCoordX(employee.getCoordX());
-        userDTO.setCoordY(employee.getCoordY());
         return userDTO;
     }
 
@@ -108,21 +104,5 @@ public class UserDTO {
 
     public boolean isAdmin() {
         return admin;
-    }
-
-    public int getCoordX() {
-        return coordX;
-    }
-
-    public void setCoordX(int coordX) {
-        this.coordX = coordX;
-    }
-
-    public int getCoordY() {
-        return coordY;
-    }
-
-    public void setCoordY(int coordY) {
-        this.coordY = coordY;
     }
 }
