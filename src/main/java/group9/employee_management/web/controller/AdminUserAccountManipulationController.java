@@ -15,7 +15,7 @@ import java.security.Principal;
  *  The admin needs different mappings as UserAccountManipulationController
  *  uses Principal to get a user's name. Thus, a user can edit their own profile only.
  *  The admin, however, can select any user and view/edit their profile.
- *  We use pathvariables to accomplish this.
+ *  We use path-variables to accomplish this.
  */
 @Controller
 @RequestMapping("/admin/account")
@@ -87,20 +87,22 @@ public class AdminUserAccountManipulationController {
     public String edit(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
             "status") StatusDTO status,Principal principal, @PathVariable("userName") String userName, Model model) {
 
-        // Get the name.
-        //String userName = principal.getName();
-        userCredentials = accountService.getUserAsDTO(userName);
         String firstName = userCredentials.getFirstName();
         String lastName = userCredentials.getLastName();
+        System.out.println(accountService.getUserAsDTO(userName));
 
         // If the given user exists, we change their name.
         if (accountService.userExistsByUserName(userName)
                 && firstName != null && lastName != null) {
             accountService.setName(userName, firstName, lastName);
+            accountService.setPassword(userName, userCredentials.getPassword());
+
             status.setMessage("admin_valid");
         } else {
             status.setMessage("bad_request");
         }
+
+        System.out.println(accountService.getUserAsDTO(userName).getUserName());
 
         // If the given user exists and their password is not null, we can change the password
         String password = userCredentials.getPassword();

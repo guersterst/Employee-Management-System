@@ -148,14 +148,13 @@ public class UserAccountManipulationController {
      * @param userCredentials The DTO used to store information about the user.
      * @param status Informs the frontend about whether the operation was successful ("valid") or not ("bad_request")
      * @param principal Description forthcoming.
-     * @return
+     * @return The view to display.
      */
     @PostMapping(
             value = "/edit"
     )
     public String edit(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
             "status") StatusDTO status,Principal principal) {
-
         // Get the name.
         String userName = principal.getName();
         String firstName = userCredentials.getFirstName();
