@@ -40,10 +40,9 @@ public class LoginController {
      * @return The login-page.
      */
     @GetMapping("")
-    public String login2() {
+    public String loginWithDifferentMapping() {
         return "index";
     }
-
 
     // UNNECESSARY:
     /**
