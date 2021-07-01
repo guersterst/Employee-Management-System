@@ -69,9 +69,9 @@
           <!-- Work around to set the value to true in case an admin has navigated to this site     -->
           <!-- NOTE: {isAdmin} refers to the person who has called the site. So if the admin selects-->
           <!-- a user to edit, the value is true. If a user selects their own page, it's false      -->
-          <div id="callerIsAdminValue" th:text="${isAdmin}"></div>
+          <div id="callerIsAdminValue" hidden th:text="${isAdmin}"></div>
 
-          <div id="selectedUserIsAdminVal" th:text="${userCredentials.admin}"></div>
+          <div id="selectedUserIsAdminVal" hidden th:text="${userCredentials.admin}"></div>
         </div>
 
 
@@ -188,6 +188,7 @@
 </body>
 
 <script type="text/javascript" th:src="@{/js/passwordMeterScript.js}"></script>
+<script type="text/javascript" th:src="@{/js/automaticLogout.js}"></script>
 
 <footer>
   <div th:insert="'footer'" class="embeddedFooter"></div>

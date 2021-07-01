@@ -32,7 +32,7 @@ public class WorkSessionsController {
      * Show the employees main page. Introduces DTOS for the current WorkSession, latest history and an status.
      *
      * @param model The model.
-     * @param principal. Description forthcoming.
+     * @param principal Description forthcoming.
      * @return The employees main page.
      */
     @GetMapping(
