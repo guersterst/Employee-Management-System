@@ -72,10 +72,12 @@
                                 </td>
                                 <td th:text="${workSessionListEntry.available}"></td>
                                 <td class="d-inline">
-                                    <span th:text="${workSessionListEntry.onSite}"></span>
+                                    <span id="onSite" th:text="${workSessionListEntry.onSite}"></span>
                                     <!--TODO:Add action to button-->
-                                    <span><button class="btn btn" type="submit" title="Change on site"><i
-                                            class="bi bi-arrow-right-circle"></i></button></span>
+                                    <span><a class="btn btn" type="submit" title="Change on site" onclick="checkOnSite()"
+                                             th:href="@{/admin/employees/__${workSessionListEntry.getUserName()}__/stop}"
+                                             th:for="${userName}">
+                                        <i class="bi bi-arrow-right-circle"></i></a></span>
                                 </td>
                                 <td>Location</td>
                                 <td th:text="${#dates.format(workSessionListEntry.startTime, 'dd.MM.yyyy HH:mm')}"></td>
@@ -93,6 +95,13 @@
 
                         </tbody>
                     </table>
+
+                    <div class="alert alert-info mx-auto" id="alertOnSite">
+                        <div class="align-text-bottom">
+                            <i class="bi bi-info"></i>
+                            <strong>On site is already false.</strong>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -123,6 +132,27 @@
 <script src="js/ct-navbar.js"></script>
 
 </body>
+
+<script lang="JavaScript" type="text/javascript">
+
+    //TODO: fade in and out does not work.
+    let alertOnSite = $('#alertOnSite');
+
+    function checkOnSite(event) {
+        let onSite = document.getElementById("onSite");
+
+        if (!onSite) {
+            alertOnSite.fadeIn(100);
+            event.preventDefault();
+        }
+    }
+
+    alertOnSite.fadeOut(1);
+
+    window.onload = function() {
+        alertOnSite.fadeOut(1);
+    }
+</script>
 
 <!--Has to be replaced-->
 <footer>

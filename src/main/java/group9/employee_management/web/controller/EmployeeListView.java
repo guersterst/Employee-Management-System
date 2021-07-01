@@ -90,7 +90,7 @@ public class EmployeeListView {
      * @param status The status.
      * @return The view.
      */
-    @PostMapping(
+    @GetMapping(
             value = "/{userName}/stop"
     )
     public String stopLatestSessionOfUser(@PathVariable("userName") String userName,
@@ -101,6 +101,6 @@ public class EmployeeListView {
             status.setMessage("bad_request");
         }
         status.setMessage("valid");
-        return "adminView";
+        return "redirect:/admin/employees";
     }
 }
