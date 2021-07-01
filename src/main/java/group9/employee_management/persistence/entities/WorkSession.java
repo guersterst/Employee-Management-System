@@ -53,6 +53,12 @@ public class WorkSession {
     @Column
     private boolean onSite;
 
+    @Column
+    private Integer coordX;
+
+    @Column
+    private Integer coordY;
+
 
 
     public WorkSession(){}
@@ -110,5 +116,21 @@ public class WorkSession {
 
     public void setOnSite(boolean onSite) {
         this.onSite = onSite;
+    }
+
+    public Integer getCoordY() {
+        return coordY;
+    }
+
+    public void setCoordY(Integer coordY) {
+        this.coordY = coordY;
+    }
+
+    public Integer getCoordX() {
+        return coordX;
+    }
+
+    public void setCoordX(Integer coordX) {
+        this.coordX = coordX;
     }
 }

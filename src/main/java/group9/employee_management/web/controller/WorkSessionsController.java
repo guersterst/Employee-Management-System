@@ -7,7 +7,6 @@ import group9.employee_management.application.service.WorkSessionService;
 import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.web.dto.StatusDTO;
 import group9.employee_management.web.dto.WorkSessionDTO;
-import group9.employee_management.web.dto.WorkSessionListEntryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -343,8 +342,6 @@ public class WorkSessionsController {
             workSessionService.putOnSite(userName, session.isOnSite());
             if (!session.isOnSite()) {
                 workSessionService.stopSession(userName);
-            } else {
-
             }
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");

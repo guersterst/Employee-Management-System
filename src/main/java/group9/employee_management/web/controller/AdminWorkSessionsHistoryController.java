@@ -146,7 +146,6 @@ public class AdminWorkSessionsHistoryController {
      */
     @Deprecated
     @GetMapping(
-            //value = "/{userName}/{index}/three"
             value = "denied"
     )
     @ResponseBody
