@@ -213,6 +213,8 @@ public class UserAccountManipulationController {
         if (accountService.userExistsByUserName(userName)
                 && firstName != null && lastName != null) {
             accountService.setName(userName, firstName, lastName);
+            accountService.setPosition(userName, userCredentials.getPosition());
+            accountService.setAdmin(userName, userCredentials.isAdmin());
             if (accountService.isAdmin(principal.getName())) {
                 status.setMessage("admin_valid");
             } else {

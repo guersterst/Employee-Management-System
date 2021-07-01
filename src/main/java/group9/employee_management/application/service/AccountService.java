@@ -132,9 +132,9 @@ public class AccountService {
             employee.setAdmin(admin);
             employeeRepository.save(employee);
             if (admin) {
-                user.setRoles(List.of(Roles.USER, Roles.ADMIN));
+                user = new User(user.getUsername(), user.getPassword(), employee, List.of(Roles.USER, Roles.ADMIN));
             } else {
-                user.setRoles(List.of(Roles.USER));
+                user = new User(user.getUsername(), user.getPassword(), employee, List.of(Roles.USER));
             }
             userRepository.save(user);
         }
