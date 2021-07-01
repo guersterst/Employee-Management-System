@@ -220,7 +220,7 @@ public class EmployeeWorkSessionsHistoryController {
     )
     @ResponseBody
     public ResponseEntity<byte[]> getSessionsXML(Principal principal,
-                                                      @ModelAttribute("status") StatusDTO status) throws IOException {
+                                                      @ModelAttribute("status") StatusDTO status) {
         byte[] customerXMLBytes;
         try {
             customerXMLBytes = workSessionService.workSessionsToXML(principal.getName()).getBytes();
@@ -236,6 +236,5 @@ public class EmployeeWorkSessionsHistoryController {
                 .contentType(MediaType.APPLICATION_XML)
                 .contentLength(customerXMLBytes.length)
                 .body(customerXMLBytes);
-
     }
 }
