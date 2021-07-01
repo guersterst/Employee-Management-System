@@ -33,12 +33,13 @@ public class WorkSessionsController {
      * Show the employees main page. Introduces DTOS for the current WorkSession, latest history and an status.
      *
      * @param model The model.
+     * @param principal. Description forthcoming.
      * @return The employees main page.
      */
     @GetMapping(
             value = ""
     )
-    public String get(Model model, Principal principal) {
+    public String getString(Model model, Principal principal) {
 
         // This DTO is for the upper part of the page (my-session management).
         model.addAttribute("workSessionData", new WorkSessionDTO());
