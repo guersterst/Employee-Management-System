@@ -40,12 +40,12 @@ public class EmployeeListView {
 
     /**
      * OUT OF ORDER AND NOT IN USE.
-     *
+     * <p>
      * Sets the dto of the list entry with the values of the latest session for a given user.
      *
-     * @param userName The users name.
+     * @param userName                The users name.
      * @param workSessionListEntryDTO The DTO to be filled.
-     * @param status The status.
+     * @param status                  The status.
      * @return The view.
      */
     @Deprecated
@@ -81,5 +81,26 @@ public class EmployeeListView {
 
         // I think it is appropriate to return JSON here. Don't really want to introduce a DTO or something for this.
         return workSessionService.getUsersWithRunningSessionsAsJSON();
+    }
+
+    /**
+     * Allows the admin to stop the latest session of an user.
+     *
+     * @param userName The users name.
+     * @param status The status.
+     * @return The view.
+     */
+    @PostMapping(
+            value = "/{userName}/stop"
+    )
+    public String stopLatestSessionOfUser(@PathVariable("userName") String userName,
+                                          @ModelAttribute("status") StatusDTO status) {
+        try {
+            workSessionService.stopSession(userName);
+        } catch (NoSessionsException | NoSuchUserException exception) {
+            status.setMessage("bad_request");
+        }
+        status.setMessage("valid");
+        return "adminView";
     }
 }
