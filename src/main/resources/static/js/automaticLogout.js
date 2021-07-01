@@ -55,7 +55,7 @@ function resetTimer() {
     counter = standardCounterTime
     text.text("");
     clearInterval(interval);
-    setInterval(startLogOutTimer, counter)
+    interval = setInterval(startLogOutTimer, counter)
 }
 
 function startLogOutTimer() {
@@ -77,7 +77,6 @@ function logout() {
     lastFiveSecondsCounter = 5
     counter = standardCounterTime
     clearInterval(interval);
-    setInterval(startLogOutTimer, counter)
 
     if (document.URL !== "/login" && document.URL !== "/login?logout" && document.URL !== "/login?error") {
         window.location = "/login?logout";
