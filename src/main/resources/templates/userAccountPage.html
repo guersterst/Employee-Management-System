@@ -69,9 +69,9 @@
           <!-- Work around to set the value to true in case an admin has navigated to this site     -->
           <!-- NOTE: {isAdmin} refers to the person who has called the site. So if the admin selects-->
           <!-- a user to edit, the value is true. If a user selects their own page, it's false      -->
-          <div id="callerIsAdminValue" hidden th:text="${isAdmin}"></div>
+          <div id="callerIsAdminValue" th:text="${isAdmin}"></div>
 
-          <div id="selectedUserIsAdminVal" hidden th:text="${userCredentials.admin}"></div>
+          <div id="selectedUserIsAdminVal" th:text="${userCredentials.admin}"></div>
         </div>
 
 
@@ -216,6 +216,8 @@
   // the selected user is an admin / what their role/position is
   if (callerIsAdminValue.text() === "true") {
     isAdmin.val(true);
+  } else {
+    isAdmin.val(false);
   }
 
   // If the user is also an admin, set the switch to true
@@ -235,7 +237,7 @@
       firstName.attr('readonly', false);
       lastName.attr('readonly', false);
 
-      if (isAdmin.val()) {
+      if (callerIsAdminValue.text() === "true") {
         isAdmin.attr('disabled', false);
         role.attr('readonly', false);
       }
@@ -256,7 +258,7 @@
       lastName.attr('readonly', true);
       edit.text("Edit");
 
-      if (isAdmin.val()) {
+      if (callerIsAdminValue.text() === "true") {
         isAdmin.attr('disabled', true);
         role.attr('readonly', true);
       }
