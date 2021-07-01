@@ -53,26 +53,33 @@ window.onmouseup = function() {
 function resetTimer() {
     lastFiveSecondsCounter = 5
     counter = standardCounterTime
+    text.text("");
     clearInterval(interval);
     setInterval(startLogOutTimer, counter)
 }
 
 function startLogOutTimer() {
+    if (document.URL !== "/login" && document.URL !== "/login?logout" && document.URL !== "/login?error") {
+        if (lastFiveSecondsCounter > 0) {
+            text.text("Timer: " + lastFiveSecondsCounter);
+            clearInterval(interval);
+            interval = setInterval(startLogOutTimer, 1000);
+            lastFiveSecondsCounter--;
+        }
 
-    if (lastFiveSecondsCounter > 0) {
-        text.text("Timer: " + lastFiveSecondsCounter);
-        clearInterval(interval);
-        interval = setInterval(startLogOutTimer, 1000);
-        lastFiveSecondsCounter--;
-    }
-
-    if (lastFiveSecondsCounter > 6) {
-        interval = setInterval(logout, 1000);
+        if (lastFiveSecondsCounter <= 0) {
+            interval = setInterval(logout, 1000);
+        }
     }
 }
 
 function logout() {
-    if (window.location !== "/login" && window.location !== "/login?logout" && window.location !== "/login?error") {
+    lastFiveSecondsCounter = 5
+    counter = standardCounterTime
+    clearInterval(interval);
+    setInterval(startLogOutTimer, counter)
+
+    if (document.URL !== "/login" && document.URL !== "/login?logout" && document.URL !== "/login?error") {
         window.location = "/login?logout";
     }
 }
