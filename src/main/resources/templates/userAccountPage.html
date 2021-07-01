@@ -85,45 +85,66 @@
           </div>
         </div>
 
-        <!--Here, the user can change their password-->
-        <div class="form-group col mx-auto">
-          <label for="password">Password</label>
-          <div class="input-group">
-            <input id="password" type="password" class="form-control" placeholder="Password" onkeyup="determinePasswordStrength(); showMissingPasswordCharacteristics();" th:field="${userCredentials.password}" required readonly>
-            <div class="invalid-feedback">Please enter a password</div>
-            <div class="input-group-append">
-              <button class="input-group-btn" type="button" id="showHidePassword" onclick="showOrHidePassword('password')">
-                <i class="bi-eye-slash" id="passwordButtonIcon"></i></button>
-            </div>
-          </div>
-        </div>
-
         <!--The user needs to confirm their new password-->
-        <div class="form-group col mx-auto">
-          <label for="passwordRepeated">Password</label>
+        <div class="form-group col">
+          <label for="p_password">Password</label>
           <div class="input-group">
-            <input id="passwordRepeated" type="password" class="form-control" placeholder="Password" required readonly>
-            <div class="invalid-feedback">Please enter a password</div>
+            <span class="input-group-text bi-key" id="p_icon"></span>
+            <input id="p_password" type="password" class="form-control" placeholder="Password" aria-describedby="icon" onkeyup="p_determinePasswordStrength(); p_showMissingPasswordCharacteristics();" th:field="${userCredentials.password}" required readonly>
             <div class="input-group-append">
-              <button class="input-group-btn" type="button" id="showHidePassword2" onclick="showOrHidePassword('')">
-                <i class="bi-eye-slash" id="repeatedPasswordButtonIcon"></i></button>
+              <button class="input-group-btn" type="button" id="p_showHidePassword" onclick="p_showOrHidePassword('password')">
+                <i class="bi-eye-slash" id="p_passwordButtonIcon"></i></button>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <i class="bi-check-circle text-success " style="font-size: 1.2rem;" id="p_icon3"></i>
+          </div>
+        </div>
+
+        <div class="form-group col">
+          <label for="p_passwordRepeated">Repeat Password</label>
+          <div class="input-group mb-3">
+            <span class="input-group-text bi-key" id="p_icon2"></span>
+            <input id="p_passwordRepeated" type="password" class="form-control" placeholder="Repeat Password" aria-describedby="icon2" onkeyup="p_determinePasswordStrength()" required readonly>
+            <div class="input-group-append">
+              <button class="input-group-btn" type="button" id="p_showHideRepeatedPassword" onclick="p_showOrHidePassword('passwordRepeated')">
+                <i class="bi-eye-slash" id="p_repeatedPasswordButtonIcon"></i></button>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <i class="bi-check-circle text-success " style="font-size: 1.2rem;" id="p_icon4"></i>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col">
+            <div class="progress mx-auto" style="height: 20px; background-color: rgba(200,200,200,0.2);" onkeyup="p_checkPasswordStrength()">
+              <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" id="p_passwordStrengthBar" style="width: 40px;"></div>
             </div>
           </div>
         </div>
 
         <div class="row">
-          <div class="progress mx-auto" style="height: 20px;">
-            <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" id="passwordStrengthBar" style="width: 40px;"></div>
+          <div class="col d-grid justify-content-center">
+            <p id="p_passwordCharacteristicsText">Your password should match the following criteria:</p>
+            <ul id="p_missingPasswordCharacteristics">
+              <li id="p_element1">Password is too short.</li>
+              <li id="p_element2">Must contain upper- and lowercase letters.</li>
+              <li id="p_element3">Must contain numbers.</li>
+              <li id="p_element4">Must contain special characters.</li>
+            </ul>
           </div>
         </div>
 
-        <div class="row">
-          <ul class="mx-auto" id="missingPasswordCharacteristics">
-            <li id="element1">Password is too short.</li>
-            <li id="element2">Must contain upper- and lowercase letters.</li>
-            <li id="element3">Must contain numbers.</li>
-            <li id="element4">Must contain special characters.</li>
-          </ul>
+        <!--
+          <div class="d-grid col-5 mx-auto">
+            <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="submitPassword" onclick="validate()">Submit Password</button>
+          </div> -->
+
+        <!-- Alert that's shown if the password is too short -->
+        <div class="alert alert-danger mx-auto" id="p_passwordTooShort" role="alert">
+          <strong>Passwords must be at least 8 characters long.</strong>
         </div>
 
 
@@ -166,6 +187,8 @@
 <script src="/webjars/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 </body>
 
+<script type="text/javascript" th:src="@{/js/passwordMeterScript.js}"></script>
+
 <footer>
   <div th:insert="'footer'" class="embeddedFooter"></div>
 </footer>
@@ -174,8 +197,8 @@
 <script>
   let edit = $('#editButton');
   let submit = $('#submitButton');
-  let password = $('#password');
-  let repeatedPassword = $('#passwordRepeated');
+  let passwordInputField = $('#p_password');
+  let passwordRepeatedInputField = $('#p_passwordRepeated');
   let userName = $('#userName');
   let firstName = $('#firstName');
   let lastName = $('#lastName');
@@ -183,6 +206,11 @@
   let role = $('#role');
   let callerIsAdminValue = $('#callerIsAdminValue');
   let selectedUserIsAdminVal = $('#selectedUserIsAdminVal');
+  let listOfMissingPasswordCharacteristics = $('#p_missingPasswordCharacteristics');
+  let missingForHigherPasswordStrength = $('#p_missingForHigherPasswordStrength')
+  let passwordStrengthBarContainer = $('.progress');
+  let passwordCharacteristicsText = $('#p_passwordCharacteristicsText');
+
 
   // If the site was opened by an admin, they should be able to edit whether
   // the selected user is an admin / what their role/position is
@@ -201,8 +229,8 @@
     if (!isEditing) {
       submit.fadeIn(200);
       isEditing = true;
-      password.attr('readonly', false);
-      repeatedPassword.attr('readonly', false);
+      passwordInputField.attr('readonly', false);
+      passwordRepeatedInputField.attr('readonly', false);
       //userName.attr('readonly', false);
       firstName.attr('readonly', false);
       lastName.attr('readonly', false);
@@ -213,12 +241,16 @@
       }
 
       edit.text("Cancel");
+
       passwordStrengthBarContainer.fadeIn(200);
+      listOfMissingPasswordCharacteristics.fadeOut(0);
+      missingForHigherPasswordStrength.fadeOut(0);
+      passwordCharacteristicsText.fadeOut(0);
     } else {
       submit.fadeOut(20);
       isEditing = false;
-      password.attr('readonly', true);
-      repeatedPassword.attr('readonly', true);
+      passwordInputField.attr('readonly', true);
+      passwordRepeatedInputField.attr('readonly', true);
       //userName.attr('readonly', true);
       firstName.attr('readonly', true);
       lastName.attr('readonly', true);
@@ -228,6 +260,7 @@
         isAdmin.attr('disabled', true);
         role.attr('readonly', true);
       }
+
 
       passwordStrengthBarContainer.fadeOut(0);
     }
@@ -245,12 +278,12 @@
     if (passwordInputFieldToHide === "password") {
       if (passwordVisible) {
         passwordVisible = false;
-        password.attr("type", "password");
-        password.attr("type", "password");
+        passwordInputField.attr("type", "password");
+        passwordInputField.attr("type", "password");
         $('#passwordButtonIcon').removeClass('bi-eye').addClass('bi-eye-slash');
       } else {
-        password.attr("type", "text");
-        password.attr("type", "text");
+        passwordInputField.attr("type", "text");
+        passwordInputField.attr("type", "text");
         $('#passwordButtonIcon').removeClass('bi-eye-slash').addClass('bi-eye');
         passwordVisible = true;
       }
@@ -258,12 +291,12 @@
       // We do the same thing for the repeated password:
       if (repeatedPasswordVisible) {
         repeatedPasswordVisible = false;
-        repeatedPassword.attr("type", "password");
-        repeatedPassword.attr("type", "password");
+        passwordRepeatedInputField.attr("type", "password");
+        passwordRepeatedInputField.attr("type", "password");
         $('#repeatedPasswordButtonIcon').removeClass('bi-eye').addClass('bi-eye-slash');
       } else {
-        repeatedPassword.attr("type", "text");
-        repeatedPassword.attr("type", "text");
+        passwordRepeatedInputField.attr("type", "text");
+        passwordRepeatedInputField.attr("type", "text");
         $('#repeatedPasswordButtonIcon').removeClass('bi-eye-slash').addClass('bi-eye');
         repeatedPasswordVisible = true;
       }
@@ -277,173 +310,6 @@
   let passwordsDontMatchAlert = $('#passwordsDontMatchAlert');
   let noRoleSelectedAlert = $('#noRoleSelectedAlert');
 
-  // Password-Strength-meter:
-  let missingForHigherPasswordStrength = $('#missingForHigherPasswordStrength');
-  let listOfMissingPasswordCharacteristics = $('#missingPasswordCharacteristics');
-
-  // When the first letter is entered for the password, we display a list of characteristics the password has to
-  // fulfill (length, must contain special characters, must contain numbers, must contain uppercase and lowercase
-  // letters).
-  function showMissingPasswordCharacteristics() {
-    listOfMissingPasswordCharacteristics.fadeIn(400);
-  }
-
-  let passwordStrengthBar = $('#passwordStrengthBar');
-  let passwordStrengthBarContainer = $('.progress');
-  passwordStrengthBar.addClass('bg-danger'); // color: red
-
-  // Setup variables used to determine the password strength, hide the alert, which is displayed if the password
-  // is too shor and set the progress bar's (passwordStrengthBar) width to 0, so that the bar isn't visible.
-  let passwordStrength = 0
-  //let alertIfPasswordIsTooShort = $('#passwordTooShort');
-  // alertIfPasswordIsTooShort.fadeOut(0);
-  passwordStrengthBar.css('width', 0+'%').attr('aria-valuenow', 0);
-  let isLongEnough = false;
-  let containsUppercaseAndLowercase = false;
-  let containsNumbers = false;
-  let containsSpecialCharacters = false;
-  let list = document.getElementById("missingPasswordCharacteristics");
-
-  // Use RegEx patterns to determine the password strength
-  // We check whether the password is at least 8 characters long, contains uppercase and
-  // lowercase letters, contains numbers and special characters. If any of those properties
-  // are fulfilled, the progress bar (passwordStrengthBar) increases in value and changes its
-  // color to suggest a safer password.
-  function determinePasswordStrength() {
-    let password = $('#password').val();
-
-    // Reset these values. Potentially, a character was deleted, which means that even if the variable was previously
-    // true, we have to check again whether this still holds up. Thus, the variables are set to false and are
-    // changed to true, in case it still holds up.
-    isLongEnough = false;
-    containsUppercaseAndLowercase = false;
-    containsNumbers = false;
-    containsSpecialCharacters = false;
-    passwordStrength = 0;
-
-    // Length should be at least 8
-    if (password.length >= 8) {
-      isLongEnough = true;
-      //alertIfPasswordIsTooShort.fadeOut(200);
-      // The "list" should no longer contain this bullet point as the criteria is met
-      removeElementFromList("Password is too short.");
-    } else {
-      //alertIfPasswordIsTooShort.fadeIn(200);
-      // Add the element/bullet point back to the list, if it had previously been removed.
-      // If it has not been removed, no new element ist added.
-      addElementToList("Password is too short.", 1);
-    }
-
-    // The password should contain lowercase and uppercase letters
-    if (password.match(/(([a-zA-Z0-9]|[!.:;_&()?@/{}'#*+,^°<>-])*)/) && (password.match(/[a-z]+/) && password.match(/[A-Z]+/))) {
-      containsUppercaseAndLowercase = true;
-      // The "list" should no longer contain this bullet point as the criteria is met
-      removeElementFromList("Must contain upper- and lowercase letters.");
-    } else {
-      // Add the element/bullet point back to the list, if it had previously been removed.
-      // If it has not been removed, no new element ist added.
-      addElementToList("Must contain upper- and lowercase letters.", 2);
-    }
-
-    // The password should contain at least one number
-    if (password.match(/(([a-zA-Z0-9]|[!.:;_&()?@/{}'#*+,^°<>-])*)/) && password.match(/[0-9]+/)) {
-      containsNumbers = true;
-      // The "list" should no longer contain this bullet point as the criteria is met
-      removeElementFromList("Must contain numbers.");
-    } else {
-      // Add the element/bullet point back to the list, if it had previously been removed.
-      // If it has not been removed, no new element ist added.
-      addElementToList("Must contain numbers.", 3);
-    }
-
-    // The password should contain a special character
-    if (password.match(/(([a-zA-Z0-9]|[!.:;_&()?@/{}'#*+,^°<>-])*)/) && password.match(/[!.:;_&()?@/{}'#*+,^°<>-]+/)) {//(password.match(/[!+*.:,;_"§$%&/()=?{}@]/)) {
-      containsSpecialCharacters = true;
-      // The "list" should no longer contain this bullet point as the criteria is met
-      removeElementFromList("Must contain special characters.");
-    }  else {
-      // Add the element/bullet point back to the list, if it had previously been removed.
-      // If it has not been removed, no new element ist added.
-      addElementToList("Must contain special characters.", 4);
-    }
-
-
-    //TODO: If password doesn't match with [a-zA-Z0-9!.:;_&()?@/{}'#*+,^°<>-], it contains illegal characters.
-
-    //TODO: Here, we will later check whether the entered password contains the username, first name or last name
-    //if (password.match(/[!+*.:,;_"§$%&/()=?{}@a-zA-Z0-9]*(firstName|lastName|userName)+[!+*.:,;_"§$%&/()=?{}@a-zA-Z0-9]*/)) {
-    //  alert("contains User name");
-    //}
-
-    // Determine the overall password-strength
-    passwordStrength = isLongEnough + containsUppercaseAndLowercase + containsNumbers + containsSpecialCharacters;
-    adjustPasswordStrengthBar();
-
-  }
-
-  // Depending on the password strength, the progress bar, which represents the password strength, changes its color
-  // and increases/decreases in width.
-  function adjustPasswordStrengthBar() {
-    if (passwordStrength === 1) {
-      passwordStrengthBar.removeClass('bg-warning').removeClass('bg-success').addClass('bg-danger'); // color: red
-      passwordStrengthBar.css('width', 20 + '%').attr('aria-valuenow', 20); // progress bar is almost empty
-    } else if (passwordStrength >= 2 && passwordStrength < 3) {
-      passwordStrengthBar.removeClass('bg-danger').removeClass('bg-success').addClass('bg-warning'); // color: orange/yellow
-      passwordStrengthBar.css('width', 35 + '%').attr('aria-valuenow', 35);
-    } else if (passwordStrength >= 3 && passwordStrength < 4) {
-      passwordStrengthBar.removeClass('bg-danger').removeClass('bg-success').addClass('bg-warning'); // color: orange/yellow
-      passwordStrengthBar.css('width', 65 + '%').attr('aria-valuenow', 65);
-    } else if (passwordStrength >= 4) {
-      passwordStrengthBar.removeClass('bg-warning').removeClass('bg-danger').addClass('bg-success'); // color: green
-      passwordStrengthBar.css('width', 100 + '%').attr('aria-valuenow', 100); // progress bar is full
-    }
-
-    // In case the password length is shorter than 8 characters, the passwordStrengthBar is covered in red no matter
-    // the security determined above.
-    if (password.val().length < 8) {
-      passwordStrengthBar.removeClass('bg-warning').removeClass('bg-success').addClass('bg-danger');
-    }
-  }
-
-  // Adds an element to "list". "list" is the list, which consists of the four bullet points that detail,
-  // what characters the password must contain in order to be secure. Whenever one of those criteria is no longer met(!)
-  // (e.g. a special character was entered), that element is removed from the list. This can happen if the user enters
-  // e.g. a special character, but later removes it again.
-  // The method is called, whenever a RegEx pattern cannot be matched with the password. E.g. the RegEx pattern checks
-  // whether the password contains special characters. If it does not, addElementToList is called and elementText
-  // is set to "Must contain special characters.".
-  // We then go through all current elements of the "list". If one node's/element's textContent is "Must contain special characters.",
-  // no special character had been added before and there is no need to add the element to the list (if we would add it,
-  // it would be a duplicate). If, however, no node/element has that text, the element had previously been removed
-  // but has to be added back again.
-  function addElementToList(elementText, idNr) {
-    let elementExists = false;
-    for (i = 0; i < list.childNodes.length; i++) {
-      if (list.childNodes[i].textContent === elementText) {
-        elementExists = true;
-      }
-    }
-    if (!elementExists) {
-      let listElement = document.createElement('li');
-      listElement.setAttribute('class','item');
-      listElement.innerHTML = elementText;
-      listElement.setAttribute("id", "element" + idNr);
-      list.appendChild(listElement);
-    }
-  }
-
-  // Removes an element from "list". "list" is the list, which consists of the four bullet points that detail,
-  // what characters the password must contain in order to be secure. Whenever one of those criteria is met
-  // (e.g. a special character was entered), that element is removed from the list.
-  // The removal happens according to the element's text. This means that we search the "list" for an element
-  // whose textContent is equal to elementText.
-  function removeElementFromList(elementText) {
-    for (i = 0; i < list.childNodes.length; i++) {
-      if (list.childNodes[i].textContent === elementText) {
-        list.removeChild(list.childNodes[i]);
-      }
-    }
-  }
 
   // When the page is loaded, some elements have to be fadedOut as they should not be displayed from the start.
   window.onload = function() {
@@ -454,6 +320,7 @@
     noRoleSelectedAlert.fadeOut(0);
     roleAlreadyExistentAlert.fadeOut(0);
     passwordsDontMatchAlert.fadeOut(0);
+    passwordCharacteristicsText.fadeOut(0);
     passwordStrengthBarContainer.fadeOut(0);
     submit.fadeOut(0);
   };

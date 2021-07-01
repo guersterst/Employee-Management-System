@@ -68,11 +68,11 @@ h2 {
     margin-top: 30px;
 }
 
-#passwordTooShort {
+#p_passwordTooShort {
     margin-top: 20px;
 }
 
-#missingPasswordCharacteristics {
+#p_missingPasswordCharacteristics {
     margin-top: 20px;
     color: crimson;
 }
