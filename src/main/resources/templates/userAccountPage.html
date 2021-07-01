@@ -65,6 +65,13 @@
           <label class="form-check-label col mx-auto" for="isAdmin" id="isAdminLabel">
             Admin-Privileges
           </label>
+
+          <!-- Work around to set the value to true in case an admin has navigated to this site     -->
+          <!-- NOTE: {isAdmin} refers to the person who has called the site. So if the admin selects-->
+          <!-- a user to edit, the value is true. If a user selects their own page, it's false      -->
+          <div id="callerIsAdminValue" hidden th:text="${isAdmin}"></div>
+
+          <div id="selectedUserIsAdminVal" hidden th:text="${userCredentials.admin}"></div>
         </div>
 
 
@@ -174,6 +181,19 @@
   let lastName = $('#lastName');
   let isAdmin = $('#isAdmin');
   let role = $('#role');
+  let callerIsAdminValue = $('#callerIsAdminValue');
+  let selectedUserIsAdminVal = $('#selectedUserIsAdminVal');
+
+  // If the site was opened by an admin, they should be able to edit whether
+  // the selected user is an admin / what their role/position is
+  if (callerIsAdminValue.text() === "true") {
+    isAdmin.val(true);
+  }
+
+  // If the user is also an admin, set the switch to true
+  if (selectedUserIsAdminVal.text() === "true") {
+    isAdmin.attr('checked', true);
+  }
 
   let isEditing = false;
   function enableOrDisableEditing() {

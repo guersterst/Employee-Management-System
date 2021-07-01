@@ -42,7 +42,6 @@ public class AdminUserAccountManipulationController {
         model.addAttribute("userCredentials", new UserDTO());
         model.addAttribute("status", new StatusDTO());
         model.addAttribute("selectedUser", "");
-        model.addAttribute("URL", "");
         return "userAccountPage";
     }
 
@@ -78,6 +77,7 @@ public class AdminUserAccountManipulationController {
             status.setMessage("not_found");
         }
 
+        model.addAttribute("isAdmin", true);
         model.addAttribute("status", status);
         return "userAccountPage";
     }

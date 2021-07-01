@@ -71,6 +71,7 @@ public class UserAccountManipulationController {
             status.setMessage("not_found");
         }
 
+        model.addAttribute("isAdmin", false);
         model.addAttribute("status", status);
         return "userAccountPage";
     }
@@ -243,9 +244,10 @@ public class UserAccountManipulationController {
         model.addAttribute("status", status);
 
         if (!(accountService.isAdmin(principal.getName()))) {
-            System.out.println("success3");
+            model.addAttribute("isAdmin", false);
             return "redirect:/account/me";
         } else {
+            model.addAttribute("isAdmin", true);
             return "redirect:/admin/account/" + userName;
         }
     }
