@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.*;
  */
 @Controller
 @RequestMapping("/admin/employees")
-public class EmployeeListView {
+public class EmployeeListViewController {
 
     private final WorkSessionService workSessionService;
 
     @Autowired
-    public EmployeeListView(WorkSessionService workSessionService) {
+    public EmployeeListViewController(WorkSessionService workSessionService) {
         this.workSessionService = workSessionService;
     }
 
@@ -73,6 +73,7 @@ public class EmployeeListView {
      *
      * @return JSON format of {@code userName} array.
      */
+    @Deprecated
     @GetMapping(
             value = "/working"
     )

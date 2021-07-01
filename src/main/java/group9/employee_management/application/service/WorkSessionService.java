@@ -137,6 +137,15 @@ public class WorkSessionService {
         workSessionRepository.save(latestSession);
     }
 
+    public void deleteSession(String userName, int index) {
+        WorkSession session = workSessionRepository.getWorkSession(userName, index);
+        if (session == null) {
+            throw new NoSessionsException(userName);
+        } else {
+            workSessionRepository.delete(session);
+        }
+    }
+
     public void putMessage(String userName, String textStatus) {
         hasLatestSession(userName);
         WorkSession latestSession = getLatest(userName);
