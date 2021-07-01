@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/webjars/bootstrap/5.0.1/css/bootstrap.css" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+    <link href="../../static/css/adminCreateUserAccount.css" th:href="@{/css/adminCreateUserAccount.css}" rel="stylesheet" media="screen" />
+    <title>Create User</title>
+</head>
+
+<nav>
+    <div class="row">
+        <div th:insert="'menubar'"></div>
+    </div>
+</nav>
+
+<body>
+<div class="container card shadow-sm">
+    <!--Put both forms in one row-->
+    <div class="row">
+        <!--First form-group for the elements needed to create the account-->
+        <div class ="col-lg" id="createAccount">
+            <h2 class="text-center">Create User-Account</h2>
+            <!--Form, which includes the input fields that will be sent on submit (for creating account)-->
+            <form id="inputFieldsForm" class="needs-validation" onsubmit="return validate(event);"> <!-- th:object="${newUser}" th:action="@{adminCreateUser/submit}""> -->
+                <div> <!-- class="card card-body shadow-sm m-2"> --><!--form-group for the user's first name-->
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="firstName">First Name</label>
+                            <input id="firstName" type="text" class="form-control" placeholder="First Name"required>
+                            <div class="invalid-feedback">Please enter the employee's first name.</div>
+                        </div>
+                        <!--form-group for the user's last name-->
+                        <div class="form-group col">
+                            <label for="lastName">Last Name</label>
+                            <input id="lastName" type="text" class="form-control" placeholder="Last Name" required>
+                            <div class="invalid-feedback">Please enter the employee's last name.</div>
+                        </div>
+                    </div>
+                </div>
+                <!--Input field for user name. This input field is optional as a user name can be
+                           generated using JavaScript if the field is left empty-->
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="userName">User Name</label>
+                            <div class="input-group">
+                                <input id="userName" type="text" class="form-control" placeholder="User Name" onkeyup="updateAlert()" required>
+                                <button class="btn btn-secondary" type="button" id="generateUserNameButton" onclick="generateUserName()">
+                                    Generate
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <!--Selecting the role from a dropdown-menu:-->
+                    <div class="form-group col">
+                        <label for="selectRoleDropdown">Role in Company</label>
+                        <div class="dropdown"><!-- data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="selectRoleDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Select Role
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="selectRoleDropdown">
+                                <a class="dropdown-item rounded" style="background: rgb(200, 50, 90); color: ghostwhite">Clear Roles</a>
+                                <div class="dropdown-divider"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col">
+                        <div class="form-check form-switch d-table">
+                            <input class="checkbox form-check-input" type="checkbox" id="isAdmin" value="true" name="isAdmin">
+                            <label class="form-check-label" for="isAdmin" id="isAdminLabel">
+                                Admin-Privileges
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="role">Position</label>
+                        <!--Use an input group so an icon can be added to the input field-->
+                        <div class="input-group">
+                            <input id="role" type="text" class="form-control" placeholder="Position" required>
+                            <div class="invalid-feedback">Please enter the employee's last name.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="p_password">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi-key" id="p_icon"></span>
+                            <input id="p_password" type="password" class="form-control" placeholder="Password" aria-describedby="icon" onkeyup="p_determinePasswordStrength(); p_showMissingPasswordCharacteristics();" required>
+                            <div class="input-group-append">
+                                <button class="input-group-btn" type="button" id="p_showHidePassword" onclick="p_showOrHidePassword('password')">
+                                    <i class="bi-eye-slash" id="p_passwordButtonIcon"></i></button>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <i class="bi-check-circle text-success " style="font-size: 1.2rem;" id="p_icon3"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="p_passwordRepeated">Repeat Password</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bi-key" id="p_icon2"></span>
+                            <input id="p_passwordRepeated" type="password" class="form-control" placeholder="Repeat Password" aria-describedby="icon2" onkeyup="p_determinePasswordStrength()" required>
+                            <div class="input-group-append">
+                                <button class="input-group-btn" type="button" id="p_showHideRepeatedPassword" onclick="p_showOrHidePassword('passwordRepeated')">
+                                    <i class="bi-eye-slash" id="p_repeatedPasswordButtonIcon"></i></button>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <i class="bi-check-circle text-success " style="font-size: 1.2rem;" id="p_icon4"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="progress mx-auto" style="height: 20px; background-color: rgba(200,200,200,0.2);" onkeyup="p_checkPasswordStrength()">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" id="p_passwordStrengthBar" style="width: 40px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col d-grid justify-content-center">
+                        <p id="p_passwordCharacteristicsText">Your password should match the following criteria:</p>
+                        <ul id="p_missingPasswordCharacteristics">
+                            <li id="p_element1">Password is too short.</li>
+                            <li id="p_element2">Must contain upper- and lowercase letters.</li>
+                            <li id="p_element3">Must contain numbers.</li>
+                            <li id="p_element4">Must contain special characters.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                        <!--
+                          <div class="d-grid col-5 mx-auto">
+                            <button class="btn btn-primary btn-lg center-block mx-auto d-block" type="submit" id="submitPassword" onclick="validate()">Submit Password</button>
+                          </div> -->
+
+                <!-- Alert that's shown if the password is too short -->
+                <div class="alert alert-danger mx-auto" id="p_passwordTooShort" role="alert">
+                    <strong>Passwords must be at least 8 characters long.</strong>
+                </div>
+                        <!--<div class="form-row">
+                            <div class="form-group col">
+                                <label for="password">Password</label>
+                                <div class="input-group">
+                                    <input id="password" type="password" class="form-control" placeholder="Password" required>
+                                    <div class="invalid-feedback">Please enter a password</div>
+                                    <div class="input-group-append">
+                                        <button class="input-group-btn" type="button" id="showHidePassword" onclick="showOrHidePassword()" onkeyup="checkIfPasswordsMatch()">
+                                            <i class="bi-eye-slash" id="passwordButtonIcon"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label for="passwordRepeated">Repeat Password</label>
+                                <input id="passwordRepeated" type="password" class="form-control" placeholder="Repeat Password" onkeyup="checkIfPasswordsMatch()" required>
+                                <div class="invalid-feedback">Please repeat the password</div>
+                            </div>
+                        </div>-->
+
+
+                <!--Button to submit the form-->
+                <div class="d-grid col-12">
+                    <button class="btn btn-primary btn-sm center-block mx-auto" type="submit" id="createAccountButton">Create Account</button>
+                </div>
+            </form>
+
+            <!--show alert if username already exists-->
+            <div class="alert alert-danger" id="userNameExistentAlert" role="alert">
+                <strong>This username exists already.</strong>
+            </div>
+
+            <!--show alert if passwords don't match-->
+            <div class="alert alert-danger" id="passwordsDontMatchAlert" role="alert">
+                <strong>The entered passwords don't match.</strong>
+            </div>
+
+            <!--show alert if no role has been selected -->
+            <div class="alert alert-danger" id="noRoleSelectedAlert" role="alert">
+                <strong>Please select a role.</strong>
+            </div>
+
+            <!--If the user enters a forbidden character in the username-input-field, display this alert-->
+            <div class="alert alert-danger mx-auto" id="forbiddenCharacterEntered" role="alert">
+                <strong>No special characters besides '@, -, _' are allowed in the username.</strong>
+            </div>
+
+
+            <!-- Use Thymeleaf: -->
+            <!--<div class="alert alert-danger mx-auto" id="accountWithUserNameAlreadyExists" role="alert">
+                   <strong>An account with this username already exists.</strong>
+               </div> -->
+
+            <!-- Use Thymeleaf: -->
+                <!--<div class="alert alert-success mx-auto" id="accountCreationSuccessful" role="alert">
+                    <p>Account was successfully created.</p>
+                </div> --> <!-- Fade this alert out as soon as a key is pressed -->
+        </div>
+
+        <!--Elements needed to create a role-->
+        <div class="col">
+            <div class="form-group" id="createRole">
+                <h2 class="text-center">Create Role</h2>
+                <!--Form used to submit the content of a single input field,
+                which is used to describe the name of a role-->
+                <!--  <form id="inputFieldsForRoleForm" class="needs-validation"> -->
+                <div> <!--  class="card card-body shadow-sm m-2"> -->
+                    <div class="row">
+                        <div class="col-md-5">
+                            <!-- input to write down the role's name -->
+                            <div class="form-group">
+                                <label for="roleCreate">Role</label>
+                                <input id="roleCreate" type="text" class="form-control" placeholder="Role Name" required>
+                            </div>
+                        </div>
+
+                        <!--Button to add the role to the list-->
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-sm center-block" type="button" onclick="addRole()" id="createRoleButton">Create Role</button>
+                            </div>
+                        </div>
+
+                        <!-- Tooltip, used for explanation -->
+                        <div class="col">
+                            <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" id="infoTooltip" title="Roles are created locally and stored via Cookies. They can be select when creating new accounts. Delete Cookies by selecting 'Clear Roles' in the DropDown-Menu.">
+                                <i class="bi bi-info-circle" id="helpIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--show alert if role already exists-->
+                <div class="alert alert-danger alert-dismissible fade show" id="roleAlreadyExistentAlert" role="alert">
+                    <strong>This role exists already.</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/webjars/jquery/3.0.0/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+
+<script type="text/javascript" th:src="@{/js/passwordMeterScript.js}"></script>
+
+<!--Include the footer that contains the copyright info-->
+<footer>
+    <div th:insert="'footer'" class="embeddedFooter"></div>
+</footer>
+
+<script>
+    let passwordInputField = $('#p_password');
+    let passwordRepeatedInputField = $('#p_passwordRepeated');
+    let roleSelected = false;
+    let passwordsDidntMatchOnLastSubmit = false;
+
+    let userNameInput = $('#userName');
+    let firstName = $('#firstName');
+    let lastName = $('#lastName');
+
+    let errorMessageForbiddenCharacter = $('#forbiddenCharacterEntered')
+
+    // Test for what an automatic generation of user names could look like.
+    // Note: In the final version, this requires checking the database to find out
+    // how many employees have the username and concatenate the number at the end.
+    // This ensures the username's uniqueness.
+    function validate(event) {
+        // Stop submission if passwords don't match
+        if (passwordInputField.val() !== passwordRepeatedInputField.val()) {
+            passwordsDontMatchAlert.fadeIn(200);
+            event.preventDefault();
+            event.stopPropagation();
+            passwordRepeatedInputField.val("");
+            passwordsDidntMatchOnLastSubmit = true;
+            return false;
+        }
+
+        // Stop submission process if no role has been selected from the dropdown-menu
+        if (!roleSelected) {
+            noRoleSelectedAlert.fadeIn(200);
+            event.preventDefault();
+            event.stopPropagation();
+            repeatedPasswordInputField.val("");
+            return false;
+        }
+
+        // Stop submission if the username contains special characters apart from '@', '_', '-'
+        if (!(userNameInput.val().length === 0 || userNameInput.val().match(/^[a-zA-Z0-9-,_@]*$/))) {
+            event.preventDefault();
+            event.stopPropagation();
+            userNameInput.val("");
+            return false;
+        }
+
+        return true;
+    }
+
+    // Whenever a dropdown-item is selected (clicked on), the dropdown-menu assumes
+    // its text in order to show which role was selected.
+    $( ".dropdown-item" ).each(function() {
+        $(this).on("click", function() {
+            if ($(this).text() === "Clear Roles") {
+                // Remove all elements
+                let list = $('.dropdown-item')
+                for (i = 0; i < list.length; i++) {
+                    if (list[i].textContent !== "Clear Roles") {
+                        list[i].remove();
+                        locallyCreatedRoles.pop();
+                        deleteCookie(i - 1);
+                    }
+                }
+
+                $('#selectRoleDropdown').text("Select Role");
+
+            } else {
+                $('#selectRoleDropdown').text($(this).text());
+                roleSelected = true;
+                noRoleSelectedAlert.fadeOut(0);
+            }
+        });
+    });
+
+    // Don't display alerts at the start
+    let userNameExistsAlert = $('#userNameExistentAlert')
+    let roleAlreadyExistentAlert = $('#roleAlreadyExistentAlert')
+    let passwordsDontMatchAlert = $('#passwordsDontMatchAlert')
+    let noRoleSelectedAlert = $('#noRoleSelectedAlert')
+
+
+
+    // Determines whether to show or hide the password
+    let passwordVisible = false;
+
+    // Show or hide the password. Is called 'onclick' and thus only changes whenever the user clicks on the button.
+    // The icon is determined by '#passwordButtonIcon' and as a result we have to change the used class to determine
+    // what the icon should look like. 'bi-eye-slash' is a closed eye and represents that the password is not shown
+    // in text, whereas 'bi-eye' means just that.
+    function showOrHidePassword() {
+        if (passwordVisible) {
+            passwordVisible = false;
+            passwordInputField.attr("type", "password");
+            $('#passwordButtonIcon').removeClass('bi-eye').addClass('bi-eye-slash');
+        } else {
+            passwordInputField.attr("type", "text");
+            $('#passwordButtonIcon').removeClass('bi-eye-slash').addClass('bi-eye');
+            passwordVisible = true;
+        }
+    }
+
+    // Called 'onkeyup' for the password input fields. In case the passwords match, the alert is lifted.
+    // This only applies if the alert is currently being display, which in turn only happens if the admin
+    // tried to submit the form but the passwords were different from one another.
+    function checkIfPasswordsMatch() {
+        if (passwordsDidntMatchOnLastSubmit === true && passwordInputField.val() === passwordRepeatedInputField.val()) {
+            passwordsDontMatchAlert.fadeOut(200);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", onload);
+
+    function onload() {
+        passwordsDontMatchAlert.fadeOut(0);
+        noRoleSelectedAlert.fadeOut(0);
+        userNameExistsAlert.fadeOut(0);
+        roleAlreadyExistentAlert.fadeOut(0);
+        errorMessageForbiddenCharacter.fadeOut(0);
+
+        // Load all previously stored roles
+        console.log("Loading cookies");
+
+        let i = 0
+        let roleFromCookie = getRoleFromCookie(i);
+
+        while (roleFromCookie !== "") {
+            locallyCreatedRoles.push(roleFromCookie);
+            createDropDownElement(roleFromCookie);
+
+            // Not final. For now, you can only read 10 cookies --> prevent endless loops.
+            if (i >= 10) {
+                break;
+            }
+
+            // Get next Cookie
+            i++;
+            roleFromCookie = getRoleFromCookie(i);
+        }
+            console.log("no more cookies " + i);
+
+    }
+
+
+    // Called by the timer after 2000 milliseconds
+    // Fades out the alert as it isn't relevant anymore by then.
+    // Alert is only needed to inform the admin that the role already exists.
+    function fadeRoleAlreadyExistentAlert() {
+        roleAlreadyExistentAlert.fadeOut(400);
+    }
+
+    // Local list of all created roles:
+    let roleInputField = $('#roleCreate');
+    let locallyCreatedRoles = [];
+
+    function addRole() {
+        let newRoleName = roleInputField.val();
+
+        // In case the role already exists, we fade in an alert and stop the creation of a new role by using 'return'.
+        for(let i = 0;  i < locallyCreatedRoles.length; i++) {
+           if  (locallyCreatedRoles[i] === newRoleName) {
+               roleAlreadyExistentAlert.fadeIn(50);
+               window.setTimeout(fadeRoleAlreadyExistentAlert, 1000);
+               return;
+           }
+        }
+
+        // Create Cookie here:
+        const date = new Date();
+        date.setTime(date.getTime() + (365*24*60*60*1000));
+        let expires = "expires="+ date.toUTCString();
+        document.cookie = "role" + locallyCreatedRoles.length + "=" +  roleInputField.val() +";" + expires + ";";
+
+        // Put the role into the list and create an element for it within the dropdown-menu.
+        locallyCreatedRoles.push(newRoleName);
+        createDropDownElement(newRoleName);
+
+        // Reset the input field
+        roleInputField.val("");
+    }
+
+
+    // Create a new dropdown-item that is added do the dropdown-menu containing all the roles
+    //that can be selected.
+    function createDropDownElement(text) {
+        let element = document.createElement("a");
+        element.className = "dropdown-item";
+        element.innerText = text;
+        element.onclick = function() {
+            $('#selectRoleDropdown').text($(this).text());
+            roleSelected = true;
+            noRoleSelectedAlert.fadeOut(0);
+        }
+
+        document.querySelector(".dropdown-menu").appendChild(element);
+    }
+
+
+    // Returns "role"+nr+"="+role, which is our cookie's content.
+    function getCookieContent(nr) {
+        let name = "role" + nr + "="; // This is what identifies our cookie. Each cookie has a different number following "role".
+        let cookie = document.cookie; // Get cookies.
+
+        //Removes everything beyond the semicolon. So, only e.g. role2=Employee; is left.
+        let cookieUntilSemicolon = cookie.split(';');
+
+        for (let i = 0; i < cookieUntilSemicolon.length; i++) {
+
+            while (cookieUntilSemicolon[i].charAt(0) === ' ') {
+                cookieUntilSemicolon[i] = cookieUntilSemicolon[i].substring(1);
+            }
+
+            if (cookieUntilSemicolon[i].indexOf(name) === 0) {
+                return cookieUntilSemicolon[i].substring(0, cookieUntilSemicolon[i].length);
+            }
+        }
+        return "";
+    }
+
+    // Use this function to return the nr-th role.
+    // We do this by getting the cookie using getCookieContent(nr) and then remove "role"+nr+"=".
+    function getRoleFromCookie(nr) {
+        let name = "role" + nr + "="; // All cookies start with "role"+nr+"=". This part needs to be removed to get the actual role
+        let cookieContent = getCookieContent(nr); //"" if no cookie was found, "role"+nr+"="+roleName otherwise. E.g. "role2=Worker".
+
+        // If no cookie was found, we also return "", just like getCookieContent(""). Otherwise, we extract the role itself
+        if (cookieContent === "") {
+            return "";
+        } else {
+            // Remove "role"+nr+"=" from the String. The result is the role itself.
+            return cookieContent.substring(name.length, cookieContent.length);
+        }
+    }
+
+    // Overwrites a cookie starting with "role"+nr+"=" with number being an integer starting from 0.
+    // The old cookie will therefore be deleted as the expiration date is set to the past.
+    function deleteCookie(nr) {
+        let cookie = getCookieContent(nr)
+        if (cookie !== "") { // If the cookie exists. Otherwise, getCookieContent(nr) returns "".
+            cookie = "role" + nr + "=" + getRoleFromCookie(nr) + ";expires = Thu, 01 Jan 1970 00:00:00 GMT;" + "path=/ ";
+            document.cookie = cookie;
+        }
+    }
+
+
+
+    // Generate a random user name.
+    // (1) If  firstName and lastName are entered, we create the username from those to Strings.
+    // (2 a, b)If only either of them were entered, we create the username from only that String but use a longer
+    // substring.
+    // (3) Otherwise, we write a default user name.
+    // Both approaches also have a random number applied.
+    function generateUserName() {
+        let firstNameVal = firstName.val();
+        let lastNameVal = lastName.val();
+
+        if (firstNameVal.length > 0 && lastNameVal.length > 0) { //(1)
+            userNameInput.val(firstNameVal.substring(0, Math.floor(Math.random() * 5) + 1)
+                + "_" + lastNameVal.substring(0, Math.floor(Math.random() * 5) + 1) + Math.floor(Math.random() * 100000));
+        } else if (firstNameVal.length > 0 && lastNameVal.length <= 0) { // (2a)
+            userNameInput.val(firstNameVal.substring(0, Math.floor(Math.random() * 7) + 1)
+                + "_" + Math.floor(Math.random() * 100000));
+        } else if (firstNameVal.length <= 0 && lastNameVal.length > 0) { // (2b)
+            userNameInput.val(lastNameVal.substring(0, Math.floor(Math.random() * 7) + 1)
+                + "_" + Math.floor(Math.random() * 100000));
+        } else { // (3)
+            userNameInput.val("default_UserName_" + Math.floor(Math.random() * 100000));
+        }
+    }
+
+
+    // Enable Tooltips:
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+
+
+    // The username doesn't allow special characters apart from '@, -, _'. Thus, we also check whether
+    // the username includes a forbidden character and if so, we display a warning.
+    // updateAlert() is triggered onkeypress.
+    function updateAlert() {
+        // If the username's input field isn't empty, we check whether a forbidden character is entered and if so,
+        // we display an alert.
+        if (userNameInput.val().length === 0 || userNameInput.val().match(/^[a-zA-Z0-9-,_@]*$/)) {
+            errorMessageForbiddenCharacter.fadeOut(200);
+        } else {
+            errorMessageForbiddenCharacter.fadeIn(200);
+        }
+    }
+</script>
+</html>
