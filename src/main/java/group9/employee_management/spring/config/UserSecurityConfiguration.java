@@ -138,6 +138,5 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
 3.Login first-time
 
 5. COORDS: add to dto, add dto for coords, onSite -> setCoords, offSite -> delCoords.
-6. XML and content negotiation.
 
  */

@@ -188,7 +188,7 @@ public class WorkSessionService {
     public List<WorkSessionDTO> getSessions(String userName) {
         List<WorkSessionDTO> result = new ArrayList<>();
 
-        for (int i = 0; i < workSessionRepository.getIndex(userName) + 1; i++) {
+        for (int i = workSessionRepository.getIndex(userName); i >= 0; i--) {
             result.add(WorkSessionDTO.fromEntity(workSessionRepository.getWorkSession(userName, i)));
         }
         return result;
