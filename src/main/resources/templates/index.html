@@ -30,7 +30,7 @@
                         <span class="input-group-text bi-file-person" id="icon"></span>
                         <label for="userName"></label>
                         <!--th:field="*{userName}"-->
-                        <input id="userName" class="form-control" type="text" placeholder="User Name"
+                        <input name="username" id="userName" class="form-control" type="text" placeholder="User Name"
                                                              onkeyup="updateAlert()" aria-describedby="icon" required>
                         <div class="invalid-feedback">Please enter a user name</div>
                     </div>
@@ -44,7 +44,7 @@
                         <span class="input-group-text bi-key" id="icon2"></span>
                         <label for="password"></label>
                         <!--th:field="*{password}"-->
-                        <input id="password" type="password" class="form-control" placeholder="Password"
+                        <input name="password" id="password" type="password" class="form-control" placeholder="Password"
                                                              onkeyup="updateAlert()" aria-describedby="icon2" required>
                         <div class="invalid-feedback">Please enter a password</div>
                         <div class="input-group-append">
@@ -80,11 +80,13 @@
         <div class="alert alert-danger mx-auto" id="forbiddenCharacterEntered" role="alert">
             <strong>No special characters besides '@, -, _' are allowed in the username.</strong>
         </div>
+
+        <!--Alert which is displayed in case a logout was performed-->
+        <div th:if="${param.logout}" class="alert alert-success">
+            You've logged out successfully!
+        </div>
     </div>
 
-    <!-- beim ersten Login anzeigen:
-    <div th:insert="'loginForFirstTime'"></div>
-    -->
 
     <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
     <script src="/webjars/popper.js/1.14.1/popper.min.js"></script>

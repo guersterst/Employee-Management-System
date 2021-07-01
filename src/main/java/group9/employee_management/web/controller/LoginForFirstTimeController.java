@@ -22,7 +22,6 @@ public class LoginForFirstTimeController {
         this.accountService = accountService;
     }
 
-
     /**
      * Display loginForFirstTime. Alternatively: use index.html and use the statusDTO to tell the view
      * to show the input fields for setting up a password + hide the input fields used for the login.
@@ -45,7 +44,7 @@ public class LoginForFirstTimeController {
      * @return The view to display. Redirect to user's session if setting up the password was successful.
      */
     @PostMapping(
-            value = "/first-login/set-assword")
+            value = "/first-login/set-password")
     public String setPassword(@ModelAttribute("userCredentials") UserDTO userCredentials,
                               @ModelAttribute("status") StatusDTO status, Principal principal) {
         String userName = principal.getName();

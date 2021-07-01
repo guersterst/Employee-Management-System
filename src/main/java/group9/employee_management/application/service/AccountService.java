@@ -167,6 +167,17 @@ public class AccountService {
         }
     }
 
+    // Currently unused.
+    public boolean isAdmin(String userName) throws NoSuchUserException {
+        Employee employee = employeeRepository.getUserByUserName(userName);
+
+        if (employee == null) {
+            throw new NoSuchUserException(userName);
+        } else {
+            return employee.isAdmin();
+        }
+    }
+
             /*
             First login setters.
             */

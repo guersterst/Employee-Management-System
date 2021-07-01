@@ -26,31 +26,26 @@ public class LoginController {
 
     private final LoginService loginService;
 
-
     /**
-     * Show the login page.
-     *
-     * @param model The model. The DTO UserDTO is used for transferring data regarding the user. The DTO status is
-     *              used to inform the frontend about e.g. whether the user logs in for the first time, which can be
-     *              processed by the frontend to e.g. display an alert/warning.
-     * @return The login page ("index.html")
+     * The login-page should be displayed for the given mapping.
+     * @return The login-page.
      */
-    /*@GetMapping(
-            value = "")
-    public String index(Model model) {
-        model.addAttribute("userCredentials", new UserDTO());
-        model.addAttribute("status", new StatusDTO());
-        System.out.println("index");
-        return "index";
-    }*/
-
-    // I think that this is the only login function that we require. Maybe another for first-time login.
     @GetMapping("/login")
-    public String login(Model model) {
-        //model.addAttribute("userCredentials", new UserDTO())
-        //
+    public String login() {
         return "index";
     }
+
+    /**
+     * The login-page should be displayed for the given mapping.
+     * @return The login-page.
+     */
+    @GetMapping("")
+    public String login2() {
+        return "index";
+    }
+
+
+    // UNNECESSARY:
     /**
      * Determine whether a user is allowed to login or has to create his password.
      *

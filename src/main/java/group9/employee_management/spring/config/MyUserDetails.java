@@ -22,7 +22,9 @@ public class MyUserDetails implements UserDetails {
         //this.active = user.isAv;
         //this.authorityList = Arrays.stream(user.getRoles().stream().spliterator(","))
         //this.authorityList.add(new SimpleGrantedAuthority("ROLE_USER"));+
-        this.authorityList.add(new SimpleGrantedAuthority("USER"));
+
+        this.authorityList.add(new SimpleGrantedAuthority("ROLE_USER"));
+        this.authorityList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 
     @Override
