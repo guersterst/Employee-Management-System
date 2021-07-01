@@ -163,7 +163,9 @@ public class AccountService {
         if (employee == null) {
             throw new NoSuchUserException(userName);
         } else {
-            return UserDTO.fromEntity(employee);
+            UserDTO userDTO = UserDTO.fromEntity(employee);
+            userDTO.setPassword(userRepository.getById(userName).getPassword());
+            return userDTO;
         }
     }
 
@@ -192,12 +194,15 @@ public class AccountService {
     public void setPassword(String userName, String password) throws NoSuchUserException {
         assert employeeRepository != null;
         User user = userRepository.getById(userName);
+
         if (user == null) {
-            throw new NoSuchUserException(userName);
+            throw new NoSuchUserException();
         } else {
             user.setPassword(encoder.encode(password));
             userRepository.save(user);
         }
+
+        User user2 = userRepository.getById(userName);
     }
 
     /**

@@ -85,3 +85,7 @@ h2 {
 #isAdmin {
     margin-top: 10px;
 }
+
+#deleteButton {
+    margin-top: 20px;
+}

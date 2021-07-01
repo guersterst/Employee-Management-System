@@ -83,10 +83,12 @@ public class UserDTO {
     }
 
     public String getPassword() {
+        System.out.println("get password " + password);
         return password;
     }
 
     public void setPassword(String password) {
+        System.out.println("set the password " + password);
         this.password = password;
     }
 

@@ -66,7 +66,6 @@ public class User {
         this.roles = roles;
     }
 
-
     public Optional<Employee> getEmployee() {
         return Optional.ofNullable(employee);
     }

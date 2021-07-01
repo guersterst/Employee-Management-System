@@ -89,20 +89,15 @@ public class AdminUserAccountManipulationController {
 
         String firstName = userCredentials.getFirstName();
         String lastName = userCredentials.getLastName();
-        System.out.println(accountService.getUserAsDTO(userName));
 
         // If the given user exists, we change their name.
         if (accountService.userExistsByUserName(userName)
                 && firstName != null && lastName != null) {
             accountService.setName(userName, firstName, lastName);
-            accountService.setPassword(userName, userCredentials.getPassword());
-
             status.setMessage("admin_valid");
         } else {
             status.setMessage("bad_request");
         }
-
-        System.out.println(accountService.getUserAsDTO(userName).getUserName());
 
         // If the given user exists and their password is not null, we can change the password
         String password = userCredentials.getPassword();
