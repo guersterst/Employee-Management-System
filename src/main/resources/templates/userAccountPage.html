@@ -29,8 +29,7 @@
 
       <!--<form id="inputFieldsForm" class="needs-validation" th:action="${status.getMessage()} == 'admin_valid' ? '@{/admin/account/edit/__${(selectedUser)}__}' : '@{/account/edit}'" th:object="${userCredentials}" method="post">
       -->
-      <form id="inputFieldsForm" class="needs-validation" th:action="@{/admin/account/edit/__${(selectedUser)}__}" th:object="${userCredentials}" method="post">
-
+      <form id="inputFieldsForm" class="needs-validation" th:action="@{/account/edit/__${userCredentials.userName}__}" th:object="${userCredentials}" method="post"><!--th:action="${userCredentials.isAdmin()} == 'true' ? '@{/admin/account/edit/__${(selectedUser)}__}' : '@{/account/edit}'" th:object="${userCredentials}" method="post"> -->
 
         <!-- form-group for the user's first name-->
         <div class="form-group col mx-auto">

@@ -42,6 +42,7 @@ public class AdminUserAccountManipulationController {
         model.addAttribute("userCredentials", new UserDTO());
         model.addAttribute("status", new StatusDTO());
         model.addAttribute("selectedUser", "");
+        model.addAttribute("URL", "");
         return "userAccountPage";
     }
 
@@ -81,38 +82,6 @@ public class AdminUserAccountManipulationController {
         return "userAccountPage";
     }
 
-    @PostMapping(
-            value = "/edit/{userName}"
-    )
-    public String edit(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
-            "status") StatusDTO status,Principal principal, @PathVariable("userName") String userName, Model model) {
-
-        String firstName = userCredentials.getFirstName();
-        String lastName = userCredentials.getLastName();
-
-        // If the given user exists, we change their name.
-        if (accountService.userExistsByUserName(userName)
-                && firstName != null && lastName != null) {
-            accountService.setName(userName, firstName, lastName);
-            status.setMessage("admin_valid");
-        } else {
-            status.setMessage("bad_request");
-        }
-
-        // If the given user exists and their password is not null, we can change the password
-        String password = userCredentials.getPassword();
-        if (accountService.userExistsByUserName(userName)
-                && password != null) {
-            accountService.setPassword(userName, password);
-            accountService.setIsFirstLogin(userName, false);
-            status.setMessage("admin_valid");
-        } else {
-            status.setMessage("bad_request");
-        }
-
-        model.addAttribute("status", status);
-        return "redirect:/admin/account/" + userName;
-    }
 
     /**
      * Admin should be able to delete users. Use this mapping to delete a user as specified by {userName}

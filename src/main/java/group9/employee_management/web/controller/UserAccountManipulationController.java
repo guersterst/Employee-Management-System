@@ -5,6 +5,8 @@ import group9.employee_management.application.service.LoginService;
 import group9.employee_management.web.dto.StatusDTO;
 import group9.employee_management.web.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -181,5 +183,68 @@ public class UserAccountManipulationController {
         }
 
         return "redirect:/account/me";
+    }
+
+    @PostMapping("/redirect")
+    public String redirectToUserOrAdmin(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
+            "status") StatusDTO status, Principal principal, @ModelAttribute("selectedUser") String selectedUser) {
+
+        if (accountService.isAdmin(principal.getName())) {
+            return "redirect:/admin/account/edit/" + userCredentials.getUserName();
+        } else {
+            return "redirect:/account/edit";
+        }
+    }
+
+    @PostMapping(
+            value = "/edit/{userName}"
+    )
+    public String edit(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
+            "status") StatusDTO status, Principal principal, @PathVariable("userName") String userName, Model model) {
+
+        if (!(accountService.isAdmin(principal.getName()))) {
+            userName = principal.getName();
+        }
+
+        String firstName = userCredentials.getFirstName();
+        String lastName = userCredentials.getLastName();
+
+        // If the given user exists, we change their name.
+        if (accountService.userExistsByUserName(userName)
+                && firstName != null && lastName != null) {
+            accountService.setName(userName, firstName, lastName);
+            if (accountService.isAdmin(principal.getName())) {
+                status.setMessage("admin_valid");
+            } else {
+                status.setMessage("valid");
+            }
+        } else {
+            status.setMessage("bad_request");
+        }
+
+
+        // If the given user exists and their password is not null, we can change the password
+        String password = userCredentials.getPassword();
+        if (accountService.userExistsByUserName(userName)
+                && password != null) {
+            accountService.setPassword(userName, password);
+            accountService.setIsFirstLogin(userName, false);
+            if (accountService.isAdmin(principal.getName())) {
+                status.setMessage("admin_valid");
+            } else {
+                status.setMessage("valid");
+            }
+        } else {
+            status.setMessage("bad_request");
+        }
+
+        model.addAttribute("status", status);
+
+        if (!(accountService.isAdmin(principal.getName()))) {
+            System.out.println("success3");
+            return "redirect:/account/me";
+        } else {
+            return "redirect:/admin/account/" + userName;
+        }
     }
 }

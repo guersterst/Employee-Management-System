@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -169,14 +170,29 @@ public class AccountService {
         }
     }
 
-    // Currently unused.
+    /**
+     *
+     * @param userName
+     * @return
+     * @throws NoSuchUserException
+     */
     public boolean isAdmin(String userName) throws NoSuchUserException {
-        Employee employee = employeeRepository.getUserByUserName(userName);
+        User user = userRepository.getById(userName);
 
-        if (employee == null) {
+        if (user == null) {
             throw new NoSuchUserException(userName);
         } else {
-            return employee.isAdmin();
+            List<Roles> list = user.getRoles();
+            boolean isAdmin = false;
+
+            for (Roles roles : list) {
+                if (roles == Roles.ADMIN) {
+                    isAdmin = true;
+                    break;
+                }
+            }
+
+            return isAdmin;
         }
     }
 
@@ -199,10 +215,10 @@ public class AccountService {
             throw new NoSuchUserException();
         } else {
             user.setPassword(encoder.encode(password));
+            System.out.println(user.getPassword());
             userRepository.save(user);
         }
 
-        User user2 = userRepository.getById(userName);
     }
 
     /**
