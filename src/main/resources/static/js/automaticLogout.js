@@ -4,14 +4,15 @@
 // When the page is loaded, we start a timer
 // Loading a page indicates activity, so it's fair to start a timer.
 
-let standardCounterTime = 1000 * 120;
+let standardCounterTime = 1000 * 4;
 let counter = standardCounterTime;
 let interval;
-let loggingOut = false;
+let text = $('#timer');
+let lastFiveSecondsCounter = 5;
 
 window.onload = function() {
     counter = standardCounterTime;
-    interval = setInterval(logout, counter)
+    interval = setInterval(startLogOutTimer, counter)
 }
 
 // Reset Timer on keyup:
@@ -50,14 +51,28 @@ window.onmouseup = function() {
 }
 
 function resetTimer() {
-    if (!loggingOut) {
-        counter = standardCounterTime
+    lastFiveSecondsCounter = 5
+    counter = standardCounterTime
+    clearInterval(interval);
+    setInterval(startLogOutTimer, counter)
+}
+
+function startLogOutTimer() {
+
+    if (lastFiveSecondsCounter > 0) {
+        text.text("Timer: " + lastFiveSecondsCounter);
         clearInterval(interval);
-        setInterval(logout, counter)
+        interval = setInterval(startLogOutTimer, 1000);
+        lastFiveSecondsCounter--;
+    }
+
+    if (lastFiveSecondsCounter > 6) {
+        interval = setInterval(logout, 1000);
     }
 }
 
 function logout() {
-    loggingOut = true;
-    window.location = "/login?logout";
+    if (window.location !== "/login" && window.location !== "/login?logout" && window.location !== "/login?error") {
+        window.location = "/login?logout";
+    }
 }

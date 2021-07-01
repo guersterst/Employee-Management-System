@@ -33,6 +33,9 @@
                 </li>
             </ul>
         </div>
+
+        <div th:include="timerFragment.html"></div>
+
         <form th:action="@{/logout}" method="post" name="logout">
             <a class="pull-right" href="javascript: document.logout.submit()"><i class="bi-arrow-right-circle"></i> Logout</a>
         </form>
