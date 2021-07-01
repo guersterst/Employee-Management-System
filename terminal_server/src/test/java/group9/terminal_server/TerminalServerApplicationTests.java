@@ -1,10 +1,10 @@
-package group9.employee_management;
+package group9.terminal_server;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class EmployeeManagementApplicationTests {
+class TerminalServerApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -1,12 +1,11 @@
-package group9.employee_management;
+package group9.terminal_server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EmployeeManagementApplication {
-
+public class TerminalServerApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(EmployeeManagementApplication.class, args);
+		SpringApplication.run(TerminalServerApplication.class, args);
 	}
 }
