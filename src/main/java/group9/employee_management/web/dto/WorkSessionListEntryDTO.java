@@ -17,6 +17,8 @@ public class WorkSessionListEntryDTO {
     private String textStatus;
     private boolean available;
     private boolean onSite;
+    private Integer coordX;
+    private Integer coordY;
 
     public WorkSessionListEntryDTO(){}
 

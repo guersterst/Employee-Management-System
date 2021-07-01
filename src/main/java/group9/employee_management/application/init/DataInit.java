@@ -1,6 +1,8 @@
 package group9.employee_management.application.init;
 
 import group9.employee_management.application.Roles;
+import group9.employee_management.application.service.AccountService;
+import group9.employee_management.application.service.WorkSessionService;
 import group9.employee_management.persistence.entities.Employee;
 import group9.employee_management.persistence.entities.User;
 import group9.employee_management.persistence.entities.WorkSession;
@@ -10,6 +12,7 @@ import group9.employee_management.persistence.repositories.WorkSessionRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
@@ -19,17 +22,22 @@ import java.util.Set;
 @Component
 public class DataInit implements CommandLineRunner {
 
-    private final BCryptPasswordEncoder encoder;
+    private final PasswordEncoder encoder;
     private final UserRepository userRepository;
     private final EmployeeRepository employeeRepository;
     private final WorkSessionRepository workSessionRepository;
+    private final AccountService accountService;
+    private final WorkSessionService workSessionService;
+
 
     @Autowired
     public DataInit(EmployeeRepository employeeRepository, WorkSessionRepository workSessionRepository,
-                    UserRepository userRepository) {
+                    UserRepository userRepository, AccountService accountService, WorkSessionService workSessionService) {
         this.userRepository = userRepository;
         this.employeeRepository = employeeRepository;
         this.workSessionRepository = workSessionRepository;
+        this.accountService = accountService;
+        this.workSessionService = workSessionService;
         this.encoder = new BCryptPasswordEncoder(10);
     }
 
@@ -43,57 +51,26 @@ public class DataInit implements CommandLineRunner {
      */
     @Override
     public void run(String... strings) {
+        Employee turing = accountService.createUser("student","Alan", "Turing",
+                "student", false, "Researcher");
+        Employee linus = accountService.createUser("linus","Linus", "Torvald",
+                "linux", false, "Chief code magician");
+        Employee scooter = accountService.createUser("hpb","H.P.", "Baxxter",
+                "hpb123", false, "Lead singer");
 
-        // This date is equivalent to 1.1.2022.
-        Date validityDate = new Date(1640991600000L);
+        userRepository.save(new User("admin", hashPassword("admin"), null, Roles.ADMIN, Roles.USER));
 
-        // An empty set of work-sessions.
-        Set<WorkSession> workSessions = Collections.emptySet();
+        workSessionService.startSession("student", "Creating turing machine", true, true);
+        workSessionService.stopSession("student");
+        workSessionService.startSession("student", "Proving p=np", true, true);
+        workSessionService.stopSession("student");
+        workSessionService.startSession("student", "Important meeting", false, true);
 
-        Employee employee1 = new Employee("bax01","H.P.","Baxxter", hashPassword("h0wmUchisthef1sh"),
-                true, "Lead singer", validityDate, workSessions);
-        employee1.setFirstLogin(false);
-        Employee employee2 = new Employee("url01","Farin", "Urlaub", hashPassword("abc123def"),
-                false, "Lead singer", validityDate, workSessions);
-        employee2.setFirstLogin(false);
-        Employee employee3 = new Employee("kla01","Kristoffer Jonas", "Klauß", hashPassword("überallAnJederWand"),
-                false, "Rapper", validityDate, workSessions);
+        workSessionService.startSession("linus", "Coding", true, true);
+        workSessionService.stopSession("linus");
 
-
-        employeeRepository.save(employee1);
-        employeeRepository.save(employee2);
-        employeeRepository.save(employee3);
-
-
-        WorkSession session1 = new WorkSession(0, new Date(1624354267000L), new Date(1624654267000L), "First "
-                + "session"
-                , false, true, employee1);
-
-        WorkSession session2 = new WorkSession(1, new Date(1624354366000L), null, "Second session"
-                , false, true, employee1);
-
-        WorkSession session3 = new WorkSession(2, new Date(1624354366000L), null, "My first session"
-                , true, true, employee2);
-
-
-
-        WorkSession session4 = new WorkSession(3, new Date(1624354366000L), null, "My second "
-                + "session"
-                , true, true, employee2);
-
-        workSessionRepository.save(session1);
-        workSessionRepository.save(session2);
-        workSessionRepository.save(session3);
-        workSessionRepository.save(session4);
-
-        employeeRepository.save(employee1);
-        employeeRepository.save(employee2);
-        employeeRepository.save(employee3);
-
-        // Create Users: Better to work with services in general
-        userRepository.save(new User("admin", "admin", null, Roles.ADMIN));
-        userRepository.save(new User("student", "student", employee1, Roles.USER));
-
-
+        workSessionService.startSession("hpb", "Songwriting", true, true);
+        workSessionService.stopSession("hpb");
+        workSessionService.startSession("hpb", "Concert", false, true);
     }
 }

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/webjars/bootstrap/5.0.1/css/bootstrap.css" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.css}"
+          rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/adminViewStyle.css"
+          th:action="@{/css/adminViewStyle.css}">
+    <!--<link href="../../static/css/adminViewStyle.css" th:href="@{/css/adminViewStyle.css}" rel="stylesheet"/>
+
+-->
+    <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
+
+    <script src="/webjars/popper.js/1.14.1/popper.min.js"></script>
+
+    <script src="/webjars/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <title>Admin</title>
+</head>
+
+<!--Navbar has to be replaced. Only to get first view-->
+<div class="container">
+    <div th:insert="'menubar'"></div>
+</div>
+
+<body>
+<div class="cont container-fluid card-deck">
+    <div class="row">
+        <div class="col-md-12 col-lg-6">
+            <div class="list card shadow">
+                <!--Toolbar for the employee list-->
+                <div class="card-header badge-secondary text-left">
+                    <h2>Employee List</h2>
+                    <div class="btn-group badge-secondary" role="group" aria-label="Buttongroup">
+                        <button type="button" class="btn">
+                            <a class="float-right" href="adminCreateUserView.html"><i class="bi-plus-lg"></i></a>
+                        </button>
+                    </div>
+                </div>
+
+                <!--List of all employees-->
+                <div class="card-body">
+                    <table class="table table-striped table-bordered table-condensed table-responsive">
+                        <thead class="table-header">
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Available</th>
+                            <th scope="col">On Site</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">CheckIn</th>
+                            <th scope="col">CheckOut</th>
+                            <th scope="col">Message</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <form th:action="@{/admin/employees}" method="get" th:object="${workSessionListEntries}"
+                              th:method="get">
+                            <tr th:each="workSessionListEntry : ${workSessionListEntries}">
+                                <th scope="row"></th>
+                                <td>
+                                    <div class="row">
+                                        <span th:text="${workSessionListEntry.firstName} + ' ' + ${workSessionListEntry.lastName}"></span>
+                                        <span>
+                                        <a th:href="@{/admin/account/__${workSessionListEntry.getUserName()}__}"><i
+                                                class="bi bi-person-bounding-box" title="Edit"></i></a>
+                                        <a th:href="@{/admin/account/delete/__${workSessionListEntry.getUserName()}__}"
+                                           th:for="${userName}"><i class="bi-trash" title="Delete"></i></a>
+                                    </span>
+                                    </div>
+                                </td>
+                                <td th:text="${workSessionListEntry.available}"></td>
+                                <td class="d-inline">
+                                    <span id="onSite" th:text="${workSessionListEntry.onSite}"></span>
+                                    <!--TODO:Add action to button-->
+                                    <span><a class="btn btn" type="submit" title="Change on site" onclick="checkOnSite()"
+                                             th:href="@{/admin/employees/__${workSessionListEntry.getUserName()}__/stop}"
+                                             th:for="${userName}">
+                                        <i class="bi bi-arrow-right-circle"></i></a></span>
+                                </td>
+                                <td>Location</td>
+                                <td th:text="${#dates.format(workSessionListEntry.startTime, 'dd.MM.yyyy HH:mm')}"></td>
+                                <td>
+                                    <div th:if="${workSessionListEntry.stopTime == null}">
+                                        <span>still here</span>
+                                    </div>
+                                    <div th:unless="${workSessionListEntry.stopTime == null}">
+                                        <span th:text="${#dates.format(workSessionListEntry.stopTime, 'dd.MM.yyyy HH:mm')}"></span>
+                                    </div>
+                                </td>
+                                <td th:text="${workSessionListEntry.textStatus}"></td>
+                            </tr>
+                        </form>
+
+                        </tbody>
+                    </table>
+
+                    <div class="alert alert-info mx-auto" id="alertOnSite">
+                        <div class="align-text-bottom">
+                            <i class="bi bi-info"></i>
+                            <strong>On site is already false.</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-lg-6">
+            <!--Embedded map-->
+            <!--Maybe i have to add this: &callback=initMap&libraries=&v=weekly-->
+            <div class="map card card-cascade shadow">
+                <iframe src="https://www.google.com/maps/d/embed?mid=1KuOPZAoWJ_7X5KCwnCa_GgR89JX7X-Or" width="100%"
+                        height="480">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+<script src="js/jquery-1.10.2.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/ct-navbar.js"></script>
+
+</body>
+
+<script lang="JavaScript" type="text/javascript">
+
+    //TODO: fade in and out does not work.
+    let alertOnSite = $('#alertOnSite');
+
+    function checkOnSite(event) {
+        let onSite = document.getElementById("onSite");
+
+        if (!onSite) {
+            alertOnSite.fadeIn(100);
+            event.preventDefault();
+        }
+    }
+
+    alertOnSite.fadeOut(1);
+
+    window.onload = function() {
+        alertOnSite.fadeOut(1);
+    }
+
+    function initMap() {
+        const myLatLng = { lat: -25.363, lng: 131.044 };
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 4,
+            center: myLatLng,
+        });
+        new google.maps.Marker({
+            position: myLatLng,
+            map,
+            title: "Hello World!",
+        });
+    }
+</script>
+
+<!--Has to be replaced-->
+<footer>
+    <div th:insert="'footer'" class="embeddedFooter"></div>
+</footer>
+
+</html>

@@ -1,25 +1,39 @@
 package group9.employee_management.persistence.entities;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.context.annotation.Primary;
 
 import javax.persistence.*;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
 @Table
 public class WorkSession {
 
-    @Id
-    @Column
-    private Integer index;
+    @EmbeddedId
+    private WorkSessionID id;
 
-    //TODO
+    @Embeddable
+    static
+    class WorkSessionID implements Serializable {
+        Integer index;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name ="user_username", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Employee employee;
+        @ManyToOne(fetch = FetchType.LAZY, optional = false)
+        @PrimaryKeyJoinColumn(foreignKey = @ForeignKey(name = "user_username" ))
+        @OnDelete(action = OnDeleteAction.CASCADE)
+        Employee employee;
+
+        public WorkSessionID(Integer index, Employee employee) {
+            this.index = index;
+            this.employee = employee;
+        }
+
+
+        public WorkSessionID() {
+        }
+    }
 
     // The timestamps from where the user started working to when he ended working.
     @Column
@@ -28,7 +42,6 @@ public class WorkSession {
     private Date stopTime;
 
     // The text description given by the user about this work-session.
-    //TODO multiple messages?
     @Column
     private String textStatus;
 
@@ -40,6 +53,12 @@ public class WorkSession {
     @Column
     private boolean onSite;
 
+    @Column
+    private Integer coordX;
+
+    @Column
+    private Integer coordY;
+
 
 
     public WorkSession(){}
@@ -47,17 +66,16 @@ public class WorkSession {
     public WorkSession(Integer index, Date startTime, Date stopTime, String textStatus, boolean available, boolean onSite,
                        Employee employee) {
         super();
-        this.index = index;
+        this.id = new WorkSessionID(index, employee);
         this.startTime = startTime;
         this.stopTime = stopTime;
         this.textStatus = textStatus;
         this.available = available;
         this.onSite = onSite;
-        this.employee = employee;
     }
 
     public Integer getIndex() {
-        return index;
+        return id.index;
     }
 
     public Date getStartTime() {
@@ -80,8 +98,8 @@ public class WorkSession {
         return onSite;
     }
 
-    public Employee getUser() {
-        return employee;
+    public Employee getEmployee() {
+        return id.employee;
     }
 
     public void setStopTime(Date stopTime) {
@@ -98,5 +116,21 @@ public class WorkSession {
 
     public void setOnSite(boolean onSite) {
         this.onSite = onSite;
+    }
+
+    public Integer getCoordY() {
+        return coordY;
+    }
+
+    public void setCoordY(Integer coordY) {
+        this.coordY = coordY;
+    }
+
+    public Integer getCoordX() {
+        return coordX;
+    }
+
+    public void setCoordX(Integer coordX) {
+        this.coordX = coordX;
     }
 }

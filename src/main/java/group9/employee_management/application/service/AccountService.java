@@ -1,16 +1,21 @@
 package group9.employee_management.application.service;
 
+import group9.employee_management.application.Roles;
 import group9.employee_management.application.exception.NoSuchUserException;
 import group9.employee_management.persistence.entities.Employee;
+import group9.employee_management.persistence.entities.User;
 import group9.employee_management.persistence.entities.WorkSession;
 import group9.employee_management.persistence.repositories.EmployeeRepository;
+import group9.employee_management.persistence.repositories.UserRepository;
 import group9.employee_management.web.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,15 +25,13 @@ import java.util.Set;
 public class AccountService {
 
     private final EmployeeRepository employeeRepository;
-    private final BCryptPasswordEncoder encoder;
-
-    // Default validity date of an account.
-    //TODO in relation to current date. f.e. +2 years
-    Date validityDate = new Date(1640991600000L);
+    private final UserRepository userRepository;
+    private final PasswordEncoder encoder;
 
     @Autowired
-    public AccountService(EmployeeRepository employeeRepository) {
+    public AccountService(EmployeeRepository employeeRepository, UserRepository userRepository) {
         this.employeeRepository = employeeRepository;
+        this.userRepository = userRepository;
         this.encoder = new BCryptPasswordEncoder(10);
     }
 
@@ -52,13 +55,18 @@ public class AccountService {
      */
 
     /**
-     * Constructor with default values set. Be aware that the password should now be a token for use in first time
-     * login only.
+     * Constructor for an user, automatically creates and associates with a new employee.
      */
-    public void createUser(String userName, String firstName, String lastName, String password, boolean isAdmin,
+    public Employee createUser(String userName, String firstName, String lastName, String password, boolean isAdmin,
                            String position) {
-        Set<WorkSession> emptySet = Collections.emptySet();
-        employeeRepository.save(new Employee(userName, firstName, lastName,password, isAdmin, position, validityDate, emptySet));
+        Employee newEmployee = new Employee(userName, firstName, lastName, isAdmin, position);
+        employeeRepository.save(newEmployee);
+        User newUser = new User(userName, encoder.encode(password), newEmployee, Roles.USER);
+        if(isAdmin) {
+            newUser.setRoles(List.of(Roles.USER, Roles.ADMIN));
+        }
+        userRepository.save(newUser);
+        return newEmployee;
     }
 
     /*
@@ -115,12 +123,19 @@ public class AccountService {
     public void setAdmin(String userName, boolean admin) throws NoSuchUserException {
         assert employeeRepository != null;
         Employee employee = employeeRepository.getUserByUserName(userName);
+        User user = userRepository.getById(userName);
 
         if (employee == null) {
             throw new NoSuchUserException(userName);
         } else {
             employee.setAdmin(admin);
             employeeRepository.save(employee);
+            if (admin) {
+                user.setRoles(List.of(Roles.USER, Roles.ADMIN));
+            } else {
+                user.setRoles(List.of(Roles.USER));
+            }
+            userRepository.save(user);
         }
     }
 
@@ -141,6 +156,28 @@ public class AccountService {
         }
     }
 
+
+    public UserDTO getUserAsDTO(String userName) throws NoSuchUserException {
+        Employee employee = employeeRepository.getUserByUserName(userName);
+
+        if (employee == null) {
+            throw new NoSuchUserException(userName);
+        } else {
+            return UserDTO.fromEntity(employee);
+        }
+    }
+
+    // Currently unused.
+    public boolean isAdmin(String userName) throws NoSuchUserException {
+        Employee employee = employeeRepository.getUserByUserName(userName);
+
+        if (employee == null) {
+            throw new NoSuchUserException(userName);
+        } else {
+            return employee.isAdmin();
+        }
+    }
+
             /*
             First login setters.
             */
@@ -154,12 +191,12 @@ public class AccountService {
      */
     public void setPassword(String userName, String password) throws NoSuchUserException {
         assert employeeRepository != null;
-        Employee employee = employeeRepository.getUserByUserName(userName);
-        if (employee == null) {
+        User user = userRepository.getById(userName);
+        if (user == null) {
             throw new NoSuchUserException(userName);
         } else {
-            employee.setPassword(encoder.encode(password));
-            employeeRepository.save(employee);
+            user.setPassword(encoder.encode(password));
+            userRepository.save(user);
         }
     }
 
@@ -179,6 +216,23 @@ public class AccountService {
         } else {
             employee.setFirstLogin(isFirstLogin);
             employeeRepository.save(employee);
+        }
+    }
+
+    /**
+     * Delete a user as specified by the userName.
+     * @param userName The username with which a user entity can be identified.
+     * @throws NoSuchUserException Thrown if no user with the given name could be found.
+     */
+    public void deleteUser(String userName) throws NoSuchUserException {
+        assert employeeRepository != null;
+        Employee employee = employeeRepository.getUserByUserName(userName);
+
+        if (employee == null) {
+            throw new NoSuchUserException(userName);
+        } else {
+            userRepository.delete(userRepository.getById(userName));
+            employeeRepository.delete(employee);
         }
     }
 }

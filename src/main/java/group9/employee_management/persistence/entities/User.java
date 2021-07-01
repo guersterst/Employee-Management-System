@@ -14,6 +14,7 @@ import java.util.Optional;
 @Entity
 public class User {
 
+    // This userName and the associated Employees userName must be identical.
     @Id
     private String username;
     private String password;

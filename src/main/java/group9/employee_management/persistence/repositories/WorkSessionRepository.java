@@ -14,32 +14,35 @@ public interface WorkSessionRepository extends JpaRepository<WorkSession, Intege
 
     @Query("SELECT w "
             + "FROM Employee e, WorkSession w "
-            + "WHERE w.employee = (SELECT e FROM Employee e WHERE e.userName = :userName)"
-            + "AND w.index = :index")
+            + "WHERE w.id.employee = (SELECT e FROM Employee e WHERE e.userName = :userName)"
+            + "AND w.id.index = :index")
     WorkSession getWorkSession(@Param("userName") String userName, @Param("index") int index);
 
-    @Query("SELECT MAX(w.index)"
+    @Query("SELECT MAX(w.id.index)"
             + "FROM WorkSession w "
-            + "WHERE w.employee = (SELECT u FROM Employee u WHERE u.userName = :userName)")
+            + "WHERE w.id.employee = (SELECT u FROM Employee u WHERE u.userName = :userName)")
     Integer getIndex(@Param("userName") String userName);
 
-    //TODO get only latest worksession
-    //like in first query
-    @Query("SELECT w.textStatus from"
-            + " WorkSession w WHERE w.employee = (SELECT u FROM Employee u WHERE u.userName = :userName)")
-    String getTextStatus(@Param("userName") String userName);
+    @Query("SELECT w.textStatus "
+            + "FROM Employee e, WorkSession w "
+            + "WHERE w.id.employee = (SELECT e FROM Employee e WHERE e.userName = :userName)"
+            + "AND w.id.index = :index")
+    String getTextStatus(@Param("userName") String userName, @Param("index") int index);
 
     @Query("SELECT w.available from"
-            + " WorkSession w WHERE w.employee = (SELECT u FROM Employee u WHERE u.userName = :userName)")
-    String getAvailability(@Param("userName") String userName);
+            + " WorkSession w WHERE w.id.employee = (SELECT u FROM Employee u WHERE u.userName = :userName)")
+    boolean getAvailability(@Param("userName") String userName);
 
     @Query("SELECT w.onSite from"
-            + " WorkSession w WHERE w.employee = (SELECT u FROM Employee u WHERE u.userName = :userName)")
-    String getOnSite(@Param("userName") String userName);
+            + " WorkSession w WHERE w.id.employee = (SELECT u FROM Employee u WHERE u.userName = :userName)")
+    boolean getOnSite(@Param("userName") String userName);
 
-    @Query("SELECT DISTINCT w.employee FROM WorkSession w WHERE w.stopTime IS NULL")
-    List<Employee> getUsersWithRunningSessions();
+    @Query("SELECT DISTINCT w.id.employee FROM WorkSession w WHERE w.stopTime IS NULL")
+    List<Employee> getEmployeesWithRunningSessions();
+
+    @Query("SELECT DISTINCT w.id.employee FROM WorkSession w")
+    List<Employee> getAllEmployeesWithSessions();
 
     @Query("SELECT u FROM Employee u WHERE u.userName = :userName")
-    Employee getUserByUserName(@Param("userName") String userName);
+    Employee getEmployeeByUserName(@Param("userName") String userName);
 }

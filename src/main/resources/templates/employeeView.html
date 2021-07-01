@@ -3,23 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link href="../css/employeeHomePage.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="../static/css/employeeHomePage.css" type="text/css"
+          th:href="@{/css/employeeHomePage.css}">
+    <link href="/webjars/bootstrap/5.0.1/css/bootstrap.css" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.css}"
+          rel="stylesheet"/>
     <title>EmployeeManagement</title>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-            crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-latest.js"></script>
 </head>
 
 <nav>
@@ -29,30 +19,41 @@
 </nav>
 
 <body>
-<div class="home">
-    <h1 class="d-flex badge-secondary">
-        Home Page
-    </h1>
-</div>
 <div class="contain container-fluid d-flex flex-column flex-fill">
-    <div class="row" th:fragment="messageForm">
-        <div class="form-group col-sm-12 col-md-6">
-            <div class="message card shadow">
-                <div class="badge-secondary">
+    <div class="home">
+        <h1 class="d-flex bg-secondary text-light">
+            Home Page
+        </h1>
+        <h1>HTML5 - Geolocation<br>aktuellen Standort in einer OpenStreetmap-Karte ausgeben</h1>
+        <main>
+            <p>Sobald Sie auf den Button klicken, werden Ihre Koordinaten ermittelt und in einem Kartenausschnitt ausgegeben.</p>
+            <button id="los">Los!</button>
+            <div id="karte"></div>
+        </main>
+    </div>
+    <div class="row" th:action="@{/my-session/latest}" th:object="${workSessionData}" th:method="post">
+        <div class="form-group col-sm-12 col-md-6" th:fragment="messageForm">
+            <div class="message card shadow h-100">
+                <div class="bg-secondary text-light">
                     <h2>Message</h2>
                 </div>
                 <!--Show saved message-->
-                <form onsubmit="saveMessage(event)" id="messageCard">
+                <form onsubmit="checkMessage(event);" id="messageCard"
+                      th:action="@{/my-session/message}" th:method="post">
                     <div class="form-group mx-auto">
-                        <label class="form-control" id="savedMsg" type="text">Here should appear a message.</label>
+                        <label class="form-control" id="savedMsg" type="text"
+                               th:text="${workSessionData.textStatus}"></label>
                     </div>
                     <!--Text field to leave a message-->
-                    <div class="input-group">
+                    <div>
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Notification</span>
+
                         </div>
-                        <textarea class="form-control" aria-label="With textarea" placeholder="Leave a message..."
-                                  id="message"></textarea>
+                        <div class="input-group">
+                            <span class="input-group-text">Notification</span>
+                            <textarea class="form-control" aria-label="With textarea" placeholder="Leave a message..."
+                                      id="message" th:field="*{textStatus}"></textarea>
+                        </div>
                     </div>
 
                     <!--Message has to short. The minimum amount of characters should be 10.-->
@@ -70,247 +71,283 @@
                         </div>
                     </div>
 
+                    <div class="alert alert-danger mx-auto" id="alertDelete">
+                        <div class="align-text-bottom">
+                            <i class="bi bi-exclamation-circle"></i>
+                            <strong>You have already delete your message.</strong>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info mx-auto" id="alertDeleteValid">
+                        <div class="align-text-bottom">
+                            <i class="bi bi-info"></i>
+                            <strong>Message successfully deleted.</strong>
+                        </div>
+                    </div>
+
                     <!--Options for message-->
                     <div class="message-util form-group">
                         <!--Message with a minimum length.-->
-                        <button class=" btn btn-primary btn-lg center-block" type="submit" id="save-button"
-                                onclick="saveMessage()">
+                        <button class=" btn btn-primary btn-lg center-block" type="submit" id="save-button">
                             Save
                         </button>
                         <!--Deletes the saved message above the textarea.-->
-                        <button class="btn btn-primary btn-lg center-block" onclick="deleteMessage()" type="reset" id="delete-message">
-                            Delete
-                        </button>
                     </div>
                 </form>
+                <form th:action="@{/my-session/message/delete}" method="post" onsubmit="checkReset(event)">
+                    <button class="btn btn-primary btn-lg center-block" type="submit" id="delete-message">
+                        Delete
+                    </button>
+                </form>
+                <br><br>
             </div>
         </div>
 
 
         <!--Option toolbar-->
         <div class="col-sm-12 col-md-6">
-            <form th:fragment="state">
-                <div class="state card shadow">
-                    <div class="badge-secondary">
+            <div th:fragment="state">
+                <div class="state card shadow h-25">
+                    <div class="bg-secondary text-light">
                         <h2>State</h2>
                     </div>
                     <div class="options">
                         <!--User can change the state of availability.Within the first login this should be enabled.-->
-                        <div class="available d-table custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="availableSwitch">
-                            <label class="custom-control-label" for="availableSwitch">Availability</label>
+                        <form th:action="@{/my-session/availability}" method="post" th:object="${workSessionData}"
+                              th:method="post">
+                            <div class="form-check form-switch d-table available">
+                                <input class="checkbox form-check-input" type="checkbox" id="available" value="true"
+                                       th:field="${workSessionData.available}" name="available">
+                                <label class="form-check-label" for="available" id="isAdminLabel">Availability</label>
+                            </div>
+                            <button class="btn btn-primary btn-sm" type="submit" id="createAccountButton">Submit
+                            </button>
+                        </form>
+
+                        <!--If checked before action-->
+                        <div th:if="*{onSite == false}">
+                            <form th:action="@{/my-session/beginning}" method="post" th:object="${workSessionData}"
+                                  th:method="post">
+                                <!--On Site should be automatically switched on when logged in the first time of a day
+                                and only switched of if you leave work.-->
+                                <div class="form-check form-switch d-table onSite">
+                                    <input class="checkbox form-check-input" type="checkbox" id="beginning" value="true"
+                                           th:field="${workSessionData.onSite}" name="onSite">
+                                    <label class="form-check-label" for="beginning" id="startSession">OnSite</label>
+                                </div>
+                                <button class="btn btn-primary btn-sm" type="submit" id="beginSession">Submit
+                                </button>
+                            </form>
                         </div>
-                        <hr>
-                        <!--On Site should be automatically switched on when logged in the first time of a day
-                        and only switched of if you leave work.-->
-                        <div class="location d-table custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="locationSwitch">
-                            <label class="custom-control-label" for="locationSwitch">On Site</label>
-                        </div>
-                        <hr>
-                        <div class="location d-table custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="remote">
-                            <label class="custom-control-label" for="locationSwitch">Remote</label>
+                        <div th:unless="*{onSite == false}">
+                            <form th:action="@{/my-session/ending/}" method="post" th:object="${workSessionData}"
+                                  th:method="post">
+                                <div class="form-check form-switch d-table onSite">
+                                    <input class="checkbox form-check-input" type="checkbox" id="ending" value="true"
+                                           th:field="${workSessionData.onSite}" name="onSite">
+                                    <label class="form-check-label" for="ending" id="leaveOnSite">OnSite</label>
+                                </div>
+                                <button class="btn btn-primary btn-sm" type="submit" id="endingSession">Submit
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
+            <div class="card shadow h-50">
+                <div class="bg-secondary text-light">
+                    <h2>More...</h2>
+                </div>
+                <!--Timeline vertically shows every event that is happening during using the web application.-->
+                    <div class="card-body" id="more">
+                        <div class="profile">
+                            <a th:href="@{/account/me}" id="profile" href="#"><i class="bi bi-person-bounding-box"></i> </a>
+                            <label class="form-label" for="profile">User Profile</label>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="history">
+                        <a th:href="@{/my-history}" id="historyLink" href="#"><i class="bi bi-clock-history"></i> </a>
+                        <label class="form-label" for="historyLink">History</label>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
         <!--TODO:Correct apearence of header.-->
         <!--View latest chronic items-->
-        <!--
-        <section class="section">
-            <div class="container card shadow">
-                <div class="badge-secondary">
-                    <h2>History</h2>
-                </div>
-                <div class="timeline">
-                    <hr>
 
-                    <div class="line"></div>
-
-                    <div class="text-muted text-left">
-                        <time>Monday</time>
-                    </div>
-
-                    <article class="panel">
-                        <div class="panel-heading icon">
-                            <i class="bi bi-arrow-right-circle"></i>
-                        </div>
-                        <div class="panel-body text-left">
-                            <strong>Login</strong> at 8:00 am.
-                        </div>
-                    </article>
-                    <article class="panel">
-                        <div class="panel-heading icon">
-                            <i class="bi bi-arrow-right-circle"></i>
-                        </div>
-                        <div class="panel-body text-left">
-                            <strong>Login</strong> at 8:00 am.
-                        </div>
-                    </article>
-                    <article class="panel">
-                        <div class="panel-heading icon">
-                            <i class="bi bi-arrow-right-circle"></i>
-                        </div>
-                        <div class="panel-body text-left">
-                            <strong>Available</strong> at 8:00 am.
-                        </div>
-                    </article>
-                </div>
-                -->
-        <!--end timeline-->
-        <!--
-                <div class="text-right align-text-bottom pt-5">
-                    <a href="#">See more <i class="bi bi-arrow-right-circle"></i></a>
-                </div>
-            </div>
-        </section>
-        -->
-
-        <div class="card shadow w-100" id="history">
-            <div class="card-header badge-secondary">
-                <h2 id="timeline">History</h2>
-            </div>
-            <!--Timeline vertically shows every event that is happening during using the web application.-->
-            <ul class="timeline">
-                <div class="text-muted date">
-                    <hr>
-                    <strong>Monday 22.06.2021</strong>
-                </div>
-                <li>
-                    <div class="timeline-panel">
-                        <div class="timeline-heading">
-                            <h3 class="panel-title">Login</h3>
-                            <!--shows stored time.-->
-                            <p class="text-muted"><i class="bi bi-clock"></i> 8:00 am</p>
-                        </div>
-                        <!--Message is different depending to the topic.-->
-                        <div class="timeline-body">
-                            <p>Logged in as guerster</p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="timeline-panel">
-                        <div class="timeline-heading">
-                            <h3 class="panel-title">Availability</h3>
-                            <p class="text-muted"><i class="bi bi-clock"></i> 8:06 am</p>
-                        </div>
-                        <div class="timeline-body">
-                            <p>Changed availability to not available.</p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="timeline-panel">
-                        <div class="timeline-heading">
-                            <h3 class="panel-title">Changed Message</h3>
-                            <p class="text-muted"><i class="bi bi-clock"></i> 8:30 am</p>
-                        </div>
-                        <div class="timeline-body">
-                            <p>New message: "In a meeting until 10:00 am."</p>
-                        </div>
-                    </div>
-                </li>
-                <template id="newTimelinePanel">
-                    <li>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h3 class="panel-title"></h3>
-                                <p class="text-muted"><i class="bi bi-clock"></i></p>
-                            </div>
-                            <div class="timeline-body" id="timelineInfo">
-                            </div>
-                        </div>
-                    </li>
-                </template>
-            </ul>
-            <!--Footer with the option to show more details.-->
-            <div class="card-footer badge-light text-right">
-                <a href="#">See more <i class="bi bi-arrow-right-circle"></i></a>
-            </div>
-        </div>
     </div>
 </div>
+<!--
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script> -->
+<script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
+<script src="/webjars/popper.js/1.14.1/popper.min.js"></script>
+<script src="/webjars/bootstrap/5.0.1/js/bootstrap.min.js"></script>
 </body>
 
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.js"></script>
 
 <script lang="JavaScript" type="text/javascript">
 
     let alertMessageToShort = $('#alertMessageToShort');
     let alertInputRequired = $('#alertInputRequired');
-    let savedMessage = document.getElementById("savedMsg").value;
+    let alertDeleteValid = $('#alertDeleteValid');
+    let alertDelete = $('#alertDelete');
 
-    const numberOfTimelinePanels = 0;
+    let savedMessage = document.getElementById("savedMsg");
+
+    let messageWasToShort = false;
+    let inputWasRequired = false;
+    let deleteWasValid = false;
+    let wasDeleted = false;
+
 
     //TODO: Store message.
     //TODO: Duplicated alert code. Maybe theres a better way.
     //Saves the written message in the textarea and show it at the top of the field.
-    function saveMessage(event) {
+    function checkMessage(event) {
         let message = document.getElementById("message").value;
         let minLength = 10;
 
-        let trimMessage = message.trim();
+        let trimMessage = message.replace(/ /g, "");
+
+        updateAlerts();
 
         if (trimMessage.length === 0) {
             //Input is required.
-            alertMessageToShort.fadeOut(1);
             alertInputRequired.fadeIn(100);
+            inputWasRequired = true;
             event.preventDefault();
         } else if (trimMessage.length < minLength) {
             //stops submitting and shows alert.
-            alertInputRequired.fadeOut(1);
             alertMessageToShort.fadeIn(100);
+            messageWasToShort = true;
+        }
+    }
+
+    //Checks whether the message is successfully hidden or not.
+    function checkReset(event) {
+        let savedMessage = document.getElementById("savedMsg");
+
+        updateAlerts();
+
+        //TODO: AlertDelte do not show up.
+        if (savedMessage.trim().length === 0) {
+            alertDelete.fadeIn(100);
+            alert("You have already deleted this message.");
+            wasDeleted = true;
             event.preventDefault();
         } else {
-            //TODO: Show message correctly.
-            savedMessage.val(message);
+            alertDeleteValid.fadeIn(100);
+            alert("You successfully delete the message.");
+            deleteWasValid = true;
+            event.preventDefault();
+        }
+    }
+
+    //Checks whether an alert is visible. If this is the case it is fade out.
+    function updateAlerts() {
+        if (messageWasToShort) {
+            alertMessageToShort.fadeOut(1);
+        }
+        if (inputWasRequired) {
+            alertInputRequired.fadeOut(1);
+        }
+        if (deleteWasValid) {
+            alertDeleteValid.fadeOut(1);
+        }
+        if (wasDeleted) {
+            alertDelete.fadeOut(1);
         }
     }
 
     //Do not show alert.
     alertMessageToShort.fadeOut(1);
     alertInputRequired.fadeOut(1);
+    alertDelete.fadeOut(1);
+    alertDeleteValid.fadeOut(1);
 
-    //Deletes the saved message in order to leave the field empty.
-    function deleteMessage() {
-        alert("Message deleted.");
-        savedMessage.text("");
+    window.onload = function () {
+        updateAlerts();
+        document.getElementById("message").value = "";
     }
 
-    function turnOffOnSite() {
-        var heading = document.querySelector("h3"),
-            paragraph = document.querySelector("p"),
-            panelMessage = document.querySelector("#timelineInfo div"),
-            temp = document.querySelector("#newTimelinePanel")
+    //Get location
+    let position = document.getElementById("location");
 
-        if ('content' in document.createElement('template')
-            && heading && paragraph && panelMessage && temp) {
-            //TODO:do something.
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            position.innerHTML = "Geolocation is not supported by this browser.";
         }
     }
 
-    //Only 3 panels should appear at the employees homepage. This should only be an overview.
-    function checkAmountOfTimlinePanels() {
-        if (numberOfTimelinePanels > 3) {
-            //TODO: Don't show the oldest panels.
-            return false;
+    function showPosition(position) {
+        location.innerHTML = "Latitude: " + position.coords.latitude +
+            "<br>Longitude: " + position.coords.longitude;
+    }
+
+    var button = document.getElementById('los');
+    button.addEventListener('click', ermittlePosition);
+    var ausgabe = document.getElementById('ausgabe');
+
+    function ermittlePosition() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(zeigePosition, zeigeFehler);
+        } else {
+            ausgabe.innerHTML = 'Ihr Browser unterstützt keine Geolocation.';
         }
-        return true;
+    }
+
+    function zeigePosition(position) {
+        map = new OpenLayers.Map('karte');
+        map.addLayer(new OpenLayers.Layer.OSM());
+        var lonLat = new OpenLayers.LonLat(position.coords.longitude, position.coords
+            .latitude) //Mitte der Karte angeben
+            .transform(new OpenLayers.Projection('EPSG:4326'), // transform from WGS 1984
+                map.getProjectionObject() // to Spherical Mercator Projection
+            );
+        var zoom = 12;
+        var markers = new OpenLayers.Layer.Markers('Markers'); //Marker einfügen
+        map.addLayer(markers);
+        markers.addMarker(new OpenLayers.Marker(lonLat));
+        map.setCenter(lonLat, zoom);
+    }
+
+    function zeigeFehler(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                ausgabe.innerHTML = "Benutzer lehnte Standortabfrage ab."
+                break;
+            case error.POSITION_UNAVAILABLE:
+                ausgabe.innerHTML = "Standortdaten sind nicht verfügbar."
+                break;
+            case error.TIMEOUT:
+                ausgabe.innerHTML = "Die Standortabfrage dauerte zu lange (Time-out)."
+                break;
+            case error.UNKNOWN_ERROR:
+                ausgabe.innerHTML = "unbekannter Fehler."
+                break;
+        }
     }
 
 </script>
 
+<!--Include the footer that contains the copyright info-->
 <footer>
-    <div class="footer">
-        <div class="text-center bg-dark text-light p-6" id="footer">
-            <p>© 2021 Copyright: Group 9</p>
-        </div>
-    </div>
+    <div th:insert="'footer'" class="embeddedFooter"></div>
 </footer>
 
 </html>
