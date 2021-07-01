@@ -108,6 +108,7 @@
 
         <div class="col-md-12 col-lg-6">
             <!--Embedded map-->
+            <!--Maybe i have to add this: &callback=initMap&libraries=&v=weekly-->
             <div class="map card card-cascade shadow">
                 <iframe src="https://www.google.com/maps/d/embed?mid=1KuOPZAoWJ_7X5KCwnCa_GgR89JX7X-Or" width="100%"
                         height="480">
@@ -151,6 +152,19 @@
 
     window.onload = function() {
         alertOnSite.fadeOut(1);
+    }
+
+    function initMap() {
+        const myLatLng = { lat: -25.363, lng: 131.044 };
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 4,
+            center: myLatLng,
+        });
+        new google.maps.Marker({
+            position: myLatLng,
+            map,
+            title: "Hello World!",
+        });
     }
 </script>
 

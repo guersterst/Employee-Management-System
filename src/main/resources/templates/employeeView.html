@@ -24,6 +24,12 @@
         <h1 class="d-flex bg-secondary text-light">
             Home Page
         </h1>
+        <h1>HTML5 - Geolocation<br>aktuellen Standort in einer OpenStreetmap-Karte ausgeben</h1>
+        <main>
+            <p>Sobald Sie auf den Button klicken, werden Ihre Koordinaten ermittelt und in einem Kartenausschnitt ausgegeben.</p>
+            <button id="los">Los!</button>
+            <div id="karte"></div>
+        </main>
     </div>
     <div class="row" th:action="@{/my-session/latest}" th:object="${workSessionData}" th:method="post">
         <div class="form-group col-sm-12 col-md-6" th:fragment="messageForm">
@@ -190,6 +196,7 @@
 </body>
 
 <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.js"></script>
 
 <script lang="JavaScript" type="text/javascript">
 
@@ -274,6 +281,66 @@
     window.onload = function () {
         updateAlerts();
         document.getElementById("message").value = "";
+    }
+
+    //Get location
+    let position = document.getElementById("location");
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            position.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        location.innerHTML = "Latitude: " + position.coords.latitude +
+            "<br>Longitude: " + position.coords.longitude;
+    }
+
+    var button = document.getElementById('los');
+    button.addEventListener('click', ermittlePosition);
+    var ausgabe = document.getElementById('ausgabe');
+
+    function ermittlePosition() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(zeigePosition, zeigeFehler);
+        } else {
+            ausgabe.innerHTML = 'Ihr Browser unterstützt keine Geolocation.';
+        }
+    }
+
+    function zeigePosition(position) {
+        map = new OpenLayers.Map('karte');
+        map.addLayer(new OpenLayers.Layer.OSM());
+        var lonLat = new OpenLayers.LonLat(position.coords.longitude, position.coords
+            .latitude) //Mitte der Karte angeben
+            .transform(new OpenLayers.Projection('EPSG:4326'), // transform from WGS 1984
+                map.getProjectionObject() // to Spherical Mercator Projection
+            );
+        var zoom = 12;
+        var markers = new OpenLayers.Layer.Markers('Markers'); //Marker einfügen
+        map.addLayer(markers);
+        markers.addMarker(new OpenLayers.Marker(lonLat));
+        map.setCenter(lonLat, zoom);
+    }
+
+    function zeigeFehler(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                ausgabe.innerHTML = "Benutzer lehnte Standortabfrage ab."
+                break;
+            case error.POSITION_UNAVAILABLE:
+                ausgabe.innerHTML = "Standortdaten sind nicht verfügbar."
+                break;
+            case error.TIMEOUT:
+                ausgabe.innerHTML = "Die Standortabfrage dauerte zu lange (Time-out)."
+                break;
+            case error.UNKNOWN_ERROR:
+                ausgabe.innerHTML = "unbekannter Fehler."
+                break;
+        }
     }
 
 </script>
