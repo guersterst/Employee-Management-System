@@ -21,6 +21,7 @@
 <body>
 <div class="container">
     <!--Card contains the timeline.-->
+    <!--
     <div class="card shadow">
         <div class="card-header bg-secondary text-light">
             <h1 id="timeline">History</h1>
@@ -33,7 +34,9 @@
                 </form>
             </div>
         </div>
-        <!--Timeline vertically shows every event that is happening during using the web application.-->
+        -->
+    <!--Timeline vertically shows every event that is happening during using the web application.-->
+    <!--
         <ul class="timeline text-left" th:action="@{/my-history}" th:method="get">
             <li th:each="workSession : ${workSessionsList}">
                 <div class="timeline-panel">
@@ -66,6 +69,52 @@
                 </div>
             </li>
         </ul>
+    </div>
+    -->
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped table-bordered table-condensed table-responsive">
+                <thead class="table-header">
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Available</th>
+                    <th scope="col">On Site</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">CheckIn</th>
+                    <th scope="col">CheckOut</th>
+                    <th scope="col">Message</th>
+                </tr>
+                </thead>
+                <tbody>
+                <form th:action="@{/admin/employees}" method="get" th:object="${workSessionsList}"
+                      th:method="get">
+                    <tr th:each="workSession : ${workSessionsList}">
+                        <th scope="row"></th>
+                        <td>
+                            <span th:text="${workSession.userName}"></span>
+                        </td>
+                        <td th:text="${workSession.available}"></td>
+                        <td class="d-inline">
+                            <span id="onSite" th:text="${workSession.onSite}"></span>
+                        </td>
+                        <td>Location</td>
+                        <td th:text="${#dates.format(workSession.startTime, 'dd.MM.yyyy HH:mm')}"></td>
+                        <td>
+                            <div th:if="${workSession.stopTime == null}">
+                                <span>still here</span>
+                            </div>
+                            <div th:unless="${workSession.stopTime == null}">
+                                <span th:text="${#dates.format(workSession.stopTime, 'dd.MM.yyyy HH:mm')}"></span>
+                            </div>
+                        </td>
+                        <td th:text="${workSession.textStatus}"></td>
+                    </tr>
+                </form>
+
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </body>
