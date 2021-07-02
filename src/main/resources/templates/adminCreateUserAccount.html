@@ -487,7 +487,6 @@
 
     // Returns "role"+nr+"="+role, which is our cookie's content.
     function getCookieContent(nr) {
-        let name = "role" + nr + "="; // This is what identifies our cookie. Each cookie has a different number following "role".
         let cookie = document.cookie.split(';'); // Get cookies and split by ';'
 
         // Remove whitespaces
@@ -499,10 +498,12 @@
 
         // If the cookie is found, return the part of the string that we've been looking for
         for (let i = 0; i < cookie.length; i++) {
-            if (cookie[i].indexOf(name) === 0) {
+            if (cookie[i].indexOf("role" + nr + "=") === 0) {
                 return cookie[i].substring(0, cookie[i].length);
             }
         }
+
+        // Not found --> return empty string
         return "";
     }
 
