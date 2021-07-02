@@ -26,6 +26,11 @@
     <div class="form-group col-md" id="userAccount">
       <h2 class="text-center">Create User-Account</h2>
 
+      <div th:if="${status.getMessage() == 'admin_valid'}">
+        <!-- The anchor linking to the history -->
+        <a id="historyAnchor_top" th:href="@{/admin/employees/work-sessions/latest/__${selectedUser}__/index}"><i class="bi-arrow-right-circle"></i> Visit User's History</a>
+      </div>
+
       <!--Form, which includes the input fields that will be sent on submit (for changing account/user settings)-->
       <form id="inputFieldsForm" class="needs-validation" th:action="@{/account/edit/__${userCredentials.userName}__}" th:object="${userCredentials}" onsubmit="validate(event)" method="post"><!--th:action="${userCredentials.isAdmin()} == 'true' ? '@{/admin/account/edit/__${(selectedUser)}__}' : '@{/account/edit}'" th:object="${userCredentials}" method="post"> -->
 
@@ -167,7 +172,7 @@
 
         <!-- The anchor linking to the history -->
         <div class="row">
-          <a id="historyAnchor" th:href="@{/admin/employees/work-sessions/latest/__${selectedUser}__/index}"><i class="bi-arrow-right-circle"></i> Visit User's History</a>
+          <a id="historyAnchor_bottom" th:href="@{/admin/employees/work-sessions/latest/__${selectedUser}__/index}"><i class="bi-arrow-right-circle"></i> Visit User's History</a>
         </div>
 
         <!-- The delete button-->
