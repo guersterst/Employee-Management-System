@@ -152,7 +152,7 @@ public class WorkSessionsController {
      * @param principal  Spring security principal.
      * @return The view.
      */
-    @PostMapping(
+    @GetMapping(
             value = "/beginning/{latitude}/{longitude}"
     )
 
@@ -164,7 +164,7 @@ public class WorkSessionsController {
 
         try {
             workSessionService.startSession(userName, newSession.getTextStatus(),
-                    true, newSession.isOnSite(), Long.parseLong(longitude), Long.parseLong(latitude));
+                    true, newSession.isOnSite(), Double.parseDouble(longitude), Double.parseDouble(latitude));
 
             System.out.println(workSessionService.getSessions("student").get(0).getLatitude());
 
