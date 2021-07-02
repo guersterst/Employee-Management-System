@@ -30,13 +30,9 @@
     <!--Contains the form for submitting messages. A user can leave this message for his admin.-->
     <div class="row" th:action="@{/my-session/latest}" th:object="${workSessionData}" th:method="post">
         <div class="form-group col-sm-12 col-md-6" th:fragment="messageForm">
-<<<<<<< HEAD
-            <div class="message card shadow h-100">
-                <div class=" card-header bg-secondary text-light">
-=======
+
             <div class="message card  h-100">
                 <div class="bg-secondary text-light">
->>>>>>> location-feature
                     <h2>Message</h2>
                 </div>
 
@@ -97,16 +93,6 @@
         <!--Option toolbar-->
         <div class="col-sm-12 col-md-6">
             <div th:fragment="state">
-<<<<<<< HEAD
-                <div class="state card shadow h-25">
-                    <div class="card-header bg-secondary text-light">
-                        <h2>State</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="options">
-                            <!--User can change the state of availability.Within the first login this should be enabled.-->
-                            <form th:action="@{/my-session/availability}" method="post" th:object="${workSessionData}"
-=======
                 <div class="state card h-25">
                     <div class="bg-secondary text-light">
                         <h2>State</h2>
@@ -131,21 +117,7 @@
                         </div>
                         <div th:if="*{onSite == false}">
                             <form th:action="@{/my-session/beginning/__${workSessionData.latitude}__/__${workSessionData.longitude}__}" method="post" th:object="${workSessionData}"
->>>>>>> location-feature
-                                  th:method="post">
-                                <div class="form-check form-switch d-table available">
-                                    <input class="checkbox form-check-input" type="checkbox" id="available" value="true"
-                                           th:field="${workSessionData.available}" name="available">
-                                    <label class="form-check-label" for="available"
-                                           id="isAdminLabel">Availability</label>
-                                </div>
-                                <button class="btn btn-primary btn-sm" type="submit" id="createAccountButton">Submit
-                                </button>
-                            </form>
 
-                            <!--If session is finished a new one is started-->
-                            <div th:if="${workSessionData.onSite == false}">
-                                <form th:action="@{/my-session/beginning}" method="post" th:object="${workSessionData}"
                                       th:method="post">
                                     <!--On Site should be switched on when logged in the first time of a day
                                     and only switched of if you leave work.-->
@@ -177,15 +149,11 @@
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
 
             <!--Go to profile or history-->
-            <div class="card shadow h-50">
-                <div class="card-header bg-secondary text-light">
-=======
+
             <div class="card h-50">
                 <div class="bg-secondary text-light">
->>>>>>> location-feature
                     <h2>More...</h2>
                 </div>
 
