@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -158,11 +158,19 @@
           <button class="btn btn-primary btn-lg center-block mx-auto" type="button" id="editButton" onclick="enableOrDisableEditing()">Edit</button>
         </div>
       </form>
-      <form th:if="${status.getMessage() == 'admin_valid'}" th:action="@{/admin/account/delete/__${(selectedUser)}__}" method="get" >
+
+      <!-- <div sec:authorize="hasRole('ROLE_ADMIN')"> -->
+      <!--<div sec:authorize="hasAuthority('ROLE_ADMIN')">-->
+      <div th:if="${status.getMessage() == 'admin_valid'}">
         <div class="row">
-          <button class="btn btn-danger btn-lg center-block mx-auto" type="submit" id="deleteButton">Delete User</button>
+          <form th:action="@{/admin/account/delete/__${(selectedUser)}__}" method="get" >
+            <button class="btn btn-danger btn-lg center-block mx-auto" type="submit" id="deleteButton">Delete User</button>
+          </form>
         </div>
-      </form>
+        <div class="row">
+          <a class="pull-right" th:href="@{/admin/employees/work-sessions/latest/__${selectedUser}__/index}"><i class="bi-arrow-right-circle"></i> Visit User's History</a>
+        </div>
+      </div>
     </div>
   </div>
 
