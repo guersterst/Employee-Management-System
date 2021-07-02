@@ -121,9 +121,9 @@
                     <tr th:each="workSession : ${workSessionsList}">
                         <td scope="row">
                             <div th:if="${adminVisitsPage}">
-                                <button class="btn" type="submit"
-                                    th:action="@{/admin/employees/work-sessions/__${workSession.getUserName()}__/__${workSession.getId()}__}">
-                                    <i class="bi bi-trash"></i></button>
+                                <a class="btn"
+                                    th:href="@{/admin/employees/work-sessions/__${selectedUser}__/__${workSession.getId()}__/delete}">
+                                    <i class="bi bi-trash"></i></a>
                             </div>
                         </td>
                         <td th:text="${workSession.userName}"></td>

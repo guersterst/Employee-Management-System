@@ -58,6 +58,7 @@ public class AdminWorkSessionsHistoryController {
         model.addAttribute("workSession2", new WorkSessionDTO());
         model.addAttribute("workSession3", new WorkSessionDTO());
         model.addAttribute("status", new StatusDTO());
+        model.addAttribute("selectedUser", userName);
         return "historyView";
     }
 
@@ -211,8 +212,8 @@ public class AdminWorkSessionsHistoryController {
         return "historyView";
     }
 
-    @DeleteMapping(
-            value = "/{userName}/{index}"
+    @GetMapping(
+            value = "/{userName}/{index}/delete"
     )
     public String deleteSession(@PathVariable(value = "userName") String userName,
                                 @PathVariable(value = "index") int index, @ModelAttribute("status") StatusDTO status) {
