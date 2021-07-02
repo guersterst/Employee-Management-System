@@ -35,29 +35,15 @@
                     <h2>Message</h2>
                 </div>
 
-                <!--Show saved message-->
                 <div class="card-body">
-                    <!--Delete a message.-->
                     <div>
                         <form th:action="@{/my-session/message/delete}" method="post" onsubmit="checkReset(event)">
                             <button class="btn" type="submit" id="delete-message">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </form>
-                        <div class="alert alert-danger mx-auto" id="alertDelete">
-                            <div class="align-text-bottom">
-                                <i class="bi bi-exclamation-circle"></i>
-                                <strong>You have already delete your message.</strong>
-                            </div>
-                        </div>
-
-                        <div class="alert alert-info mx-auto" id="alertDeleteValid">
-                            <div class="align-text-bottom">
-                                <i class="bi bi-info"></i>
-                                <strong>Message successfully deleted.</strong>
-                            </div>
-                        </div>
                     </div>
+                    <!--Show saved message-->
                     <form onsubmit="checkMessage(event);" id="messageCard"
                           th:action="@{/my-session/message}" th:method="post">
                         <div class="form-group">
@@ -66,8 +52,6 @@
                         </div>
                         <!--Text field to leave a message-->
                         <div>
-                            <div class="input-group-prepend">
-                            </div>
                             <div class="input-group">
                                 <span class="input-group-text">Notification</span>
                                 <textarea class="form-control" aria-label="With textarea"
@@ -84,6 +68,7 @@
                             </div>
                         </div>
 
+                        <!--Input field contains no message.-->
                         <div class="alert alert-danger mx-auto" id="alertInputRequired">
                             <div class="align-text-bottom">
                                 <i class="bi bi-exclamation-circle"></i>
@@ -91,16 +76,14 @@
                             </div>
                         </div>
 
-                        <!--Options for message-->
-                        <div class="message-util form-group">
-                            <!--Message with a minimum length.-->
+                        <!--Save message-->
+                        <div class="message-util form-group center-block">
                             <button class=" btn btn-primary btn-lg center-block" type="submit" id="save-button">
                                 Save
                             </button>
-                            <!--Deletes the saved message above the textarea.-->
                         </div>
                     </form>
-                    <br><br>
+                    <br>
                 </div>
             </div>
         </div>
@@ -110,48 +93,53 @@
         <div class="col-sm-12 col-md-6">
             <div th:fragment="state">
                 <div class="state card shadow h-25">
-                    <div class="bg-secondary text-light">
+                    <div class="card-header bg-secondary text-light">
                         <h2>State</h2>
                     </div>
-                    <div class="options">
-                        <!--User can change the state of availability.Within the first login this should be enabled.-->
-                        <form th:action="@{/my-session/availability}" method="post" th:object="${workSessionData}"
-                              th:method="post">
-                            <div class="form-check form-switch d-table available">
-                                <input class="checkbox form-check-input" type="checkbox" id="available" value="true"
-                                       th:field="${workSessionData.available}" name="available">
-                                <label class="form-check-label" for="available" id="isAdminLabel">Availability</label>
-                            </div>
-                            <button class="btn btn-primary btn-sm" type="submit" id="createAccountButton">Submit
-                            </button>
-                        </form>
+                    <div class="card-body">
+                        <div class="options">
+                            <!--User can change the state of availability.Within the first login this should be enabled.-->
+                            <form th:action="@{/my-session/availability}" method="post" th:object="${workSessionData}"
+                                  th:method="post">
+                                <div class="form-check form-switch d-table available">
+                                    <input class="checkbox form-check-input" type="checkbox" id="available" value="true"
+                                           th:field="${workSessionData.available}" name="available">
+                                    <label class="form-check-label" for="available"
+                                           id="isAdminLabel">Availability</label>
+                                </div>
+                                <button class="btn btn-primary btn-sm" type="submit" id="createAccountButton">Submit
+                                </button>
+                            </form>
 
-                        <!--If checked before action-->
-                        <div th:if="*{onSite == false}">
-                            <form th:action="@{/my-session/beginning}" method="post" th:object="${workSessionData}"
-                                  th:method="post">
-                                <!--On Site should be automatically switched on when logged in the first time of a day
-                                and only switched of if you leave work.-->
-                                <div class="form-check form-switch d-table onSite">
-                                    <input class="checkbox form-check-input" type="checkbox" id="beginning" value="true"
-                                           th:field="${workSessionData.onSite}" name="onSite">
-                                    <label class="form-check-label" for="beginning" id="startSession">OnSite</label>
-                                </div>
-                                <button class="btn btn-primary btn-sm" type="submit" id="beginSession">Submit
-                                </button>
-                            </form>
-                        </div>
-                        <div th:unless="*{onSite == false}">
-                            <form th:action="@{/my-session/ending/}" method="post" th:object="${workSessionData}"
-                                  th:method="post">
-                                <div class="form-check form-switch d-table onSite">
-                                    <input class="checkbox form-check-input" type="checkbox" id="ending" value="true"
-                                           th:field="${workSessionData.onSite}" name="onSite">
-                                    <label class="form-check-label" for="ending" id="leaveOnSite">OnSite</label>
-                                </div>
-                                <button class="btn btn-primary btn-sm" type="submit" id="endingSession">Submit
-                                </button>
-                            </form>
+                            <!--If checked before action-->
+                            <div th:if="*{onSite == false}">
+                                <form th:action="@{/my-session/beginning}" method="post" th:object="${workSessionData}"
+                                      th:method="post">
+                                    <!--On Site should be switched on when logged in the first time of a day
+                                    and only switched of if you leave work.-->
+                                    <div class="form-check form-switch onSite">
+                                        <input class="checkbox form-check-input" type="checkbox" id="beginning"
+                                               value="true"
+                                               th:field="${workSessionData.onSite}" name="onSite">
+                                        <label class="form-check-label" for="beginning" id="startSession">OnSite</label>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm" type="submit" id="beginSession">Submit
+                                    </button>
+                                </form>
+                            </div>
+                            <div th:unless="*{onSite == false}">
+                                <form th:action="@{/my-session/ending/}" method="post" th:object="${workSessionData}"
+                                      th:method="post">
+                                    <div class="form-check form-switch d-table onSite">
+                                        <input class="checkbox form-check-input" type="checkbox" id="ending"
+                                               value="true"
+                                               th:field="${workSessionData.onSite}" name="onSite">
+                                        <label class="form-check-label" for="ending" id="leaveOnSite">OnSite</label>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm" type="submit" id="endingSession">Submit
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -163,7 +151,8 @@
                 <!--Timeline vertically shows every event that is happening during using the web application.-->
                 <div class="card-body" id="more">
                     <div class="profile">
-                        <a th:href="@{/account/me}" id="profile" href="#"><i class="bi bi-person-bounding-box"></i> </a>
+                        <a th:href="@{/account/me}" id="profile" href="#"><i class="bi bi-person-bounding-box"></i>
+                        </a>
                         <label class="form-label" for="profile">User Profile</label>
                     </div>
                 </div>
@@ -181,7 +170,7 @@
     <!--View latest chronic items-->
 
 </div>
-</div>
+
 <!--
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -204,26 +193,17 @@
 
     let alertMessageToShort = $('#alertMessageToShort');
     let alertInputRequired = $('#alertInputRequired');
-    let alertDeleteValid = $('#alertDeleteValid');
-    let alertDelete = $('#alertDelete');
-
-    let savedMessage = document.getElementById("savedMsg");
 
     let messageWasToShort = false;
     let inputWasRequired = false;
-    let deleteWasValid = false;
-    let wasDeleted = false;
 
 
-    //TODO: Store message.
-    //TODO: Duplicated alert code. Maybe theres a better way.
     //Saves the written message in the textarea and show it at the top of the field.
     function checkMessage(event) {
         let message = document.getElementById("message").value;
         let minLength = 10;
 
         let trimMessage = message.replace(/ /g, "");
-        console.log(message + " " + trimMessage);
 
         updateAlerts();
 
@@ -233,29 +213,9 @@
             inputWasRequired = true;
             event.preventDefault();
         } else if (trimMessage.length < minLength) {
-            console.log("alertMessagetoshort");
             //stops submitting and shows alert.
             alertMessageToShort.fadeIn(100);
             messageWasToShort = true;
-        }
-    }
-
-    //Checks whether the message is successfully hidden or not.
-    function checkReset(event) {
-        let savedMessage = document.getElementById("savedMsg");
-
-        updateAlerts();
-
-        //TODO: AlertDelte do not show up.
-        if (savedMessage.trim().length === 0) {
-            alertDelete.fadeIn(100);
-            alert("You have already deleted this message.");
-            wasDeleted = true;
-            event.preventDefault();
-        } else {
-            alertDeleteValid.fadeIn(100);
-            alert("You successfully delete the message.");
-            deleteWasValid = true;
             event.preventDefault();
         }
     }
@@ -268,19 +228,11 @@
         if (inputWasRequired) {
             alertInputRequired.fadeOut(1);
         }
-        if (deleteWasValid) {
-            alertDeleteValid.fadeOut(1);
-        }
-        if (wasDeleted) {
-            alertDelete.fadeOut(1);
-        }
     }
 
     //Do not show alert.
     alertMessageToShort.fadeOut(1);
     alertInputRequired.fadeOut(1);
-    alertDelete.fadeOut(1);
-    alertDeleteValid.fadeOut(1);
 
     window.onload = function () {
         updateAlerts();
