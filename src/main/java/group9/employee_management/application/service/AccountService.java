@@ -215,7 +215,6 @@ public class AccountService {
             throw new NoSuchUserException();
         } else {
             user.setPassword(encoder.encode(password));
-            System.out.println(user.getPassword());
             userRepository.save(user);
         }
 
