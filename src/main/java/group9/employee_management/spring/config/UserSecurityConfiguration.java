@@ -56,8 +56,6 @@ public class UserSecurityConfiguration {
                 .and().authorizeRequests().antMatchers("/css/**", "/js/**", "/resources/**", "/static/**", "/webjars/**", "/h2-console"
                         + "/**").permitAll()
                 .and().build();
-
-
     }
 
     @Bean
@@ -83,12 +81,3 @@ public class UserSecurityConfiguration {
         return authProvider;
     }
 }
-/*
-5. COORDS: add to dto, add dto for coords, onSite -> setCoords, offSite -> delCoords.
-(steffi koordinaten?)
-
-9. Current time
-7. Why is https not secure
-8. User Manual
-6. Mapping after login -> start session if last session has ended.
- */

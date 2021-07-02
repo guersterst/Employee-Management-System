@@ -17,8 +17,8 @@ public class WorkSessionDTO {
     private boolean available;
     private boolean onSite;
     private String userName;
-    private Integer coordX;
-    private Integer coordY;
+    private double latitude;
+    private double longitude;
 
     public WorkSessionDTO(){}
 
@@ -37,14 +37,9 @@ public class WorkSessionDTO {
         workSessionDTO.setAvailable(workSession.isAvailable());
         workSessionDTO.setOnSite(workSession.isOnSite());
         workSessionDTO.setUserName(workSession.getEmployee().getUserName());
-        workSessionDTO.setCoordX(workSession.getCoordX());
-        workSessionDTO.setCoordY(workSession.getCoordY());
+        workSessionDTO.setLongitude(workSession.getLongitude());
+        workSessionDTO.setLatitude(workSession.getLatitude());
         return workSessionDTO;
-    }
-
-    public String toJSON() throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(this);
     }
 
     public Integer getId() {
@@ -103,19 +98,19 @@ public class WorkSessionDTO {
         this.userName = userName;
     }
 
-    public Integer getCoordX() {
-        return coordX;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setCoordX(Integer coordX) {
-        this.coordX = coordX;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
-    public Integer getCoordY() {
-        return coordY;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setCoordY(Integer coordY) {
-        this.coordY = coordY;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 }

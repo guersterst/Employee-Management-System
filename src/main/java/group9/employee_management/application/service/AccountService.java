@@ -140,24 +140,6 @@ public class AccountService {
         }
     }
 
-    /**
-     * Returns an user as a JSON string.
-     *
-     * @param userName The users user-name.
-     * @return The users information in JSON format, excluding his work-sessions and password.
-     * @throws NoSuchUserException Thrown if no user can be found with the given user name.
-     */
-    public String getUserAsJSON(String userName) throws NoSuchUserException {
-        Employee employee = employeeRepository.getUserByUserName(userName);
-
-        if (employee == null) {
-            throw new NoSuchUserException(userName);
-        } else {
-            return UserDTO.fromEntity(employee).toJSON();
-        }
-    }
-
-
     public UserDTO getUserAsDTO(String userName) throws NoSuchUserException {
         Employee employee = employeeRepository.getUserByUserName(userName);
 
@@ -171,10 +153,10 @@ public class AccountService {
     }
 
     /**
-     *
-     * @param userName
-     * @return
-     * @throws NoSuchUserException
+     * Returns a users admin rights.
+     * @param userName The user identifier.
+     * @return Admin rights of the user.
+     * @throws NoSuchUserException When the given username is wrong.
      */
     public boolean isAdmin(String userName) throws NoSuchUserException {
         User user = userRepository.getById(userName);

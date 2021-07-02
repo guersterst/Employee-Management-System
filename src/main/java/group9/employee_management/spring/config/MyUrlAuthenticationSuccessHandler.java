@@ -23,7 +23,7 @@ public class MyUrlAuthenticationSuccessHandler  implements AuthenticationSuccess
 
     protected Log logger = LogFactory.getLog(this.getClass());
 
-    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -36,12 +36,9 @@ public class MyUrlAuthenticationSuccessHandler  implements AuthenticationSuccess
         String targetUrl = determineTargetUrl(authentication);
 
         if (response.isCommitted()) {
-            logger.debug(
-                    "Response has already been committed. Unable to redirect to "
-                            + targetUrl);
+            logger.debug("Response has already been committed. Unable to redirect to "+ targetUrl);
             return;
         }
-
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
 

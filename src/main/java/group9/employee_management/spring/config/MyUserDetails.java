@@ -13,16 +13,11 @@ public class MyUserDetails implements UserDetails {
 
     private String userName;
     private String password;
-    //private boolean active;
     private List<GrantedAuthority> authorityList;
 
     public MyUserDetails(User user) {
         this.userName = user.getUsername();
         this.password = user.getPassword();
-        //this.active = user.isAv;
-        //this.authorityList = Arrays.stream(user.getRoles().stream().spliterator(","))
-        //this.authorityList.add(new SimpleGrantedAuthority("ROLE_USER"));+
-
         this.authorityList.add(new SimpleGrantedAuthority("ROLE_USER"));
         this.authorityList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }

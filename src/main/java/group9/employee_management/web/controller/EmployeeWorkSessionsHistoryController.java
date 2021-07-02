@@ -34,6 +34,7 @@ public class EmployeeWorkSessionsHistoryController {
 
     /**
      * Access the html and gain access to all latest work-sessions of all users.
+     * Of particular interest are the offered model-attributes for thymeleaf usage.
      *
      * @param model     The model.
      * @param principal Spring security principal.
@@ -51,10 +52,8 @@ public class EmployeeWorkSessionsHistoryController {
             model.addAttribute("workSessionsList", Collections.emptyList());
         }
 
-        // Three work-sessions to be displayed on the work-session history. Mainly workSession1 will be used.
+        // Work-session to be displayed on the work-session history.
         model.addAttribute("workSession1", new WorkSessionDTO());
-        model.addAttribute("workSession2", new WorkSessionDTO());
-        model.addAttribute("workSession3", new WorkSessionDTO());
         model.addAttribute("status", new StatusDTO());
         model.addAttribute("adminVisitsPage", false);
         return "historyView";
@@ -71,7 +70,6 @@ public class EmployeeWorkSessionsHistoryController {
     @GetMapping(
             value = "/latest"
     )
-    //@ResponseBody
     public String getLatest(Principal principal,
                             @ModelAttribute("workSession1") WorkSessionDTO workSessionDTO,
                             @ModelAttribute("status") StatusDTO status) {
@@ -98,7 +96,6 @@ public class EmployeeWorkSessionsHistoryController {
     @GetMapping(
             value = "/latest/index"
     )
-    //@ResponseBody
     public String getIndex(Principal principal,
                            @ModelAttribute("workSession1") WorkSessionDTO workSessionDTO,
                            @ModelAttribute("status") StatusDTO status) {
@@ -139,7 +136,7 @@ public class EmployeeWorkSessionsHistoryController {
             session = workSessionService.getOneFromIndex(userName, workSessionDTO.getId());
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
-            return "history";
+            return "historyView";
         }
 
         if (session != null) {
@@ -148,43 +145,7 @@ public class EmployeeWorkSessionsHistoryController {
             status.setMessage("bad_request");
         }
         status.setMessage("valid");
-        return "history";
-    }
-
-    /**
-     * OUT OF ORDER AND NOT IN USER
-     * Returns three sessions, beginning at the given index and descending from there. If there are less sessions
-     * available, sessions of null will be filled in.
-     *
-     * @param principal Spring security principal.
-     * @param workSession1 The first dto filled with the relevant info.
-     * @param workSession2 The second dto filled with the relevant info.
-     * @param workSession3 The third dto filled with the relevant info.
-     * @return The view.
-     */
-    @Deprecated
-    @GetMapping(
-            value = "/session/three"
-    )
-
-    public String getThree(Principal principal,
-                           @ModelAttribute("workSession1") WorkSessionDTO workSession1,
-                           @ModelAttribute("workSession2") WorkSessionDTO workSession2,
-                           @ModelAttribute("workSession3") WorkSessionDTO workSession3) {
-        String userName = principal.getName();
-        int index = workSession1.getId();
-
-        List<WorkSession> threeFromIndex = workSessionService.getThreeFromIndex(userName, index);
-        List<WorkSessionDTO> modelAttributes = List.of(workSession1, workSession2, workSession3);
-
-        // Assign work-sessions to model-attributes
-        for (int i = 0; i < 3; i++) {
-            WorkSessionDTO modelAttribute = modelAttributes.get(i);
-            if (threeFromIndex.get(i) != null) {
-                modelAttribute = WorkSessionDTO.fromEntity(threeFromIndex.get(i));
-            }
-        }
-        return "history";
+        return "historyView";
     }
 
     /**

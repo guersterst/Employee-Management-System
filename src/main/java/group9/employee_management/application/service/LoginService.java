@@ -48,10 +48,11 @@ public class LoginService {
     Login getters.
      */
 
-    public boolean isUser(String userName) {
-        return employeeRepository.userExistsByUserName(userName);
-    }
-
+    /**
+     * Returns whether it is the first login of a user.
+     * @param userName user name.
+     * @return first-login value.
+     */
     public boolean isFirstLogin(String userName) {
         assert employeeRepository != null;
         return employeeRepository.findIsFirstLoginByUserName(userName);

@@ -30,17 +30,16 @@ public class WorkSessionsController {
     }
 
     /**
-     * Show the employees main page. Introduces DTOS for the current WorkSession, latest history and an status.
+     * Show the employees main page. Introduces dtos for the current WorkSession, latest history and an status.
      *
      * @param model The model.
-     * @param principal Description forthcoming.
      * @param principal The spring security persona.
      * @return The employees main page.
      */
     @GetMapping(
             value = ""
     )
-    public String getString(Model model, Principal principal) {
+    public String get(Model model, Principal principal) {
 
         // This DTO is for the upper part of the page (my-session management).
         model.addAttribute("workSessionData", new WorkSessionDTO());
@@ -133,7 +132,7 @@ public class WorkSessionsController {
      * @param workSessionDTO The work-session dto filled with relevant information.
      * @param status         The status dto.
      * @param model          The model.
-     * @return
+     * @return The view.
      */
     @GetMapping(
             value = "/latest"
@@ -145,9 +144,13 @@ public class WorkSessionsController {
         try {
             workSessionDTO = WorkSessionDTO.fromEntity(workSessionService.getLatest(userName));
             model.addAttribute("workSessionData", workSessionDTO);
-        } catch (NoSessionsException | NoSuchUserException exception) {
+        } catch (NoSuchUserException ex) {
             status.setMessage("bad_request");
+        } catch (NoSessionsException ex) {
+            workSessionDTO = new WorkSessionDTO();
+            model.addAttribute("workSessionData", workSessionDTO);
         }
+        model.addAttribute("workSessionData", workSessionDTO);
         status.setMessage("valid");
         return "employeeView";
     }
@@ -161,16 +164,21 @@ public class WorkSessionsController {
      * @return The view.
      */
     @PostMapping(
-            value = "/beginning"
+            value = "/beginning/{latitude}/{longitude}"
     )
 
     public String startSession(@ModelAttribute("workSessionData") WorkSessionDTO newSession,
-                               @ModelAttribute("status") StatusDTO status, Principal principal, Model model) {
+                               Model model,
+                               @ModelAttribute("status") StatusDTO status, Principal principal,
+                               @PathVariable("latitude") String latitude,
+                               @PathVariable("longitude") String longitude) {
+
         String userName = principal.getName();
 
         try {
             workSessionService.startSession(userName, newSession.getTextStatus(),
-                    true, newSession.isOnSite());
+                    true, newSession.isOnSite(), Double.parseDouble(longitude), Double.parseDouble(latitude));
+
         } catch (NoSuchUserException exception) {
             status.setMessage("bad_request");
         }

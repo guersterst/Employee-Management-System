@@ -1,7 +1,5 @@
 .cont {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    margin: 80px 300px 300px;
+    margin: 30px 50px 50px;
     text-align: center;
 }
 
@@ -19,6 +17,9 @@ i.bi {
 
 tr:hover i.bi {
     display: inline-block;
+}
+.second {
+    display: inline;
 }
 
 .card-body {

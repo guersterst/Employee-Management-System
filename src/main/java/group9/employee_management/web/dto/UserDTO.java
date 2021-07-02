@@ -40,21 +40,6 @@ public class UserDTO {
         return userDTO;
     }
 
-    /**
-     * Converts a user to JSON, excluding the password and work-sessions attributes.
-     *
-     * @return A JSON representation of the user.
-     */
-
-    public String toJSON() {
-        return "{ \"firstName\": \"" + firstName + "\", " +
-                "\"lastName\": \"" + lastName + "\" ," +
-                "\"userName\": \"" + userName + "\", " +
-                "\"isAdmin\": \"" + admin + "\", " +
-                "\"position\": \"" + position + "\"}";
-    }
-
-
     /*
     Getters and Setters
      */

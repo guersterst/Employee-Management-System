@@ -16,6 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.Set;
 
@@ -24,18 +27,18 @@ public class DataInit implements CommandLineRunner {
 
     private final PasswordEncoder encoder;
     private final UserRepository userRepository;
-    private final EmployeeRepository employeeRepository;
-    private final WorkSessionRepository workSessionRepository;
     private final AccountService accountService;
     private final WorkSessionService workSessionService;
 
+    private final double latitudeA = 48.571462889684234;
+    private final double longitudeA = 13.467357517935062;
+
+    private final double latitudeB = 48.57771608728356;
+    private final double longitudeB = 13.457253637518114;
 
     @Autowired
-    public DataInit(EmployeeRepository employeeRepository, WorkSessionRepository workSessionRepository,
-                    UserRepository userRepository, AccountService accountService, WorkSessionService workSessionService) {
+    public DataInit(UserRepository userRepository, AccountService accountService, WorkSessionService workSessionService) {
         this.userRepository = userRepository;
-        this.employeeRepository = employeeRepository;
-        this.workSessionRepository = workSessionRepository;
         this.accountService = accountService;
         this.workSessionService = workSessionService;
         this.encoder = new BCryptPasswordEncoder(10);
@@ -60,17 +63,17 @@ public class DataInit implements CommandLineRunner {
 
         userRepository.save(new User("admin", hashPassword("admin"), null, Roles.ADMIN, Roles.USER));
 
-        workSessionService.startSession("student", "Creating turing machine", true, true);
+        workSessionService.startSession("student", "Creating turing machine", true, true, longitudeA, latitudeA);
         workSessionService.stopSession("student");
-        workSessionService.startSession("student", "Proving p=np", true, true);
+        workSessionService.startSession("student", "Proving p=np", true, true, longitudeA, latitudeA);
         workSessionService.stopSession("student");
-        workSessionService.startSession("student", "Important meeting", false, true);
+        workSessionService.startSession("student", "Important meeting", false, true,longitudeB, latitudeB);
 
-        workSessionService.startSession("linus", "Coding", true, true);
+        workSessionService.startSession("linus", "Coding", true, true, longitudeB, latitudeB);
         workSessionService.stopSession("linus");
 
-        workSessionService.startSession("hpb", "Songwriting", true, true);
+        workSessionService.startSession("hpb", "Songwriting", true, true, longitudeA, latitudeA);
         workSessionService.stopSession("hpb");
-        workSessionService.startSession("hpb", "Concert", false, true);
+        workSessionService.startSession("hpb", "Concert", false, true, longitudeA, latitudeA);
     }
 }

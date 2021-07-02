@@ -24,7 +24,7 @@ public class UserCreationController {
     }
 
     /**
-     * Get access to the page and get a model-attribute of an user-dto as well as staus-dto.
+     * Get access to the page and get a model-attribute of an user-dto as well as status-dto.
      *
      * @param model The model.
      * @return The user creation page.
@@ -32,7 +32,6 @@ public class UserCreationController {
     @GetMapping(
             value = ""
     )
-    //@ResponseBody
     public String get(Model model) {
         model.addAttribute("newUser", new UserDTO());
         model.addAttribute("status", new StatusDTO());

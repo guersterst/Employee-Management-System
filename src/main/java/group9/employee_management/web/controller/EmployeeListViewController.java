@@ -39,48 +39,16 @@ public class EmployeeListViewController {
     }
 
     /**
-     * OUT OF ORDER AND NOT IN USE.
-     * <p>
-     * Sets the dto of the list entry with the values of the latest session for a given user.
-     *
-     * @param userName                The users name.
-     * @param workSessionListEntryDTO The DTO to be filled.
-     * @param status                  The status.
-     * @return The view.
-     */
-    @Deprecated
-    @GetMapping(
-            value = "/{userName}/session"
-    )
-    public String getLatestSessionAndUser(@PathVariable("userName") String userName,
-                                          @ModelAttribute("workSessionListEntry") WorkSessionListEntryDTO workSessionListEntryDTO,
-                                          @ModelAttribute("status") StatusDTO status) {
-        try {
-            workSessionListEntryDTO =
-                    WorkSessionListEntryDTO.fromEntities(workSessionService.getUser(userName),
-                            workSessionService.getLatest(userName));
-        } catch (NoSessionsException | NoSuchUserException exception) {
-            status.setMessage("bad_request");
-        }
-        status.setMessage("valid");
-        return "adminView";
-    }
-
-
-    /**
      * Returns the user names of all users with currently ongoing work-sessions.
      * This is currently not working correctly due to issues with the foreign key and id.
      *
      * @return JSON format of {@code userName} array.
      */
-    @Deprecated
     @GetMapping(
             value = "/working"
     )
     @ResponseBody
     public String getUsersWithRunningSessions() {
-
-        // I think it is appropriate to return JSON here. Don't really want to introduce a DTO or something for this.
         return workSessionService.getUsersWithRunningSessionsAsJSON();
     }
 
