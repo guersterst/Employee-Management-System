@@ -153,7 +153,7 @@ public class WorkSessionsController {
      * @return The view.
      */
     @PostMapping(
-            value = "/beginning"
+            value = "/beginning/{latitude}/{longitude}"
     )
 
     public String startSession(@ModelAttribute("workSessionData") WorkSessionDTO newSession,
