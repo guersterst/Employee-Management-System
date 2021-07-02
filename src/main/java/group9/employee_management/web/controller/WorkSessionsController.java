@@ -136,7 +136,7 @@ public class WorkSessionsController {
      * @param workSessionDTO The work-session dto filled with relevant information.
      * @param status         The status dto.
      * @param model          The model.
-     * @return
+     * @return The view.
      */
     @GetMapping(
             value = "/latest"
