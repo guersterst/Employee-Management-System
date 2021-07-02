@@ -42,9 +42,6 @@ public class UserSecurityConfiguration {
     SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManagerBuilder auth) throws Exception {
 
         auth.authenticationProvider(authProvider());
-        http.authorizeRequests().antMatchers("/css/**", "/js/**", "/resources/**", "/static/**", "/webjars/**", "/h2-console"
-                + "/**").permitAll();
-
         return http
                 .requiresChannel(channel ->
                         channel.anyRequest().requiresSecure())
@@ -89,4 +86,9 @@ public class UserSecurityConfiguration {
 /*
 5. COORDS: add to dto, add dto for coords, onSite -> setCoords, offSite -> delCoords.
 (steffi koordinaten?)
+
+9. Current time
+7. Why is https not secure
+8. User Manual
+6. Mapping after login -> start session if last session has ended.
  */

@@ -86,6 +86,10 @@ public class WorkSession {
         return stopTime;
     }
 
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
     public String getTextStatus() {
         return textStatus;
     }
