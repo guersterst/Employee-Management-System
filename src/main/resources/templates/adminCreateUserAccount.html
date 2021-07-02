@@ -67,7 +67,7 @@
                         <label for="selectRoleDropdown">Role in Company</label>
                         <div class="dropdown"><!-- data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="selectRoleDropdown"
-                                    data-toggle="dropdown" aria-haspopup="true" th:field="${newUser.firstName}"
+                                    data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
                                 Select Role
                             </button>
@@ -90,13 +90,14 @@
                     </div>
                 </div>
 
-                <div class="form-row">
+                <!-- Was previously used to select a role. Now, we use it as a workaround to provide the
+                 user's role/position (the dropdown returned 'null').-->
+                <div class="form-row" hidden>
                     <div class="form-group col">
                         <label for="role">Position</label>
                         <!--Use an input group so an icon can be added to the input field-->
                         <div class="input-group">
-                            <input id="role" type="text" class="form-control" placeholder="Position" th:field="${newUser.position}" required>
-                            <div class="invalid-feedback">Please enter the employee's last name.</div>
+                            <input id="role" type="text" class="form-control" placeholder="Position" th:field="${newUser.position}">
                         </div>
                     </div>
                 </div>
@@ -221,11 +222,6 @@
 
 
             <!-- Use Thymeleaf: -->
-            <!--<div class="alert alert-danger mx-auto" id="accountWithUserNameAlreadyExists" role="alert">
-                   <strong>An account with this username already exists.</strong>
-               </div> -->
-
-            <!-- Use Thymeleaf: -->
                 <!--<div class="alert alert-success mx-auto" id="accountCreationSuccessful" role="alert">
                     <p>Account was successfully created.</p>
                 </div> --> <!-- Fade this alert out as soon as a key is pressed -->
@@ -291,6 +287,11 @@
     let roleSelected = false;
     let passwordsDidntMatchOnLastSubmit = false;
 
+    // Using the dropdown-menu to pass the selected role always returns null
+    // Thus, we set the value of the following (hidden) input field to
+    // passe the role.
+    let roleInputWorkaround = $('#role');
+
     let userNameInput = $('#userName');
     let firstName = $('#firstName');
     let lastName = $('#lastName');
@@ -348,6 +349,7 @@
 
             } else {
                 $('#selectRoleDropdown').text($(this).text());
+                roleInputWorkaround.val($(this).text());
                 roleSelected = true;
                 noRoleSelectedAlert.fadeOut(0);
             }
@@ -465,6 +467,7 @@
         element.innerText = text;
         element.onclick = function() {
             $('#selectRoleDropdown').text($(this).text());
+            roleInputWorkaround.val($(this).text());
             roleSelected = true;
             noRoleSelectedAlert.fadeOut(0);
         }

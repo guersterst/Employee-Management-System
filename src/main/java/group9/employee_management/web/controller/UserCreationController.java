@@ -49,6 +49,7 @@ public class UserCreationController {
             value = "/creation")
     public String createUser(@ModelAttribute("newUser") UserDTO newUser, @ModelAttribute("status") StatusDTO status) {
         boolean userAlreadyExists = accountService.userExistsByUserName(newUser.getUserName());
+
         if (newUser.getUserName() != null
                 && newUser.getFirstName() != null
                 && newUser.getLastName() != null
