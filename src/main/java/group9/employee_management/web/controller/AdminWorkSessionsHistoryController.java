@@ -29,6 +29,7 @@ public class AdminWorkSessionsHistoryController {
 
     /**
      * Access the html and gain access to all latest work-sessions of all users.
+     * Of particular interest are the offered model-attributes for thymeleaf usage.
      *
      * @param model    The model.
      * @param userName The users name.
@@ -81,7 +82,7 @@ public class AdminWorkSessionsHistoryController {
      * there are no sessions for this user.
      *
      * @param userName       The users name.
-     * @param workSessionDTO The dto filled with the relevant info.
+     * @param workSessionDTO The dto that is getting filled with the relevant info.
      * @param status         The status dto.
      * @return The view.
      */
@@ -106,7 +107,7 @@ public class AdminWorkSessionsHistoryController {
      *
      * @param userName       The users name.
      * @param index          The index of the desired session.
-     * @param workSessionDTO The dto filled with the relevant info.
+     * @param workSessionDTO The dto that is getting filled with the relevant info.
      * @param status         The status dto.
      * @return The view.
      */
@@ -136,6 +137,14 @@ public class AdminWorkSessionsHistoryController {
         return "historyView";
     }
 
+    /**
+     * Deletes a specified session
+     *
+     * @param userName The sessions owner.
+     * @param index The sessions index.
+     * @param status Status dto.
+     * @return The view.
+     */
     @DeleteMapping(
             value = "/{userName}/{index}"
     )

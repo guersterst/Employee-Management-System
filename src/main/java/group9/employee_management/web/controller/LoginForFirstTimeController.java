@@ -29,6 +29,7 @@ public class LoginForFirstTimeController {
     /**
      * Display loginForFirstTime. Alternatively: use index.html and use the statusDTO to tell the view
      * to show the input fields for setting up a password + hide the input fields used for the login.
+     *
      * @param model The model we use to add the DTOs as attributes.
      * @return The view to display.
      */
@@ -42,6 +43,7 @@ public class LoginForFirstTimeController {
 
     /**
      * Used to set the user's new password.
+     *
      * @param userCredentials The DTO, which contains the new password.
      * @param status The DTO used to communicate with the frontend about whether the operation was successful.
      * @param principal Description forthcoming.

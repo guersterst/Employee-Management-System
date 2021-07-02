@@ -44,13 +44,11 @@ public class EmployeeListViewController {
      *
      * @return JSON format of {@code userName} array.
      */
-    @Deprecated
     @GetMapping(
             value = "/working"
     )
     @ResponseBody
     public String getUsersWithRunningSessions() {
-
         return workSessionService.getUsersWithRunningSessionsAsJSON();
     }
 

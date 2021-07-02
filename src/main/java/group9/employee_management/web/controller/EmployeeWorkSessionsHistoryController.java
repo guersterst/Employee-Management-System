@@ -34,6 +34,7 @@ public class EmployeeWorkSessionsHistoryController {
 
     /**
      * Access the html and gain access to all latest work-sessions of all users.
+     * Of particular interest are the offered model-attributes for thymeleaf usage.
      *
      * @param model     The model.
      * @param principal Spring security principal.
