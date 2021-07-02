@@ -222,9 +222,14 @@
 
 
             <!-- Use Thymeleaf: -->
-                <!--<div class="alert alert-success mx-auto" id="accountCreationSuccessful" role="alert">
+                <div th:if="${param.success}" class="alert alert-success mx-auto" id="accountCreationSuccessful" role="alert">
                     <p>Account was successfully created.</p>
-                </div> --> <!-- Fade this alert out as soon as a key is pressed -->
+                </div> <!-- Fade this alert out as soon as a key is pressed -->
+
+            <!-- Use Thymeleaf: -->
+            <div th:if="${param.error}" class="alert alert-danger mx-auto" id="userAlreadyExisted" role="alert">
+                <p>A user with this user name already exists.</p>
+            </div> <!-- Fade this alert out as soon as a key is pressed -->
         </div>
 
         <!--Elements needed to create a role-->

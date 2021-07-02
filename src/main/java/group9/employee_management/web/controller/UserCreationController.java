@@ -59,8 +59,10 @@ public class UserCreationController {
             accountService.createUser(newUser.getUserName(), newUser.getFirstName(), newUser.getLastName(),
                     newUser.getPassword(), newUser.isAdmin(), newUser.getPosition());
                 status.setMessage("valid");
+            return "redirect:/admin/employees/accounts?success";
         } else if (userAlreadyExists) {
             status.setMessage("user_already_existent");
+            return "redirect:/admin/employees/accounts?error";
         } else {
             status.setMessage("bad_request");
         }
