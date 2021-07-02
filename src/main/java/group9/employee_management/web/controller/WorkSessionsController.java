@@ -38,7 +38,7 @@ public class WorkSessionsController {
     @GetMapping(
             value = ""
     )
-    public String getString(Model model, Principal principal) {
+    public String get(Model model, Principal principal) {
 
         // This DTO is for the upper part of the page (my-session management).
         model.addAttribute("workSessionData", new WorkSessionDTO());
@@ -162,10 +162,7 @@ public class WorkSessionsController {
                                @PathVariable("longitude") String longitude) {
         String userName = principal.getName();
 
-
-
         try {
-
             workSessionService.startSession(userName, newSession.getTextStatus(),
                     true, newSession.isOnSite(), Long.parseLong(longitude), Long.parseLong(latitude));
 

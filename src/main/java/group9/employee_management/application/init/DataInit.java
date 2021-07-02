@@ -32,11 +32,11 @@ public class DataInit implements CommandLineRunner {
     private final AccountService accountService;
     private final WorkSessionService workSessionService;
 
-    private final long latitudeA = Math.round(48.571462889684234);
-    private final long longitudeA = Math.round(13.467357517935062);
+    private final long latitudeA = Long.parseLong(String.valueOf(48.571462889684234));
+    private final long longitudeA = Long.parseLong(String.valueOf(13.467357517935062));
 
-    private final long latitudeB = Math.round(48.57771608728356);
-    private final long longitudeB = Math.round(13.457253637518114);
+    private final long latitudeB = Long.parseLong(String.valueOf(48.57771608728356));
+    private final long longitudeB = Long.parseLong(String.valueOf(13.457253637518114));
 
     @Autowired
     public DataInit(EmployeeRepository employeeRepository, WorkSessionRepository workSessionRepository,
