@@ -55,6 +55,7 @@ public class EmployeeWorkSessionsHistoryController {
         // Work-session to be displayed on the work-session history.
         model.addAttribute("workSession1", new WorkSessionDTO());
         model.addAttribute("status", new StatusDTO());
+        model.addAttribute("adminVisitsPage", false);
         return "historyView";
     }
 

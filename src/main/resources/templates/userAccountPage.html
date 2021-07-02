@@ -28,7 +28,7 @@
 
       <div th:if="${status.getMessage() == 'admin_valid'}">
         <!-- The anchor linking to the history -->
-        <a id="historyAnchor_top" th:href="@{/admin/employees/work-sessions/latest/__${selectedUser}__/index}"><i class="bi-arrow-right-circle"></i> Visit User's History</a>
+        <a id="historyAnchor_top" th:href="@{/admin/employees/work-sessions/latest/__${selectedUser}__}"><i class="bi-arrow-right-circle"></i> Visit User's History</a>
       </div>
 
       <!--Form, which includes the input fields that will be sent on submit (for changing account/user settings)-->
@@ -172,7 +172,7 @@
 
         <!-- The anchor linking to the history -->
         <div class="row">
-          <a id="historyAnchor_bottom" th:href="@{/admin/employees/work-sessions/latest/__${selectedUser}__/index}"><i class="bi-arrow-right-circle"></i> Visit User's History</a>
+          <a id="historyAnchor_bottom" th:href="@{/admin/employees/work-sessions/latest/__${selectedUser}__}"><i class="bi-arrow-right-circle"></i> Visit User's History</a>
         </div>
 
         <!-- The delete button-->

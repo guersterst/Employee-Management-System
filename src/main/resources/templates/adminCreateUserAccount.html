@@ -488,19 +488,19 @@
     // Returns "role"+nr+"="+role, which is our cookie's content.
     function getCookieContent(nr) {
         let name = "role" + nr + "="; // This is what identifies our cookie. Each cookie has a different number following "role".
-        let cookie = document.cookie; // Get cookies.
+        let cookie = document.cookie.split(';'); // Get cookies and split by ';'
 
-        //Removes everything beyond the semicolon. So, only e.g. role2=Employee; is left.
-        let cookieUntilSemicolon = cookie.split(';');
-
-        for (let i = 0; i < cookieUntilSemicolon.length; i++) {
-
-            while (cookieUntilSemicolon[i].charAt(0) === ' ') {
-                cookieUntilSemicolon[i] = cookieUntilSemicolon[i].substring(1);
+        // Remove whitespaces
+        for (let i = 0; i <  cookie.length; i++) {
+            if (cookie[i].charAt(0) === ' ') {
+                cookie[i] = cookie[i].substring(1);
             }
+        }
 
-            if (cookieUntilSemicolon[i].indexOf(name) === 0) {
-                return cookieUntilSemicolon[i].substring(0, cookieUntilSemicolon[i].length);
+        // If the cookie is found, return the part of the string that we've been looking for
+        for (let i = 0; i < cookie.length; i++) {
+            if (cookie[i].indexOf(name) === 0) {
+                return cookie[i].substring(0, cookie[i].length);
             }
         }
         return "";
@@ -526,7 +526,7 @@
     function deleteCookie(nr) {
         let cookie = getCookieContent(nr)
         if (cookie !== "") { // If the cookie exists. Otherwise, getCookieContent(nr) returns "".
-            cookie = "role" + nr + "=" + getRoleFromCookie(nr) + ";expires = Thu, 01 Jan 1970 00:00:00 GMT;" + "path=/ ";
+            cookie = "role" + nr + "=" + getRoleFromCookie(nr) + ";expires = Thu, 01 Jan 1970 00:00:00 GMT;";
             document.cookie = cookie;
         }
     }
