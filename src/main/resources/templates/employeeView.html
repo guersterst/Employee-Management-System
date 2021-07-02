@@ -137,7 +137,7 @@
                                 </button>
                             </form>
                         </div>
-                        <div th:unless="*{onSite == true}">
+                        <div th:unless="*{onSite == false}">
                             <form th:action="@{/my-session/ending/}" method="post" th:object="${workSessionData}"
                                   th:method="post">
                                 <div class="form-check form-switch d-table onSite">
