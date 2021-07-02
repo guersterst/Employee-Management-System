@@ -32,7 +32,7 @@ public class WorkSessionsController {
      * Show the employees main page. Introduces DTOS for the current WorkSession, latest history and an status.
      *
      * @param model The model.
-     * @param principal. Description forthcoming.
+     * @param principal Description forthcoming.
      * @return The employees main page.
      */
     @GetMapping(
@@ -158,14 +158,16 @@ public class WorkSessionsController {
 
     public String startSession(@ModelAttribute("workSessionData") WorkSessionDTO newSession,
                                @ModelAttribute("status") StatusDTO status, Principal principal,
-                               @PathVariable("latitude") double latitude,
-                               @PathVariable("longitude") double longitude) {
+                               @PathVariable("latitude") String latitude,
+                               @PathVariable("longitude") String longitude) {
         String userName = principal.getName();
+
+
 
         try {
 
             workSessionService.startSession(userName, newSession.getTextStatus(),
-                    true, newSession.isOnSite(), Math.round(longitude), Math.round(latitude));
+                    true, newSession.isOnSite(), Long.parseLong(longitude), Long.parseLong(latitude));
         } catch (NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
