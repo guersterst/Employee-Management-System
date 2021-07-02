@@ -98,7 +98,7 @@ public class WorkSessionService {
      *
      * @return The current time.
      */
-    public static Timestamp getCurrentTime() {
+    private static Timestamp getCurrentTime() {
         LocalDateTime now = LocalDateTime.now();
         return Timestamp.valueOf(now);
     }

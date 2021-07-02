@@ -54,7 +54,6 @@ public class TestController {
             value = "/time"
     )
     public void time() {
-        System.out.println(WorkSessionService.getCurrentTime());
     }
 }
 
