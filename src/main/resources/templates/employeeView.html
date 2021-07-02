@@ -27,7 +27,7 @@
     </div>
     <div class="row" th:action="@{/my-session/latest}" th:object="${workSessionData}" th:method="post">
         <div class="form-group col-sm-12 col-md-6" th:fragment="messageForm">
-            <div class="message card shadow h-100">
+            <div class="message card  h-100">
                 <div class="bg-secondary text-light">
                     <h2>Message</h2>
                 </div>
@@ -101,7 +101,7 @@
         <!--Option toolbar-->
         <div class="col-sm-12 col-md-6">
             <div th:fragment="state">
-                <div class="state card shadow h-25">
+                <div class="state card h-25">
                     <div class="bg-secondary text-light">
                         <h2>State</h2>
                     </div>
@@ -119,8 +119,12 @@
                         </form>
 
                         <!--If checked before action-->
+                        <div id="location">
+                            <p id="locationLatitude" th:field="${workSessionData.latitude}"></p>
+                            <p id="locationLongitude" th:field="${workSessionData.longitude}"></p>
+                        </div>
                         <div th:if="*{onSite == false}">
-                            <form th:action="@{/my-session/beginning}" method="post" th:object="${workSessionData}"
+                            <form th:action="@{/my-session/beginning/__${workSessionData.latitude}__/__${workSessionData.longitude}__}" method="post" th:object="${workSessionData}"
                                   th:method="post">
                                 <!--On Site should be automatically switched on when logged in the first time of a day
                                 and only switched of if you leave work.-->
@@ -148,7 +152,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card shadow h-50">
+            <div class="card h-50">
                 <div class="bg-secondary text-light">
                     <h2>More...</h2>
                 </div>
@@ -282,12 +286,11 @@
     if (window.isSecureContext) {
 
             function success(pos) {
-                let crd = pos.coords;
+                let locationLatitude = pos.coords.latitude;
+                let locationLongitude = pos.coords.longitude;
 
-                console.log('Your current position is:');
-                console.log(`Latitude : ${crd.latitude}`);
-                console.log(`Longitude: ${crd.longitude}`);
-                console.log(`More or less ${crd.accuracy} meters.`);
+                document.getElementById("locationLatitude").innerHTML = locationLatitude.toString(10);
+                document.getElementById("locationLongitude").innerHTML = locationLongitude.toString(10);
             }
 
             function error(err) {
