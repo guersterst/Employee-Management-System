@@ -24,12 +24,6 @@
         <h1 class="d-flex bg-secondary text-light">
             Home Page
         </h1>
-        <h1>HTML5 - Geolocation<br>aktuellen Standort in einer OpenStreetmap-Karte ausgeben</h1>
-        <main>
-            <p>Sobald Sie auf den Button klicken, werden Ihre Koordinaten ermittelt und in einem Kartenausschnitt ausgegeben.</p>
-            <button onclick="getLocation()">Los!</button>
-            <p id="location"></p>
-        </main>
     </div>
     <div class="row" th:action="@{/my-session/latest}" th:object="${workSessionData}" th:method="post">
         <div class="form-group col-sm-12 col-md-6" th:fragment="messageForm">
@@ -283,22 +277,25 @@
         document.getElementById("message").value = "";
     }
 
-    //Get location
-    let position = document.getElementById("location");
 
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
-        } else {
-            position.innerHTML = "Geolocation is not supported by this browser.";
+    //Get current location in a secure context.
+    if (window.isSecureContext) {
 
-        }
-    }
+            function success(pos) {
+                let crd = pos.coords;
 
-    function showPosition(position) {
-        location.innerHTML = "Latitude: " + position.coords.latitude +
-            "<br>Longitude: " + position.coords.longitude;
-        location.appendChild(location);
+                console.log('Your current position is:');
+                console.log(`Latitude : ${crd.latitude}`);
+                console.log(`Longitude: ${crd.longitude}`);
+                console.log(`More or less ${crd.accuracy} meters.`);
+            }
+
+            function error(err) {
+                console.warn(`ERROR(${err.code}): ${err.message}`);
+            }
+
+            navigator.geolocation.getCurrentPosition(success, error);
+
     }
 
 </script>
