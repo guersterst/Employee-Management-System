@@ -33,7 +33,13 @@
                 <!--Toolbar for the employee list-->
                 <div class="card-header badge-secondary text-left">
                     <h2>Employee List</h2>
-                    <div class="btn-group badge-secondary" role="group" aria-label="Buttongroup">
+                </div>
+                <div class="card-header">
+                    <div>
+                        <label for="inputFilter">Filter</label>
+                        <input class="form-label" type="text" id="inputFilter" onkeyup="filterTable()" placeholder="Search.." title="Filter: ">
+                    </div>
+                    <div class="btn-group">
                         <button type="button" class="btn">
                             <a class="float-right" href="adminCreateUserView.html"><i class="bi-plus-lg"></i></a>
                         </button>
@@ -42,9 +48,8 @@
 
                 <!--List of all employees-->
                 <div class="card-body">
-                    <input type="text" id="inputFilter" onkeyup="filterTable()" placeholder="Search.." title="Filter: ">
                     <table class="table table-striped table-bordered table-condensed table-responsive">
-                        <thead class="table-header">
+                        <thead class="table-header bg-dark text-light">
                         <tr>
                             <th scope="col"></th>
                             <th scope="col">Name</th>
@@ -73,7 +78,7 @@
                                     </div>
                                 </td>
                                 <td th:text="${workSessionListEntry.available}"></td>
-                                <td class="d-inline">
+                                <td>
                                     <span id="onSite" th:text="${workSessionListEntry.onSite}"></span>
                                     <!--TODO:Add action to button-->
                                     <span><a class="btn btn" type="submit" title="Change on site" onclick="checkOnSite()"
