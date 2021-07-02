@@ -221,15 +221,15 @@
             </div>
 
 
-            <!-- Use Thymeleaf: -->
-                <div th:if="${param.success}" class="alert alert-success mx-auto" id="accountCreationSuccessful" role="alert">
-                    <p>Account was successfully created.</p>
-                </div> <!-- Fade this alert out as soon as a key is pressed -->
+            <!-- Display this alert if creating a user was successful -->
+            <div th:if="${param.success}" class="alert alert-success mx-auto" id="accountCreationSuccessful" role="alert">
+                <p>Account was successfully created.</p>
+            </div>
 
-            <!-- Use Thymeleaf: -->
+            <!-- Display this alert if creating a user was NOT successful -->
             <div th:if="${param.error}" class="alert alert-danger mx-auto" id="userAlreadyExisted" role="alert">
                 <p>A user with this user name already exists.</p>
-            </div> <!-- Fade this alert out as soon as a key is pressed -->
+            </div>
         </div>
 
         <!--Elements needed to create a role-->
@@ -405,6 +405,10 @@
         userNameExistsAlert.fadeOut(0);
         roleAlreadyExistentAlert.fadeOut(0);
         errorMessageForbiddenCharacter.fadeOut(0);
+
+        // Fade out the alerts which display whether creating an account was successful or not slowly
+        $('#accountCreationSuccessful').fadeOut(3000);
+        $('#userAlreadyExisted').fadeOut(3000);
 
         // Load all previously stored roles
         let i = 0
