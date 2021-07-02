@@ -4,9 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> -->
-    <link rel="stylesheet" href="../static/css/employeeHomePage.css" type="text/css"
-          th:href="@{/css/employeeHomePage.css}">
+    <link rel="stylesheet" href="../static/css/employeeView.css" type="text/css" th:href="@{/css/employeeView.css}">
     <link href="/webjars/bootstrap/5.0.1/css/bootstrap.css" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.css}"
           rel="stylesheet"/>
     <title>EmployeeManagement</title>
@@ -32,14 +30,14 @@
         <div class="form-group col-sm-12 col-md-6" th:fragment="messageForm">
 
             <div class="message card  h-100">
-                <div class="bg-secondary text-light">
+                <div class="card-header bg-secondary text-light">
                     <h2>Message</h2>
                 </div>
 
                 <div class="card-body">
                     <div>
                         <form th:action="@{/my-session/message/delete}" method="post" onsubmit="checkReset(event)">
-                            <button class="btn" type="submit" id="delete-message">
+                            <button class="btn pull-left" type="submit" id="delete-message">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </form>
@@ -77,6 +75,7 @@
                             </div>
                         </div>
 
+                        <br>
                         <!--Save message-->
                         <div class="message-util form-group center-block">
                             <button class=" btn btn-primary btn-lg center-block" type="submit" id="save-button">
@@ -94,10 +93,10 @@
         <div class="col-sm-12 col-md-6">
             <div th:fragment="state">
                 <div class="state card h-25">
-                    <div class="bg-secondary text-light">
+                    <div class="card-header bg-secondary text-light">
                         <h2>State</h2>
                     </div>
-                    <div class="options">
+                    <div class="card-body options">
                         <!--User can change the state of availability.Within the first login this should be enabled.-->
                         <form th:action="@{/my-session/availability}" method="post" th:object="${workSessionData}"
                               th:method="post">
@@ -109,64 +108,57 @@
                             <button class="btn btn-primary btn-sm" type="submit" id="createAccountButton">Submit
                             </button>
                         </form>
+                        <hr>
 
                         <!--If checked before action-->
-                        <div id="location1">
+                        <div id="location">
                             <p id="locationLatitude" th:field="${workSessionData.latitude}"></p>
                             <p id="locationLongitude" th:field="${workSessionData.longitude}"></p>
                         </div>
                         <div th:if="*{onSite == false}">
-                            <form th:action="@{/my-session/beginning/__${workSessionData.latitude}__/__${workSessionData.longitude}__}" method="post" th:object="${workSessionData}"
+                            <form th:action="@{/my-session/beginning/__${workSessionData.latitude}__/__${workSessionData.longitude}__}"
+                                  method="post" th:object="${workSessionData}"
 
-                                      th:method="post">
-                                    <!--On Site should be switched on when logged in the first time of a day
-                                    and only switched of if you leave work.-->
-                                    <div class="form-check form-switch onSite">
-                                        <input class="checkbox form-check-input" type="checkbox" id="beginning"
-                                               value="true"
-                                               th:field="${workSessionData.onSite}" name="onSite">
-                                        <label class="form-check-label" for="beginning" id="startSession">OnSite</label>
-                                    </div>
-                                    <button class="btn btn-primary btn-sm" type="submit" id="beginSession">Submit
-                                    </button>
-                                </form>
+                                  th:method="post">
+                                <!--On Site should be switched on when logged in the first time of a day
+                                and only switched of if you leave work.-->
+                                <div class="form-check form-switch onSite">
+                                    <input class="checkbox form-check-input" type="checkbox" id="beginning"
+                                           value="true"
+                                           th:field="${workSessionData.onSite}" name="onSite">
+                                    <label class="form-check-label" for="beginning" id="startSession">OnSite</label>
+                                </div>
+                                <button class="btn btn-primary btn-sm" type="submit" id="beginSession">Submit
+                                </button>
+                            </form>
+                        </div>
+                        <!--If worksession is running and you wnat to stop it-->
+                        <div th:unless="${workSessionData.onSite == false}">
+                            <form th:action="@{/my-session/ending/}" method="post" th:object="${workSessionData}"
+                                  th:method="post">
+                                <div class="form-check form-switch d-table onSite">
+                                    <input class="checkbox form-check-input" type="checkbox" id="ending"
+                                           value="true"
+                                           th:field="${workSessionData.onSite}" name="onSite">
+                                    <label class="form-check-label" for="ending" id="leaveOnSite">OnSite</label>
+                                </div>
+                                <button class="btn btn-primary btn-sm" type="submit" id="endingSession">Submit
+                                </button>
+                            </form>
+                        </div>
+                        <hr>
+                        <div id="more">
+                            <div class="profile">
+                                <a th:href="@{/account/me}" id="profile"><i class="bi bi-person-bounding-box"></i>
+                                </a>
+                                <label class="form-label" for="profile">User Profile</label>
                             </div>
-                            <!--If worksession is running and you wnat to stop it-->
-                            <div th:unless="${workSessionData.onSite == false}">
-                                <form th:action="@{/my-session/ending/}" method="post" th:object="${workSessionData}"
-                                      th:method="post">
-                                    <div class="form-check form-switch d-table onSite">
-                                        <input class="checkbox form-check-input" type="checkbox" id="ending"
-                                               value="true"
-                                               th:field="${workSessionData.onSite}" name="onSite">
-                                        <label class="form-check-label" for="ending" id="leaveOnSite">OnSite</label>
-                                    </div>
-                                    <button class="btn btn-primary btn-sm" type="submit" id="endingSession">Submit
-                                    </button>
-                                </form>
+                            <hr>
+                            <div class="history">
+                                <a th:href="@{/my-history}" id="historyLink"><i class="bi bi-clock-history"></i> </a>
+                                <label class="form-label" for="historyLink">History</label>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!--Go to profile or history-->
-
-            <div class="card h-50">
-                <div class="bg-secondary text-light">
-                    <h2>More...</h2>
-                </div>
-
-                <div class="card-body" id="more">
-                    <div class="profile">
-                        <a th:href="@{/account/me}" id="profile"><i class="bi bi-person-bounding-box"></i>
-                        </a>
-                        <label class="form-label" for="profile">User Profile</label>
-                    </div>
-                    <hr>
-                    <div class="history">
-                        <a th:href="@{/my-history}" id="historyLink"><i class="bi bi-clock-history"></i> </a>
-                        <label class="form-label" for="historyLink">History</label>
                     </div>
                 </div>
             </div>
@@ -247,19 +239,19 @@
     //Get current location in a secure context.
     if (window.isSecureContext) {
 
-            function success(pos) {
-                let locationLatitude = pos.coords.latitude;
-                let locationLongitude = pos.coords.longitude;
+        function success(pos) {
+            let locationLatitude = pos.coords.latitude;
+            let locationLongitude = pos.coords.longitude;
 
-                document.getElementById("locationLatitude").innerHTML = locationLatitude.toString(10);
-                document.getElementById("locationLongitude").innerHTML = locationLongitude.toString(10);
-            }
+            document.getElementById("locationLatitude").innerHTML = locationLatitude.toString(10);
+            document.getElementById("locationLongitude").innerHTML = locationLongitude.toString(10);
+        }
 
-            function error(err) {
-                console.warn(`ERROR(${err.code}): ${err.message}`);
-            }
+        function error(err) {
+            console.warn(`ERROR(${err.code}): ${err.message}`);
+        }
 
-            navigator.geolocation.getCurrentPosition(success, error);
+        navigator.geolocation.getCurrentPosition(success, error);
 
     }
 
