@@ -4,7 +4,7 @@
 // When the page is loaded, we start a timer
 // Loading a page indicates activity, so it's fair to start a timer.
 
-let standardCounterTime = 1000 * 115;
+let standardCounterTime = 1000 * 5;//115;
 let counter = standardCounterTime;
 let interval;
 let text = $('#timer');
@@ -59,7 +59,7 @@ function resetTimer() {
 }
 
 function startLogOutTimer() {
-    if (document.URL !== "/login" && document.URL !== "/login?logout" && document.URL !== "/login?error") {
+    if (!(containsSubstring(document.URL, "/login"))) {
         if (lastFiveSecondsCounter > 0) {
             text.text("Timer: " + lastFiveSecondsCounter);
             clearInterval(interval);
@@ -77,8 +77,27 @@ function logout() {
     lastFiveSecondsCounter = 5
     counter = standardCounterTime
     clearInterval(interval);
-
-    if (document.URL !== "/login" && document.URL !== "/login?logout" && document.URL !== "/login?error") {
+    if (!(containsSubstring(document.URL, "/login"))) {
         window.location = "/login?logout";
     }
+}
+
+
+function containsSubstring(mainString, substring) {
+    let substringCharPos = 0
+
+    for (let i = 0; i < mainString.length; i++) {
+        console.log(i);
+        if (mainString.charAt(i) === substring.charAt(substringCharPos)) {
+            substringCharPos++;
+            if (substringCharPos >= substring.length) {
+                return true;
+            }
+        } else {
+            substringCharPos = 0;
+        }
+    }
+
+    console.log(mainString + " contains " + substring + ": " + (substringCharPos === substring.length)  + ", " + substringCharPos);
+    return substringCharPos === substring.length;
 }
