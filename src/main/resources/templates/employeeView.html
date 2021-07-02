@@ -19,6 +19,8 @@
 </nav>
 
 <body>
+<p id="locationLatitude"></p>
+<p id="locationLongitude"></p>
 <div class="contain container-fluid d-flex flex-column flex-fill">
     <div class="home">
         <h1 class="d-flex bg-secondary text-light">
@@ -282,12 +284,11 @@
     if (window.isSecureContext) {
 
             function success(pos) {
-                let crd = pos.coords;
+                let locationLatitude = pos.coords.latitude;
+                let locationLongitude = pos.coords.longitude;
 
-                console.log('Your current position is:');
-                console.log(`Latitude : ${crd.latitude}`);
-                console.log(`Longitude: ${crd.longitude}`);
-                console.log(`More or less ${crd.accuracy} meters.`);
+                document.getElementById("locationLatitude").innerHTML = locationLatitude.toString(10);
+                document.getElementById("locationLongitude").innerHTML = locationLongitude.toString(10);
             }
 
             function error(err) {
