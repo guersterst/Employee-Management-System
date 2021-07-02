@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 
     <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../static/js/filterTable.js" th:src="@{/js/filterTable.js}"></script>
     <link rel="stylesheet" type="text/css" href="../static/css/history.css" th:href="@{/css/history.css}">
     <link href="/webjars/bootstrap/5.0.1/css/bootstrap.css" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.css}"
           rel="stylesheet"/>
@@ -71,10 +72,27 @@
         </ul>
     </div>
     -->
-    <div class="card">
+    <div class="card shadow">
+        <div class="card-header bg-secondary text-light">
+            <h1 id="timeline">History</h1>
+        </div>
+        <div class="card-header">
+            <div>
+                <label for="inputFilter">Filter</label>
+                <input class="form-label" type="text" id="inputFilter" onkeyup="filterTable()" placeholder="Search.." title="Filter: ">
+            </div>
+            <div class="btn-group">
+                <form class="btn-group" th:action="@{/my-history/download/json}" th:method="get">
+                    <button class="btn btn-primary" type="submit">JSON <i class="bi bi-download"></i></button>
+                </form>
+                <form  class="btn-group" th:action="@{/my-history/download/xml}" th:method="get">
+                    <button class="btn btn-primary" type="submit">XML <i class="bi bi-download"></i></button>
+                </form>
+            </div>
+        </div>
         <div class="card-body">
             <table class="table table-striped table-bordered table-condensed table-responsive">
-                <thead class="table-header">
+                <thead class="table-header bg-dark text-light">
                 <tr>
                     <th scope="col"></th>
                     <th scope="col">Username</th>
@@ -86,18 +104,18 @@
                     <th scope="col">Message</th>
                 </tr>
                 </thead>
-                <tbody>
-                <form th:action="@{/admin/employees}" method="get" th:object="${workSessionsList}"
+                <tbody id="filterTable">
+                <form th:action="@{/admin/employees/work-sessions}" method="get" th:object="${workSessionsList}"
                       th:method="get">
                     <tr th:each="workSession : ${workSessionsList}">
-                        <th scope="row"></th>
-                        <td>
-                            <span th:text="${workSession.userName}"></span>
+                        <td scope="row">
+                            <button class="btn" type="submit"
+                                    th:action="@{/admin/employees/work-sessions/__${workSession.getUserName()}__/__${workSession.getId()}__}">
+                                <i class="bi bi-trash"></i></button>
                         </td>
+                        <td th:text="${workSession.userName}"></td>
                         <td th:text="${workSession.available}"></td>
-                        <td class="d-inline">
-                            <span id="onSite" th:text="${workSession.onSite}"></span>
-                        </td>
+                        <td id="onSite" th:text="${workSession.onSite}"></td>
                         <td>Location</td>
                         <td th:text="${#dates.format(workSession.startTime, 'dd.MM.yyyy HH:mm')}"></td>
                         <td>
