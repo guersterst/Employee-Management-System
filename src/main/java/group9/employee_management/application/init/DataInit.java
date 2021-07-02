@@ -24,18 +24,13 @@ public class DataInit implements CommandLineRunner {
 
     private final PasswordEncoder encoder;
     private final UserRepository userRepository;
-    private final EmployeeRepository employeeRepository;
-    private final WorkSessionRepository workSessionRepository;
     private final AccountService accountService;
     private final WorkSessionService workSessionService;
 
 
     @Autowired
-    public DataInit(EmployeeRepository employeeRepository, WorkSessionRepository workSessionRepository,
-                    UserRepository userRepository, AccountService accountService, WorkSessionService workSessionService) {
+    public DataInit(UserRepository userRepository, AccountService accountService, WorkSessionService workSessionService) {
         this.userRepository = userRepository;
-        this.employeeRepository = employeeRepository;
-        this.workSessionRepository = workSessionRepository;
         this.accountService = accountService;
         this.workSessionService = workSessionService;
         this.encoder = new BCryptPasswordEncoder(10);

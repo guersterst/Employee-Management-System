@@ -30,12 +30,6 @@ public class Employee {
     @Column
     private String position;
 
-    /*
-    // The work-sessions associated with this user.
-    @OneToMany(mappedBy = "user")
-    private Set<WorkSession> workSessions;
-     */
-
     public Employee(){}
 
     public Employee(String userName, String firstName, String lastName, boolean isAdmin, String position){
@@ -81,10 +75,6 @@ public class Employee {
 
     public String getUserName() {
         return userName;
-    }
-
-    public boolean isFirstLogin() {
-        return isFirstLogin;
     }
 
     public boolean isAdmin() {
