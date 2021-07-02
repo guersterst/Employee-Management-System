@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 /**
- * Used to display the login-view.
+ * Used to display the login-view and redirect a user after their login.
  */
 @Controller
 public class LoginController {
@@ -44,6 +44,15 @@ public class LoginController {
     }
 
 
+    /**
+     * The user is redirected after a successful login. Here, we decide whether it's a user's first login and they
+     * have to change their password or if they can be redirected to their main view. This is not necessarily a clean
+     * implementation and gives the user the ability to use the navbar to skip setting their new password.
+     *
+     * @param principal Used to get who is logged in. Necessary to determine if it's a user's first login or not.
+     * @return Decides where to redirect the user. "redirect:/first-login", if the user has logged in for the first
+     * time, "redirect:/my-session/latest" otherwise.
+     */
     @GetMapping(value = "/redirect")
     public String redirect(Principal principal) {
         if (loginService.isFirstLogin(principal.getName())) {
@@ -52,49 +61,4 @@ public class LoginController {
             return "redirect:/my-session/latest";
         }
     }
-
-    // UNNECESSARY:
-    /*
-     * Determine whether a user is allowed to login or has to create his password.
-     *
-     * @param userCredentials A dto containing the users login information.
-     * @param status A DTO containing the status, e.g. whether the user logs in for the first time or was not found.
-     *               "first_login" means that the user needs to set their password as they log in for the first time
-     *               "valid" means that the operation was successful.
-     *               "not_found means" that the user could not be found as either the username or the password were
-     *               incorrect.
-     * @return The view to display. We stay on "index" if the password has to be set or if the log in was not
-     * successful. Otherwise, the employeeView is shown.
-
-    @PostMapping(
-            value = "/authentication")
-    public String login(@ModelAttribute("userCredentials") UserDTO userCredentials,
-                            @ModelAttribute("status") StatusDTO status) {
-        String userName = userCredentials.getUserName();
-        String password = userCredentials.getPassword();
-
-        if (loginService.isUser(userCredentials.getUserName()) && password != null && userName != null) {
-            loginService.match(userCredentials.getPassword(), userCredentials.getUserName());
-            if (loginService.isFirstLogin(userCredentials.getUserName())) {
-
-                // Indicate that it is a first time login.
-                status.setMessage("first_login");
-                return "index";
-            } else {
-                //if (!...Service.isAdmin()) {
-                // Indicate that this is a valid login.
-                    status.setMessage("valid");
-                    return "employeeView";
-                //} else {
-                // status.setMessage("valid");
-                // return "adminView";
-                //}
-            }
-        } else {
-
-            // Indicate that this user does not exist.
-            status.setMessage("not_found");
-            return "index";
-        }
-    } */
 }
