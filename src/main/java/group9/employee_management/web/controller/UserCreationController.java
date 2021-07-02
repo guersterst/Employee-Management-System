@@ -36,7 +36,7 @@ public class UserCreationController {
     public String get(Model model) {
         model.addAttribute("newUser", new UserDTO());
         model.addAttribute("status", new StatusDTO());
-        return "adminCreateUserView";
+        return "adminCreateUserAccount";
     }
 
     /**
@@ -63,7 +63,7 @@ public class UserCreationController {
         } else {
             status.setMessage("bad_request");
         }
-        return "adminCreateUserView";
+        return "adminCreateUserAccount";
     }
 
     /**

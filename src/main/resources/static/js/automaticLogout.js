@@ -4,7 +4,7 @@
 // When the page is loaded, we start a timer
 // Loading a page indicates activity, so it's fair to start a timer.
 
-let standardCounterTime = 1000 * 4;
+let standardCounterTime = 1000 * 115;
 let counter = standardCounterTime;
 let interval;
 let text = $('#timer');
