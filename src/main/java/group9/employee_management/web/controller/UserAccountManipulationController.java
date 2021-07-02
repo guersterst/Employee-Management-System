@@ -5,6 +5,8 @@ import group9.employee_management.application.service.LoginService;
 import group9.employee_management.web.dto.StatusDTO;
 import group9.employee_management.web.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -69,6 +71,7 @@ public class UserAccountManipulationController {
             status.setMessage("not_found");
         }
 
+        model.addAttribute("isAdmin", false);
         model.addAttribute("status", status);
         return "userAccountPage";
     }
@@ -181,5 +184,87 @@ public class UserAccountManipulationController {
         }
 
         return "redirect:/account/me";
+    }
+
+    @PostMapping("/redirect")
+    public String redirectToUserOrAdmin(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
+            "status") StatusDTO status, Principal principal, @ModelAttribute("selectedUser") String selectedUser) {
+
+        if (accountService.isAdmin(principal.getName())) {
+            return "redirect:/admin/account/edit/" + userCredentials.getUserName();
+        } else {
+            return "redirect:/account/edit";
+        }
+    }
+
+    /**
+     * This is a preliminary approach to editing users. This is not ideal. For now, we use this controller for both the
+     * admin as well as the user to edit a profile. The user edits their own profile, the admin can select any user's
+     * profile and edit it.
+     * @param userCredentials Here, we store the information about the user. Regardless of whether the admin or
+     *                        the user edits a profile, we use the UserDTO to store e.g. the new password or name.
+     *                        Depending on the values found in userCredentials, the user is updated.
+     * @param status Used to communicate with the frontend by providing a message. Currently unused in the frontend
+     *               for this view.
+     * @param principal Necessary to find out whether the user edits their own profile or if the admin edits the profile
+     *                  of a user
+     * @param userName The path-variable which determines which user's profile is being edited.
+     * @param model The model, which is used to communicate with frontend.
+     * @return Redirect to either "/account/me", if the user was editing their profile or to "/admin/account/{userName}"
+     * if the admin was editing the profile of a user.
+     */
+    @PostMapping(
+            value = "/edit/{userName}"
+    )
+    public String edit(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
+            "status") StatusDTO status, Principal principal, @PathVariable("userName") String userName, Model model) {
+
+        if (!(accountService.isAdmin(principal.getName()))) {
+            userName = principal.getName();
+        }
+
+        String firstName = userCredentials.getFirstName();
+        String lastName = userCredentials.getLastName();
+
+        // If the given user exists, we change their name.
+        if (accountService.userExistsByUserName(userName)
+                && firstName != null && lastName != null) {
+            accountService.setName(userName, firstName, lastName);
+            accountService.setPosition(userName, userCredentials.getPosition());
+            accountService.setAdmin(userName, userCredentials.isAdmin());
+            if (accountService.isAdmin(principal.getName())) {
+                status.setMessage("admin_valid");
+            } else {
+                status.setMessage("valid");
+            }
+        } else {
+            status.setMessage("bad_request");
+        }
+
+
+        // If the given user exists and their password is not null, we can change the password
+        String password = userCredentials.getPassword();
+        if (accountService.userExistsByUserName(userName)
+                && password != null) {
+            accountService.setPassword(userName, password);
+            accountService.setIsFirstLogin(userName, false);
+            if (accountService.isAdmin(principal.getName())) {
+                status.setMessage("admin_valid");
+            } else {
+                status.setMessage("valid");
+            }
+        } else {
+            status.setMessage("bad_request");
+        }
+
+        model.addAttribute("status", status);
+
+        if (!(accountService.isAdmin(principal.getName()))) {
+            model.addAttribute("isAdmin", false);
+            return "redirect:/account/me";
+        } else {
+            model.addAttribute("isAdmin", true);
+            return "redirect:/admin/account/" + userName;
+        }
     }
 }

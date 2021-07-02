@@ -21,13 +21,14 @@
 </div>
 
 <div class="container">
-  <form id="inputFieldsForm" class="needs-validation" method="post">
+  <form id="inputFieldsForm" class="needs-validation" th:action="@{/first-login/set-password}" th:object="${userCredentials}" method="post">
     <div class="row">
       <div class="form-group col-sm-6 mx-auto">
         <label for="password">Password</label>
         <div class="input-group mb-3">
           <span class="input-group-text bi-key" id="icon"></span>
-          <input id="password" type="password" class="form-control" placeholder="Password" aria-describedby="icon" onkeyup="determinePasswordStrength(); showMissingPasswordCharacteristics();" required>
+          <input id="password" type="password" class="form-control" placeholder="Password" aria-describedby="icon"
+                 th:field="${userCredentials.password}" onkeyup="determinePasswordStrength(); showMissingPasswordCharacteristics();" required>
           <div class="input-group-append">
             <button class="input-group-btn" type="button" id="showHidePassword" onclick="showOrHidePassword('password')">
               <i class="bi-eye-slash" id="passwordButtonIcon"></i></button>
@@ -44,7 +45,8 @@
         <label for="passwordRepeated">Repeat Password</label>
         <div class="input-group mb-3">
           <span class="input-group-text bi-key" id="icon2"></span>
-          <input id="passwordRepeated" type="password" class="form-control" placeholder="Repeat Password" aria-describedby="icon2" onkeyup="determinePasswordStrength()" required>
+          <input id="passwordRepeated" type="password" class="form-control" placeholder="Repeat Password"
+                 aria-describedby="icon2" onkeyup="determinePasswordStrength()" required>
           <div class="input-group-append">
             <button class="input-group-btn" type="button" id="showHideRepeatedPassword" onclick="showOrHidePassword('passwordRepeated')">
               <i class="bi-eye-slash" id="repeatedPasswordButtonIcon"></i></button>
@@ -59,7 +61,8 @@
     <div class="row">
       <div class="col-sm-6 mx-auto">
         <div class="progress mx-auto" style="height: 20px; background-color: rgba(200,200,200,0.2);" onkeyup="checkPasswordStrength()">
-          <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" id="passwordStrengthBar" style="width: 40px;"></div>
+          <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"
+               id="passwordStrengthBar" style="width: 40px;"></div>
         </div>
       </div>
     </div>

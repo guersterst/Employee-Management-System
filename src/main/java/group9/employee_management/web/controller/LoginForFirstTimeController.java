@@ -4,16 +4,20 @@ import group9.employee_management.application.service.AccountService;
 import group9.employee_management.web.dto.StatusDTO;
 import group9.employee_management.web.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 
 /**
  * Controller used to set the password on a user's first login.
  */
+@Controller
+@RequestMapping("/first-login")
 public class LoginForFirstTimeController {
     private final AccountService accountService;
 
@@ -29,10 +33,10 @@ public class LoginForFirstTimeController {
      * @return The view to display.
      */
     @GetMapping(
-            value = "/first-login")
+            value = "")
     public String firstLogin(Model model) {
         model.addAttribute("userCredentials", new UserDTO());
-        model.addAttribute("userCredentials", new StatusDTO());
+        model.addAttribute("status", new StatusDTO());
         return "loginForFirstTime";
     }
 
@@ -44,7 +48,7 @@ public class LoginForFirstTimeController {
      * @return The view to display. Redirect to user's session if setting up the password was successful.
      */
     @PostMapping(
-            value = "/first-login/set-password")
+            value = "/set-password")
     public String setPassword(@ModelAttribute("userCredentials") UserDTO userCredentials,
                               @ModelAttribute("status") StatusDTO status, Principal principal) {
         String userName = principal.getName();

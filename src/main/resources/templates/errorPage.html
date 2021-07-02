@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/webjars/bootstrap/5.0.1/css/bootstrap.css" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/>
+</head>
+
+<nav>
+    <div class="row">
+        <div th:insert="'menubar'"></div>
+    </div>
+</nav>
+
+<body>
+  <h1 class="text-center">Ooops, something went wrong!</h1>
+  <div class="container">
+      <div class="row">
+          <div class="col">
+            <a href="/login"><i class="bi-arrow-right-circle"></i> Go back to Login</a>
+          </div>
+      </div>
+  </div>
+</body>
+
+<!--Include the footer that contains the copyright info-->
+<footer>
+    <div th:insert="'footer'" class="embeddedFooter"></div>
+</footer>
+
+<style>
+  h1 {
+    color: coral;
+  }
+</style>
+</html>

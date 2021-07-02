@@ -82,7 +82,7 @@
         </div>
 
         <!--Alert which is displayed in case a logout was performed-->
-        <div th:if="${param.logout}" class="alert alert-success">
+        <div th:if="${param.logout}" class="alert alert-success" id="logoutSuccessfulAlert">
             You've logged out successfully!
         </div>
     </div>
@@ -103,6 +103,7 @@
     let errorMessage = $('#noPasswordOrUserNameEnteredErrorMessage');
     let userNameInputField = $('#userName');
     let passwordInputField = $('#password');
+    let logoutSuccessfulAlert = $('#logoutSuccessfulAlert')
 
     // Get the alert that's displayed if the user enters forbidden special characters in userNameInputField
     let errorMessageForbiddenCharacter = $('#forbiddenCharacterEntered');
@@ -117,6 +118,7 @@
     // Fade out the alerts when the site is loaded
     errorMessage.fadeOut(0);
     errorMessageForbiddenCharacter.fadeOut(0);
+    logoutSuccessfulAlert.fadeOut(3000);
 
     // When submitting the form, we check whether at least one of the fields were left empty and fadeIn
     // a warning. For this, we check which one of the fields were left empty / if both were left empty.

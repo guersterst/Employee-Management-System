@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,18 +24,21 @@
         <div class ="col-lg" id="createAccount">
             <h2 class="text-center">Create User-Account</h2>
             <!--Form, which includes the input fields that will be sent on submit (for creating account)-->
-            <form id="inputFieldsForm" class="needs-validation" onsubmit="return validate(event);"> <!-- th:object="${newUser}" th:action="@{adminCreateUser/submit}""> -->
+            <form id="inputFieldsForm" class="needs-validation" th:action="@{/admin/employees/accounts/creation}"
+                  onsubmit="return validate(event);" th:object="${newUser}" method="post"> <!-- th:object="${newUser}" th:action="@{adminCreateUser/submit}""> -->
                 <div> <!-- class="card card-body shadow-sm m-2"> --><!--form-group for the user's first name-->
                     <div class="form-row">
                         <div class="form-group col">
                             <label for="firstName">First Name</label>
-                            <input id="firstName" type="text" class="form-control" placeholder="First Name"required>
+                            <input id="firstName" type="text" class="form-control" placeholder="First Name"
+                                   th:field="${newUser.firstName}" required>
                             <div class="invalid-feedback">Please enter the employee's first name.</div>
                         </div>
                         <!--form-group for the user's last name-->
                         <div class="form-group col">
                             <label for="lastName">Last Name</label>
-                            <input id="lastName" type="text" class="form-control" placeholder="Last Name" required>
+                            <input id="lastName" type="text" class="form-control" placeholder="Last Name"
+                                   th:field="${newUser.lastName}" required>
                             <div class="invalid-feedback">Please enter the employee's last name.</div>
                         </div>
                     </div>
@@ -47,8 +50,10 @@
                         <div class="form-group">
                             <label for="userName">User Name</label>
                             <div class="input-group">
-                                <input id="userName" type="text" class="form-control" placeholder="User Name" onkeyup="updateAlert()" required>
-                                <button class="btn btn-secondary" type="button" id="generateUserNameButton" onclick="generateUserName()">
+                                <input id="userName" type="text" class="form-control" placeholder="User Name"
+                                       onkeyup="updateAlert()" th:field="${newUser.userName}" required>
+                                <button class="btn btn-secondary" type="button" id="generateUserNameButton"
+                                        onclick="generateUserName()">
                                     Generate
                                 </button>
                             </div>
@@ -61,7 +66,9 @@
                     <div class="form-group col">
                         <label for="selectRoleDropdown">Role in Company</label>
                         <div class="dropdown"><!-- data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="selectRoleDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="selectRoleDropdown"
+                                    data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
                                 Select Role
                             </button>
                             <div class="dropdown-menu" aria-labelledby="selectRoleDropdown">
@@ -75,7 +82,7 @@
                 <div class="form-row">
                     <div class="form-group col">
                         <div class="form-check form-switch d-table">
-                            <input class="checkbox form-check-input" type="checkbox" id="isAdmin" value="true" name="isAdmin">
+                            <input class="checkbox form-check-input" type="checkbox" id="isAdmin" value="true" th:field="${newUser.admin}" name="isAdmin">
                             <label class="form-check-label" for="isAdmin" id="isAdminLabel">
                                 Admin-Privileges
                             </label>
@@ -83,13 +90,14 @@
                     </div>
                 </div>
 
-                <div class="form-row">
+                <!-- Was previously used to select a role. Now, we use it as a workaround to provide the
+                 user's role/position (the dropdown returned 'null').-->
+                <div class="form-row" hidden>
                     <div class="form-group col">
                         <label for="role">Position</label>
                         <!--Use an input group so an icon can be added to the input field-->
                         <div class="input-group">
-                            <input id="role" type="text" class="form-control" placeholder="Position" required>
-                            <div class="invalid-feedback">Please enter the employee's last name.</div>
+                            <input id="role" type="text" class="form-control" placeholder="Position" th:field="${newUser.position}">
                         </div>
                     </div>
                 </div>
@@ -99,9 +107,12 @@
                         <label for="p_password">Password</label>
                         <div class="input-group">
                             <span class="input-group-text bi-key" id="p_icon"></span>
-                            <input id="p_password" type="password" class="form-control" placeholder="Password" aria-describedby="icon" onkeyup="p_determinePasswordStrength(); p_showMissingPasswordCharacteristics();" required>
+                            <input id="p_password" type="password" class="form-control" placeholder="Password"
+                                   aria-describedby="icon" onkeyup="p_determinePasswordStrength(); p_showMissingPasswordCharacteristics();"
+                                   th:field="${newUser.password}" required>
                             <div class="input-group-append">
-                                <button class="input-group-btn" type="button" id="p_showHidePassword" onclick="p_showOrHidePassword('password')">
+                                <button class="input-group-btn" type="button" id="p_showHidePassword"
+                                        onclick="p_showOrHidePassword('password')">
                                     <i class="bi-eye-slash" id="p_passwordButtonIcon"></i></button>
                             </div>
                         </div>
@@ -116,9 +127,11 @@
                         <label for="p_passwordRepeated">Repeat Password</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text bi-key" id="p_icon2"></span>
-                            <input id="p_passwordRepeated" type="password" class="form-control" placeholder="Repeat Password" aria-describedby="icon2" onkeyup="p_determinePasswordStrength()" required>
+                            <input id="p_passwordRepeated" type="password" class="form-control" placeholder="Repeat Password"
+                                   aria-describedby="icon2" onkeyup="p_determinePasswordStrength()" required>
                             <div class="input-group-append">
-                                <button class="input-group-btn" type="button" id="p_showHideRepeatedPassword" onclick="p_showOrHidePassword('passwordRepeated')">
+                                <button class="input-group-btn" type="button" id="p_showHideRepeatedPassword"
+                                        onclick="p_showOrHidePassword('passwordRepeated')">
                                     <i class="bi-eye-slash" id="p_repeatedPasswordButtonIcon"></i></button>
                             </div>
                         </div>
@@ -131,7 +144,8 @@
                 <div class="row">
                     <div class="col">
                         <div class="progress mx-auto" style="height: 20px; background-color: rgba(200,200,200,0.2);" onkeyup="p_checkPasswordStrength()">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" id="p_passwordStrengthBar" style="width: 40px;"></div>
+                            <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0"
+                                 aria-valuemax="100" id="p_passwordStrengthBar" style="width: 40px;"></div>
                         </div>
                     </div>
                 </div>
@@ -207,15 +221,15 @@
             </div>
 
 
-            <!-- Use Thymeleaf: -->
-            <!--<div class="alert alert-danger mx-auto" id="accountWithUserNameAlreadyExists" role="alert">
-                   <strong>An account with this username already exists.</strong>
-               </div> -->
+            <!-- Display this alert if creating a user was successful -->
+            <div th:if="${param.success}" class="alert alert-success mx-auto" id="accountCreationSuccessful" role="alert">
+                <p>Account was successfully created.</p>
+            </div>
 
-            <!-- Use Thymeleaf: -->
-                <!--<div class="alert alert-success mx-auto" id="accountCreationSuccessful" role="alert">
-                    <p>Account was successfully created.</p>
-                </div> --> <!-- Fade this alert out as soon as a key is pressed -->
+            <!-- Display this alert if creating a user was NOT successful -->
+            <div th:if="${param.error}" class="alert alert-danger mx-auto" id="userAlreadyExisted" role="alert">
+                <p>A user with this user name already exists.</p>
+            </div>
         </div>
 
         <!--Elements needed to create a role-->
@@ -278,16 +292,18 @@
     let roleSelected = false;
     let passwordsDidntMatchOnLastSubmit = false;
 
+    // Using the dropdown-menu to pass the selected role always returns null
+    // Thus, we set the value of the following (hidden) input field to
+    // passe the role.
+    let roleInputWorkaround = $('#role');
+
     let userNameInput = $('#userName');
     let firstName = $('#firstName');
     let lastName = $('#lastName');
 
     let errorMessageForbiddenCharacter = $('#forbiddenCharacterEntered')
 
-    // Test for what an automatic generation of user names could look like.
-    // Note: In the final version, this requires checking the database to find out
-    // how many employees have the username and concatenate the number at the end.
-    // This ensures the username's uniqueness.
+    // Validate whether the form conforms to certain rules as detailed in the method
     function validate(event) {
         // Stop submission if passwords don't match
         if (passwordInputField.val() !== passwordRepeatedInputField.val()) {
@@ -338,6 +354,7 @@
 
             } else {
                 $('#selectRoleDropdown').text($(this).text());
+                roleInputWorkaround.val($(this).text());
                 roleSelected = true;
                 noRoleSelectedAlert.fadeOut(0);
             }
@@ -389,9 +406,11 @@
         roleAlreadyExistentAlert.fadeOut(0);
         errorMessageForbiddenCharacter.fadeOut(0);
 
-        // Load all previously stored roles
-        console.log("Loading cookies");
+        // Fade out the alerts which display whether creating an account was successful or not slowly
+        $('#accountCreationSuccessful').fadeOut(3000);
+        $('#userAlreadyExisted').fadeOut(3000);
 
+        // Load all previously stored roles
         let i = 0
         let roleFromCookie = getRoleFromCookie(i);
 
@@ -408,8 +427,6 @@
             i++;
             roleFromCookie = getRoleFromCookie(i);
         }
-            console.log("no more cookies " + i);
-
     }
 
 
@@ -459,6 +476,7 @@
         element.innerText = text;
         element.onclick = function() {
             $('#selectRoleDropdown').text($(this).text());
+            roleInputWorkaround.val($(this).text());
             roleSelected = true;
             noRoleSelectedAlert.fadeOut(0);
         }
