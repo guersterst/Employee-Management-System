@@ -35,8 +35,6 @@ public class EmployeeListViewController {
     )
     public String get(Model model) {
         model.addAttribute("workSessionListEntries", workSessionService.getListEntries());
-        System.out.println(workSessionService.getSessions("student").get(0).getLatitude());
-
         return "adminView";
     }
 
