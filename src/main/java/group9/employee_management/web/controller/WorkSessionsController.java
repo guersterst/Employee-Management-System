@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class WorkSessionsController {
      * Show the employees main page. Introduces DTOS for the current WorkSession, latest history and an status.
      *
      * @param model The model.
-     * @param principal. Description forthcoming.
+     * @param principal The spring security persona.
      * @return The employees main page.
      */
     @GetMapping(
@@ -43,9 +44,15 @@ public class WorkSessionsController {
         // This DTO is for the upper part of the page (my-session management).
         model.addAttribute("workSessionData", new WorkSessionDTO());
 
-        List<WorkSessionDTO> sessions = workSessionService.getSessions(principal.getName());
-        List<WorkSessionDTO> lastTwoSessions = List.of(sessions.get(sessions.size() - 1),
-                sessions.get(sessions.size() - 2));
+        List<WorkSessionDTO> sessions;
+        List<WorkSessionDTO> lastTwoSessions;
+        try {
+            sessions = workSessionService.getSessions(principal.getName());
+            lastTwoSessions = List.of(sessions.get(sessions.size() - 1),
+                    sessions.get(sessions.size() - 2));
+        } catch (NoSessionsException | NoSuchUserException ex) {
+            lastTwoSessions = Collections.emptyList();
+        }
 
         // A DTO containing the last two sessions of an employee.
         model.addAttribute("workSessionListEntries", lastTwoSessions);

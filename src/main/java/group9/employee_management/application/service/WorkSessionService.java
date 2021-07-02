@@ -195,6 +195,7 @@ public class WorkSessionService {
      */
 
     public List<WorkSessionDTO> getSessions(String userName) {
+        hasLatestSession(userName);
         List<WorkSessionDTO> result = new ArrayList<>();
 
         for (int i = workSessionRepository.getIndex(userName); i >= 0; i--) {
@@ -270,7 +271,7 @@ public class WorkSessionService {
     For defensive programming.
      */
 
-    private void hasLatestSession(String userName) {
+    public void hasLatestSession(String userName) {
         if (workSessionRepository.getEmployeeByUserName(userName) == null) {
             throw new NoSuchUserException(userName);
         } else if (workSessionRepository.getWorkSession(userName, workSessionRepository.getIndex(userName)) == null) {
