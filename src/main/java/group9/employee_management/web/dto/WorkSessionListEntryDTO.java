@@ -18,8 +18,8 @@ public class WorkSessionListEntryDTO {
     private String textStatus;
     private boolean available;
     private boolean onSite;
-    private Integer coordX;
-    private Integer coordY;
+    private double latitude;
+    private double longitude;
 
     public WorkSessionListEntryDTO(){}
 
@@ -33,6 +33,8 @@ public class WorkSessionListEntryDTO {
         workSessionListEntryDTO.setTextStatus(workSession.getTextStatus());
         workSessionListEntryDTO.setAvailable(workSession.isAvailable());
         workSessionListEntryDTO.setOnSite(workSession.isOnSite());
+        workSessionListEntryDTO.setLongitude(workSession.getLongitude());
+        workSessionListEntryDTO.setLatitude(workSession.getLatitude());
         return workSessionListEntryDTO;
     }
 
@@ -98,5 +100,21 @@ public class WorkSessionListEntryDTO {
 
     public void setOnSite(boolean onSite) {
         this.onSite = onSite;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 }

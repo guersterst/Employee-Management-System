@@ -86,7 +86,15 @@
                                              th:for="${userName}">
                                         <i class="bi bi-arrow-right-circle"></i></a></span>
                                 </td>
-                                <td>Location</td>
+                                <td>
+                                    <div th:if="${workSessionListEntry.latitude != null}">
+                                        <span th:text="${workSessionListEntry.latitude}"></span>
+                                        <span th:text="${workSessionListEntry.longitude}"></span>
+                                    </div>
+                                    <div th:unless="${workSessionListEntry.latitude != null}">
+                                        <span>User refused localization.</span>
+                                    </div>
+                                </td>
                                 <td th:text="${#dates.format(workSessionListEntry.startTime, 'dd.MM.yyyy HH:mm')}"></td>
                                 <td>
                                     <div th:if="${workSessionListEntry.stopTime == null}">
@@ -117,8 +125,8 @@
             <!--Embedded map-->
             <!--Maybe i have to add this: &callback=initMap&libraries=&v=weekly-->
             <div class="map card card-cascade shadow">
-                <iframe src="https://www.google.com/maps/d/embed?mid=1KuOPZAoWJ_7X5KCwnCa_GgR89JX7X-Or" width="100%"
-                        height="480">
+                <iframe src="https://www.google.com/maps/d/embed?mid=1KuOPZAoWJ_7X5KCwnCa_GgR89JX7X-Or&callback=initMap&libraries=&v=weekly" width="100%"
+                        height="480" id="mapGoogle">
                 </iframe>
             </div>
         </div>
@@ -161,9 +169,9 @@
         alertOnSite.fadeOut(1);
     }
 
-    function initMap() {
+
         const myLatLng = { lat: -25.363, lng: 131.044 };
-        const map = new google.maps.Map(document.getElementById("map"), {
+        const map = new google.maps.Map(document.getElementById("mapGoogle"), {
             zoom: 4,
             center: myLatLng,
         });
@@ -172,7 +180,36 @@
             map,
             title: "Hello World!",
         });
+
+
+
+/*
+    // Standard google maps function
+    function initialize() {
+        var myLatlng = new google.maps.LatLng(40.779502, -73.967857);
+        var myOptions = {
+            zoom: 12,
+            center: myLatlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+        TestMarker();
     }
+
+    // Function for adding a marker to the page.
+    function addMarker(location) {
+        marker = new google.maps.Marker({
+            position: location,
+            map: map
+        });
+    }
+
+    // Testing the addMarker function
+    function TestMarker() {
+        CentralPark = new google.maps.LatLng(37.7699298, -122.4469157);
+        addMarker(CentralPark);
+    }
+    */
 </script>
 
 <!--Has to be replaced-->

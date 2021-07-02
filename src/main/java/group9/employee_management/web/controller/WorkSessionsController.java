@@ -34,13 +34,16 @@ public class WorkSessionsController {
      *
      * @param model The model.
      * @param principal Description forthcoming.
+<<<<<<< HEAD
      * @param principal The spring security persona.
+=======
+>>>>>>> location-feature
      * @return The employees main page.
      */
     @GetMapping(
             value = ""
     )
-    public String getString(Model model, Principal principal) {
+    public String get(Model model, Principal principal) {
 
         // This DTO is for the upper part of the page (my-session management).
         model.addAttribute("workSessionData", new WorkSessionDTO());
@@ -161,16 +164,21 @@ public class WorkSessionsController {
      * @return The view.
      */
     @PostMapping(
-            value = "/beginning"
+            value = "/beginning/{latitude}/{longitude}"
     )
 
     public String startSession(@ModelAttribute("workSessionData") WorkSessionDTO newSession,
-                               @ModelAttribute("status") StatusDTO status, Principal principal, Model model) {
+                               Model model,
+                               @ModelAttribute("status") StatusDTO status, Principal principal,
+                               @PathVariable("latitude") String latitude,
+                               @PathVariable("longitude") String longitude) {
+
         String userName = principal.getName();
 
         try {
             workSessionService.startSession(userName, newSession.getTextStatus(),
-                    true, newSession.isOnSite());
+                    true, newSession.isOnSite(), Double.parseDouble(longitude), Double.parseDouble(latitude));
+
         } catch (NoSuchUserException exception) {
             status.setMessage("bad_request");
         }

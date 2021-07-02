@@ -1,7 +1,6 @@
 package group9.employee_management.persistence.entities;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.context.annotation.Primary;
 
 import javax.persistence.*;
 
@@ -56,18 +55,18 @@ public class WorkSession {
     private boolean onSite;
 
     @Column
-    private Integer coordX;
+    private double latitude;
 
     @Column
-    private Integer coordY;
+    private double longitude;
 
 
 
     public WorkSession(){}
 
-    public WorkSession(Integer index, Timestamp startTime, Timestamp stopTime, String textStatus, boolean available,
-                       boolean onSite,
-                       Employee employee) {
+    public WorkSession(Integer index, Timestamp startTime, Timestamp stopTime, String textStatus, boolean available, boolean onSite,
+                       Employee employee, double longitude, double latitude) {
+
         super();
         this.id = new WorkSessionID(index, employee);
         this.startTime = startTime;
@@ -75,6 +74,8 @@ public class WorkSession {
         this.textStatus = textStatus;
         this.available = available;
         this.onSite = onSite;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public Integer getIndex() {
@@ -87,6 +88,10 @@ public class WorkSession {
 
     public Timestamp getStopTime() {
         return stopTime;
+    }
+
+    public void setStartTime(Timestamp startTime) {
+        this.startTime = startTime;
     }
 
     public String getTextStatus() {
@@ -121,19 +126,19 @@ public class WorkSession {
         this.onSite = onSite;
     }
 
-    public Integer getCoordY() {
-        return coordY;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setCoordY(Integer coordY) {
-        this.coordY = coordY;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
-    public Integer getCoordX() {
-        return coordX;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setCoordX(Integer coordX) {
-        this.coordX = coordX;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }

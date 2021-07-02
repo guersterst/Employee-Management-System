@@ -103,7 +103,8 @@ public class WorkSessionService {
      * @param available  The momentary availabilty of the employee.
      * @param onSite     Indication for whether this employee is on- or offsite.
      */
-    public void startSession(String userName, String textStatus, boolean available, boolean onSite) {
+    public void startSession(String userName, String textStatus, boolean available, boolean onSite, double longitude,
+                             double latitude) {
         isEmployee(userName);
         Timestamp currentTime = getCurrentTime();
         int offset = 1;
@@ -113,7 +114,7 @@ public class WorkSessionService {
             offset = 0;
         }
         WorkSession newSession = new WorkSession(getIndex(userName) + offset, currentTime, null, textStatus,
-                available, onSite, employeeRepository.getUserByUserName(userName));
+                available, onSite, employeeRepository.getUserByUserName(userName), longitude, latitude);
         workSessionRepository.save(newSession);
     }
 
