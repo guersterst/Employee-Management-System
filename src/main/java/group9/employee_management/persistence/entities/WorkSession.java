@@ -53,17 +53,17 @@ public class WorkSession {
     private boolean onSite;
 
     @Column
-    private long latitude;
+    private double latitude;
 
     @Column
-    private long longitude;
+    private double longitude;
 
 
 
     public WorkSession(){}
 
     public WorkSession(Integer index, Date startTime, Date stopTime, String textStatus, boolean available, boolean onSite,
-                       Employee employee, long longitude, long latitude) {
+                       Employee employee, double longitude, double latitude) {
         super();
         this.id = new WorkSessionID(index, employee);
         this.startTime = startTime;
@@ -123,19 +123,19 @@ public class WorkSession {
         this.onSite = onSite;
     }
 
-    public long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(long latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(long longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 }

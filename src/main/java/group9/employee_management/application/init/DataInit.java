@@ -32,11 +32,11 @@ public class DataInit implements CommandLineRunner {
     private final AccountService accountService;
     private final WorkSessionService workSessionService;
 
-    private final long latitudeA = (long) 48.571462889684234;
-    private final long longitudeA = (long) 13.467357517935062;
+    private final double latitudeA = 48.571462889684234;
+    private final double longitudeA = 13.467357517935062;
 
-    private final long latitudeB = (long) 48.57771608728356;
-    private final long longitudeB = (long) 13.457253637518114;
+    private final double latitudeB = 48.57771608728356;
+    private final double longitudeB = 13.457253637518114;
 
     @Autowired
     public DataInit(EmployeeRepository employeeRepository, WorkSessionRepository workSessionRepository,

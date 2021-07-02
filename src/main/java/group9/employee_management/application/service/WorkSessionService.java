@@ -110,8 +110,8 @@ public class WorkSessionService {
      * @param available  The momentary availabilty of the employee.
      * @param onSite     Indication for whether this employee is on- or offsite.
      */
-    public void startSession(String userName, String textStatus, boolean available, boolean onSite, long longitude,
-                             long latitude) {
+    public void startSession(String userName, String textStatus, boolean available, boolean onSite, double longitude,
+                             double latitude) {
         isEmployee(userName);
         Date currentTime = getCurrentTime();
         int offset = 1;
