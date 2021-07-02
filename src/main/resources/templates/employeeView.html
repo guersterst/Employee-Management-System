@@ -119,12 +119,12 @@
                         </form>
 
                         <!--If checked before action-->
+                        <div id="location">
+                            <p id="locationLatitude" th:field="${workSessionData.latitude}"></p>
+                            <p id="locationLongitude" th:field="${workSessionData.longitude}"></p>
+                        </div>
                         <div th:if="*{onSite == false}">
-                            <div>
-                                <p id="locationLatitude" th:field="${workSessionData.coordX}"></p>
-                                <p id="locationLongitude" th:field="${workSessionData.coordY}"></p>
-                            </div>
-                            <form th:action="@{/my-session/beginning/__${workSessionData.coordX}__/__${workSessionData.coordY}__}" method="post" th:object="${workSessionData}"
+                            <form th:action="@{/my-session/beginning/__${workSessionData.latitude}__/__${workSessionData.longitude}__}" method="post" th:object="${workSessionData}"
                                   th:method="post">
                                 <!--On Site should be automatically switched on when logged in the first time of a day
                                 and only switched of if you leave work.-->
