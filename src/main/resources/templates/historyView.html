@@ -82,12 +82,23 @@
                 <input class="form-label" type="text" id="inputFilter" onkeyup="filterTable()" placeholder="Search.." title="Filter: ">
             </div>
             <div class="btn-group">
-                <form class="btn-group" th:action="@{/my-history/download/json}" th:method="get">
-                    <button class="btn btn-primary" type="submit">JSON <i class="bi bi-download"></i></button>
-                </form>
-                <form  class="btn-group" th:action="@{/my-history/download/xml}" th:method="get">
-                    <button class="btn btn-primary" type="submit">XML <i class="bi bi-download"></i></button>
-                </form>
+                <div th:if="${adminVisitsPage}">
+                    <form class="btn-group" th:action="@{/my-history/download/json}" th:method="get">
+                        <button class="btn btn-primary" type="submit">JSON <i class="bi bi-download"></i></button>
+                    </form>
+                    <form  class="btn-group" th:action="@{/admin/employees/work-sessions/download/__${selectedUser}__/xml}" th:method="get">
+                        <button class="btn btn-primary" type="submit">XML <i class="bi bi-download"></i></button>
+                    </form>
+                </div>
+
+                <div th:unless="${adminVisitsPage}">
+                    <form class="btn-group" th:action="@{/my-history/download/json}" th:method="get">
+                        <button class="btn btn-primary" type="submit">JSON <i class="bi bi-download"></i></button>
+                    </form>
+                    <form  class="btn-group" th:action="@{/my-history/download/xml}" th:method="get">
+                        <button class="btn btn-primary" type="submit">XML <i class="bi bi-download"></i></button>
+                    </form>
+                </div>
             </div>
         </div>
         <div class="card-body">
