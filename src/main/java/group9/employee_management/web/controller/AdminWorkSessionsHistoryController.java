@@ -259,4 +259,38 @@ public class AdminWorkSessionsHistoryController {
                 .contentLength(customerXMLBytes.length)
                 .body(customerXMLBytes);
     }
+
+    /**
+     * Exact copy of the method in EmployeeWorkSessionHistoryController, only adapted for the admin to use
+     * a path-variable.
+     * Downloads a JSON file containing all sessions.
+     *
+     * @param principal      Spring security principal.
+     * @param status         The status dto.
+     * @return The view.
+     */
+    @GetMapping(
+            value = "/download/{userName}/json",
+            produces = { "application/json"}
+    )
+    @ResponseBody
+    public ResponseEntity<byte[]> getSessionsJSON(Principal principal,
+                                                  @ModelAttribute("status") StatusDTO status,
+                                                  @PathVariable("userName") String userName) {
+        byte[] customerJsonBytes;
+        try {
+            customerJsonBytes = workSessionService.workSessionsToJSON(userName).getBytes();
+        } catch (NoSessionsException | NoSuchUserException exception) {
+            status.setMessage("bad_request");
+            return null;
+        }
+        status.setMessage("valid");
+
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=sessions.json")
+                .contentType(MediaType.APPLICATION_JSON)
+                .contentLength(customerJsonBytes.length)
+                .body(customerJsonBytes);
+    }
 }
