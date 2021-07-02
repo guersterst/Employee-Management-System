@@ -166,8 +166,6 @@ public class WorkSessionsController {
             workSessionService.startSession(userName, newSession.getTextStatus(),
                     true, newSession.isOnSite(), Long.parseLong(longitude), Long.parseLong(latitude));
 
-            System.out.println(workSessionService.getSessions("student").get(0).getLatitude());
-
         } catch (NoSuchUserException exception) {
             status.setMessage("bad_request");
         }

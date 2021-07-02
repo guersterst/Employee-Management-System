@@ -79,7 +79,15 @@
                                              th:for="${userName}">
                                         <i class="bi bi-arrow-right-circle"></i></a></span>
                                 </td>
-                                <td>Location</td>
+                                <td>
+                                    <div th:if="${workSessionListEntry.latitude != null}">
+                                        <span th:text="${workSessionListEntry.latitude}"></span>
+                                        <span th:text="${workSessionListEntry.longitude}"></span>
+                                    </div>
+                                    <div th:unless="${workSessionListEntry.latitude != null}">
+                                        <span>User refused localization.</span>
+                                    </div>
+                                </td>
                                 <td th:text="${#dates.format(workSessionListEntry.startTime, 'dd.MM.yyyy HH:mm')}"></td>
                                 <td>
                                     <div th:if="${workSessionListEntry.stopTime == null}">
@@ -110,7 +118,7 @@
             <!--Embedded map-->
             <!--Maybe i have to add this: &callback=initMap&libraries=&v=weekly-->
             <div class="map card card-cascade shadow">
-                <iframe src="https://www.google.com/maps/d/embed?mid=1KuOPZAoWJ_7X5KCwnCa_GgR89JX7X-Or" width="100%"
+                <iframe src="https://www.google.com/maps/d/embed?mid=1KuOPZAoWJ_7X5KCwnCa_GgR89JX7X-Or&callback=initMap&libraries=&v=weekly" width="100%"
                         height="480">
                 </iframe>
             </div>
