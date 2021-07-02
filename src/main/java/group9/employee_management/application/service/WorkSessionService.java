@@ -24,7 +24,10 @@ import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,9 +98,9 @@ public class WorkSessionService {
      *
      * @return The current time.
      */
-    private static Date getCurrentTime() {
-        LocalDate now = LocalDate.now();
-        return Date.valueOf(now);
+    public static Timestamp getCurrentTime() {
+        LocalDateTime now = LocalDateTime.now();
+        return Timestamp.valueOf(now);
     }
 
     /**
@@ -112,7 +115,7 @@ public class WorkSessionService {
      */
     public void startSession(String userName, String textStatus, boolean available, boolean onSite) {
         isEmployee(userName);
-        Date currentTime = getCurrentTime();
+        Timestamp currentTime = getCurrentTime();
         int offset = 1;
         if (workSessionRepository.getWorkSession(userName, 0) == null) {
 

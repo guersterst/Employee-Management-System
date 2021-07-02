@@ -6,14 +6,15 @@ import group9.employee_management.persistence.entities.Employee;
 import group9.employee_management.persistence.entities.WorkSession;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class WorkSessionListEntryDTO {
 
     private String firstName;
     private String lastName;
     private String userName;
-    private Date startTime;
-    private Date stopTime;
+    private Timestamp startTime;
+    private Timestamp stopTime;
     private String textStatus;
     private boolean available;
     private boolean onSite;
@@ -64,19 +65,19 @@ public class WorkSessionListEntryDTO {
         this.userName = userName;
     }
 
-    public Date getStartTime() {
+    public Timestamp getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
 
-    public Date getStopTime() {
+    public Timestamp getStopTime() {
         return stopTime;
     }
 
-    public void setStopTime(Date stopTime) {
+    public void setStopTime(Timestamp stopTime) {
         this.stopTime = stopTime;
     }
 

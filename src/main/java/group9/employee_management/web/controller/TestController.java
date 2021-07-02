@@ -48,5 +48,13 @@ public class TestController {
     public void ses(Principal principal) throws IOException {
         workSessionService.workSessionsToXML(principal.getName());
     }
+
+
+    @GetMapping(
+            value = "/time"
+    )
+    public void time() {
+        System.out.println(WorkSessionService.getCurrentTime());
+    }
 }
 

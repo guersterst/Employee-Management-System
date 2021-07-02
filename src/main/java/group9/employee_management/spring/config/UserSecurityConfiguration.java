@@ -87,7 +87,6 @@ public class UserSecurityConfiguration {
 5. COORDS: add to dto, add dto for coords, onSite -> setCoords, offSite -> delCoords.
 (steffi koordinaten?)
 
-4. nullpointer
 9. Current time
 7. Why is https not secure
 8. User Manual

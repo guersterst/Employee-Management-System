@@ -7,6 +7,8 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 @Entity
 @Table
@@ -37,9 +39,9 @@ public class WorkSession {
 
     // The timestamps from where the user started working to when he ended working.
     @Column
-    private Date startTime;
+    private Timestamp startTime;
     @Column
-    private Date stopTime;
+    private Timestamp stopTime;
 
     // The text description given by the user about this work-session.
     @Column
@@ -63,7 +65,8 @@ public class WorkSession {
 
     public WorkSession(){}
 
-    public WorkSession(Integer index, Date startTime, Date stopTime, String textStatus, boolean available, boolean onSite,
+    public WorkSession(Integer index, Timestamp startTime, Timestamp stopTime, String textStatus, boolean available,
+                       boolean onSite,
                        Employee employee) {
         super();
         this.id = new WorkSessionID(index, employee);
@@ -78,11 +81,11 @@ public class WorkSession {
         return id.index;
     }
 
-    public Date getStartTime() {
+    public Timestamp getStartTime() {
         return startTime;
     }
 
-    public Date getStopTime() {
+    public Timestamp getStopTime() {
         return stopTime;
     }
 
@@ -102,7 +105,7 @@ public class WorkSession {
         return id.employee;
     }
 
-    public void setStopTime(Date stopTime) {
+    public void setStopTime(Timestamp stopTime) {
         this.stopTime = stopTime;
     }
 
