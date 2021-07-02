@@ -268,7 +268,7 @@ public class WorkSessionService {
     public void hasLatestSession(String userName) {
         if (workSessionRepository.getEmployeeByUserName(userName) == null) {
             throw new NoSuchUserException(userName);
-        } else if (workSessionRepository.getWorkSession(userName, workSessionRepository.getIndex(userName)) == null) {
+        } else if (workSessionRepository.getWorkSession(userName, 0) == null) {
             throw new NoSessionsException(userName);
         }
     }

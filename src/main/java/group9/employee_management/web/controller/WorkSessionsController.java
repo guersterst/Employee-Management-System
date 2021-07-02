@@ -148,9 +148,13 @@ public class WorkSessionsController {
         try {
             workSessionDTO = WorkSessionDTO.fromEntity(workSessionService.getLatest(userName));
             model.addAttribute("workSessionData", workSessionDTO);
-        } catch (NoSessionsException | NoSuchUserException exception) {
+        } catch (NoSuchUserException ex) {
             status.setMessage("bad_request");
+        } catch (NoSessionsException ex) {
+            workSessionDTO = new WorkSessionDTO();
+            model.addAttribute("workSessionData", workSessionDTO);
         }
+        model.addAttribute("workSessionData", workSessionDTO);
         status.setMessage("valid");
         return "employeeView";
     }

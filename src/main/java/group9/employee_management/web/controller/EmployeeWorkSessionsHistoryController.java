@@ -51,10 +51,8 @@ public class EmployeeWorkSessionsHistoryController {
             model.addAttribute("workSessionsList", Collections.emptyList());
         }
 
-        // Three work-sessions to be displayed on the work-session history. Mainly workSession1 will be used.
+        // Work-session to be displayed on the work-session history.
         model.addAttribute("workSession1", new WorkSessionDTO());
-        model.addAttribute("workSession2", new WorkSessionDTO());
-        model.addAttribute("workSession3", new WorkSessionDTO());
         model.addAttribute("status", new StatusDTO());
         return "historyView";
     }
