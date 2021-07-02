@@ -34,7 +34,7 @@
             </div>
             <div class="btn-group">
                 <div th:if="${adminVisitsPage}">
-                    <form class="btn-group" th:action="@{/my-history/download/json}" th:method="get">
+                    <form class="btn-group" th:action="@{/admin/employees/work-sessiom/download/_${selectedUser}_/json}" th:method="get">
                         <button class="btn btn-primary" type="submit">JSON <i class="bi bi-download"></i></button>
                     </form>
                     <form  class="btn-group" th:action="@{/admin/employees/work-sessions/download/__${selectedUser}__/xml}" th:method="get">
