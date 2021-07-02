@@ -159,16 +159,24 @@
         </div>
       </form>
 
+      <!-- In case an admin accesses the the view, they should be able to go to the user's history
+           and delete the user -->
       <!-- <div sec:authorize="hasRole('ROLE_ADMIN')"> -->
       <!--<div sec:authorize="hasAuthority('ROLE_ADMIN')">-->
       <div th:if="${status.getMessage() == 'admin_valid'}">
+
+        <!-- The anchor linking to the history -->
         <div class="row">
-          <form th:action="@{/admin/account/delete/__${(selectedUser)}__}" method="get" >
-            <button class="btn btn-danger btn-lg center-block mx-auto" type="submit" id="deleteButton">Delete User</button>
-          </form>
+          <a id="historyAnchor" th:href="@{/admin/employees/work-sessions/latest/__${selectedUser}__/index}"><i class="bi-arrow-right-circle"></i> Visit User's History</a>
         </div>
+
+        <!-- The delete button-->
         <div class="row">
-          <a class="pull-right" th:href="@{/admin/employees/work-sessions/latest/__${selectedUser}__/index}"><i class="bi-arrow-right-circle"></i> Visit User's History</a>
+          <div class="col d-flex justify-content-center">
+            <form th:action="@{/admin/account/delete/__${(selectedUser)}__}" method="get" >
+              <button class="btn btn-danger btn-lg" type="submit" id="deleteButton">Delete User</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>

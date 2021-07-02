@@ -80,3 +80,8 @@ h2 {
 #deleteButton {
     margin-top: 20px;
 }
+
+#historyAnchor {
+    text-align: center;
+    margin-bottom: 20px;
+}
