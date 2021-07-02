@@ -69,7 +69,24 @@ For Elias Goller’s technical requirements. These were later largely revamped a
 In conclusion: Johannes Garstenauer’s work centred on everything back-end and spring boot.
 
 
+*Stefanie Gürster*
 
+-Scenario
+
+Frontend:
+-employeeView the main page of the empolyee user.
+-historyView shows all sessions that are stored or only view sessions if you use the filter.
+-menubar fragment for every page.
+-footer
+-adminView displays all users and thier current view.
+
+Backend:
+
+In collaboration with Johannes Garstenauer: 
+Improving the controller in order to fix bugs and being able to put front and backend together.
+
+In conclusion:
+My work was focused on the frontend but in order to put front and back together I hepled to fix the bugs.
 
 
 *Elias Goller:*
