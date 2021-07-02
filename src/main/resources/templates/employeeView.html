@@ -111,8 +111,8 @@
                                 </button>
                             </form>
 
-                            <!--If checked before action-->
-                            <div th:if="*{onSite == false}">
+                            <!--If session is finished a new one is started-->
+                            <div th:if="${workSessionData.onSite == false}">
                                 <form th:action="@{/my-session/beginning}" method="post" th:object="${workSessionData}"
                                       th:method="post">
                                     <!--On Site should be switched on when logged in the first time of a day
@@ -127,7 +127,8 @@
                                     </button>
                                 </form>
                             </div>
-                            <div th:unless="*{onSite == false}">
+                            <!--If worksession is running and you wnat to stop it-->
+                            <div th:unless="${workSessionData.onSite == false}">
                                 <form th:action="@{/my-session/ending/}" method="post" th:object="${workSessionData}"
                                       th:method="post">
                                     <div class="form-check form-switch d-table onSite">
@@ -144,32 +145,29 @@
                     </div>
                 </div>
             </div>
+
+            <!--Go to profile or history-->
             <div class="card shadow h-50">
-                <div class="bg-secondary text-light">
+                <div class="card-header bg-secondary text-light">
                     <h2>More...</h2>
                 </div>
-                <!--Timeline vertically shows every event that is happening during using the web application.-->
                 <div class="card-body" id="more">
                     <div class="profile">
-                        <a th:href="@{/account/me}" id="profile" href="#"><i class="bi bi-person-bounding-box"></i>
+                        <a th:href="@{/account/me}" id="profile"><i class="bi bi-person-bounding-box"></i>
                         </a>
                         <label class="form-label" for="profile">User Profile</label>
                     </div>
-                </div>
-                <hr>
-                <div class="history">
-                    <a th:href="@{/my-history}" id="historyLink" href="#"><i class="bi bi-clock-history"></i> </a>
-                    <label class="form-label" for="historyLink">History</label>
+                    <hr>
+                    <div class="history">
+                        <a th:href="@{/my-history}" id="historyLink"><i class="bi bi-clock-history"></i> </a>
+                        <label class="form-label" for="historyLink">History</label>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-    <!--TODO:Correct apearence of header.-->
-    <!--View latest chronic items-->
-
 </div>
+
 
 <!--
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
