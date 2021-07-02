@@ -36,7 +36,7 @@ public class LoginForFirstTimeController {
             value = "")
     public String firstLogin(Model model) {
         model.addAttribute("userCredentials", new UserDTO());
-        model.addAttribute("userCredentials", new StatusDTO());
+        model.addAttribute("status", new StatusDTO());
         return "loginForFirstTime";
     }
 
