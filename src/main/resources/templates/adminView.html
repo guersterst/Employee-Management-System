@@ -6,16 +6,9 @@
     <link href="/webjars/bootstrap/5.0.1/css/bootstrap.css" th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.css}"
           rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="../static/css/adminViewStyle.css"
-          th:action="@{/css/adminViewStyle.css}">
-    <!--<link href="../../static/css/adminViewStyle.css" th:href="@{/css/adminViewStyle.css}" rel="stylesheet"/>
-
+          th:href="@{/css/adminViewStyle.css}">
 -->
     <script src="../static/js/filterTable.js" th:src="@{/js/filterTable.js}"></script>
-    <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
-
-    <script src="/webjars/popper.js/1.14.1/popper.min.js"></script>
-
-    <script src="/webjars/bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <title>Admin</title>
 </head>
@@ -26,22 +19,20 @@
 </div>
 
 <body>
-<div class="cont container-fluid card-deck">
+<div class="cont container container-fluid d-flex flex-column flex-fill">
     <div class="row">
-        <div class="col-md-12 col-lg-6">
-            <div class="list card shadow">
+        <div>
+            <div class="list card">
                 <!--Toolbar for the employee list-->
                 <div class="card-header badge-secondary text-left">
                     <h2>Employee List</h2>
                 </div>
-                <div class="card-header">
+                <div class="card-header second">
                     <div>
                         <label for="inputFilter">Filter</label>
                         <input class="form-label" type="text" id="inputFilter" onkeyup="filterTable()" placeholder="Search.." title="Filter: ">
-                    </div>
-                    <div class="btn-group">
                         <button type="button" class="btn">
-                            <a class="float-right" th:href="@{/admin/employees/accounts}">"<i class="bi-plus-lg"></i></a>
+                            <a class="btn-group" th:href="@{/admin/employees/accounts}"><i class="bi-plus-lg"></i></a>
                         </button>
                     </div>
                 </div>
@@ -73,7 +64,7 @@
                                         <a th:href="@{/admin/account/__${workSessionListEntry.getUserName()}__}"><i
                                                 class="bi bi-person-bounding-box" title="Edit"></i></a>
                                         <a th:href="@{/admin/account/delete/__${workSessionListEntry.getUserName()}__}"
-                                           th:for="${userName}"><i class="bi-trash" title="Delete"></i></a>
+                                           th:for="${userName}"><i class="bi bi-trash" title="Delete"></i></a>
                                     </span>
                                     </div>
                                 </td>
@@ -110,22 +101,14 @@
 
                         </tbody>
                     </table>
-
-                    <div class="alert alert-info mx-auto" id="alertOnSite">
-                        <div class="align-text-bottom">
-                            <i class="bi bi-info"></i>
-                            <strong>On site is already false.</strong>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-12 col-lg-6">
+        <div>
             <!--Embedded map-->
-            <!--Maybe i have to add this: &callback=initMap&libraries=&v=weekly-->
-            <div class="map card card-cascade shadow">
-                <iframe src="https://www.google.com/maps/d/embed?mid=1KuOPZAoWJ_7X5KCwnCa_GgR89JX7X-Or&callback=initMap&libraries=&v=weekly" width="100%"
+            <div class="map card card-cascade">
+                <iframe src="https://www.google.com/maps/d/embed?mid=1KuOPZAoWJ_7X5KCwnCa_GgR89JX7X-Or" width="100%"
                         height="480" id="mapGoogle">
                 </iframe>
             </div>
@@ -133,86 +116,9 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-
-<script src="js/jquery-1.10.2.js"></script>
-<script src="js/bootstrap.js"></script>
-<script src="js/ct-navbar.js"></script>
 
 </body>
 
-<script lang="JavaScript" type="text/javascript">
-
-    //TODO: fade in and out does not work.
-    let alertOnSite = $('#alertOnSite');
-
-    function checkOnSite(event) {
-        let onSite = document.getElementById("onSite");
-
-        if (!onSite) {
-            alertOnSite.fadeIn(100);
-            event.preventDefault();
-        }
-    }
-
-    alertOnSite.fadeOut(1);
-
-    window.onload = function() {
-        alertOnSite.fadeOut(1);
-    }
-
-
-        const myLatLng = { lat: -25.363, lng: 131.044 };
-        const map = new google.maps.Map(document.getElementById("mapGoogle"), {
-            zoom: 4,
-            center: myLatLng,
-        });
-        new google.maps.Marker({
-            position: myLatLng,
-            map,
-            title: "Hello World!",
-        });
-
-
-
-/*
-    // Standard google maps function
-    function initialize() {
-        var myLatlng = new google.maps.LatLng(40.779502, -73.967857);
-        var myOptions = {
-            zoom: 12,
-            center: myLatlng,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        }
-        map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-        TestMarker();
-    }
-
-    // Function for adding a marker to the page.
-    function addMarker(location) {
-        marker = new google.maps.Marker({
-            position: location,
-            map: map
-        });
-    }
-
-    // Testing the addMarker function
-    function TestMarker() {
-        CentralPark = new google.maps.LatLng(37.7699298, -122.4469157);
-        addMarker(CentralPark);
-    }
-    */
-</script>
-
-<!--Has to be replaced-->
 <footer>
     <div th:insert="'footer'" class="embeddedFooter"></div>
 </footer>
