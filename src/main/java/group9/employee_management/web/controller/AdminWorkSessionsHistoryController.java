@@ -47,6 +47,8 @@ public class AdminWorkSessionsHistoryController {
         }
 
         // Three work-sessions to be displayed on the work-session history. Mainly workSession1 will be used.
+
+
         model.addAttribute("workSession1", new WorkSessionDTO());
         model.addAttribute("workSession2", new WorkSessionDTO());
         model.addAttribute("workSession3", new WorkSessionDTO());
@@ -67,12 +69,19 @@ public class AdminWorkSessionsHistoryController {
     )
     public String getLatest(@PathVariable(value = "userName") String userName,
                             @ModelAttribute("workSession1") WorkSessionDTO workSessionDTO,
-                            @ModelAttribute("status") StatusDTO status) {
+                            @ModelAttribute("status") StatusDTO status, Model model) {
         try {
             workSessionDTO = WorkSessionDTO.fromEntity(workSessionService.getLatest(userName));
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
+
+        try {
+            model.addAttribute("workSessionsList", workSessionService.getSessions(userName));
+        } catch (NoSessionsException | NoSuchUserException ex) {
+            model.addAttribute("workSessionsList", Collections.emptyList());
+        }
+
         status.setMessage("valid");
         return "historyView";
     }
@@ -92,7 +101,7 @@ public class AdminWorkSessionsHistoryController {
     public String getIndex(@PathVariable(value = "userName") String userName,
                            @ModelAttribute("workSession1") WorkSessionDTO workSessionDTO,
                            @ModelAttribute("status") StatusDTO status) {
-        System.out.println("latest session");
+
         try {
             workSessionDTO.setId(workSessionService.getIndex(userName));
         } catch (NoSessionsException | NoSuchUserException exception) {
