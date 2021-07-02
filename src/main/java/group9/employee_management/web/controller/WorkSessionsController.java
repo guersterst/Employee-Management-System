@@ -30,14 +30,10 @@ public class WorkSessionsController {
     }
 
     /**
-     * Show the employees main page. Introduces DTOS for the current WorkSession, latest history and an status.
+     * Show the employees main page. Introduces dtos for the current WorkSession, latest history and an status.
      *
      * @param model The model.
-     * @param principal Description forthcoming.
-<<<<<<< HEAD
      * @param principal The spring security persona.
-=======
->>>>>>> location-feature
      * @return The employees main page.
      */
     @GetMapping(
