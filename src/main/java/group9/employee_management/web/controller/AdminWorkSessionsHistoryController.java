@@ -51,7 +51,7 @@ public class AdminWorkSessionsHistoryController {
         model.addAttribute("workSession2", new WorkSessionDTO());
         model.addAttribute("workSession3", new WorkSessionDTO());
         model.addAttribute("status", new StatusDTO());
-        return "history";
+        return "historyView";
     }
 
     /**
@@ -74,7 +74,7 @@ public class AdminWorkSessionsHistoryController {
             status.setMessage("bad_request");
         }
         status.setMessage("valid");
-        return "history";
+        return "historyView";
     }
 
     /**
@@ -92,13 +92,14 @@ public class AdminWorkSessionsHistoryController {
     public String getIndex(@PathVariable(value = "userName") String userName,
                            @ModelAttribute("workSession1") WorkSessionDTO workSessionDTO,
                            @ModelAttribute("status") StatusDTO status) {
+        System.out.println("latest session");
         try {
             workSessionDTO.setId(workSessionService.getIndex(userName));
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
         status.setMessage("valid");
-        return "history";
+        return "historyView";
     }
 
     /**
@@ -124,7 +125,7 @@ public class AdminWorkSessionsHistoryController {
             session = workSessionService.getOneFromIndex(userName, index);
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
-            return "history";
+            return "historyView";
         }
 
         if (session != null) {
@@ -133,7 +134,7 @@ public class AdminWorkSessionsHistoryController {
             status.setMessage("bad_request");
         }
         status.setMessage("valid");
-        return "history";
+        return "historyView";
     }
 
     /**
@@ -191,7 +192,7 @@ public class AdminWorkSessionsHistoryController {
         }
 
         status.setMessage("valid");
-        return "history";
+        return "historyView";
     }
 
     @DeleteMapping(
@@ -205,6 +206,6 @@ public class AdminWorkSessionsHistoryController {
             status.setMessage("bad_request");
         }
         status.setMessage("valid");
-        return "history";
+        return "historyView";
     }
 }

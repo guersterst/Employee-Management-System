@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,9 +48,8 @@ public class MyUrlAuthenticationSuccessHandler  implements AuthenticationSuccess
     protected String determineTargetUrl(final Authentication authentication) {
 
         Map<String, String> roleTargetUrlMap = new HashMap<>();
-        roleTargetUrlMap.put("ROLE_USER", "/my-session/latest");
+        roleTargetUrlMap.put("ROLE_USER", "/redirect");
         roleTargetUrlMap.put("ROLE_ADMIN", "/admin/employees");
-
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (final GrantedAuthority grantedAuthority : authorities) {
             String authorityName = grantedAuthority.getAuthority();

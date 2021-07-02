@@ -33,6 +33,7 @@ public class WorkSessionsController {
      * Show the employees main page. Introduces DTOS for the current WorkSession, latest history and an status.
      *
      * @param model The model.
+     * @param principal Description forthcoming.
      * @param principal The spring security persona.
      * @return The employees main page.
      */
@@ -164,7 +165,7 @@ public class WorkSessionsController {
     )
 
     public String startSession(@ModelAttribute("workSessionData") WorkSessionDTO newSession,
-                               @ModelAttribute("status") StatusDTO status, Principal principal) {
+                               @ModelAttribute("status") StatusDTO status, Principal principal, Model model) {
         String userName = principal.getName();
 
         try {
@@ -174,6 +175,8 @@ public class WorkSessionsController {
             status.setMessage("bad_request");
         }
         status.setMessage("valid");
+
+        model.addAttribute("status", status);
         return "redirect:/my-session/latest";
     }
 

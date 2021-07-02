@@ -36,7 +36,7 @@ public class UserCreationController {
     public String get(Model model) {
         model.addAttribute("newUser", new UserDTO());
         model.addAttribute("status", new StatusDTO());
-        return "adminCreateUserView";
+        return "adminCreateUserAccount";
     }
 
     /**
@@ -45,10 +45,11 @@ public class UserCreationController {
      * @param newUser A dto containing the users account information. (username, first- and lastname, password,
      *                adminRights and position).
      */
-    @GetMapping(
+    @PostMapping(
             value = "/creation")
     public String createUser(@ModelAttribute("newUser") UserDTO newUser, @ModelAttribute("status") StatusDTO status) {
         boolean userAlreadyExists = accountService.userExistsByUserName(newUser.getUserName());
+
         if (newUser.getUserName() != null
                 && newUser.getFirstName() != null
                 && newUser.getLastName() != null
@@ -57,13 +58,15 @@ public class UserCreationController {
                 && !userAlreadyExists) {
             accountService.createUser(newUser.getUserName(), newUser.getFirstName(), newUser.getLastName(),
                     newUser.getPassword(), newUser.isAdmin(), newUser.getPosition());
-                status.setMessage("ok");
+                status.setMessage("valid");
+            return "redirect:/admin/employees/accounts?success";
         } else if (userAlreadyExists) {
             status.setMessage("user_already_existent");
+            return "redirect:/admin/employees/accounts?error";
         } else {
             status.setMessage("bad_request");
         }
-        return "adminCreateUserView";
+        return "redirect:/admin/employees/accounts";
     }
 
     /**

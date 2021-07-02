@@ -1,12 +1,3 @@
-.embeddedFooter {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    font-size: 12pt;
-    margin-bottom: -10px;
-}
-
 .form-control {
     font-size: 14px;
 }
@@ -68,11 +59,11 @@ h2 {
     margin-top: 30px;
 }
 
-#passwordTooShort {
+#p_passwordTooShort {
     margin-top: 20px;
 }
 
-#missingPasswordCharacteristics {
+#p_missingPasswordCharacteristics {
     margin-top: 20px;
     color: crimson;
 }
@@ -84,4 +75,13 @@ h2 {
 
 #isAdmin {
     margin-top: 10px;
+}
+
+#deleteButton {
+    margin-top: 20px;
+}
+
+#historyAnchor_bottom {
+    text-align: center;
+    margin-bottom: 20px;
 }

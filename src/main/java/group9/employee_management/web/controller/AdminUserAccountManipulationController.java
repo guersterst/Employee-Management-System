@@ -77,47 +77,11 @@ public class AdminUserAccountManipulationController {
             status.setMessage("not_found");
         }
 
+        model.addAttribute("isAdmin", true);
         model.addAttribute("status", status);
         return "userAccountPage";
     }
 
-    @PostMapping(
-            value = "/edit/{userName}"
-    )
-    public String edit(@ModelAttribute("userCredentials") UserDTO userCredentials, @ModelAttribute(
-            "status") StatusDTO status,Principal principal, @PathVariable("userName") String userName, Model model) {
-
-        String firstName = userCredentials.getFirstName();
-        String lastName = userCredentials.getLastName();
-        System.out.println(accountService.getUserAsDTO(userName));
-
-        // If the given user exists, we change their name.
-        if (accountService.userExistsByUserName(userName)
-                && firstName != null && lastName != null) {
-            accountService.setName(userName, firstName, lastName);
-            accountService.setPassword(userName, userCredentials.getPassword());
-
-            status.setMessage("admin_valid");
-        } else {
-            status.setMessage("bad_request");
-        }
-
-        System.out.println(accountService.getUserAsDTO(userName).getUserName());
-
-        // If the given user exists and their password is not null, we can change the password
-        String password = userCredentials.getPassword();
-        if (accountService.userExistsByUserName(userName)
-                && password != null) {
-            accountService.setPassword(userName, password);
-            accountService.setIsFirstLogin(userName, false);
-            status.setMessage("admin_valid");
-        } else {
-            status.setMessage("bad_request");
-        }
-
-        model.addAttribute("status", status);
-        return "redirect:/admin/account/" + userName;
-    }
 
     /**
      * Admin should be able to delete users. Use this mapping to delete a user as specified by {userName}
