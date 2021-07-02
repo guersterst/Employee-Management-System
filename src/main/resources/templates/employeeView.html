@@ -19,8 +19,6 @@
 </nav>
 
 <body>
-<p id="locationLatitude"></p>
-<p id="locationLongitude"></p>
 <div class="contain container-fluid d-flex flex-column flex-fill">
     <div class="home">
         <h1 class="d-flex bg-secondary text-light">
@@ -29,7 +27,7 @@
     </div>
     <div class="row" th:action="@{/my-session/latest}" th:object="${workSessionData}" th:method="post">
         <div class="form-group col-sm-12 col-md-6" th:fragment="messageForm">
-            <div class="message card shadow h-100">
+            <div class="message card  h-100">
                 <div class="bg-secondary text-light">
                     <h2>Message</h2>
                 </div>
@@ -103,7 +101,7 @@
         <!--Option toolbar-->
         <div class="col-sm-12 col-md-6">
             <div th:fragment="state">
-                <div class="state card shadow h-25">
+                <div class="state card h-25">
                     <div class="bg-secondary text-light">
                         <h2>State</h2>
                     </div>
@@ -122,7 +120,11 @@
 
                         <!--If checked before action-->
                         <div th:if="*{onSite == false}">
-                            <form th:action="@{/my-session/beginning}" method="post" th:object="${workSessionData}"
+                            <div>
+                                <p id="locationLatitude" th:field="${workSessionData.coordX}"></p>
+                                <p id="locationLongitude" th:field="${workSessionData.coordY}"></p>
+                            </div>
+                            <form th:action="@{/my-session/beginning/__${workSessionData.coordX}__/__${workSessionData.coordY}__}" method="post" th:object="${workSessionData}"
                                   th:method="post">
                                 <!--On Site should be automatically switched on when logged in the first time of a day
                                 and only switched of if you leave work.-->
@@ -150,7 +152,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card shadow h-50">
+            <div class="card h-50">
                 <div class="bg-secondary text-light">
                     <h2>More...</h2>
                 </div>
