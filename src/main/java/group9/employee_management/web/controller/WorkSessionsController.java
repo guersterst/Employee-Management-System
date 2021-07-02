@@ -157,7 +157,7 @@ public class WorkSessionsController {
     )
 
     public String startSession(@ModelAttribute("workSessionData") WorkSessionDTO newSession,
-                               @ModelAttribute("status") StatusDTO status, Principal principal) {
+                               @ModelAttribute("status") StatusDTO status, Principal principal, Model model) {
         String userName = principal.getName();
 
         try {
@@ -167,6 +167,8 @@ public class WorkSessionsController {
             status.setMessage("bad_request");
         }
         status.setMessage("valid");
+
+        model.addAttribute("status", status);
         return "redirect:/my-session/latest";
     }
 
@@ -193,6 +195,7 @@ public class WorkSessionsController {
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
         }
+
         status.setMessage("valid");
         return "redirect:/my-session/latest";
     }

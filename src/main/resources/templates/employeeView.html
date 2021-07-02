@@ -20,6 +20,10 @@
 
 <body>
 <div class="contain container-fluid d-flex flex-column flex-fill">
+    <div th:if="${isFirstLogin}" class="alert alert-danger"> Please change your password!
+        <a th:href="@{/first-login}" id="changePassword" href="#"><i class="bi bi-person-bounding-box"></i> </a>
+    </div>
+
     <div class="home">
         <h1 class="d-flex bg-secondary text-light">
             Home Page

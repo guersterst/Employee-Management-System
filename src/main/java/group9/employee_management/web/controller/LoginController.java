@@ -9,13 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 /**
  * Used to display the login-view.
  */
 @Controller
 public class LoginController {
-
-    //AUTH none
 
     @Autowired
     public LoginController(LoginService loginService) {
@@ -41,6 +41,16 @@ public class LoginController {
     @GetMapping("")
     public String loginWithDifferentMapping() {
         return "index";
+    }
+
+
+    @GetMapping(value = "/redirect")
+    public String redirect(Principal principal) {
+        if (loginService.isFirstLogin(principal.getName())) {
+            return "redirect:/first-login";
+        } else {
+            return "redirect:/my-session/latest";
+        }
     }
 
     // UNNECESSARY:
