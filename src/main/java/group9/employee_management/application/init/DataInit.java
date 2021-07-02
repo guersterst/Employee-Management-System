@@ -32,6 +32,11 @@ public class DataInit implements CommandLineRunner {
     private final AccountService accountService;
     private final WorkSessionService workSessionService;
 
+    private final long latitudeA = Math.round(48.571462889684234);
+    private final long longitudeA = Math.round(13.467357517935062);
+
+    private final long latitudeB = Math.round(48.57771608728356);
+    private final long longitudeB = Math.round(13.457253637518114);
 
     @Autowired
     public DataInit(EmployeeRepository employeeRepository, WorkSessionRepository workSessionRepository,
@@ -63,17 +68,17 @@ public class DataInit implements CommandLineRunner {
 
         userRepository.save(new User("admin", hashPassword("admin"), null, Roles.ADMIN, Roles.USER));
 
-        workSessionService.startSession("student", "Creating turing machine", true, true);
+        workSessionService.startSession("student", "Creating turing machine", true, true, longitudeA, latitudeA);
         workSessionService.stopSession("student");
-        workSessionService.startSession("student", "Proving p=np", true, true);
+        workSessionService.startSession("student", "Proving p=np", true, true, longitudeA, latitudeA);
         workSessionService.stopSession("student");
-        workSessionService.startSession("student", "Important meeting", false, true);
+        workSessionService.startSession("student", "Important meeting", false, true,longitudeB, latitudeB);
 
-        workSessionService.startSession("linus", "Coding", true, true);
+        workSessionService.startSession("linus", "Coding", true, true, longitudeB, latitudeB);
         workSessionService.stopSession("linus");
 
-        workSessionService.startSession("hpb", "Songwriting", true, true);
+        workSessionService.startSession("hpb", "Songwriting", true, true, longitudeA, latitudeA);
         workSessionService.stopSession("hpb");
-        workSessionService.startSession("hpb", "Concert", false, true);
+        workSessionService.startSession("hpb", "Concert", false, true, longitudeA, latitudeA);
     }
 }

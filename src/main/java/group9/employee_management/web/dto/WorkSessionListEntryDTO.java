@@ -17,8 +17,8 @@ public class WorkSessionListEntryDTO {
     private String textStatus;
     private boolean available;
     private boolean onSite;
-    private Integer coordX;
-    private Integer coordY;
+    private long latitude;
+    private long longitude;
 
     public WorkSessionListEntryDTO(){}
 
@@ -32,12 +32,9 @@ public class WorkSessionListEntryDTO {
         workSessionListEntryDTO.setTextStatus(workSession.getTextStatus());
         workSessionListEntryDTO.setAvailable(workSession.isAvailable());
         workSessionListEntryDTO.setOnSite(workSession.isOnSite());
+        workSessionListEntryDTO.setLongitude(workSession.getLongitude());
+        workSessionListEntryDTO.setLatitude(workSession.getLatitude());
         return workSessionListEntryDTO;
-    }
-
-    public String toJSON() throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(this);
     }
 
     public String getFirstName() {
@@ -102,5 +99,21 @@ public class WorkSessionListEntryDTO {
 
     public void setOnSite(boolean onSite) {
         this.onSite = onSite;
+    }
+
+    public long getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(long longitude) {
+        this.longitude = longitude;
+    }
+
+    public long getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(long latitude) {
+        this.latitude = latitude;
     }
 }
