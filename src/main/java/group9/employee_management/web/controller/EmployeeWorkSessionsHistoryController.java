@@ -136,7 +136,7 @@ public class EmployeeWorkSessionsHistoryController {
             session = workSessionService.getOneFromIndex(userName, workSessionDTO.getId());
         } catch (NoSessionsException | NoSuchUserException exception) {
             status.setMessage("bad_request");
-            return "history";
+            return "historyView";
         }
 
         if (session != null) {
@@ -145,7 +145,7 @@ public class EmployeeWorkSessionsHistoryController {
             status.setMessage("bad_request");
         }
         status.setMessage("valid");
-        return "history";
+        return "historyView";
     }
 
     /**
