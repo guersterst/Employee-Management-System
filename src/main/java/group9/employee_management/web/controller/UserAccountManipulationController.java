@@ -197,6 +197,22 @@ public class UserAccountManipulationController {
         }
     }
 
+    /**
+     * This is a preliminary approach to editing users. This is not ideal. For now, we use this controller for both the
+     * admin as well as the user to edit a profile. The user edits their own profile, the admin can select any user's
+     * profile and edit it.
+     * @param userCredentials Here, we store the information about the user. Regardless of whether the admin or
+     *                        the user edits a profile, we use the UserDTO to store e.g. the new password or name.
+     *                        Depending on the values found in userCredentials, the user is updated.
+     * @param status Used to communicate with the frontend by providing a message. Currently unused in the frontend
+     *               for this view.
+     * @param principal Necessary to find out whether the user edits their own profile or if the admin edits the profile
+     *                  of a user
+     * @param userName The path-variable which determines which user's profile is being edited.
+     * @param model The model, which is used to communicate with frontend.
+     * @return Redirect to either "/account/me", if the user was editing their profile or to "/admin/account/{userName}"
+     * if the admin was editing the profile of a user.
+     */
     @PostMapping(
             value = "/edit/{userName}"
     )
