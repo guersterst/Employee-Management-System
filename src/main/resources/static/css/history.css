@@ -52,3 +52,12 @@ Create circles for timeline points.
     background: #008080;
     z-index: 1;
 }
+
+.embeddedFooter {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 12pt;
+    margin-top: 100px;
+}

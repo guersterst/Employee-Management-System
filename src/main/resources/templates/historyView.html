@@ -120,9 +120,11 @@
                       th:method="get">
                     <tr th:each="workSession : ${workSessionsList}">
                         <td scope="row">
-                            <button class="btn" type="submit"
+                            <div th:if="${adminVisitsPage}">
+                                <button class="btn" type="submit"
                                     th:action="@{/admin/employees/work-sessions/__${workSession.getUserName()}__/__${workSession.getId()}__}">
-                                <i class="bi bi-trash"></i></button>
+                                    <i class="bi bi-trash"></i></button>
+                            </div>
                         </td>
                         <td th:text="${workSession.userName}"></td>
                         <td th:text="${workSession.available}"></td>
