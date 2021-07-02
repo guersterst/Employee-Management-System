@@ -56,6 +56,7 @@ According to Stefanie Gürster’s technical requirements and therefore in close
 Also:
 
 -Controllers:
+ - UserCreationController
 
 According to Elias Goller’s technical requirements and therefore in close collaboration.
 
@@ -63,6 +64,7 @@ According to Elias Goller’s technical requirements and therefore in close coll
 
 - UserCreationController
 - UserAccountManipulationController
+- AdminUserAccountManipulationController
 
 For Elias Goller’s technical requirements. These were later largely revamped and improved by him.
 
