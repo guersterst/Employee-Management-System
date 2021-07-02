@@ -157,12 +157,15 @@ public class WorkSessionsController {
     )
 
     public String startSession(@ModelAttribute("workSessionData") WorkSessionDTO newSession,
-                               @ModelAttribute("status") StatusDTO status, Principal principal) {
+                               @ModelAttribute("status") StatusDTO status, Principal principal,
+                               @PathVariable("latitude") double latitude,
+                               @PathVariable("longitude") double longitude) {
         String userName = principal.getName();
 
         try {
+
             workSessionService.startSession(userName, newSession.getTextStatus(),
-                    true, newSession.isOnSite());
+                    true, newSession.isOnSite(), Math.round(longitude), Math.round(latitude));
         } catch (NoSuchUserException exception) {
             status.setMessage("bad_request");
         }

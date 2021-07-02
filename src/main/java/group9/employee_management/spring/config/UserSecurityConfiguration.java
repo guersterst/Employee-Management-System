@@ -56,8 +56,6 @@ public class UserSecurityConfiguration {
                 .and().authorizeRequests().antMatchers("/css/**", "/js/**", "/resources/**", "/static/**", "/webjars/**", "/h2-console"
                         + "/**").permitAll()
                 .and().build();
-
-
     }
 
     @Bean

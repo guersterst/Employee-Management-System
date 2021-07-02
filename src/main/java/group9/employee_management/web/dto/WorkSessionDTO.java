@@ -15,8 +15,8 @@ public class WorkSessionDTO {
     private boolean available;
     private boolean onSite;
     private String userName;
-    private Integer coordX;
-    private Integer coordY;
+    private long latitude;
+    private long longitude;
 
     public WorkSessionDTO(){}
 
@@ -35,8 +35,8 @@ public class WorkSessionDTO {
         workSessionDTO.setAvailable(workSession.isAvailable());
         workSessionDTO.setOnSite(workSession.isOnSite());
         workSessionDTO.setUserName(workSession.getEmployee().getUserName());
-        workSessionDTO.setCoordX(workSession.getCoordX());
-        workSessionDTO.setCoordY(workSession.getCoordY());
+        workSessionDTO.setLongitude(workSession.getLongitude());
+        workSessionDTO.setLatitude(workSession.getLatitude());
         return workSessionDTO;
     }
 
@@ -101,19 +101,19 @@ public class WorkSessionDTO {
         this.userName = userName;
     }
 
-    public Integer getCoordX() {
-        return coordX;
+    public long getLongitude() {
+        return longitude;
     }
 
-    public void setCoordX(Integer coordX) {
-        this.coordX = coordX;
+    public void setLongitude(long longitude) {
+        this.longitude = longitude;
     }
 
-    public Integer getCoordY() {
-        return coordY;
+    public long getLatitude() {
+        return latitude;
     }
 
-    public void setCoordY(Integer coordY) {
-        this.coordY = coordY;
+    public void setLatitude(long latitude) {
+        this.latitude = latitude;
     }
 }

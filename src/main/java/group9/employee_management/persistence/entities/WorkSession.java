@@ -1,7 +1,6 @@
 package group9.employee_management.persistence.entities;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.context.annotation.Primary;
 
 import javax.persistence.*;
 
@@ -54,17 +53,17 @@ public class WorkSession {
     private boolean onSite;
 
     @Column
-    private Integer coordX;
+    private long latitude;
 
     @Column
-    private Integer coordY;
+    private long longitude;
 
 
 
     public WorkSession(){}
 
     public WorkSession(Integer index, Date startTime, Date stopTime, String textStatus, boolean available, boolean onSite,
-                       Employee employee) {
+                       Employee employee, long longitude, long latitude) {
         super();
         this.id = new WorkSessionID(index, employee);
         this.startTime = startTime;
@@ -72,6 +71,8 @@ public class WorkSession {
         this.textStatus = textStatus;
         this.available = available;
         this.onSite = onSite;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public Integer getIndex() {
@@ -122,19 +123,19 @@ public class WorkSession {
         this.onSite = onSite;
     }
 
-    public Integer getCoordY() {
-        return coordY;
+    public long getLatitude() {
+        return latitude;
     }
 
-    public void setCoordY(Integer coordY) {
-        this.coordY = coordY;
+    public void setLatitude(long latitude) {
+        this.latitude = latitude;
     }
 
-    public Integer getCoordX() {
-        return coordX;
+    public long getLongitude() {
+        return longitude;
     }
 
-    public void setCoordX(Integer coordX) {
-        this.coordX = coordX;
+    public void setLongitude(long longitude) {
+        this.longitude = longitude;
     }
 }
