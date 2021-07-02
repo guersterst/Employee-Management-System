@@ -152,7 +152,7 @@ public class WorkSessionsController {
      * @param principal  Spring security principal.
      * @return The view.
      */
-    @GetMapping(
+    @PostMapping(
             value = "/beginning/{latitude}/{longitude}"
     )
 
