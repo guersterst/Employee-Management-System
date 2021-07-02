@@ -21,7 +21,7 @@
 </div>
 
 <div class="container">
-  <form id="inputFieldsForm" class="needs-validation" th:object="${userCredentials}" method="post">
+  <form id="inputFieldsForm" class="needs-validation" th:action="@{/first-login/set-password}" th:object="${userCredentials}" method="post">
     <div class="row">
       <div class="form-group col-sm-6 mx-auto">
         <label for="password">Password</label>

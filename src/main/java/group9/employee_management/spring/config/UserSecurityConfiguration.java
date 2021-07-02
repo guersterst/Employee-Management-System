@@ -48,7 +48,7 @@ public class UserSecurityConfiguration {
         return http
                 .requiresChannel(channel ->
                         channel.anyRequest().requiresSecure())
-                .authorizeRequests().antMatchers("/account/**", "/my-session/**", "/my-history/**", "/h2-console/**")
+                .authorizeRequests().antMatchers("/account/**", "/my-session/**", "/my-history/**", "/h2-console/**", "/first-login/**")
                 .hasAnyRole(Roles.ADMIN.toString(), Roles.USER.toString())
                 .and().authorizeRequests().antMatchers("/admin/**")
                 .hasRole(Roles.ADMIN.toString())
