@@ -297,10 +297,7 @@
 
     let errorMessageForbiddenCharacter = $('#forbiddenCharacterEntered')
 
-    // Test for what an automatic generation of user names could look like.
-    // Note: In the final version, this requires checking the database to find out
-    // how many employees have the username and concatenate the number at the end.
-    // This ensures the username's uniqueness.
+    // Validate whether the form conforms to certain rules as detailed in the method
     function validate(event) {
         // Stop submission if passwords don't match
         if (passwordInputField.val() !== passwordRepeatedInputField.val()) {

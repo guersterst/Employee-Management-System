@@ -27,7 +27,7 @@
       <h2 class="text-center">Create User-Account</h2>
 
       <!--Form, which includes the input fields that will be sent on submit (for changing account/user settings)-->
-      <form id="inputFieldsForm" class="needs-validation" th:action="@{/account/edit/__${userCredentials.userName}__}" th:object="${userCredentials}" method="post"><!--th:action="${userCredentials.isAdmin()} == 'true' ? '@{/admin/account/edit/__${(selectedUser)}__}' : '@{/account/edit}'" th:object="${userCredentials}" method="post"> -->
+      <form id="inputFieldsForm" class="needs-validation" th:action="@{/account/edit/__${userCredentials.userName}__}" th:object="${userCredentials}" onsubmit="validate(event)" method="post"><!--th:action="${userCredentials.isAdmin()} == 'true' ? '@{/admin/account/edit/__${(selectedUser)}__}' : '@{/account/edit}'" th:object="${userCredentials}" method="post"> -->
 
         <!-- form-group for the user's first name-->
         <div class="form-group col mx-auto">
@@ -326,5 +326,26 @@
     passwordStrengthBarContainer.fadeOut(0);
     submit.fadeOut(0);
   };
+
+  // Stop submission if passwords don't match
+  function validate(event) {
+    if (passwordInputField.val() !== passwordRepeatedInputField.val()) {
+      passwordsDontMatchAlert.fadeIn(200);
+      event.preventDefault();
+      event.stopPropagation();
+      passwordRepeatedInputField.val("");
+      passwordsDidntMatchOnLastSubmit = true;
+      return false;
+    }
+  }
+
+  // Called 'onkeyup' for the password input fields. In case the passwords match, the alert is lifted.
+  // This only applies if the alert is currently being display, which in turn only happens if the admin
+  // tried to submit the form but the passwords were different from one another.
+  function checkIfPasswordsMatch() {
+    if (passwordsDidntMatchOnLastSubmit === true && passwordInputField.val() === passwordRepeatedInputField.val()) {
+      passwordsDontMatchAlert.fadeOut(200);
+    }
+  }
 </script>
 </html>
