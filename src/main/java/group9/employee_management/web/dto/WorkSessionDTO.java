@@ -42,11 +42,6 @@ public class WorkSessionDTO {
         return workSessionDTO;
     }
 
-    public String toJSON() throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(this);
-    }
-
     public Integer getId() {
         return id;
     }

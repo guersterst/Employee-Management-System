@@ -70,7 +70,6 @@ public class EmployeeWorkSessionsHistoryController {
     @GetMapping(
             value = "/latest"
     )
-    //@ResponseBody
     public String getLatest(Principal principal,
                             @ModelAttribute("workSession1") WorkSessionDTO workSessionDTO,
                             @ModelAttribute("status") StatusDTO status) {
@@ -97,7 +96,6 @@ public class EmployeeWorkSessionsHistoryController {
     @GetMapping(
             value = "/latest/index"
     )
-    //@ResponseBody
     public String getIndex(Principal principal,
                            @ModelAttribute("workSession1") WorkSessionDTO workSessionDTO,
                            @ModelAttribute("status") StatusDTO status) {
@@ -147,42 +145,6 @@ public class EmployeeWorkSessionsHistoryController {
             status.setMessage("bad_request");
         }
         status.setMessage("valid");
-        return "history";
-    }
-
-    /**
-     * OUT OF ORDER AND NOT IN USER
-     * Returns three sessions, beginning at the given index and descending from there. If there are less sessions
-     * available, sessions of null will be filled in.
-     *
-     * @param principal Spring security principal.
-     * @param workSession1 The first dto filled with the relevant info.
-     * @param workSession2 The second dto filled with the relevant info.
-     * @param workSession3 The third dto filled with the relevant info.
-     * @return The view.
-     */
-    @Deprecated
-    @GetMapping(
-            value = "/session/three"
-    )
-
-    public String getThree(Principal principal,
-                           @ModelAttribute("workSession1") WorkSessionDTO workSession1,
-                           @ModelAttribute("workSession2") WorkSessionDTO workSession2,
-                           @ModelAttribute("workSession3") WorkSessionDTO workSession3) {
-        String userName = principal.getName();
-        int index = workSession1.getId();
-
-        List<WorkSession> threeFromIndex = workSessionService.getThreeFromIndex(userName, index);
-        List<WorkSessionDTO> modelAttributes = List.of(workSession1, workSession2, workSession3);
-
-        // Assign work-sessions to model-attributes
-        for (int i = 0; i < 3; i++) {
-            WorkSessionDTO modelAttribute = modelAttributes.get(i);
-            if (threeFromIndex.get(i) != null) {
-                modelAttribute = WorkSessionDTO.fromEntity(threeFromIndex.get(i));
-            }
-        }
         return "history";
     }
 

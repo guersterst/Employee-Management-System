@@ -46,10 +46,9 @@ public class AdminWorkSessionsHistoryController {
             model.addAttribute("workSessionsList", Collections.emptyList());
         }
 
-        // Three work-sessions to be displayed on the work-session history. Mainly workSession1 will be used.
+        // Work-session to be displayed on the work-session history.
         model.addAttribute("workSession1", new WorkSessionDTO());
-        model.addAttribute("workSession2", new WorkSessionDTO());
-        model.addAttribute("workSession3", new WorkSessionDTO());
+
         model.addAttribute("status", new StatusDTO());
         return "historyView";
     }
@@ -133,64 +132,6 @@ public class AdminWorkSessionsHistoryController {
         } else {
             status.setMessage("bad_request");
         }
-        status.setMessage("valid");
-        return "historyView";
-    }
-
-    /**
-     * OUT OF ORDER AND NOT IN USER
-     * Returns three sessions, beginning at the given index and descending from there. If there are less sessions
-     * available, sessions of null will be filled in.
-     *
-     * @param userName     The users name.
-     * @param index        The beginning-index of the desired sessions.
-     * @param workSession1 The first dto filled with the relevant info.
-     * @param workSession2 The second dto filled with the relevant info.
-     * @param workSession3 The third dto filled with the relevant info.
-     * @param status       Status dto
-     * @return The view.
-     */
-    @Deprecated
-    @GetMapping(
-            value = "denied"
-    )
-    @ResponseBody
-    public String getThree(@PathVariable(value = "userName") String userName,
-                           @PathVariable(value = "index") int index,
-                           @ModelAttribute("workSession1") WorkSessionDTO workSession1,
-                           @ModelAttribute("workSession2") WorkSessionDTO workSession2,
-                           @ModelAttribute("workSession3") WorkSessionDTO workSession3,
-                           @ModelAttribute("status") StatusDTO status) {
-        List<WorkSession> threeFromIndex;
-        try {
-            threeFromIndex = workSessionService.getThreeFromIndex(userName, index);
-        } catch (NoSuchUserException exception) {
-            status.setMessage("bad_request");
-            return "bal";
-        }
-        List<WorkSessionDTO> modelAttributes = List.of(workSession1, workSession2, workSession3);
-
-        if (threeFromIndex != null) {
-
-            // Assign work-sessions to model-attributes
-            for (int i = 0; i < 3; i++) {
-                if (threeFromIndex.get(i) != null) {
-                    // this assignment seems not to work
-                    WorkSessionDTO el = modelAttributes.get(i);
-                    el = WorkSessionDTO.fromEntity(threeFromIndex.get(i));;
-                }
-            }
-        } else {
-            status.setMessage("bad_request");
-            return "bal";
-        }
-
-        for (WorkSessionDTO modelAttribute : modelAttributes) {
-            if (modelAttribute != null) {
-                System.out.println(modelAttribute.getTextStatus());
-            }
-        }
-
         status.setMessage("valid");
         return "historyView";
     }
